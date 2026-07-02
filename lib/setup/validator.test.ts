@@ -9,7 +9,11 @@ import {
   overLimitInstructionSetup,
 } from '@/tests/fixtures/setups';
 import { compileSetup } from '@/lib/setup/compiler';
-import { CLAUDE_APP_MAX_FILES, CLAUDE_APP_MAX_FILE_BYTES } from '@/lib/setup/limits';
+import {
+  CLAUDE_APP_MAX_FILES,
+  CLAUDE_APP_MAX_FILE_BYTES,
+  CLAUDE_APP_INSTRUCTION_MAX_CHARS,
+} from '@/lib/setup/limits';
 import type { Setup, CompiledSetup } from '@/lib/setup/types';
 
 // Minimal valid setup used as a spread base for inline test fixtures.
@@ -264,6 +268,13 @@ describe('validateCompiledForTarget', () => {
     const result = validateCompiledForTarget(compiled, 'claude-app');
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.code === 'INSTRUCTION_TOO_LONG')).toBe(true);
+
+    // Message must state how much over the limit the instruction is.
+    const err = result.errors.find((e) => e.code === 'INSTRUCTION_TOO_LONG')!;
+    const excessChars = compiled.instruction.length - CLAUDE_APP_INSTRUCTION_MAX_CHARS;
+    expect(excessChars).toBeGreaterThan(0);
+    expect(err.message).toMatch(/over the/);
+    expect(err.message).toContain(String(excessChars));
   });
 
   it('more knowledge files than the Claude file-count limit is a target error', () => {
@@ -312,5 +323,10 @@ describe('validateCompiledForTarget', () => {
     const result = validateCompiledForTarget(compiled, 'claude-app');
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.code === 'FILE_TOO_LARGE')).toBe(true);
+
+    // Message must state how much over the byte limit the file is (here, 1 byte).
+    const err = result.errors.find((e) => e.code === 'FILE_TOO_LARGE')!;
+    expect(err.message).toMatch(/over the/);
+    expect(err.message).toContain('1');
   });
 });

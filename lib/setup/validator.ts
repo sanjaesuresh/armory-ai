@@ -260,18 +260,20 @@ export function validateCompiledForTarget(
   if (target === 'claude-app') {
     // Instruction character limit
     if (compiled.instruction.length > CLAUDE_APP_INSTRUCTION_MAX_CHARS) {
+      const excessChars = compiled.instruction.length - CLAUDE_APP_INSTRUCTION_MAX_CHARS;
       errors.push({
         code: 'INSTRUCTION_TOO_LONG',
-        message: `Instruction is ${compiled.instruction.length} characters, exceeding the ${CLAUDE_APP_INSTRUCTION_MAX_CHARS}-character limit for Claude Projects.`,
+        message: `Your instructions are ${excessChars} character${excessChars === 1 ? '' : 's'} over the ${CLAUDE_APP_INSTRUCTION_MAX_CHARS}-character limit for Claude Projects.`,
         path: 'instruction',
       });
     }
 
     // Knowledge-file count limit
     if (compiled.knowledgeFiles.length > CLAUDE_APP_MAX_FILES) {
+      const excessFiles = compiled.knowledgeFiles.length - CLAUDE_APP_MAX_FILES;
       errors.push({
         code: 'TOO_MANY_FILES',
-        message: `${compiled.knowledgeFiles.length} knowledge files exceed the limit of ${CLAUDE_APP_MAX_FILES} for Claude Projects.`,
+        message: `You have ${excessFiles} knowledge file${excessFiles === 1 ? '' : 's'} over the limit of ${CLAUDE_APP_MAX_FILES} for Claude Projects.`,
         path: 'knowledgeFiles',
       });
     }
@@ -279,11 +281,16 @@ export function validateCompiledForTarget(
     // Per-file byte-size limit (UTF-8 byte length, not character count)
     for (let i = 0; i < compiled.knowledgeFiles.length; i++) {
       const file = compiled.knowledgeFiles[i];
-      const byteLength = Buffer.byteLength(file.content, 'utf8');
+      // Use Buffer in Node.js environments; fall back to TextEncoder in the browser.
+      const byteLength =
+        typeof Buffer !== 'undefined'
+          ? Buffer.byteLength(file.content, 'utf8')
+          : new TextEncoder().encode(file.content).length;
       if (byteLength > CLAUDE_APP_MAX_FILE_BYTES) {
+        const excessBytes = byteLength - CLAUDE_APP_MAX_FILE_BYTES;
         errors.push({
           code: 'FILE_TOO_LARGE',
-          message: `Knowledge file "${file.name}" is ${byteLength} bytes, exceeding the ${CLAUDE_APP_MAX_FILE_BYTES}-byte limit for Claude Projects.`,
+          message: `Knowledge file "${file.name}" is ${excessBytes} byte${excessBytes === 1 ? '' : 's'} over the ${CLAUDE_APP_MAX_FILE_BYTES}-byte limit for Claude Projects.`,
           path: `knowledgeFiles[${i}].content`,
         });
       }

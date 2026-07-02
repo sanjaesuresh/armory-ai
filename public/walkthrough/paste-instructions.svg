@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225">
+  <rect width="400" height="225" fill="#f0f0f0" rx="4"/>
+  <rect x="1" y="1" width="398" height="223" fill="none" stroke="#cccccc" stroke-width="1" rx="4"/>
+  <text x="200" y="105" font-family="system-ui, sans-serif" font-size="16" fill="#888888" text-anchor="middle" dominant-baseline="middle">paste-instructions</text>
+  <text x="200" y="130" font-family="system-ui, sans-serif" font-size="12" fill="#aaaaaa" text-anchor="middle" dominant-baseline="middle">Placeholder screenshot</text>
+</svg>

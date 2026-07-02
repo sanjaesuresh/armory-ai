@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { compileSetup } from '@/lib/setup/compiler';
 import { marketingManagerSetup } from '@/data/curated/marketing-manager';
+import { createCatalogRepository } from '@/lib/catalog/repository';
 import type { Answers } from '@/lib/setup/types';
 
 function isAnswers(value: unknown): value is Answers {
@@ -42,11 +43,44 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
   const answers: Answers = raw;
 
-  try {
-    const compiled = compileSetup(marketingManagerSetup, answers);
-    return NextResponse.json(compiled);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ error: message }, { status: 422 });
+  // When a slug is provided, load the setup from the catalog.
+  // When absent, fall back to the marketing-manager fixture (parity-test behavior).
+  const slug =
+    'slug' in (body as object)
+      ? ((body as unknown) as { slug: unknown }).slug
+      : undefined;
+
+  if (typeof slug === 'string') {
+    // Slug-based lookup via catalog repository
+    const repo = createCatalogRepository();
+    let setup;
+    try {
+      setup = await repo.getSetupBySlug(slug);
+    } catch (err) {
+      console.error('[compile] Repository error fetching slug:', slug, err);
+      return NextResponse.json(
+        { error: 'Something went wrong loading that setup. Please try again.' },
+        { status: 500 }
+      );
+    }
+    if (!setup) {
+      return NextResponse.json({ error: 'Setup not found' }, { status: 404 });
+    }
+    try {
+      const compiled = compileSetup(setup, answers);
+      return NextResponse.json(compiled);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return NextResponse.json({ error: message }, { status: 422 });
+    }
+  } else {
+    // Legacy / parity-test path: always uses the marketing-manager fixture.
+    try {
+      const compiled = compileSetup(marketingManagerSetup, answers);
+      return NextResponse.json(compiled);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return NextResponse.json({ error: message }, { status: 422 });
+    }
   }
 }

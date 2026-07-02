@@ -1,7 +1,15 @@
 node_modules/
 .env
 .env.*
+!.env.local.example
 .DS_Store
 dist/
 build/
 *.log
+CLAUDE.md
+docs/
+.next/
+test-results/
+playwright-report/
+.history/
+*.tsbuildinfo
