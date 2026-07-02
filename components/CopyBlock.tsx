@@ -7,11 +7,13 @@ interface Props {
   content: string;
   /** When true, removes outer border and border-radius (for use inside BundleTabs). */
   embedded?: boolean;
+  /** Called once per successful clipboard write. Use for analytics. */
+  onCopySuccess?: () => void;
 }
 
 type CopyStatus = 'idle' | 'copied' | 'failed';
 
-export default function CopyBlock({ label, content, embedded = false }: Props) {
+export default function CopyBlock({ label, content, embedded = false, onCopySuccess }: Props) {
   const [status, setStatus] = useState<CopyStatus>('idle');
 
   async function handleCopy() {
@@ -19,6 +21,7 @@ export default function CopyBlock({ label, content, embedded = false }: Props) {
       await navigator.clipboard.writeText(content);
       setStatus('copied');
       setTimeout(() => setStatus('idle'), 2000);
+      onCopySuccess?.();
     } catch {
       setStatus('failed');
     }

@@ -36,3 +36,45 @@ create policy "anonymous can read approved setups"
   on setups
   for select
   using (review_status = 'approved');
+
+-- ─── export_events ────────────────────────────────────────────────────────────
+-- Stores one row per anonymous export event (copy or done).
+-- Only the four business fields are recorded; no user identifiers or content.
+
+create table if not exists export_events (
+  id          bigint primary key generated always as identity,
+  setup_slug  text not null,
+  target      text not null,
+  branch      text,
+  kind        text not null,
+  created_at  timestamptz not null default now()
+);
+
+-- Check constraints (idempotent — safe to re-apply).
+alter table export_events drop constraint if exists export_events_kind_check;
+alter table export_events add constraint export_events_kind_check
+  check (kind in ('copy', 'done'));
+
+alter table export_events drop constraint if exists export_events_branch_check;
+alter table export_events add constraint export_events_branch_check
+  check (branch is null or branch in ('pro', 'free'));
+
+alter table export_events drop constraint if exists export_events_setup_slug_length_check;
+alter table export_events add constraint export_events_setup_slug_length_check
+  check (char_length(setup_slug) <= 128);
+
+alter table export_events drop constraint if exists export_events_target_length_check;
+alter table export_events add constraint export_events_target_length_check
+  check (char_length(target) <= 64);
+
+-- RLS: anon key may INSERT; it may never SELECT.
+-- Reads are only possible via the service key (which bypasses RLS).
+alter table export_events enable row level security;
+
+drop policy if exists "anon can insert export events" on export_events;
+
+create policy "anon can insert export events"
+  on export_events
+  for insert
+  to anon
+  with check (true);

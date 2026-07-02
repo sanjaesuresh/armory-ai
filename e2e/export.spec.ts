@@ -232,6 +232,46 @@ test.describe('export page — blocking states', () => {
   );
 });
 
+test.describe('export page — analytics events', () => {
+  test(
+    'clicking a copy button fires exactly one copy event with the correct setupSlug',
+    async ({ page, context }) => {
+      // The copy event only fires after a successful clipboard write.
+      await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+
+      const capturedBodies: Record<string, unknown>[] = [];
+
+      // Intercept the events endpoint — fulfill 204 so the page never errors.
+      await page.route('**/api/events/export', (route) => {
+        const rawBody = route.request().postData() ?? '';
+        try {
+          capturedBodies.push(JSON.parse(rawBody) as Record<string, unknown>);
+        } catch {
+          // ignore parse errors — test will fail on the assertion below
+        }
+        route.fulfill({ status: 204, body: '' });
+      });
+
+      await seedAndGo(page);
+
+      // Click the copy button on the instruction tab (default active tab).
+      await page
+        .locator('[data-testid="copy-block"]')
+        .first()
+        .getByTestId('copy-btn')
+        .click();
+
+      // Poll until exactly one copy event is captured (avoids fixed sleeps).
+      await expect
+        .poll(() => capturedBodies.filter((b) => b.kind === 'copy').length)
+        .toBe(1);
+
+      const copyEvents = capturedBodies.filter((b) => b.kind === 'copy');
+      expect(copyEvents[0].setupSlug).toBe('marketing-manager');
+    },
+  );
+});
+
 test.describe('export page — layout', () => {
   test(
     'trust cue is visible and contains the Armory team review statement',

@@ -161,4 +161,83 @@ test.describe('/install page', () => {
     // Back button should not be present on step 1
     await expect(page.getByRole('button', { name: 'Back' })).not.toBeVisible();
   });
+
+  test('completing the walkthrough fires exactly one done event without user content', async ({
+    page,
+  }) => {
+    // Sentinel: user-typed content that must never appear in the event body.
+    const SENTINEL = 'Flowmatic Coffee Co';
+
+    const capturedEvents: Record<string, unknown>[] = [];
+
+    await page.addInitScript((state) => {
+      sessionStorage.setItem('armory-export-state', JSON.stringify(state));
+    }, { ...VALID_STATE, planChoice: 'pro' });
+
+    // Capture all requests to the events endpoint.
+    await page.route('**/api/events/export', (route) => {
+      const rawBody = route.request().postData() ?? '';
+      const body = JSON.parse(rawBody) as Record<string, unknown>;
+      capturedEvents.push(body);
+      // Fulfill with 204 as before
+      route.fulfill({ status: 204, body: '' });
+    });
+
+    await page.goto('/install');
+
+    // Navigate to step 4 (one before the last).
+    for (let i = 0; i < 3; i++) {
+      await page.getByRole('button', { name: 'Next', exact: true }).click();
+    }
+
+    // Click to reach the final step — triggers the done event.
+    await page.getByRole('button', { name: 'Next', exact: true }).click();
+
+    await expect(page.getByRole('heading', { name: "You're set up" })).toBeVisible();
+
+    // Poll until exactly one done event is captured (avoids fixed sleeps).
+    await expect
+      .poll(() => capturedEvents.filter((e) => e.kind === 'done').length)
+      .toBe(1);
+
+    // Filter for done events (not copy events)
+    const doneEvents = capturedEvents.filter((e) => e.kind === 'done');
+
+    // Assert exactly one done event was fired
+    expect(doneEvents).toHaveLength(1);
+
+    const doneEvent = doneEvents[0];
+    expect(doneEvent.setupSlug).toBe('marketing-manager');
+    expect(doneEvent.target).toBe('claude-app');
+    expect(doneEvent.branch).toBe('pro');
+
+    // The body must contain no user-typed form content.
+    const rawBody = JSON.stringify(doneEvent);
+    expect(rawBody).not.toContain(SENTINEL);
+
+    // Test that re-reaching the final step does not re-fire the done event.
+    const doneCountBefore = capturedEvents.filter((e) => e.kind === 'done').length;
+
+    // Navigate back to step 4
+    await page.getByRole('button', { name: 'Back' }).click();
+    await expect(page.getByTestId('step-indicator')).toContainText('Step 4 of 5');
+
+    // Navigate forward to step 5 again
+    await page.getByRole('button', { name: 'Next', exact: true }).click();
+    await expect(page.getByRole('heading', { name: "You're set up" })).toBeVisible();
+
+    // Poll expecting the done-event count has not increased — any spurious event
+    // would cause the count to exceed doneCountBefore, the poll would keep
+    // retrying, and the test would correctly fail on timeout.
+    await expect
+      .poll(
+        () => capturedEvents.filter((e) => e.kind === 'done').length,
+        { timeout: 500 },
+      )
+      .toBe(doneCountBefore);
+
+    // Assert done event count hasn't increased
+    const doneCountAfter = capturedEvents.filter((e) => e.kind === 'done').length;
+    expect(doneCountAfter).toBe(doneCountBefore);
+  });
 });

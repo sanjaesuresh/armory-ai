@@ -811,6 +811,9 @@ pre.code {
 .footer-links     { display: flex; gap: 26px; flex-wrap: wrap; }
 .footer-links a   { color: var(--ink-soft); font-size: 0.88rem; font-weight: 600; }
 .footer .promise  { font-size: 0.85rem; color: var(--muted); max-width: 34em; margin-top: 10px; }
+/* Column of role-landing links inside the footer */
+.footer-role-col  { display: flex; flex-direction: column; gap: 8px; }
+.footer-role-col a { color: var(--ink-soft); font-size: 0.88rem; font-weight: 600; }
 
 /* ---- page transitions ------------------------------------- */
 

@@ -17,6 +17,27 @@ export type Phase =
   | { kind: 'error'; message: string }
   | { kind: 'ready'; slug: string; blocks: ClaudeAppExport['blocks']; answers: Record<string, unknown> };
 
+// ─── Plan choice persistence ──────────────────────────────────────────────────
+
+/**
+ * Persists the walkthrough plan choice into the existing armory-export-state
+ * sessionStorage entry so InstallView can read the branch when firing the
+ * done event. No-ops silently if the session entry is absent or unparseable.
+ */
+export function savePlanChoice(choice: 'pro' | 'free' | null): void {
+  try {
+    const raw = sessionStorage.getItem('armory-export-state');
+    if (!raw) return;
+    const state = JSON.parse(raw) as Record<string, unknown>;
+    sessionStorage.setItem(
+      'armory-export-state',
+      JSON.stringify({ ...state, planChoice: choice }),
+    );
+  } catch {
+    // ignore — analytics must never disrupt the export flow
+  }
+}
+
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 /**

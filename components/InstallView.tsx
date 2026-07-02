@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { recordExportEvent } from '@/lib/analytics/exportEvents';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import WalkRail, { type RailStep } from './WalkRail';
@@ -118,6 +119,10 @@ export default function InstallView() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const prevIndexRef = useRef(0);
 
+  // Analytics: track plan choice from sessionStorage and guard done-event to once.
+  const planChoiceRef = useRef<'pro' | 'free' | null>(null);
+  const doneFiredRef = useRef(false);
+
   // ── Read sessionStorage on mount ────────────────────────────────────────
   useEffect(() => {
     let raw: string | null = null;
@@ -137,6 +142,7 @@ export default function InstallView() {
       slug?: unknown;
       answers?: Record<string, unknown>;
       attachments?: Record<string, string>;
+      planChoice?: unknown;
     };
     try {
       parsed = JSON.parse(raw) as typeof parsed;
@@ -145,7 +151,12 @@ export default function InstallView() {
       return;
     }
 
-    const { slug: parsedSlug, answers = {} } = parsed;
+    const { slug: parsedSlug, answers = {}, planChoice: parsedPlanChoice } = parsed;
+
+    // Capture plan choice for the done-event analytics.
+    if (parsedPlanChoice === 'pro' || parsedPlanChoice === 'free') {
+      planChoiceRef.current = parsedPlanChoice;
+    }
 
     if (typeof parsedSlug !== 'string' || !parsedSlug) {
       setLoadState('missing');
@@ -186,6 +197,22 @@ export default function InstallView() {
     () => steps.map((s) => ({ label: s.label })),
     [steps],
   );
+
+  // ── Fire done event on first arrival at the last step ─────────────────────
+  useEffect(() => {
+    if (loadState !== 'ready') return;
+    if (steps.length === 0) return;
+    const isLast = currentIndex === steps.length - 1;
+    if (isLast && !doneFiredRef.current) {
+      doneFiredRef.current = true;
+      void recordExportEvent({
+        kind: 'done',
+        setupSlug: slug,
+        target: 'claude-app',
+        branch: planChoiceRef.current,
+      });
+    }
+  }, [currentIndex, loadState, slug, steps.length]);
 
   // ── Navigation callbacks ─────────────────────────────────────────────────
   const goNext = useCallback(() => {

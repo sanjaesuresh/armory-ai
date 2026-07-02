@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useExportSetup } from './useExportSetup';
+import { useExportSetup, savePlanChoice } from './useExportSetup';
 import BundleTabs from './BundleTabs';
+import { recordExportEvent } from '@/lib/analytics/exportEvents';
 import type { ExportBlock } from '@/lib/export/claudeApp';
 import type { Setup } from '@/lib/setup/types';
 
@@ -280,7 +281,19 @@ export default function ExportView({ setup }: Props) {
         {/* ── Center: bundle preview + plan branch ──────────────────────── */}
         <section>
           {/* Bundle tabs — one per block + Project settings */}
-          <BundleTabs blocks={blocks} setup={setup} brandName={brandName} />
+          <BundleTabs
+            blocks={blocks}
+            setup={setup}
+            brandName={brandName}
+            onCopySuccess={() => {
+              void recordExportEvent({
+                kind: 'copy',
+                setupSlug: slug,
+                target: 'claude-app',
+                branch: planChoice,
+              });
+            }}
+          />
 
           {/* Plan picker */}
           <div className="plan-ask">
@@ -293,14 +306,14 @@ export default function ExportView({ setup }: Props) {
               <button
                 type="button"
                 aria-pressed={planChoice === 'pro'}
-                onClick={() => setPlanChoice('pro')}
+                onClick={() => { setPlanChoice('pro'); savePlanChoice('pro'); }}
               >
                 Yes, I have Pro
               </button>
               <button
                 type="button"
                 aria-pressed={planChoice === 'free'}
-                onClick={() => setPlanChoice('free')}
+                onClick={() => { setPlanChoice('free'); savePlanChoice('free'); }}
               >
                 No, free plan
               </button>

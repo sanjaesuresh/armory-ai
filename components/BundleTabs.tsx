@@ -9,6 +9,7 @@ interface Props {
   blocks: ExportBlock[];
   setup: Setup;
   brandName?: string;
+  onCopySuccess?: () => void;
 }
 
 function tabLabel(block: ExportBlock): string {
@@ -40,7 +41,7 @@ const tabStyle = (active: boolean): React.CSSProperties => ({
  * plus a "Project settings" summary tab. Uses roving tabindex + arrow-key navigation.
  * Rendered inside the outer .copyblock container in ExportView.
  */
-export default function BundleTabs({ blocks, setup, brandName }: Props) {
+export default function BundleTabs({ blocks, setup, brandName, onCopySuccess }: Props) {
   const [activeIdx, setActiveIdx] = useState(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   // Unique prefix so multiple BundleTabs on the same page won't collide on ids
@@ -123,7 +124,7 @@ export default function BundleTabs({ blocks, setup, brandName }: Props) {
           aria-labelledby={`btab-${uid}-${idx}`}
           hidden={activeIdx !== idx}
         >
-          <CopyBlock label={copyLabel(block)} content={block.content} embedded />
+          <CopyBlock label={copyLabel(block)} content={block.content} embedded onCopySuccess={onCopySuccess} />
         </div>
       ))}
 
