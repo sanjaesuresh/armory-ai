@@ -1,24 +1,21 @@
-import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { createCatalogRepository } from '@/lib/catalog/repository';
-import BrowseSetups from '@/components/BrowseSetups';
+import CustomizeView from '@/components/CustomizeView';
+import Link from 'next/link';
 
-interface CatalogPageProps {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
+interface Props {
+  params: Promise<{ slug: string }>;
 }
 
-export default async function CatalogPage({ searchParams }: CatalogPageProps) {
-  const params = await searchParams;
-  const roleParam =
-    typeof params.role === 'string' ? params.role : undefined;
-  const catParam =
-    typeof params.cat === 'string' ? params.cat : undefined;
+export default async function CustomizePage({ params }: Props) {
+  const { slug } = await params;
 
   const repo = createCatalogRepository();
-  let allSetups: Awaited<ReturnType<typeof repo.getSetups>>;
+  let setup;
   try {
-    allSetups = await repo.getSetups();
+    setup = await repo.getSetupBySlug(slug);
   } catch (err) {
-    console.error('[catalog] failed to load setups:', err);
+    console.error('[customize] failed to load setup:', err);
     return (
       <main className="section-tight">
         <div className="wrap">
@@ -42,10 +39,10 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
               <path d="M12 10v4.5M12 17.2v.1" />
             </svg>
             <div>
-              <strong>We couldn&apos;t load the setups</strong>
+              <strong>We couldn&apos;t load this setup</strong>
               <p>Please try again in a moment.</p>
               <Link href="/catalog" className="btn btn-outline btn-sm">
-                Try again
+                Back to catalog
               </Link>
             </div>
           </div>
@@ -54,14 +51,14 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     );
   }
 
+  if (!setup) {
+    notFound();
+  }
+
   return (
     <main className="section-tight">
       <div className="wrap">
-        <BrowseSetups
-          allSetups={allSetups}
-          initialRole={roleParam}
-          initialCat={catParam}
-        />
+        <CustomizeView setup={setup} />
       </div>
     </main>
   );

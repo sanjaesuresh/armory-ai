@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { compileSetup } from '@/lib/setup/compiler';
-import { toClaudeAppExport, type ClaudeAppExport } from '@/lib/export/claudeApp';
+import { toClaudeAppExport } from '@/lib/export/claudeApp';
+import type { ClaudeAppExport } from '@/lib/export/claudeApp';
 import { validateCompiledForTarget } from '@/lib/setup/validator';
 import type { CompiledSetup, Setup, Answers } from '@/lib/setup/types';
 
@@ -14,7 +15,7 @@ export type Phase =
   | { kind: 'compiling' }
   | { kind: 'overlimit'; slug: string; errors: Array<{ code: string; message: string; path: string }> }
   | { kind: 'error'; message: string }
-  | { kind: 'ready'; slug: string; exportData: ClaudeAppExport; blocks: ClaudeAppExport['blocks'] };
+  | { kind: 'ready'; slug: string; blocks: ClaudeAppExport['blocks']; answers: Record<string, unknown> };
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
@@ -106,7 +107,7 @@ export function useExportSetup(setup: Setup): Phase {
     };
     const exportData = toClaudeAppExport(compiledForExport);
 
-    setPhase({ kind: 'ready', slug, exportData, blocks: exportData.blocks });
+    setPhase({ kind: 'ready', slug, blocks: exportData.blocks, answers });
   }, [setup]);
 
   return phase;

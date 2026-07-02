@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { Variable, Answers } from '@/lib/setup/types';
+import { isAnswerEmpty } from '@/lib/setup/answers';
 import TextField from './fields/TextField';
 import MultilineField from './fields/MultilineField';
 import SelectField from './fields/SelectField';
@@ -19,6 +20,16 @@ interface Props {
   slug: string;
   variables: Variable[];
   onAnswersChange: (answers: Answers, validity: Validity) => void;
+  /**
+   * When set, only variables whose `group` matches this value are rendered.
+   * Ungrouped variables are shown only when `activeGroup` is undefined/null.
+   */
+  activeGroup?: string | null;
+  /**
+   * Increment this number to trigger inline validation display for all
+   * required fields currently visible (marks them as touched).
+   */
+  validateNow?: number;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -48,15 +59,6 @@ function buildDefaults(variables: Variable[]): Answers {
     }
   }
   return defaults;
-}
-
-function isAnswerEmpty(value: string | number | boolean | string[] | undefined): boolean {
-  if (value === undefined) return true;
-  if (Array.isArray(value)) return value.length === 0;
-  if (typeof value === 'string') return value.trim() === '';
-  if (typeof value === 'number') return false; // 0 is valid
-  if (typeof value === 'boolean') return false; // false is valid
-  return true;
 }
 
 function computeComplete(variables: Variable[], answers: Answers): boolean {
@@ -122,7 +124,7 @@ function groupVariables(variables: Variable[]): VariableGroup[] {
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export default function SetupForm({ slug, variables, onAnswersChange }: Props) {
+export default function SetupForm({ slug, variables, onAnswersChange, activeGroup, validateNow }: Props) {
   const [answers, setAnswers] = useState<Answers>(() => {
     const stored = loadFromStorage(slug);
     if (stored) return stored;
@@ -132,11 +134,36 @@ export default function SetupForm({ slug, variables, onAnswersChange }: Props) {
   // Track which fields have been blurred (to show errors only after interaction)
   const [touched, setTouched] = useState<Set<string>>(new Set());
 
+  // Track validateNow value at mount to avoid firing on first render
+  const mountedValidateNow = useRef<number | undefined>(validateNow);
+
   // Emit initial state on mount
   useEffect(() => {
     onAnswersChange(answers, { complete: computeComplete(variables, answers) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // When validateNow increments (after mount), mark all visible required fields as touched
+  useEffect(() => {
+    if (validateNow === undefined) return;
+    if (validateNow === mountedValidateNow.current) return;
+    mountedValidateNow.current = validateNow;
+
+    // Determine which variables are currently visible
+    const visibleVars = activeGroup != null
+      ? variables.filter((v) =>
+          activeGroup === '__ungrouped__' ? !v.group : v.group === activeGroup,
+        )
+      : variables;
+
+    setTouched((prev) => {
+      const next = new Set(prev);
+      for (const v of visibleVars) {
+        if (v.required) next.add(v.key);
+      }
+      return next;
+    });
+  }, [validateNow, activeGroup, variables]);
 
   const update = useCallback(
     (key: string, value: string | number | boolean | string[]) => {
@@ -158,31 +185,32 @@ export default function SetupForm({ slug, variables, onAnswersChange }: Props) {
     });
   }, []);
 
-  const groups = groupVariables(variables);
+  // Determine which variables/groups to render
+  // '__ungrouped__' is the synthetic step id for variables with no group assigned
+  const allGroups = groupVariables(variables);
+  const groups: VariableGroup[] = activeGroup != null
+    ? allGroups.filter((g) =>
+        activeGroup === '__ungrouped__' ? g.name === null : g.name === activeGroup,
+      )
+    : allGroups;
 
   return (
     <form
       onSubmit={(e) => e.preventDefault()}
-      style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', fontFamily: 'system-ui, sans-serif' }}
+      style={{ display: 'flex', flexDirection: 'column', gap: '0' }}
     >
       {groups.map((group) => (
         <div key={group.name ?? '__ungrouped__'}>
-          {group.name && (
-            <h3
-              style={{
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                color: '#555',
-                marginBottom: '0.75rem',
-                marginTop: '0.5rem',
-              }}
+          {/* Only show group headers when rendering all groups (no activeGroup filter) */}
+          {activeGroup == null && group.name && (
+            <p
+              className="eyebrow"
+              style={{ marginBottom: '12px', marginTop: '8px' }}
             >
               {group.name}
-            </h3>
+            </p>
           )}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div>
             {group.variables.map((v) => {
               const showError =
                 v.required &&

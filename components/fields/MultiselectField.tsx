@@ -11,6 +11,10 @@ interface Props {
 
 export default function MultiselectField({ variable, value, onChange, showError }: Props) {
   const groupId = `field-${variable.key}`;
+  const errorId = `${groupId}-error`;
+  const helpId = variable.helpText ? `${groupId}-help` : undefined;
+  const describedBy =
+    [helpId, showError ? errorId : undefined].filter(Boolean).join(' ') || undefined;
 
   function toggle(opt: string) {
     if (value.includes(opt)) {
@@ -21,38 +25,30 @@ export default function MultiselectField({ variable, value, onChange, showError 
   }
 
   return (
-    <fieldset
-      style={{
-        border: showError ? '1px solid #c00' : '1px solid #ccc',
-        borderRadius: '6px',
-        padding: '0.5rem 0.75rem',
-      }}
-    >
-      <legend style={{ fontWeight: 500, fontSize: '0.9rem', padding: '0 0.25rem' }}>
+    <fieldset className={`field${showError ? ' invalid' : ''}`} aria-describedby={describedBy}>
+      <legend className="label">
         {variable.label}
-        {variable.required && <span aria-hidden="true" style={{ color: '#c00', marginLeft: '0.2rem' }}>*</span>}
+        {variable.required && <span className="req" aria-hidden="true"> *</span>}
       </legend>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+      {variable.helpText && <p id={helpId} className="help">{variable.helpText}</p>}
+      <div className="checks">
         {(variable.options ?? []).map((opt) => {
           const id = `${groupId}-${opt}`;
           return (
-            <label key={opt} htmlFor={id} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem', cursor: 'pointer' }}>
+            <label key={opt} className="check">
               <input
                 id={id}
                 type="checkbox"
                 checked={value.includes(opt)}
                 onChange={() => toggle(opt)}
               />
-              {opt}
+              <span>{opt}</span>
             </label>
           );
         })}
       </div>
-      {variable.helpText && (
-        <span style={{ color: '#666', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>{variable.helpText}</span>
-      )}
       {showError && (
-        <span role="alert" style={{ color: '#c00', fontSize: '0.8rem', display: 'block', marginTop: '0.25rem' }}>
+        <span id={errorId} role="alert" className="error-msg">
           Please select at least one option.
         </span>
       )}

@@ -1,39 +1,76 @@
 import Link from 'next/link';
 
 interface EmptyStateProps {
-  showClearLink?: boolean;
+  /**
+   * When provided, "Show all setups" is a navigation link to this href.
+   * Used when ?role= produced no topPicks (clear needs to reset the URL).
+   */
+  clearHref?: string;
+  /**
+   * When provided, "Show all setups" is a button that calls this function.
+   * Used when client-side search/chip filtering produced 0 results.
+   */
+  onReset?: () => void;
+  message?: string;
 }
 
-export default function EmptyState({ showClearLink = false }: EmptyStateProps) {
+const EMPTY_SVG = (
+  <svg
+    width="120"
+    height="90"
+    viewBox="0 0 120 90"
+    fill="none"
+    stroke="#4f483c"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <ellipse cx="62" cy="78" rx="38" ry="5" fill="#f3ede2" stroke="none" />
+    <path d="M34 42 60 30l26 12-26 12z" fill="#fff" />
+    <path d="M34 42v22l26 12V54M86 42v22L60 76V54" />
+    <path
+      d="M34 42 24 50l26 13 10-9M86 42l10 8-26 13-10-9"
+      fill="#fff"
+    />
+    <path
+      d="M52 20c2-5 8-6 10-2M66 14c3-3 8-1 8 3"
+      stroke="#5b50c8"
+    />
+  </svg>
+);
+
+export default function EmptyState({
+  clearHref,
+  onReset,
+  message = 'No setups match these filters',
+}: EmptyStateProps) {
   return (
-    <div
-      data-testid="empty-state"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '3rem 1rem',
-        textAlign: 'center',
-        color: '#555',
-        fontFamily: 'system-ui, sans-serif',
-      }}
-    >
-      <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>
-        No setups for this role yet — more are on the way.
+    <div data-testid="empty-state" className="empty">
+      {EMPTY_SVG}
+      <h3>{message}</h3>
+      <p>
+        Try a different search, or clear the filters — more setups are on the
+        way.
       </p>
-      {showClearLink && (
+      {clearHref && (
         <Link
-          href="/catalog"
+          href={clearHref}
           data-testid="clear-filters"
-          style={{
-            color: '#1a1a1a',
-            fontWeight: 600,
-            fontSize: '0.95rem',
-            textDecoration: 'underline',
-          }}
+          className="btn btn-outline btn-sm"
         >
           Show all setups
         </Link>
+      )}
+      {!clearHref && onReset && (
+        <button
+          type="button"
+          onClick={onReset}
+          data-testid="clear-filters"
+          className="btn btn-outline btn-sm"
+        >
+          Show all setups
+        </button>
       )}
     </div>
   );

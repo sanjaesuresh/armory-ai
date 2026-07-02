@@ -1,63 +1,109 @@
-import { test, expect, type BrowserContext } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-// Helper: fresh browser context per test to isolate sessionStorage
-async function freshContext(ctx: BrowserContext) {
-  await ctx.clearCookies();
-  // sessionStorage is per-page, cleared when we open a new page
-}
+test.describe('customize page — wizard', () => {
+  test('loads the wizard with step rail, form card, and live preview', async ({ page }) => {
+    await page.goto('/setup/marketing-manager/customize');
 
-test.describe('customize page', () => {
-  test('customize page loads the setup and shows form + preview side by side', async ({ page }) => {
-    await page.goto('/setup/marketing-manager');
+    // Page-level h1 is "Make it yours"
+    await expect(page.locator('h1')).toContainText('Make it yours');
 
-    // Page heading
-    await expect(page.locator('h1')).toContainText('Marketing Manager');
+    // Step rail is present and shows the correct steps
+    const rail = page.getByRole('navigation', { name: 'Customization steps' });
+    await expect(rail).toBeVisible();
+    await expect(rail).toContainText('About your brand');
+    await expect(rail).toContainText('Your channels');
+    await expect(rail).toContainText('Tone & style');
+    await expect(rail).toContainText('Knowledge files');
+    await expect(rail).toContainText('Review');
+
+    // Step 1 (About your brand) is the active step
+    const step1Btn = page.getByRole('button', { name: /About your brand/i });
+    await expect(step1Btn).toHaveAttribute('aria-current', 'step');
 
     // Form is visible (SetupForm renders a <form>)
-    const form = page.locator('form');
-    await expect(form).toBeVisible();
+    await expect(page.locator('form')).toBeVisible();
 
-    // PreviewPanel in incomplete state shows the placeholder text
-    await expect(page.getByText('Fill in the required fields to see your preview.')).toBeVisible();
+    // Back-link goes to setup detail
+    const backLink = page.getByTestId('customize-back-link');
+    await expect(backLink).toBeVisible();
+    await expect(backLink).toHaveAttribute('href', '/setup/marketing-manager');
 
-    // Two columns exist (form area left, preview area right)
-    await expect(page.locator('[data-testid="customize-left"]')).toBeVisible();
+    // Live preview panel is visible
     await expect(page.locator('[data-testid="customize-right"]')).toBeVisible();
   });
 
-  test('the export action is disabled until required fields are filled, with a visible reason', async ({ page }) => {
-    await page.goto('/setup/marketing-manager');
-
-    const btn = page.getByRole('button', { name: 'Get export instructions' });
-    await expect(btn).toBeDisabled();
-
-    // A visible plain-language reason appears
-    await expect(page.getByTestId('cta-reason')).toBeVisible();
-    await expect(page.getByTestId('cta-reason')).not.toBeEmpty();
+  test('back-link returns to the setup detail page', async ({ page }) => {
+    await page.goto('/setup/marketing-manager/customize');
+    const backLink = page.getByTestId('customize-back-link');
+    await expect(backLink).toBeVisible();
+    await expect(backLink).toHaveAttribute('href', '/setup/marketing-manager');
   });
 
-  test('filling required fields enables the export action', async ({ page }) => {
-    // Navigate first so sessionStorage is accessible, then clear to avoid bleed
-    await page.goto('/setup/marketing-manager');
+  test('Continue is blocked with an inline error when required field is empty', async ({ page }) => {
+    await page.goto('/setup/marketing-manager/customize');
     await page.evaluate(() => sessionStorage.clear());
     await page.reload();
 
-    // brandName is the only required field without a default
+    // Do not fill brand name
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // Should still be on step 1 — brand name field is still visible
+    await expect(page.getByLabel('Brand name', { exact: false })).toBeVisible();
+
+    // An inline validation error should appear
+    const alerts = page.getByRole('alert');
+    await expect(alerts.first()).toBeVisible();
+  });
+
+  test('filling the brand name and advancing through steps enables the export CTA', async ({ page }) => {
+    await page.goto('/setup/marketing-manager/customize');
+    await page.evaluate(() => sessionStorage.clear());
+    await page.reload();
+
+    // Step 1: fill brand name, continue
     await page.getByLabel('Brand name', { exact: false }).fill('Acme Corp');
+    await page.getByRole('button', { name: 'Continue' }).click();
 
-    const btn = page.getByRole('button', { name: 'Get export instructions' });
-    await expect(btn).toBeEnabled();
+    // Step 2 (Your channels) — channels have a default; continue
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // Step 3 (Tone & style) — tone has a default; continue
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // Step 4 (Knowledge files) — no required user-provided files; continue
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    // Step 5 (Review) — export CTA should be enabled
+    const exportBtn = page.getByRole('button', { name: 'Export to Claude' });
+    await expect(exportBtn).toBeEnabled();
   });
 
-  test('editing a field updates the live summary', async ({ page }) => {
-    await page.goto('/setup/marketing-manager');
+  test('editing a field on step 1 updates the live preview', async ({ page }) => {
+    await page.goto('/setup/marketing-manager/customize');
     await page.evaluate(() => sessionStorage.clear());
     await page.reload();
 
-    // Fill required brand name so the preview compiles
+    // Fill brand name to trigger a successful compile
     await page.getByLabel('Brand name', { exact: false }).fill('BlueSky Brands');
 
-    // The preview summary should contain the brand name
+    // Live preview panel should update to show the brand name
     await expect(page.locator('[data-testid="customize-right"]')).toContainText('BlueSky Brands');
+  });
+
+  test('the export CTA on the review step is disabled until required fields filled', async ({ page }) => {
+    await page.goto('/setup/marketing-manager/customize');
+    await page.evaluate(() => sessionStorage.clear());
+    await page.reload();
+
+    // Navigate directly to review step via the rail (without filling brand name)
+    await page.getByRole('button', { name: /Review/i }).click();
+
+    // Export CTA should be disabled
+    const exportBtn = page.getByRole('button', { name: 'Export to Claude' });
+    await expect(exportBtn).toBeDisabled();
+
+    // A plain-language reason should appear
+    await expect(page.getByTestId('cta-reason')).toBeVisible();
+    await expect(page.getByTestId('cta-reason')).not.toBeEmpty();
   });
 });

@@ -3,94 +3,113 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useExportSetup } from './useExportSetup';
-import ExportWalkthrough, { type StepWithBlocks } from './ExportWalkthrough';
-import type { ExportBlock, WalkthroughStep } from '@/lib/export/claudeApp';
+import BundleTabs from './BundleTabs';
+import type { ExportBlock } from '@/lib/export/claudeApp';
 import type { Setup } from '@/lib/setup/types';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type PlanChoice = null | 'pro' | 'free';
+type PlanChoice = 'pro' | 'free' | null;
 
 interface Props {
   setup: Setup;
 }
 
-// ─── Step builders ────────────────────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-/**
- * Takes the Pro-path walkthrough steps (from toClaudeAppExport) and injects
- * the relevant copy blocks into the paste-instructions and upload steps.
- */
-function buildProSteps(
-  walkthroughSteps: WalkthroughStep[],
-  blocks: ExportBlock[],
-): StepWithBlocks[] {
-  const instructionBlock = blocks.find((b) => b.kind === 'instruction');
-  const knowledgeBlocks = blocks.filter((b) => b.kind === 'knowledge');
-
-  return walkthroughSteps.map((step): StepWithBlocks => {
-    if (step.imageKey === 'paste-instructions' && instructionBlock) {
-      return {
-        ...step,
-        embeddedBlocks: [{ label: instructionBlock.label, content: instructionBlock.content }],
-      };
-    }
-    if (step.imageKey === 'upload-knowledge-file' && knowledgeBlocks.length > 0) {
-      return {
-        ...step,
-        embeddedBlocks: knowledgeBlocks.map((b) => ({ label: b.label, content: b.content })),
-      };
-    }
-    return step;
-  });
+function buildBundleMd(blocks: ExportBlock[], slug: string): string {
+  const header = `# Armory Bundle — ${slug}\n\n`;
+  const sections = blocks
+    .map((b) => `## ${b.label}\n\n${b.content}`)
+    .join('\n\n---\n\n');
+  return header + sections;
 }
 
-/**
- * Builds the free-tier walkthrough: paste instruction at the start of a
- * conversation, include knowledge content in the same message, then done.
- * Same Step N of M tracker and "You're set up" success state as the Pro path.
- */
-function buildFreeSteps(blocks: ExportBlock[]): StepWithBlocks[] {
-  const instructionBlock = blocks.find((b) => b.kind === 'instruction');
-  const knowledgeBlocks = blocks.filter((b) => b.kind === 'knowledge');
+function triggerDownload(content: string, filename: string): void {
+  const blob = new Blob([content], { type: 'text/markdown; charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 
-  const steps: StepWithBlocks[] = [
-    {
-      stepNumber: 1,
-      title: 'Open Claude',
-      body: 'Go to claude.ai and start a new conversation.',
-      imageKey: 'create-project',
-    },
-    {
-      stepNumber: 2,
-      title: 'Paste your instructions',
-      body: 'Copy the block below and paste it at the very start of your message to Claude.',
-      imageKey: 'paste-instructions',
-      embeddedBlocks: instructionBlock
-        ? [{ label: instructionBlock.label, content: instructionBlock.content }]
-        : [],
-    },
-  ];
+// ─── Icons ────────────────────────────────────────────────────────────────────
 
-  if (knowledgeBlocks.length > 0) {
-    steps.push({
-      stepNumber: 3,
-      title: 'Include your knowledge files',
-      body: 'Paste the content below into the same message, after your instructions.',
-      imageKey: 'upload-knowledge-file',
-      embeddedBlocks: knowledgeBlocks.map((b) => ({ label: b.label, content: b.content })),
-    });
-  }
+function CheckIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
 
-  // Final step — isLast triggers the "You're set up" success heading in ExportWalkthrough
-  steps.push({
-    stepNumber: steps.length + 1,
-    title: "You're set up",
-    body: 'Claude will follow your setup for this conversation. Start chatting to get going.',
-    imageKey: 'project-ready',
-  });
+function ShieldIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  );
+}
 
-  return steps;
+function DownloadIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+    </svg>
+  );
+}
+
+function ArrowRightIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  );
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -99,42 +118,28 @@ export default function ExportView({ setup }: Props) {
   const phase = useExportSetup(setup);
   const [planChoice, setPlanChoice] = useState<PlanChoice>(null);
 
-  // ── Shared styles ──────────────────────────────────────────────────────────
-
-  const containerStyle: React.CSSProperties = {
-    fontFamily: 'system-ui, sans-serif',
-    color: '#1a1a1a',
-  };
-
   // ── Loading / compiling ────────────────────────────────────────────────────
 
   if (phase.kind === 'loading' || phase.kind === 'compiling') {
     return (
-      <div style={containerStyle}>
-        <p style={{ color: '#555', fontSize: '0.95rem' }}>
+      <div className="wrap" style={{ paddingTop: '48px', paddingBottom: '72px' }}>
+        <p className="muted" style={{ fontSize: '0.95rem' }}>
           {phase.kind === 'compiling' ? 'Preparing your export…' : 'Loading…'}
         </p>
       </div>
     );
   }
 
-  // ── Invalid session ────────────────────────────────────────────────────────
+  // ── Invalid session — start over ──────────────────────────────────────────
 
   if (phase.kind === 'invalid') {
     return (
-      <div style={containerStyle}>
-        <p style={{ color: '#555', marginBottom: '1rem' }}>
-          We couldn&apos;t find your answers &mdash; start again from your setup.
+      <div className="wrap" style={{ paddingTop: '48px', paddingBottom: '72px' }}>
+        <p style={{ marginBottom: '1rem' }}>
+          We couldn&apos;t find your answers &mdash; start again from the catalog.
         </p>
-        <Link
-          href="/catalog"
-          style={{
-            color: '#1a1a1a',
-            fontWeight: 600,
-            textDecoration: 'underline',
-          }}
-        >
-          Go to catalog
+        <Link href="/catalog" className="btn btn-outline">
+          Browse setups
         </Link>
       </div>
     );
@@ -144,15 +149,12 @@ export default function ExportView({ setup }: Props) {
 
   if (phase.kind === 'error') {
     return (
-      <div style={containerStyle}>
-        <p style={{ color: '#b91c1c', marginBottom: '0.75rem' }}>
+      <div className="wrap" style={{ paddingTop: '48px', paddingBottom: '72px' }}>
+        <p style={{ color: 'var(--bad)', marginBottom: '0.75rem' }}>
           Something went wrong: {phase.message}
         </p>
-        <Link
-          href="/catalog"
-          style={{ color: '#1a1a1a', fontWeight: 600, textDecoration: 'underline' }}
-        >
-          Go to catalog
+        <Link href="/catalog" className="btn btn-outline">
+          Browse setups
         </Link>
       </div>
     );
@@ -162,51 +164,43 @@ export default function ExportView({ setup }: Props) {
 
   if (phase.kind === 'overlimit') {
     return (
-      <div style={containerStyle}>
+      <div className="wrap" style={{ paddingTop: '48px', paddingBottom: '72px' }}>
+        <Link
+          href={`/setup/${phase.slug}`}
+          className="back-link"
+          style={{ marginBottom: '24px' }}
+        >
+          ← Back to setup
+        </Link>
         <div
           data-testid="overlimit-message"
           style={{
-            padding: '1.25rem 1.5rem',
-            background: '#fef2f2',
-            border: '1px solid #fca5a5',
-            borderRadius: '6px',
-            marginBottom: '1.25rem',
+            padding: '20px 24px',
+            background: 'var(--bad-tint)',
+            border: '1px solid var(--bad)',
+            borderRadius: 'var(--r-md)',
+            marginBottom: '20px',
           }}
         >
           <h2
             style={{
               fontSize: '1rem',
               fontWeight: 700,
-              color: '#b91c1c',
-              margin: '0 0 0.5rem',
+              color: 'var(--bad)',
+              margin: '0 0 8px',
             }}
           >
             Your setup exceeds the Claude limit
           </h2>
-          <ul style={{ margin: '0', paddingLeft: '1.25rem' }}>
+          <ul style={{ margin: 0, paddingLeft: '1.25rem' }}>
             {phase.errors.map((e, i) => (
-              <li
-                key={i}
-                style={{ fontSize: '0.9rem', color: '#7f1d1d', marginBottom: '0.25rem' }}
-              >
+              <li key={i} style={{ fontSize: '0.9rem', color: 'var(--bad)', marginBottom: '4px' }}>
                 {e.message}
               </li>
             ))}
           </ul>
         </div>
-        <Link
-          href={`/setup/${phase.slug}`}
-          style={{
-            display: 'inline-block',
-            padding: '0.6rem 1.25rem',
-            fontSize: '0.9rem',
-            fontWeight: 600,
-            background: '#1a1a1a',
-            color: '#fff',
-            textDecoration: 'none',
-            borderRadius: '6px',
-          }}
-        >
+        <Link href={`/setup/${phase.slug}/customize`} className="btn btn-primary">
           Edit your setup
         </Link>
       </div>
@@ -215,143 +209,184 @@ export default function ExportView({ setup }: Props) {
 
   // ── Happy path ─────────────────────────────────────────────────────────────
 
-  const { slug, exportData, blocks } = phase;
-  const proSteps = buildProSteps(exportData.walkthrough, blocks);
-  const freeSteps = buildFreeSteps(blocks);
+  const { slug, blocks, answers } = phase;
+  const brandName =
+    typeof answers.brandName === 'string' && answers.brandName.trim()
+      ? answers.brandName.trim()
+      : undefined;
+
+  const knowledgeBlocks = blocks.filter((b) => b.kind === 'knowledge');
+
+  function handleDownload() {
+    const content = buildBundleMd(blocks, slug);
+    triggerDownload(content, `armory-${slug}-bundle.md`);
+  }
 
   return (
-    <div style={containerStyle}>
-      {/* Trust cue — always shown first, before anything else */}
-      <p
-        data-testid="trust-cue"
-        style={{
-          fontSize: '0.85rem',
-          color: '#555',
-          margin: '0 0 1.5rem',
-          padding: '0.5rem 0.75rem',
-          background: '#f5f5f5',
-          borderLeft: '3px solid #1a1a1a',
-          borderRadius: '0 4px 4px 0',
-        }}
-      >
-        Curated setups are reviewed by the Armory team.
+    <div className="wrap">
+      {/* Back link */}
+      <Link href={`/setup/${slug}`} className="back-link">
+        ← Back to setup
+      </Link>
+
+      {/* Page heading */}
+      <h1 style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.4rem)', marginBottom: '4px' }}>
+        Export to Claude
+      </h1>
+      <p className="muted" style={{ maxWidth: '42em', margin: '0 0 0 0' }}>
+        Your <strong style={{ color: 'var(--ink)' }}>{setup.name}</strong> setup is ready. Copy
+        each block into Claude — the walkthrough shows exactly where everything goes.
       </p>
 
-      {/* Plan picker */}
-      <div
-        style={{
-          padding: '1.25rem 1.5rem',
-          border: '1px solid #e5e5e5',
-          borderRadius: '6px',
-          marginBottom: '1.5rem',
-        }}
-      >
-        <p
-          style={{
-            fontSize: '1rem',
-            fontWeight: 600,
-            color: '#1a1a1a',
-            margin: '0 0 0.75rem',
-          }}
-        >
-          Do you have Claude Pro?
-        </p>
-        <p
-          style={{
-            fontSize: '0.875rem',
-            color: '#555',
-            margin: '0 0 1rem',
-            lineHeight: 1.5,
-          }}
-        >
-          Claude Pro unlocks Projects, which let you save your setup permanently.
-          If you&apos;re on the free tier, you can still paste the instructions into any
-          conversation.
-        </p>
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+      {/* 3-column layout */}
+      <div className="export-layout">
+
+        {/* ── Left: what's included ──────────────────────────────────────── */}
+        <aside>
+          <span className="eyebrow">What&apos;s included</span>
+          <ul className="side-checklist" style={{ marginTop: '8px' }}>
+            <li>
+              <CheckIcon />
+              <div>
+                <strong>Custom instructions</strong>
+                <span>Compiled from your answers</span>
+              </div>
+            </li>
+            {knowledgeBlocks.map((b, i) => (
+              <li key={i}>
+                <CheckIcon />
+                <div>
+                  <strong>Knowledge file</strong>
+                  <span>{b.label}</span>
+                </div>
+              </li>
+            ))}
+            <li>
+              <CheckIcon />
+              <div>
+                <strong>Project configuration</strong>
+                <span>Name and layout for Claude Projects</span>
+              </div>
+            </li>
+          </ul>
+          <p style={{ marginTop: '16px' }}>
+            <span className="trust-cue" data-testid="trust-cue">
+              <ShieldIcon />
+              Curated setups are reviewed by the Armory team.
+            </span>
+          </p>
+        </aside>
+
+        {/* ── Center: bundle preview + plan branch ──────────────────────── */}
+        <section>
+          {/* Bundle tabs — one per block + Project settings */}
+          <BundleTabs blocks={blocks} setup={setup} brandName={brandName} />
+
+          {/* Plan picker */}
+          <div className="plan-ask">
+            <p className="q">Do you have Claude Pro?</p>
+            <p className="hint">
+              Claude Pro unlocks Projects, which save your setup permanently. On the free tier you
+              can still paste the instructions into any conversation.
+            </p>
+            <div className="seg" role="group" aria-label="Claude plan">
+              <button
+                type="button"
+                aria-pressed={planChoice === 'pro'}
+                onClick={() => setPlanChoice('pro')}
+              >
+                Yes, I have Pro
+              </button>
+              <button
+                type="button"
+                aria-pressed={planChoice === 'free'}
+                onClick={() => setPlanChoice('free')}
+              >
+                No, free plan
+              </button>
+            </div>
+          </div>
+
+          {/* Pro path */}
+          {planChoice === 'pro' && (
+            <div>
+              <p className="muted small" style={{ marginBottom: '14px' }}>
+                Great — your setup becomes a permanent Claude Project. The walkthrough takes about
+                two minutes.
+              </p>
+              <Link href="/install" className="btn btn-primary btn-lg">
+                Install in Claude, step by step <ArrowRightIcon />
+              </Link>
+            </div>
+          )}
+
+          {/* Free path */}
+          {planChoice === 'free' && (
+            <div>
+              <ol
+                style={{
+                  margin: '0 0 16px',
+                  paddingLeft: '20px',
+                  color: 'var(--ink-soft)',
+                  fontSize: '0.94rem',
+                  display: 'grid',
+                  gap: '8px',
+                }}
+              >
+                <li>
+                  Copy the <strong>Custom instructions</strong> block above and paste it at the
+                  start of a new Claude conversation.
+                </li>
+                <li>
+                  Paste the <strong>knowledge-file content</strong> in the same message, right
+                  after the instructions.
+                </li>
+                <li>
+                  Send your first request in that same conversation — your setup is live for the
+                  whole chat.
+                </li>
+              </ol>
+            </div>
+          )}
+        </section>
+
+        {/* ── Right: export options + download ──────────────────────────── */}
+        <aside>
+          <span className="eyebrow">Export target</span>
+          <label className="option-card" style={{ marginTop: '8px' }}>
+            <input type="radio" name="target" defaultChecked />
+            <strong>
+              Claude Projects <span className="rec">Recommended</span>
+            </strong>
+            <p>
+              A permanent home for your setup — instructions and files stay attached to every
+              conversation.
+            </p>
+          </label>
+          <div className="option-card disabled" aria-disabled="true">
+            <strong>
+              ChatGPT Custom Instructions{' '}
+              <span className="status status-soon" style={{ fontSize: '0.68rem' }}>
+                Coming soon
+              </span>
+            </strong>
+            <p>The same setup, exported in ChatGPT&apos;s format. On the roadmap as the fast-follow.</p>
+          </div>
           <button
             type="button"
-            onClick={() => setPlanChoice('pro')}
-            aria-pressed={planChoice === 'pro'}
-            style={{
-              padding: '0.6rem 1.5rem',
-              fontSize: '0.9rem',
-              fontWeight: 600,
-              background: planChoice === 'pro' ? '#1a1a1a' : '#fff',
-              color: planChoice === 'pro' ? '#fff' : '#1a1a1a',
-              border: '1px solid #1a1a1a',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
+            className="btn btn-outline"
+            data-testid="download-btn"
+            onClick={handleDownload}
+            style={{ width: '100%', marginTop: '10px' }}
           >
-            Yes
+            <DownloadIcon /> Download bundle (.md)
           </button>
-          <button
-            type="button"
-            onClick={() => setPlanChoice('free')}
-            aria-pressed={planChoice === 'free'}
-            style={{
-              padding: '0.6rem 1.5rem',
-              fontSize: '0.9rem',
-              fontWeight: 600,
-              background: planChoice === 'free' ? '#1a1a1a' : '#fff',
-              color: planChoice === 'free' ? '#fff' : '#1a1a1a',
-              border: '1px solid #d1d5db',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }}
-          >
-            No
-          </button>
-        </div>
+          <p className="small muted" style={{ marginTop: '18px' }}>
+            Armory never runs your assistant. Once exported, this setup works without us.
+          </p>
+        </aside>
+
       </div>
-
-      {/* Pro path: Claude Projects walkthrough with embedded copy blocks */}
-      {planChoice === 'pro' && (
-        <div style={{ marginBottom: '2rem' }}>
-          <h2
-            style={{
-              fontSize: '1rem',
-              fontWeight: 600,
-              color: '#1a1a1a',
-              margin: '0 0 1rem',
-            }}
-          >
-            How to set up Claude Projects
-          </h2>
-          <ExportWalkthrough steps={proSteps} slug={slug} />
-        </div>
-      )}
-
-      {/* Free path: conversation walkthrough with embedded copy blocks */}
-      {planChoice === 'free' && (
-        <div style={{ marginBottom: '2rem' }}>
-          <h2
-            style={{
-              fontSize: '1rem',
-              fontWeight: 600,
-              color: '#1a1a1a',
-              margin: '0 0 1rem',
-            }}
-          >
-            How to use with the free plan
-          </h2>
-          <ExportWalkthrough steps={freeSteps} slug={slug} />
-        </div>
-      )}
-
-      {/* Return link */}
-      <p style={{ fontSize: '0.85rem', color: '#555', marginTop: '0.5rem' }}>
-        Want to change something?{' '}
-        <Link
-          href={`/setup/${slug}`}
-          style={{ color: '#1a1a1a', fontWeight: 600, textDecoration: 'underline' }}
-        >
-          Edit your setup
-        </Link>
-      </p>
     </div>
   );
 }

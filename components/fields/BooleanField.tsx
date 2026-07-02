@@ -10,25 +10,22 @@ interface Props {
 
 export default function BooleanField({ variable, value, onChange }: Props) {
   const id = `field-${variable.key}`;
+  const helpId = variable.helpText ? `${id}-help` : undefined;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-      <label
-        htmlFor={id}
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500 }}
-      >
+    <div className="field">
+      <label className="toggle">
         <input
           id={id}
           type="checkbox"
           role="switch"
           checked={value}
+          aria-describedby={helpId}
           onChange={(e) => onChange(e.target.checked)}
-          style={{ width: '1rem', height: '1rem' }}
         />
-        {variable.label}
+        <span className="track" aria-hidden="true" />
+        <span className="t-label">{variable.label}</span>
       </label>
-      {variable.helpText && (
-        <span style={{ color: '#666', fontSize: '0.8rem', marginLeft: '1.5rem' }}>{variable.helpText}</span>
-      )}
+      {variable.helpText && <p id={helpId} className="help" style={{ marginTop: '6px' }}>{variable.helpText}</p>}
     </div>
   );
 }

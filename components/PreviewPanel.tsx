@@ -3,23 +3,42 @@
 import { useState, useRef } from 'react';
 import type { Setup, Answers } from '@/lib/setup/types';
 import { compileSetup } from '@/lib/setup/compiler';
+import { isAnswerEmpty } from '@/lib/setup/answers';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
+
+interface UnderstandItem {
+  ok: boolean;
+  text: string;
+}
 
 interface Props {
   setup: Setup;
   answers: Answers;
 }
 
+function computeUnderstandItems(setup: Setup, answers: Answers): UnderstandItem[] {
+  return setup.variables.map((v) => {
+    const val = answers[v.key];
+    if (isAnswerEmpty(val)) {
+      return { ok: false, text: v.label };
+    }
+    if (typeof val === 'boolean') {
+      return { ok: val, text: `${v.label}: ${val ? 'Yes' : 'No'}` };
+    }
+    const formatted = Array.isArray(val)
+      ? (val as string[]).join(', ')
+      : String(val);
+    return { ok: true, text: `${v.label}: ${formatted}` };
+  });
+}
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function PreviewPanel({ setup, answers }: Props) {
   const [instructionsOpen, setInstructionsOpen] = useState(false);
-  // Track whether compiled was null on the previous render so we can detect
-  // the failed→success transition and reset the disclosure without a flicker.
   const prevCompiledNull = useRef<boolean | null>(null);
 
-  // Attempt to compile. A missing required answer throws — treat as incomplete.
   let compiled;
   try {
     compiled = compileSetup(setup, answers);
@@ -29,177 +48,124 @@ export default function PreviewPanel({ setup, answers }: Props) {
 
   const compiledNull = compiled === null;
 
-  // "Adjusting state during render" — React discards this render and immediately
-  // re-runs with instructionsOpen = false, so the browser never paints the
-  // briefly-expanded state.
+  // Collapse disclosure when compile recovers from failure
   if (prevCompiledNull.current === true && !compiledNull && instructionsOpen) {
     setInstructionsOpen(false);
   }
   prevCompiledNull.current = compiledNull;
 
-  // Incomplete state: guide the user without surfacing internal error text.
+  const understandItems = computeUnderstandItems(setup, answers);
+  const firstScenario = setup.scenarios[0] ?? null;
+
+  // Incomplete state: guide without surfacing error text
   if (!compiled) {
     return (
-      <div
-        style={{
-          fontFamily: 'system-ui, sans-serif',
-          color: '#555',
-          padding: '1.25rem',
-          background: '#f9f9f9',
-          borderRadius: '8px',
-          border: '1px solid #e5e5e5',
-        }}
-      >
-        <p style={{ margin: 0, fontSize: '0.95rem' }}>
-          Fill in the required fields to see your preview.
-        </p>
-      </div>
+      <aside className="live-panel live-doodle" aria-label="Live preview">
+        <span className="doodle-note" aria-hidden="true">
+          updates as you type
+          <svg width="40" height="34" viewBox="0 0 46 42" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M6 4c10 8 20 20 30 32" />
+            <path d="M36 36l-1.5-9M36 36l-9-1" />
+          </svg>
+        </span>
+        <div className="live-card">
+          <h3>
+            <svg width="17" height="17" style={{ color: 'var(--iris)' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="m5 12.5 4.5 4.5L19 7.5" />
+            </svg>
+            What Armory understands so far
+          </h3>
+          <ul className="understand-list" aria-live="polite">
+            {understandItems.map((item, i) => (
+              <li key={i} className={item.ok ? '' : 'pending'}>
+                {item.text}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="live-card">
+          <p style={{ margin: 0, fontSize: '0.92rem', color: 'var(--ink-soft)' }}>
+            Fill in the required fields to see your preview.
+          </p>
+        </div>
+      </aside>
     );
   }
 
-  const firstScenario = setup.scenarios[0] ?? null;
-
   return (
-    <div
-      style={{
-        fontFamily: 'system-ui, sans-serif',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.25rem',
-      }}
-    >
-      {/* Layer 1: Plain-English summary — primary layer */}
-      <div
-        style={{
-          padding: '1rem 1.25rem',
-          background: '#f0f4ff',
-          borderRadius: '8px',
-          border: '1px solid #d0daff',
-        }}
-      >
-        <p
-          style={{
-            margin: 0,
-            fontSize: '1rem',
-            lineHeight: '1.6',
-            color: '#1a1a2e',
-            fontWeight: 500,
-          }}
-        >
-          {compiled.summary}
-        </p>
+    <aside className="live-panel live-doodle" aria-label="Live preview">
+      <span className="doodle-note" aria-hidden="true">
+        updates as you type
+        <svg width="40" height="34" viewBox="0 0 46 42" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M6 4c10 8 20 20 30 32" />
+          <path d="M36 36l-1.5-9M36 36l-9-1" />
+        </svg>
+      </span>
+
+      {/* Card 1: understand-list */}
+      <div className="live-card">
+        <h3>
+          <svg width="17" height="17" style={{ color: 'var(--iris)' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m5 12.5 4.5 4.5L19 7.5" />
+          </svg>
+          What Armory understands so far
+        </h3>
+        <ul className="understand-list" aria-live="polite">
+          {understandItems.map((item, i) => (
+            <li key={i} className={item.ok ? '' : 'pending'}>
+              {item.text}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      {/* Layer 2: Static example Q&A from the first scenario */}
+      {/* Card 2: static Q&A from first scenario */}
       {firstScenario && (
-        <div
-          style={{
-            padding: '1rem 1.25rem',
-            background: '#fafafa',
-            borderRadius: '8px',
-            border: '1px solid #e5e5e5',
-          }}
-        >
-          <p
-            style={{
-              margin: '0 0 0.75rem',
-              fontSize: '0.75rem',
-              color: '#888',
-              fontStyle: 'italic',
-            }}
-          >
-            Example using a sample brand — your setup will use your answers
-          </p>
-
-          <p
-            style={{
-              margin: '0 0 0.25rem',
-              fontSize: '0.8rem',
-              fontWeight: 600,
-              color: '#555',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-            }}
-          >
-            If you ask:
-          </p>
-          <p
-            style={{
-              margin: '0 0 1rem',
-              fontSize: '0.9rem',
-              color: '#333',
-              lineHeight: '1.5',
-            }}
-          >
-            {firstScenario.userInput}
-          </p>
-
-          <p
-            style={{
-              margin: '0 0 0.25rem',
-              fontSize: '0.8rem',
-              fontWeight: 600,
-              color: '#555',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-            }}
-          >
-            {"You'd get:"}
-          </p>
-          <p
-            style={{
-              margin: 0,
-              fontSize: '0.9rem',
-              color: '#333',
-              lineHeight: '1.5',
-            }}
-          >
-            {firstScenario.expectedBehavior}
-          </p>
+        <div className="live-card">
+          <h3>Try it in your head</h3>
+          <div className="qa">
+            <span className="q-label">If you ask</span>
+            <p className="q-bubble" style={{ marginTop: 0 }}>
+              {firstScenario.userInput}
+            </p>
+            <span className="q-label">{"You'd get"}</span>
+            <p className="a-bubble" style={{ margin: 0 }}>
+              {firstScenario.expectedBehavior}
+            </p>
+          </div>
         </div>
       )}
 
-      {/* Layer 3: Full instructions behind a toggle — collapsed by default */}
-      <div>
-        <button
-          type="button"
-          aria-expanded={instructionsOpen}
-          onClick={() => setInstructionsOpen((open) => !open)}
-          style={{
-            background: 'none',
-            border: 'none',
-            padding: 0,
-            cursor: 'pointer',
-            fontSize: '0.875rem',
-            color: '#4a6cf7',
-            textDecoration: 'underline',
-            textUnderlineOffset: '2px',
-            fontFamily: 'inherit',
-          }}
-        >
-          View the full instructions
-        </button>
-
-        {instructionsOpen && (
-          <pre
+      {/* Card 3: full instructions behind a toggle */}
+      <div className="live-card">
+        <div className="raw-toggle">
+          <button
+            type="button"
+            aria-expanded={instructionsOpen}
+            onClick={() => setInstructionsOpen((open) => !open)}
             style={{
-              marginTop: '0.75rem',
-              padding: '1rem',
-              background: '#f5f5f5',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '0.8rem',
-              lineHeight: '1.6',
-              color: '#333',
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-              overflowX: 'auto',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              fontWeight: 600,
+              fontSize: '0.86rem',
+              color: 'var(--iris-deep)',
+              fontFamily: 'inherit',
             }}
           >
-            {compiled.instruction}
-          </pre>
-        )}
+            View the full instructions
+          </button>
+          {instructionsOpen && (
+            <pre className="code" style={{ border: '1px solid var(--hairline)', borderRadius: '10px' }}>
+              {compiled.instruction}
+            </pre>
+          )}
+        </div>
+        <p className="small" style={{ color: 'var(--ink-soft)', margin: '10px 0 0' }}>
+          This is the exact text you&apos;ll paste into Claude — nothing hidden.
+        </p>
       </div>
-    </div>
+    </aside>
   );
 }

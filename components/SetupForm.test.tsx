@@ -118,10 +118,10 @@ describe('SetupForm — correct widget per variable type', () => {
     expect(el).toHaveAttribute('type', 'number');
   });
 
-  it('renders a toggle/checkbox for type=boolean', () => {
+  it('renders a toggle switch for type=boolean (role=switch)', () => {
     renderForm([booleanVar]);
-    // Should be labelled and accessible as a checkbox or switch
-    const el = screen.getByLabelText('Do you have brand voice guidelines?');
+    // Must resolve as role=switch — screen readers announce it as "on/off", not "checked/unchecked"
+    const el = screen.getByRole('switch', { name: 'Do you have brand voice guidelines?' });
     expect(el.tagName).toBe('INPUT');
     expect(el).toHaveAttribute('type', 'checkbox');
   });
@@ -278,6 +278,79 @@ describe('SetupForm — help text is rendered', () => {
   it('shows helpText beneath the field', () => {
     renderForm([textVar]);
     expect(screen.getByText('The exact name of your brand.')).toBeInTheDocument();
+  });
+});
+
+describe('SetupForm — ungrouped variables with __ungrouped__ activeGroup', () => {
+  const ungroupedRequired: Variable = {
+    key: 'myName',
+    label: 'Your name',
+    type: 'text',
+    required: true,
+    // no group
+  };
+  const groupedRequired: Variable = {
+    key: 'myRole',
+    label: 'Your role',
+    type: 'text',
+    required: true,
+    group: 'Details',
+  };
+
+  it('renders ungrouped required variable when activeGroup is __ungrouped__', () => {
+    render(
+      <SetupForm
+        slug="test"
+        variables={[ungroupedRequired, groupedRequired]}
+        onAnswersChange={vi.fn()}
+        activeGroup="__ungrouped__"
+      />,
+    );
+    expect(screen.getByLabelText('Your name')).toBeInTheDocument();
+  });
+
+  it('does not render grouped variable when activeGroup is __ungrouped__', () => {
+    render(
+      <SetupForm
+        slug="test"
+        variables={[ungroupedRequired, groupedRequired]}
+        onAnswersChange={vi.fn()}
+        activeGroup="__ungrouped__"
+      />,
+    );
+    expect(screen.queryByLabelText('Your role')).not.toBeInTheDocument();
+  });
+
+  it('emits complete=false when ungrouped required field is empty', () => {
+    const onChange = vi.fn();
+    render(
+      <SetupForm
+        slug="test"
+        variables={[ungroupedRequired]}
+        onAnswersChange={onChange}
+        activeGroup="__ungrouped__"
+      />,
+    );
+    // Initial emit — required field is empty → complete must be false
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ myName: '' }),
+      { complete: false },
+    );
+  });
+
+  it('emits complete=true once the ungrouped required field is filled', async () => {
+    const onChange = vi.fn();
+    render(
+      <SetupForm
+        slug="test"
+        variables={[ungroupedRequired]}
+        onAnswersChange={onChange}
+        activeGroup="__ungrouped__"
+      />,
+    );
+    await userEvent.type(screen.getByLabelText('Your name'), 'Alice');
+    const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1];
+    expect(lastCall[1]).toMatchObject({ complete: true });
   });
 });
 

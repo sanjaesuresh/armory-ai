@@ -50,46 +50,48 @@ export default function FileAttachment({ knowledgeFile, value, onChange }: Props
   const isAttached = value !== undefined && value !== null && value !== '';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+    <div className="field">
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-        <label htmlFor={inputId} style={{ fontWeight: 500, fontSize: '0.9rem' }}>
+        <label htmlFor={inputId} className="label">
           {knowledgeFile.name}
         </label>
         {knowledgeFile.required && (
-          <span aria-hidden="true" style={{ color: '#c00', fontSize: '0.85rem' }}>*</span>
+          <span aria-hidden="true" className="req"> *</span>
+        )}
+        {!knowledgeFile.required && (
+          <span className="muted" style={{ fontWeight: 600 }}> (optional)</span>
         )}
       </div>
 
       {knowledgeFile.guidance && (
-        <span style={{ color: '#555', fontSize: '0.82rem' }}>{knowledgeFile.guidance}</span>
+        <p className="help">{knowledgeFile.guidance}</p>
       )}
 
       {!isAttached ? (
-        <input
-          ref={inputRef}
-          id={inputId}
-          type="file"
-          accept=".txt,.md,.csv,.text,text/*"
-          onChange={handleFileChange}
-          style={{ fontSize: '0.85rem' }}
-        />
+        <div
+          className="file-slot"
+          onClick={() => inputRef.current?.click()}
+          style={{ cursor: 'pointer' }}
+        >
+          <strong>Drop a file here, or click to browse</strong>
+          <input
+            ref={inputRef}
+            id={inputId}
+            type="file"
+            accept=".txt,.md,.csv,.text,text/*"
+            onChange={handleFileChange}
+            style={{ display: 'block', marginTop: '8px', fontSize: '0.85rem' }}
+          />
+        </div>
       ) : (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ fontSize: '0.85rem', color: '#2a7a2a' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <span style={{ fontSize: '0.88rem', color: 'var(--good)', fontWeight: 600 }}>
             ✓ Attached
           </span>
           <button
             type="button"
+            className="btn btn-outline btn-sm"
             onClick={handleRemove}
-            style={{
-              fontSize: '0.8rem',
-              background: 'none',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-              padding: '0.1rem 0.4rem',
-              cursor: 'pointer',
-              color: '#555',
-            }}
           >
             Remove
           </button>
@@ -99,15 +101,19 @@ export default function FileAttachment({ knowledgeFile, value, onChange }: Props
       {readError && (
         <span
           role="alert"
-          style={{ fontSize: '0.82rem', color: '#c00' }}
+          style={{ fontSize: '0.82rem', color: 'var(--bad)', display: 'block', marginTop: '6px' }}
         >
           {readError}
         </span>
       )}
 
-      <span style={{ fontSize: '0.78rem', color: '#777' }}>
-        This file stays on your device. If you refresh the page, you&apos;ll need to attach it again.
-      </span>
+      <p className="inline-warning" style={{ marginBottom: 0 }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M12 4 2.8 19.5h18.4z" />
+          <path d="M12 10v4.5M12 17.2v.1" />
+        </svg>
+        Files stay in your browser and are never uploaded — but if you refresh the page you will need to attach them again.
+      </p>
     </div>
   );
 }

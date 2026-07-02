@@ -11,37 +11,30 @@ interface Props {
 
 export default function MultilineField({ variable, value, onChange, showError }: Props) {
   const id = `field-${variable.key}`;
+  const errorId = `${id}-error`;
+  const helpId = variable.helpText ? `${id}-help` : undefined;
+  const describedBy =
+    [helpId, showError ? errorId : undefined].filter(Boolean).join(' ') || undefined;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-        <label htmlFor={id} style={{ fontWeight: 500, fontSize: '0.9rem' }}>
-          {variable.label}
-        </label>
-        {variable.required && (
-          <span aria-hidden="true" style={{ color: '#c00', fontSize: '0.85rem' }}>*</span>
-        )}
-      </div>
+    <div className={`field${showError ? ' invalid' : ''}`}>
+      <label htmlFor={id}>{variable.label}</label>
+      {variable.required && <span className="req" aria-hidden="true">*</span>}
+      {!variable.required && (
+        <span className="muted" style={{ fontWeight: 600 }}> (optional)</span>
+      )}
+      {variable.helpText && <p id={helpId} className="help">{variable.helpText}</p>}
       <textarea
         id={id}
+        className="input"
         value={value}
         required={variable.required}
         aria-required={variable.required}
+        aria-describedby={describedBy}
+        rows={3}
         onChange={(e) => onChange(e.target.value)}
-        rows={4}
-        style={{
-          padding: '0.5rem 0.625rem',
-          border: showError ? '1px solid #c00' : '1px solid #ccc',
-          borderRadius: '6px',
-          fontSize: '0.9rem',
-          fontFamily: 'inherit',
-          resize: 'vertical',
-        }}
       />
-      {variable.helpText && (
-        <span style={{ color: '#666', fontSize: '0.8rem' }}>{variable.helpText}</span>
-      )}
       {showError && (
-        <span role="alert" style={{ color: '#c00', fontSize: '0.8rem' }}>
+        <span id={errorId} role="alert" className="error-msg">
           This field is required.
         </span>
       )}

@@ -59,6 +59,7 @@ Rules:
       type: 'text',
       required: true,
       helpText: 'The exact name of your brand as it should appear in all outputs.',
+      group: 'About your brand',
     },
     {
       key: 'hasBrandVoice',
@@ -68,6 +69,7 @@ Rules:
       required: false,
       helpText:
         'Turn this on if you will upload a brand voice or style guide as a knowledge file.',
+      group: 'About your brand',
     },
     {
       key: 'channels',
@@ -77,6 +79,7 @@ Rules:
       default: ['Email', 'Instagram', 'LinkedIn'],
       required: true,
       helpText: 'Select every channel your marketing team actively publishes to.',
+      group: 'Your channels',
     },
     {
       key: 'tone',
@@ -86,6 +89,7 @@ Rules:
       default: 'Professional',
       required: true,
       helpText: 'Pick the single tone that best describes your brand personality.',
+      group: 'Tone & style',
     },
   ],
 

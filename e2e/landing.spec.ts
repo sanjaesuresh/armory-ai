@@ -1,25 +1,49 @@
 import { test, expect } from '@playwright/test';
 
-test('landing shows a one-line explanation, one example, and a single primary Get started button that navigates to the role picker route', async ({
-  page,
-}) => {
+test('landing hero H1 contains the expected copy', async ({ page }) => {
   await page.goto('/');
 
-  // One-line explanation visible in the heading — assert the actual
-  // non-technical copy so a jargon regression would fail this test.
   const heading = page.locator('h1');
   await expect(heading).toBeVisible();
-  await expect(heading).toHaveText(/Pick a ready-made AI setup for your role/i);
+  await expect(heading).toContainText('AI setups that just');
+});
 
-  // One concrete example line
-  const example = page.getByTestId('example-line');
-  await expect(example).toBeVisible();
+test('"Find my setup" primary hero CTA navigates to /start', async ({ page }) => {
+  await page.goto('/');
 
-  // Exactly one primary CTA
-  const ctas = page.getByRole('link', { name: 'Get started' });
-  await expect(ctas).toHaveCount(1);
-
-  // Clicking it navigates to the role picker URL
-  await ctas.click();
+  // Scope to main so we do not accidentally match a nav link with the same text
+  const mainContent = page.locator('main');
+  // The hero CTA appears first; .first() is explicit even though both resolve to /start
+  const findSetup = mainContent.getByRole('link', { name: 'Find my setup' }).first();
+  await expect(findSetup).toBeVisible();
+  await findSetup.click();
   await expect(page).toHaveURL('/start');
+});
+
+test('"Browse all setups" hero CTA navigates to /catalog', async ({ page }) => {
+  await page.goto('/');
+
+  const mainContent = page.locator('main');
+  const browseLink = mainContent.getByRole('link', { name: 'Browse all setups' });
+  await expect(browseLink).toBeVisible();
+  await browseLink.click();
+  await expect(page).toHaveURL('/catalog');
+});
+
+test('role grid renders exactly 7 role links inside the #roles section', async ({ page }) => {
+  await page.goto('/');
+
+  const rolesSection = page.locator('#roles');
+  await expect(rolesSection).toBeVisible();
+
+  // Each of the 7 ROLES links to /catalog?role=<id>
+  const roleLinks = rolesSection.locator('a[href*="/catalog?role="]');
+  await expect(roleLinks).toHaveCount(7);
+});
+
+test('#how and #roles anchor sections exist on the page', async ({ page }) => {
+  await page.goto('/');
+
+  await expect(page.locator('#how')).toBeVisible();
+  await expect(page.locator('#roles')).toBeVisible();
 });

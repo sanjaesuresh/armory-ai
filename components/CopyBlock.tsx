@@ -5,11 +5,13 @@ import { useState } from 'react';
 interface Props {
   label: string;
   content: string;
+  /** When true, removes outer border and border-radius (for use inside BundleTabs). */
+  embedded?: boolean;
 }
 
 type CopyStatus = 'idle' | 'copied' | 'failed';
 
-export default function CopyBlock({ label, content }: Props) {
+export default function CopyBlock({ label, content, embedded = false }: Props) {
   const [status, setStatus] = useState<CopyStatus>('idle');
 
   async function handleCopy() {
@@ -26,8 +28,8 @@ export default function CopyBlock({ label, content }: Props) {
     <div
       data-testid="copy-block"
       style={{
-        border: '1px solid #e5e5e5',
-        borderRadius: '6px',
+        border: embedded ? 'none' : '1px solid #e5e5e5',
+        borderRadius: embedded ? 0 : '6px',
         overflow: 'hidden',
       }}
     >
