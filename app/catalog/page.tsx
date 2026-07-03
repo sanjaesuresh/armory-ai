@@ -12,6 +12,10 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     typeof params.role === 'string' ? params.role : undefined;
   const catParam =
     typeof params.cat === 'string' ? params.cat : undefined;
+  // `undefined` = goals param absent (show chip prompt); `""` = skipped;
+  // `"tag1,tag2"` = committed selection.  Never coerce a missing param to "".
+  const goalsParam =
+    typeof params.goals === 'string' ? params.goals : undefined;
 
   const repo = createCatalogRepository();
   let allSetups: Awaited<ReturnType<typeof repo.getSetups>>;
@@ -61,6 +65,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           allSetups={allSetups}
           initialRole={roleParam}
           initialCat={catParam}
+          initialGoals={goalsParam}
         />
       </div>
     </main>

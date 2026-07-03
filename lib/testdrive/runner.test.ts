@@ -116,12 +116,11 @@ function makeDeps(overrides: Partial<RunnerDeps> = {}): RunnerDeps & {
     meterDataSource: makeMeterDataSource().ds,
     cacheDataSource: makeCacheDataSource().ds,
     catalogDataSource: makeCatalogDataSource(),
-    modelClient,
     now: NOW,
     nowMs: NOW_MS,
     ...overrides,
-    // Allow overriding modelClient specifically
-    ...(overrides.modelClient ? { modelClient: overrides.modelClient as MockModelClient } : { modelClient }),
+    // Use the overridden model client if provided, else the local mock.
+    modelClient: (overrides.modelClient as MockModelClient | undefined) ?? modelClient,
   } as RunnerDeps & { modelClient: MockModelClient };
 }
 

@@ -7,21 +7,34 @@ import { recommend } from '@/lib/catalog/recommender';
 import SetupCard from './SetupCard';
 import EmptyState from './EmptyState';
 import CategoryChips from './CategoryChips';
+import GoalChips from './GoalChips';
 
 interface BrowseSetupsProps {
   allSetups: Setup[];
   initialRole?: string;
   initialCat?: string;
+  /**
+   * undefined  = goals param absent from URL → show chip prompt
+   * ""         = user skipped the chip step   → hide chip prompt
+   * "t1,t2,…"  = committed selection          → hide chip prompt
+   */
+  initialGoals?: string;
 }
 
 export default function BrowseSetups({
   allSetups,
   initialRole,
   initialCat,
+  initialGoals,
 }: BrowseSetupsProps) {
   const searchId = useId();
   const [search, setSearch] = useState('');
   const [activeCat, setActiveCat] = useState(initialCat ?? 'All');
+
+  // Show the goal-chips prompt only when role is set and the user hasn't
+  // committed (or skipped) goal selection yet.  Once goals= is present in the
+  // URL (even empty), this is false and the row is gone.
+  const showGoalChips = !!initialRole && initialGoals === undefined;
 
   // Derive unique categories from the fetched setups (preserving insertion order).
   const categories = useMemo(() => {
@@ -32,11 +45,24 @@ export default function BrowseSetups({
     return ['All', ...Array.from(seen)];
   }, [allSetups]);
 
+  // Parse committed goal-tag ids from the CSV URL param ("" / undefined → none).
+  const goalTagIds = useMemo(
+    () => (initialGoals ? initialGoals.split(',').filter(Boolean) : []),
+    [initialGoals],
+  );
+
   // Run recommender once when a role is supplied.
-  const { topPicks, remainder } = useMemo(() => {
-    if (!initialRole) return { topPicks: [] as Setup[], remainder: allSetups };
-    return recommend(allSetups, { role: initialRole });
-  }, [allSetups, initialRole]);
+  const { topPicks, remainder, whyLabels, fallback } = useMemo(() => {
+    if (!initialRole) {
+      return {
+        topPicks: [] as Setup[],
+        remainder: allSetups,
+        whyLabels: {} as Record<string, string[]>,
+        fallback: false,
+      };
+    }
+    return recommend(allSetups, { role: initialRole, goalTagIds });
+  }, [allSetups, initialRole, goalTagIds]);
 
   /** Returns true when a setup should be visible given current search + chip. */
   function matchesFilter(s: Setup): boolean {
@@ -63,6 +89,9 @@ export default function BrowseSetups({
   if (initialRole && topPicks.length === 0 && activeCat === 'All' && !search.trim()) {
     return (
       <>
+        {showGoalChips && (
+          <GoalChips role={initialRole} cat={initialCat} />
+        )}
         <BrowseHead searchId={searchId} search={search} onSearch={setSearch} />
         <CategoryChips
           categories={categories}
@@ -90,6 +119,10 @@ export default function BrowseSetups({
 
   return (
     <>
+      {showGoalChips && (
+        <GoalChips role={initialRole} cat={initialCat} />
+      )}
+
       <BrowseHead searchId={searchId} search={search} onSearch={setSearch} />
 
       <CategoryChips
@@ -110,13 +143,16 @@ export default function BrowseSetups({
         <EmptyState onReset={resetFilters} />
       ) : (
         <>
-          {/* Recommended section — only when role= is present and topPicks non-empty */}
+          {/* Recommended section — only when role= is present and topPicks non-empty.
+              When the recommender found nothing tailored, this shows the honest
+              popular-setups fallback instead (fallback=true, no why-labels). */}
           {initialRole && filteredTop.length > 0 && (
             <section
-              data-testid="recommended-section"
+              data-testid={fallback ? 'fallback-section' : 'recommended-section'}
               style={{ marginBottom: '32px' }}
             >
               <h2
+                data-testid="recommended-heading"
                 style={{
                   fontSize: '1.15rem',
                   fontWeight: 700,
@@ -124,11 +160,17 @@ export default function BrowseSetups({
                   marginTop: 0,
                 }}
               >
-                Recommended for you
+                {fallback
+                  ? "Nothing tailored yet — here's what's popular"
+                  : 'Recommended for you'}
               </h2>
               <div className="setup-grid">
                 {filteredTop.map((setup) => (
-                  <SetupCard key={setup.slug} setup={setup} />
+                  <SetupCard
+                    key={setup.slug}
+                    setup={setup}
+                    whyLabels={whyLabels[setup.id]}
+                  />
                 ))}
               </div>
             </section>

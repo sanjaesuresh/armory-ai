@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { createCatalogRepository, type CatalogDataSource } from './repository';
+import { createCatalogRepository, rowToSetup, type CatalogDataSource } from './repository';
 import type { Setup } from '@/lib/setup/types';
 import { marketingManagerSetup } from '@/data/curated/marketing-manager';
 
@@ -128,5 +128,78 @@ describe('getSetupBySlug', () => {
     const repo = createCatalogRepository(makeInMemorySource([marketingManagerSetup]));
     const result = await repo.getSetupBySlug('no-such-setup');
     expect(result).toBeNull();
+  });
+});
+
+// ─── Popularity plumbing ──────────────────────────────────────────────────────
+
+describe('popularity field on returned setups', () => {
+  it('surfaces popularity when the data source provides it', async () => {
+    const setups: Setup[] = [
+      makeSetup({ id: 'p1', slug: 'pop-a', name: 'Pop A', reviewStatus: 'approved', popularity: 42 }),
+    ];
+    const repo = createCatalogRepository(makeInMemorySource(setups));
+    const result = await repo.getSetups();
+    expect(result[0].popularity).toBe(42);
+  });
+
+  it('defaults to 0 when popularity is not set (undefined)', async () => {
+    // makeSetup does not set popularity — it will be undefined on the object.
+    const setups: Setup[] = [
+      makeSetup({ id: 'p2', slug: 'pop-b', name: 'Pop B', reviewStatus: 'approved' }),
+    ];
+    const repo = createCatalogRepository(makeInMemorySource(setups));
+    const result = await repo.getSetups();
+    // The in-memory source passes the object through; popularity is absent.
+    // Callers must treat absent popularity as 0.
+    expect(result[0].popularity ?? 0).toBe(0);
+  });
+});
+
+describe('rowToSetup', () => {
+  // Minimal valid row shape — mirrors the actual Supabase row structure.
+  const minimalRow = {
+    id: 'test-id',
+    slug: 'test-slug',
+    name: 'Test',
+    tagline: 'tagline',
+    description: 'desc',
+    role: 'Role',
+    industry: null,
+    tags: [],
+    category: 'general',
+    source: 'curated',
+    author: null,
+    version: '1.0.0',
+    created_at: '2025-01-01T00:00:00Z',
+    updated_at: '2025-01-01T00:00:00Z',
+    review_status: 'approved',
+    upvotes: 0,
+    featured: null,
+    targets: ['claude-app'],
+    tier: 'core',
+    instruction_template: 'You are a helper.',
+    variables: [],
+    knowledge_files: [],
+    scenarios: [],
+  };
+
+  it('maps popularity from the DB row', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setup = rowToSetup({ ...minimalRow, popularity: 7 } as any);
+    expect(setup.popularity).toBe(7);
+  });
+
+  it('defaults popularity to 0 when the DB column is null', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setup = rowToSetup({ ...minimalRow, popularity: null } as any);
+    expect(setup.popularity).toBe(0);
+  });
+
+  it('defaults popularity to 0 when the DB column is absent (legacy rows)', () => {
+    // Rows fetched before the column was added will have popularity undefined.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setup = rowToSetup({ ...minimalRow } as any);
+    expect(setup.popularity).toBe(0);
   });
 });

@@ -11,6 +11,14 @@ import { recommend } from './recommender';
 import type { Setup } from '@/lib/setup/types';
 import { marketingManagerSetup } from '@/data/curated/marketing-manager';
 
+/**
+ * A fixed "now" injected into recommend() calls so freshness scoring is
+ * deterministic regardless of wall-clock time.  All fixtures use
+ * updatedAt='2025-01-01', which is well beyond the 90-day freshness window
+ * relative to this date, so freshness contributes 0 to every score.
+ */
+const FIXED_NOW = new Date('2026-07-01').getTime();
+
 // ─── Inline fixture factory ───────────────────────────────────────────────────
 
 function makeSetup(overrides: Partial<Setup> & { id: string; name: string; role: string }): Setup {
@@ -193,5 +201,208 @@ describe('recommend', () => {
     const { topPicks, remainder } = recommend([otherSetup], { role: 'marketing-manager' });
     expect(topPicks).toHaveLength(0);
     expect(remainder).toContain(otherSetup);
+  });
+});
+
+// ─── Phase 3: scored ranking ──────────────────────────────────────────────────
+
+describe('recommend (scored internals)', () => {
+  it('orders topPicks by score under DEFAULT_WEIGHTS for a constructed fixture set', () => {
+    // sA: exact role match → exactRole = 10
+    // sB: related role match (sales-rep is in RELATED_ROLES[marketing-manager]) → relatedRole = 4
+    // sC: no role relation (Recruiter is not related to marketing-manager) → score = 0
+    const sA = makeSetup({ id: 'score-a', name: 'Exact', role: 'Marketing Manager', featured: null });
+    const sB = makeSetup({ id: 'score-b', name: 'Related', role: 'Sales Rep', featured: null });
+    const sC = makeSetup({ id: 'score-c', name: 'Unrelated', role: 'Recruiter', featured: null });
+
+    const { topPicks, remainder, fallback } = recommend([sA, sB, sC], {
+      role: 'marketing-manager',
+      now: FIXED_NOW,
+    });
+
+    // bestScore = 10 >= MIN_SCORE_THRESHOLD (3) → no fallback
+    expect(fallback).toBe(false);
+    // sA (score=10) ranks first, sB (score=4) ranks second
+    expect(topPicks[0].id).toBe('score-a');
+    expect(topPicks[1].id).toBe('score-b');
+    // sC has score=0 — not in topPicks (only score > 0 setups appear as tailored picks)
+    expect(topPicks.map((s) => s.id)).not.toContain('score-c');
+    expect(remainder.map((s) => s.id)).toContain('score-c');
+  });
+
+  it('goal-tag overlap visibly reorders results', () => {
+    // Both are Marketing Manager setups (equal role score = 10).
+    // noTags has featured=1 — it wins the featured tie-break without goal tags.
+    // withTags has featured=2 but matches both goal tags (+1.5 * 2 = 3 pts extra).
+    const noTags = makeSetup({
+      id: 'goal-no-tags',
+      name: 'No Tags',
+      role: 'Marketing Manager',
+      featured: 1,
+      tags: [],
+    });
+    const withTags = makeSetup({
+      id: 'goal-with-tags',
+      name: 'With Tags',
+      role: 'Marketing Manager',
+      featured: 2,
+      tags: ['write-emails', 'social-media'],
+    });
+
+    // Without goal tags: both score 10; noTags (featured=1) wins tie-break
+    const withoutGoals = recommend([noTags, withTags], {
+      role: 'marketing-manager',
+      now: FIXED_NOW,
+    });
+    expect(withoutGoals.topPicks[0].id).toBe('goal-no-tags');
+    expect(withoutGoals.topPicks[1].id).toBe('goal-with-tags');
+
+    // With goal tags matching withTags: withTags scores 10 + 3 = 13 vs noTags = 10
+    const withGoals = recommend([noTags, withTags], {
+      role: 'marketing-manager',
+      goalTagIds: ['write-emails', 'social-media'],
+      now: FIXED_NOW,
+    });
+    expect(withGoals.topPicks[0].id).toBe('goal-with-tags');
+    expect(withGoals.topPicks[1].id).toBe('goal-no-tags');
+  });
+
+  it('below-threshold top score triggers fallback=true with popular setups and no why-labels', () => {
+    // Both setups are Recruiter — not related to marketing-manager.
+    // popular has popularity=10:
+    //   score ≈ popularityMultiplier(1) * log1p(10) ≈ 2.40  < MIN_SCORE_THRESHOLD(3)
+    // unpopular has no popularity → score = 0
+    // bestScore ≈ 2.40 < 3 → fallback fires
+    const popular = makeSetup({
+      id: 'fallback-popular',
+      name: 'Popular One',
+      role: 'Recruiter',
+      featured: null,
+      popularity: 10,
+    });
+    const unpopular = makeSetup({
+      id: 'fallback-unpopular',
+      name: 'Unpopular One',
+      role: 'Recruiter',
+      featured: null,
+      // popularity absent → treated as 0
+    });
+
+    const result = recommend([popular, unpopular], {
+      role: 'marketing-manager',
+      now: FIXED_NOW,
+    });
+
+    expect(result.fallback).toBe(true);
+    // topPicks = setups with real popularity (> 0) — only popular qualifies
+    expect(result.topPicks).toContain(popular);
+    expect(result.topPicks).not.toContain(unpopular);
+    // No labels in fallback mode — nothing honest to claim
+    expect(result.whyLabels).toEqual({});
+    // unpopular is still accessible in remainder
+    expect(result.remainder).toContain(unpopular);
+  });
+
+  it('target-incompatible setups are filtered out (not merely ranked lower)', () => {
+    const claudeSetup = makeSetup({
+      id: 'target-claude',
+      name: 'Claude Setup',
+      role: 'Marketing Manager',
+      featured: 1,
+      targets: ['claude-app'],
+    });
+    const gptSetup = makeSetup({
+      id: 'target-gpt',
+      name: 'GPT Setup',
+      role: 'Marketing Manager',
+      featured: 2,
+      targets: ['chatgpt'],
+    });
+
+    const result = recommend([claudeSetup, gptSetup], {
+      role: 'marketing-manager',
+      target: 'claude-app',
+      now: FIXED_NOW,
+    });
+
+    // claudeSetup is compatible → in topPicks
+    expect(result.topPicks).toContain(claudeSetup);
+    // gptSetup is incompatible → absent from BOTH topPicks and remainder
+    expect(result.topPicks).not.toContain(gptSetup);
+    expect(result.remainder).not.toContain(gptSetup);
+  });
+
+  it('existing Phase 1 guarantees hold: at most 5 topPicks and deterministic tie-break by featured-then-name', () => {
+    // Seven Marketing Manager setups with explicit featured values to assert ordering.
+    const setups = [1, 2, 3, 4, 5, 6, 7].map((n) =>
+      makeSetup({
+        id: `phase1-${n}`,
+        name: `Setup ${n}`,
+        role: 'Marketing Manager',
+        featured: n,
+      }),
+    );
+
+    const first = recommend(setups, { role: 'marketing-manager', now: FIXED_NOW });
+    const second = recommend(setups, { role: 'marketing-manager', now: FIXED_NOW });
+
+    // At most 5
+    expect(first.topPicks.length).toBeLessThanOrEqual(5);
+    expect(first.topPicks.length).toBe(5);
+
+    // Deterministic: same inputs, same output
+    expect(first.topPicks.map((s) => s.id)).toEqual(second.topPicks.map((s) => s.id));
+    expect(first.remainder.map((s) => s.id)).toEqual(second.remainder.map((s) => s.id));
+
+    // Tie-break: all scores equal (exactRole=10), so featured ascending determines order
+    expect(first.topPicks.map((s) => s.id)).toEqual([
+      'phase1-1',
+      'phase1-2',
+      'phase1-3',
+      'phase1-4',
+      'phase1-5',
+    ]);
+  });
+
+  it('whyLabels are honest — exact role match earns a label; tag-only topPick earns none', () => {
+    // roleMatch: Marketing Manager (exactRole = 10, no tags)
+    const roleMatch = makeSetup({
+      id: 'why-role-match',
+      name: 'Role Match',
+      role: 'Marketing Manager',
+      featured: null,
+      tags: [],
+    });
+
+    // tagOnly: Customer Support (not related to marketing-manager, score = 0 + tag-overlap = 3.0)
+    // 'customer-support' is NOT in RELATED_ROLES['marketing-manager'], so no role credit.
+    // Two shared goal tags × tagCredit(1.5) = 3.0 ≥ MIN_SCORE_THRESHOLD — so no fallback.
+    const tagOnly = makeSetup({
+      id: 'why-tag-only',
+      name: 'Tag Only',
+      role: 'Customer Support',
+      featured: 1,
+      tags: ['write-emails', 'social-media'],
+    });
+
+    const result = recommend([roleMatch, tagOnly], {
+      role: 'marketing-manager',
+      goalTagIds: ['write-emails', 'social-media'],
+      now: FIXED_NOW,
+    });
+
+    // roleMatch: exactRole(10) → total 10; tagOnly: tag-overlap(3) → total 3
+    // bestScore = 10 ≥ 3 → no fallback
+    expect(result.fallback).toBe(false);
+    expect(result.topPicks).toHaveLength(2);
+    expect(result.topPicks[0].id).toBe('why-role-match'); // higher score
+    expect(result.topPicks[1].id).toBe('why-tag-only');
+
+    // roleMatch carries 'role-exact' reason → 'Matches your role' label
+    expect(result.whyLabels['why-role-match']).toEqual(['Matches your role']);
+
+    // tagOnly carries only 'tag-overlap:2' reason — tags are intentionally not
+    // surfaced as label text (buildWhyLabels skips them) → honest empty array
+    expect(result.whyLabels['why-tag-only']).toEqual([]);
   });
 });

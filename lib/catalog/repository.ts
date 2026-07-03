@@ -34,7 +34,7 @@ export interface CatalogDataSource {
 
 // ─── Supabase row type ───────────────────────────────────────────────────────
 
-interface SetupRow {
+export interface SetupRow {
   id: string;
   slug: string;
   name: string;
@@ -52,6 +52,8 @@ interface SetupRow {
   review_status: string;
   upvotes: number;
   featured: number | null;
+  /** Nullable: rows that pre-date the popularity column return null. */
+  popularity: number | null;
   targets: string[];
   tier: string;
   instruction_template: string;
@@ -60,7 +62,8 @@ interface SetupRow {
   scenarios: unknown;
 }
 
-function rowToSetup(row: SetupRow): Setup {
+/** Exported for unit testing the DB-row → Setup mapping. */
+export function rowToSetup(row: SetupRow): Setup {
   return {
     id: row.id,
     slug: row.slug,
@@ -79,6 +82,8 @@ function rowToSetup(row: SetupRow): Setup {
     reviewStatus: row.review_status as Setup['reviewStatus'],
     upvotes: row.upvotes,
     featured: row.featured,
+    // Default 0 for rows that pre-date the popularity column (null or absent).
+    popularity: row.popularity ?? 0,
     targets: row.targets as Setup['targets'],
     tier: row.tier as Setup['tier'],
     instructionTemplate: row.instruction_template,

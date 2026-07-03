@@ -349,6 +349,7 @@ img, svg { vertical-align: middle; }
   border-color: var(--hairline-strong);
 }
 .setup-card h3     { margin: 4px 0 0; font-size: 1.06rem; }
+.setup-card .why-label { margin: 4px 0 0; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em; color: var(--iris-deep); }
 .setup-card .desc  { color: var(--ink-soft); font-size: 0.9rem; margin: 0; flex: 1; }
 .setup-card .tags  { display: flex; gap: 6px; flex-wrap: wrap; }
 .setup-card .meta  { display: flex; align-items: center; gap: 12px; font-size: 0.82rem; color: var(--ink-soft); font-weight: 600; }
@@ -424,6 +425,16 @@ img, svg { vertical-align: middle; }
 .search-bar svg { color: var(--muted); flex: none; }
 .filter-row  { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
 .result-count { font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; }
+
+/* ---- goal chips ------------------------------------------- */
+/* Shown after role selection; prompt is optional and never blocks results. */
+.goal-chips {
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--hairline);
+}
+/* Action row: "See setups" iris button + "Skip" ghost button */
+.goal-chips-actions { display: flex; gap: 10px; align-items: center; }
 
 /* ---- setup detail ----------------------------------------- */
 

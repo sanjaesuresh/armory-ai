@@ -95,6 +95,13 @@ export interface Setup {
   reviewStatus: 'draft' | 'pending' | 'approved' | 'rejected';
   upvotes: number;
   featured: number | null;
+  /**
+   * Nightly-refreshed count of 'done' export events in the trailing 30 days.
+   * Written by scripts/refresh-popularity.ts. Optional so existing fixtures
+   * and community-submitted setups remain valid before the column is populated;
+   * callers should treat absent values as 0.
+   */
+  popularity?: number;
   targets: ExportTarget[];
   tier: 'core' | 'advanced';
   /**

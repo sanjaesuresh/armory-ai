@@ -18,6 +18,29 @@ test('with a role param, recommended setups appear first', async ({ page }) => {
   ).toBeVisible();
 });
 
+test('a role-matched recommended card shows an honest why label', async ({ page }) => {
+  await page.goto('/catalog?role=marketing-manager');
+
+  // marketing-manager role-matches deterministically → "Matches your role"
+  // (no popularity data needed). The label takes the mock's rating slot.
+  const card = page
+    .getByTestId('recommended-section')
+    .getByTestId('setup-card-marketing-manager');
+  await expect(card.getByTestId('card-why-label')).toContainText('Matches your role');
+});
+
+test('the browse-popular path (no role) shows Popular setups without a role prompt or why-labels', async ({
+  page,
+}) => {
+  await page.goto('/catalog');
+
+  await expect(page.getByTestId('setup-card-marketing-manager')).toBeVisible();
+  // No recommended/fallback section and no why-labels when no role is chosen.
+  await expect(page.getByTestId('recommended-section')).toHaveCount(0);
+  await expect(page.getByTestId('fallback-section')).toHaveCount(0);
+  await expect(page.getByTestId('card-why-label')).toHaveCount(0);
+});
+
 test('each setup card shows name, tagline, and links to its detail page', async ({
   page,
 }) => {

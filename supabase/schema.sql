@@ -19,6 +19,9 @@ create table if not exists setups (
   review_status       text not null,
   upvotes             integer not null default 0,
   featured            integer,
+  -- Nightly-refreshed count of 'done' export events in the trailing 30 days.
+  -- Written by scripts/refresh-popularity.ts. Existing rows default to 0.
+  popularity          integer not null default 0,
   targets             jsonb not null default '[]',
   tier                text not null,
   instruction_template text not null,

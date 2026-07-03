@@ -4,9 +4,14 @@ import { getCategoryTint, getSetupIcon } from '@/lib/catalog/categoryUtils';
 
 interface SetupCardProps {
   setup: Setup;
+  /**
+   * Honest "why" labels for recommended cards (e.g. "Matches your role").
+   * Empty/undefined renders nothing — never a fabricated rating or count.
+   */
+  whyLabels?: string[];
 }
 
-export default function SetupCard({ setup }: SetupCardProps) {
+export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
   const tint = getCategoryTint(setup.category);
   const icon = getSetupIcon(setup.role, setup.category);
 
@@ -41,6 +46,12 @@ export default function SetupCard({ setup }: SetupCardProps) {
       </div>
 
       <h3 data-testid="card-name">{setup.name}</h3>
+
+      {whyLabels && whyLabels.length > 0 && (
+        <p className="why-label" data-testid="card-why-label">
+          {whyLabels.join(' · ')}
+        </p>
+      )}
 
       <p className="desc" data-testid="card-tagline">
         {setup.tagline}

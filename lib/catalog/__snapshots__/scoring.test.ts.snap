@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`scoreSetup > snapshot: full fixture ordering under default weights 1`] = `
+[
+  "exact-fresh",
+  "exact-stale",
+  "related-pop",
+  "no-match",
+]
+`;
