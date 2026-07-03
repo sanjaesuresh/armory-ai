@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { compileSetup } from '@/lib/setup/compiler';
 import { toClaudeAppExport } from '@/lib/export/claudeApp';
 import type { ClaudeAppExport } from '@/lib/export/claudeApp';
+import { toChatGptExport, type ChatGptBranch } from '@/lib/export/chatGpt';
 import { validateCompiledForTarget } from '@/lib/setup/validator';
-import type { CompiledSetup, Setup, Answers } from '@/lib/setup/types';
+import type { CompiledSetup, Setup, Answers, ExportTarget } from '@/lib/setup/types';
 
 // ─── Phase type ───────────────────────────────────────────────────────────────
 
@@ -13,9 +14,9 @@ export type Phase =
   | { kind: 'loading' }
   | { kind: 'invalid' }
   | { kind: 'compiling' }
-  | { kind: 'overlimit'; slug: string; errors: Array<{ code: string; message: string; path: string }> }
+  | { kind: 'overlimit'; slug: string; target: ExportTarget; errors: Array<{ code: string; message: string; path: string }> }
   | { kind: 'error'; message: string }
-  | { kind: 'ready'; slug: string; blocks: ClaudeAppExport['blocks']; answers: Record<string, unknown> };
+  | { kind: 'ready'; slug: string; target: ExportTarget; blocks: ClaudeAppExport['blocks']; answers: Record<string, unknown> };
 
 // ─── Plan choice persistence ──────────────────────────────────────────────────
 
@@ -38,6 +39,28 @@ export function savePlanChoice(choice: 'pro' | 'free' | null): void {
   }
 }
 
+/**
+ * Persists the chosen export target and (for ChatGPT) the builder branch into
+ * the armory-export-state entry so InstallView renders the matching walkthrough.
+ * No-ops silently if the session entry is absent or unparseable.
+ */
+export function saveExportChoice(
+  target: ExportTarget,
+  chatGptBranch: ChatGptBranch,
+): void {
+  try {
+    const raw = sessionStorage.getItem('armory-export-state');
+    if (!raw) return;
+    const state = JSON.parse(raw) as Record<string, unknown>;
+    sessionStorage.setItem(
+      'armory-export-state',
+      JSON.stringify({ ...state, target, chatGptBranch }),
+    );
+  } catch {
+    // ignore — analytics must never disrupt the export flow
+  }
+}
+
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 /**
@@ -49,7 +72,11 @@ export function savePlanChoice(choice: 'pro' | 'free' | null): void {
  * (answers or attachment content) leaves the browser from the export page.
  * Attachment content is injected client-side.
  */
-export function useExportSetup(setup: Setup): Phase {
+export function useExportSetup(
+  setup: Setup,
+  target: ExportTarget = 'claude-app',
+  chatGptBranch: ChatGptBranch = 'custom-gpt',
+): Phase {
   const [phase, setPhase] = useState<Phase>({ kind: 'loading' });
 
   useEffect(() => {
@@ -111,10 +138,10 @@ export function useExportSetup(setup: Setup): Phase {
       })),
     };
 
-    // 5. Client-side validation against target limits
-    const validation = validateCompiledForTarget(compiledWithInjected, 'claude-app');
+    // 5. Client-side validation against the chosen target's limits
+    const validation = validateCompiledForTarget(compiledWithInjected, target);
     if (!validation.valid) {
-      setPhase({ kind: 'overlimit', slug, errors: validation.errors });
+      setPhase({ kind: 'overlimit', slug, target, errors: validation.errors });
       return;
     }
 
@@ -126,10 +153,13 @@ export function useExportSetup(setup: Setup): Phase {
         (f) => f.content.trim() !== '',
       ),
     };
-    const exportData = toClaudeAppExport(compiledForExport);
+    const blocks =
+      target === 'chatgpt'
+        ? toChatGptExport(compiledForExport, chatGptBranch).blocks
+        : toClaudeAppExport(compiledForExport).blocks;
 
-    setPhase({ kind: 'ready', slug, blocks: exportData.blocks, answers });
-  }, [setup]);
+    setPhase({ kind: 'ready', slug, target, blocks, answers });
+  }, [setup, target, chatGptBranch]);
 
   return phase;
 }

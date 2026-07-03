@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { createCatalogRepository } from '@/lib/catalog/repository';
+import { isTestDriveLaunched } from '@/lib/testdrive/flags';
 import CustomizeView from '@/components/CustomizeView';
 import Link from 'next/link';
 
@@ -55,10 +56,16 @@ export default async function CustomizePage({ params }: Props) {
     notFound();
   }
 
+  // Render-gate on the pure env flag (no per-render DB read). The runtime
+  // config-row kill switch is enforced server-side by the runner before any
+  // model spend — a kill flips runs to the feature-off state, it does not need
+  // to hide the panel on every page load.
+  const testDriveEnabled = isTestDriveLaunched();
+
   return (
     <main className="section-tight">
       <div className="wrap">
-        <CustomizeView setup={setup} />
+        <CustomizeView setup={setup} testDriveEnabled={testDriveEnabled} />
       </div>
     </main>
   );

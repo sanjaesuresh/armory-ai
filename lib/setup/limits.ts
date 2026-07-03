@@ -39,3 +39,42 @@ export const CLAUDE_APP_MAX_FILES = 20;
  * 30 MB = 30 × 1 024 × 1 024 = 31 457 280 bytes.
  */
 export const CLAUDE_APP_MAX_FILE_BYTES = 30 * 1_024 * 1_024; // 31 457 280
+
+// ─── ChatGPT (OpenAI) target limits ───────────────────────────────────────────
+//
+// Sources checked 2026-07-03: OpenAI Help Center pages for Custom GPTs and
+// Custom Instructions. Official published hard numbers are sparse and shift, so
+// every value below is a deliberately conservative floor marked ASSUMPTION —
+// re-verify against OpenAI's docs before relaxing any of them.
+
+/**
+ * Maximum characters allowed in a Custom GPT's Instructions field.
+ *
+ * ASSUMPTION — verify against OpenAI docs (checked 2026-07-03).
+ * The Custom GPT builder's Instructions field is widely reported at ~8 000
+ * characters; the separate ChatGPT "Custom Instructions" boxes are ~1 500 chars
+ * each. 8 000 is used as the target limit for the recommended Custom GPT path
+ * (the no-builder path is a fallback that appends knowledge inline and is honest
+ * about the trade-off). Conservative floor; revisit when OpenAI publishes an
+ * explicit cap.
+ */
+export const CHATGPT_INSTRUCTION_MAX_CHARS = 8_000;
+
+/**
+ * Maximum number of knowledge files on a Custom GPT.
+ *
+ * ASSUMPTION — verify against OpenAI docs (checked 2026-07-03).
+ * Custom GPTs are commonly documented at 20 knowledge files. 20 is used as a
+ * conservative practical floor.
+ */
+export const CHATGPT_MAX_FILES = 20;
+
+/**
+ * Maximum size in bytes of a single Custom GPT knowledge file.
+ *
+ * ASSUMPTION — verify against OpenAI docs (checked 2026-07-03).
+ * OpenAI's per-file ceiling for Custom GPT knowledge is higher than this, but a
+ * 30 MB floor (matching the verified Claude value) is a safe conservative bound
+ * until an explicit number is confirmed.
+ */
+export const CHATGPT_MAX_FILE_BYTES = 30 * 1_024 * 1_024; // 31 457 280

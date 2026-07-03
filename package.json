@@ -10,7 +10,8 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "seed": "npx tsx scripts/seed-from-curated.ts",
-    "report": "npx tsx --env-file=.env.local scripts/export-report.ts"
+    "report": "npx tsx --env-file=.env.local scripts/export-report.ts",
+    "eval": "npx tsx --env-file=.env.local scripts/eval-setups.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",

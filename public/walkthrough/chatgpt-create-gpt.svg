@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" width="480" height="300" role="img" aria-label="Start a new GPT (placeholder)">
+  <rect width="480" height="300" rx="12" fill="#F4F1EA"/>
+  <rect x="16" y="16" width="448" height="268" rx="8" fill="#FFFFFF" stroke="#E4DFD3"/>
+  <text x="240" y="140" text-anchor="middle" font-family="Georgia, serif" font-size="17" fill="#2B2A26">Start a new GPT</text>
+  <text x="240" y="168" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#9A9382">ChatGPT walkthrough — placeholder screenshot</text>
+</svg>

@@ -15,6 +15,10 @@ interface UnderstandItem {
 interface Props {
   setup: Setup;
   answers: Answers;
+  /** When true, show the flag-gated "Test-drive with your answers" button. */
+  testDriveEnabled?: boolean;
+  /** Called with the first scenario's id when the test-drive button is clicked. */
+  onTestDrive?: (scenarioId: string) => void;
 }
 
 function computeUnderstandItems(setup: Setup, answers: Answers): UnderstandItem[] {
@@ -35,7 +39,7 @@ function computeUnderstandItems(setup: Setup, answers: Answers): UnderstandItem[
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export default function PreviewPanel({ setup, answers }: Props) {
+export default function PreviewPanel({ setup, answers, testDriveEnabled = false, onTestDrive }: Props) {
   const [instructionsOpen, setInstructionsOpen] = useState(false);
   const prevCompiledNull = useRef<boolean | null>(null);
 
@@ -133,6 +137,17 @@ export default function PreviewPanel({ setup, answers }: Props) {
               {firstScenario.expectedBehavior}
             </p>
           </div>
+          {testDriveEnabled && onTestDrive && (
+            <button
+              type="button"
+              className="btn btn-outline btn-sm"
+              data-testid="test-drive-preview-btn"
+              onClick={() => onTestDrive(firstScenario.id)}
+              style={{ marginTop: '14px' }}
+            >
+              Test-drive with your answers
+            </button>
+          )}
         </div>
       )}
 

@@ -7,7 +7,8 @@ import Link from 'next/link';
 import WalkRail, { type RailStep } from './WalkRail';
 import WalkPanel, { type PanelStep } from './WalkPanel';
 import { marketingManagerSetup } from '@/data/curated/marketing-manager';
-import type { Setup } from '@/lib/setup/types';
+import type { Setup, ExportTarget } from '@/lib/setup/types';
+import type { ChatGptBranch } from '@/lib/export/chatGpt';
 
 // ─── Setup lookup (expand as more curated setups ship) ────────────────────────
 
@@ -101,6 +102,126 @@ function buildSteps(
   return steps;
 }
 
+/** ChatGPT walkthrough steps, matching the toChatGptExport adapter. */
+function buildChatGptSteps(
+  brandName: string,
+  branch: ChatGptBranch,
+  hasKnowledgeFiles: boolean,
+  starterFileName: string,
+): PanelStep[] {
+  if (branch === 'no-builder') {
+    return [
+      {
+        label: 'Open Custom Instructions',
+        heading: 'Open Custom Instructions',
+        body: (
+          <>
+            In ChatGPT, click your name and choose{' '}
+            <strong style={{ color: 'var(--ink)' }}>Customize ChatGPT</strong> to open the Custom
+            Instructions panel.
+          </>
+        ) as ReactNode,
+        imageKey: 'chatgpt-open-settings',
+      },
+      {
+        label: 'Paste the instructions',
+        heading: 'Paste the instructions',
+        body: (
+          <>
+            Paste the <strong style={{ color: 'var(--ink)' }}>Custom instructions</strong> block
+            from your export page into{' '}
+            <strong style={{ color: 'var(--ink)' }}>How would you like ChatGPT to respond?</strong>{' '}
+            and save. Any knowledge is included inline in that block.
+          </>
+        ) as ReactNode,
+        imageKey: 'chatgpt-custom-instructions',
+      },
+      {
+        label: "You're set up",
+        heading: "You're set up",
+        body: (
+          <>
+            Start a new chat — ChatGPT now works as your {brandName} marketing manager across all
+            of your conversations.
+          </>
+        ) as ReactNode,
+        imageKey: 'chatgpt-ci-ready',
+      },
+    ];
+  }
+
+  // 'custom-gpt'
+  const steps: PanelStep[] = [
+    {
+      label: 'Start a new GPT',
+      heading: 'Start a new GPT',
+      body: (
+        <>
+          Open ChatGPT, click your name, then{' '}
+          <strong style={{ color: 'var(--ink)' }}>My GPTs</strong> →{' '}
+          <strong style={{ color: 'var(--ink)' }}>Create a GPT</strong>. Switch to the{' '}
+          <strong style={{ color: 'var(--ink)' }}>Configure</strong> tab.
+        </>
+      ) as ReactNode,
+      imageKey: 'chatgpt-create-gpt',
+    },
+    {
+      label: 'Name your GPT',
+      heading: 'Name your GPT',
+      body: (
+        <>
+          Give it a name you&apos;ll recognise — we suggest{' '}
+          <strong style={{ color: 'var(--ink)' }}>{brandName} — Marketing Manager</strong>. Add a
+          short description if you like.
+        </>
+      ) as ReactNode,
+      imageKey: 'chatgpt-name-gpt',
+    },
+    {
+      label: 'Paste the instructions',
+      heading: 'Paste the instructions',
+      body: (
+        <>
+          In the <strong style={{ color: 'var(--ink)' }}>Instructions</strong> box on the Configure
+          tab, paste the <strong style={{ color: 'var(--ink)' }}>Instructions</strong> block from
+          your export page.
+        </>
+      ) as ReactNode,
+      imageKey: 'chatgpt-paste-instructions',
+    },
+  ];
+
+  if (hasKnowledgeFiles) {
+    steps.push({
+      label: 'Upload knowledge files',
+      heading: 'Upload knowledge files',
+      body: (
+        <>
+          Under <strong style={{ color: 'var(--ink)' }}>Knowledge</strong>, click{' '}
+          <strong style={{ color: 'var(--ink)' }}>Upload files</strong> and add{' '}
+          <strong style={{ color: 'var(--ink)' }}>{starterFileName}</strong> — and your own voice
+          guide if you attached one.
+        </>
+      ) as ReactNode,
+      imageKey: 'chatgpt-upload-knowledge',
+    });
+  }
+
+  steps.push({
+    label: 'Your GPT is ready',
+    heading: 'Your GPT is ready',
+    body: (
+      <>
+        Click <strong style={{ color: 'var(--ink)' }}>Create</strong>, then start a chat with your
+        new GPT — ChatGPT now works as your {brandName} marketing manager.
+      </>
+    ) as ReactNode,
+    imageKey: 'chatgpt-gpt-ready',
+  });
+
+  return steps;
+}
+
 // ─── Load state ───────────────────────────────────────────────────────────────
 
 type LoadState = 'loading' | 'missing' | 'ready';
@@ -113,6 +234,8 @@ export default function InstallView() {
   const [brandName, setBrandName] = useState('');
   const [hasKnowledgeFiles, setHasKnowledgeFiles] = useState(true);
   const [starterFileName, setStarterFileName] = useState('knowledge-file.md');
+  const [target, setTarget] = useState<ExportTarget>('claude-app');
+  const [chatGptBranch, setChatGptBranch] = useState<ChatGptBranch>('custom-gpt');
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Heading ref — focus is moved here on step change for assistive tech.
@@ -143,6 +266,8 @@ export default function InstallView() {
       answers?: Record<string, unknown>;
       attachments?: Record<string, string>;
       planChoice?: unknown;
+      target?: unknown;
+      chatGptBranch?: unknown;
     };
     try {
       parsed = JSON.parse(raw) as typeof parsed;
@@ -151,11 +276,25 @@ export default function InstallView() {
       return;
     }
 
-    const { slug: parsedSlug, answers = {}, planChoice: parsedPlanChoice } = parsed;
+    const {
+      slug: parsedSlug,
+      answers = {},
+      planChoice: parsedPlanChoice,
+      target: parsedTarget,
+      chatGptBranch: parsedBranch,
+    } = parsed;
 
     // Capture plan choice for the done-event analytics.
     if (parsedPlanChoice === 'pro' || parsedPlanChoice === 'free') {
       planChoiceRef.current = parsedPlanChoice;
+    }
+
+    // Capture the export target + ChatGPT builder branch (default claude-app).
+    if (parsedTarget === 'chatgpt') {
+      setTarget('chatgpt');
+      if (parsedBranch === 'no-builder' || parsedBranch === 'custom-gpt') {
+        setChatGptBranch(parsedBranch);
+      }
     }
 
     if (typeof parsedSlug !== 'string' || !parsedSlug) {
@@ -190,8 +329,10 @@ export default function InstallView() {
   // ── Build steps (derived from state, never stored in state) ──────────────
   const steps = useMemo<PanelStep[]>(() => {
     if (loadState !== 'ready') return [];
-    return buildSteps(brandName, hasKnowledgeFiles, starterFileName);
-  }, [loadState, brandName, hasKnowledgeFiles, starterFileName]);
+    return target === 'chatgpt'
+      ? buildChatGptSteps(brandName, chatGptBranch, hasKnowledgeFiles, starterFileName)
+      : buildSteps(brandName, hasKnowledgeFiles, starterFileName);
+  }, [loadState, brandName, hasKnowledgeFiles, starterFileName, target, chatGptBranch]);
 
   const railSteps = useMemo<RailStep[]>(
     () => steps.map((s) => ({ label: s.label })),
@@ -208,11 +349,11 @@ export default function InstallView() {
       void recordExportEvent({
         kind: 'done',
         setupSlug: slug,
-        target: 'claude-app',
-        branch: planChoiceRef.current,
+        target,
+        branch: target === 'chatgpt' ? null : planChoiceRef.current,
       });
     }
-  }, [currentIndex, loadState, slug, steps.length]);
+  }, [currentIndex, loadState, slug, steps.length, target]);
 
   // ── Navigation callbacks ─────────────────────────────────────────────────
   const goNext = useCallback(() => {
@@ -344,7 +485,7 @@ export default function InstallView() {
               Back to export
             </Link>
             <h1 style={{ fontSize: 'clamp(1.8rem,3.4vw,2.4rem)', marginBottom: '4px' }}>
-              Install in Claude, step by step
+              Install in {target === 'chatgpt' ? 'ChatGPT' : 'Claude'}, step by step
             </h1>
             <p className="muted" style={{ margin: 0 }}>
               {stepWord} short steps, about two minutes. Keep the export page handy — you'll paste
@@ -391,25 +532,48 @@ export default function InstallView() {
         {/* ── Tips ───────────────────────────────────────────────────────── */}
         <section id="tips" style={{ marginTop: '44px' }}>
           <h2 style={{ fontSize: '1.2rem' }}>Tips if you get stuck</h2>
-          <ul className="understand-list" style={{ maxWidth: '46em' }}>
-            <li>
-              Can't find Projects in the sidebar? You're probably on the free plan — head back to
-              the <Link href="/export">export page</Link> and use the free-plan path instead.
-            </li>
-            <li>
-              No "Add to knowledge" button? Skip the upload step — your setup still works with just
-              the custom instructions.
-            </li>
-            <li>
-              Claude's answers feel generic? Double-check the instructions pasted completely — the
-              block ends with rule 4, "flag it and confirm before proceeding."
-            </li>
-            <li>
-              Want different answers?{' '}
-              <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again — it
-              takes a minute.
-            </li>
-          </ul>
+          {target === 'chatgpt' ? (
+            <ul className="understand-list" style={{ maxWidth: '46em' }}>
+              <li>
+                Can&apos;t find &quot;Create a GPT&quot;? Custom GPTs need a paid ChatGPT plan — head
+                back to the <Link href="/export">export page</Link> and choose{' '}
+                <strong>Use Custom Instructions</strong> instead.
+              </li>
+              <li>
+                No knowledge upload? Skip that step — your setup still works with just the
+                instructions.
+              </li>
+              <li>
+                Answers feel generic? Double-check the instructions pasted completely into the
+                Configure tab (or Custom Instructions).
+              </li>
+              <li>
+                Want different answers?{' '}
+                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again — it
+                takes a minute.
+              </li>
+            </ul>
+          ) : (
+            <ul className="understand-list" style={{ maxWidth: '46em' }}>
+              <li>
+                Can't find Projects in the sidebar? You're probably on the free plan — head back to
+                the <Link href="/export">export page</Link> and use the free-plan path instead.
+              </li>
+              <li>
+                No "Add to knowledge" button? Skip the upload step — your setup still works with just
+                the custom instructions.
+              </li>
+              <li>
+                Claude's answers feel generic? Double-check the instructions pasted completely — the
+                block ends with rule 4, "flag it and confirm before proceeding."
+              </li>
+              <li>
+                Want different answers?{' '}
+                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again — it
+                takes a minute.
+              </li>
+            </ul>
+          )}
         </section>
 
       </div>

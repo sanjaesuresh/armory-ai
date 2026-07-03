@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useExportSetup, savePlanChoice } from './useExportSetup';
+import { useExportSetup, savePlanChoice, saveExportChoice } from './useExportSetup';
 import BundleTabs from './BundleTabs';
 import { recordExportEvent } from '@/lib/analytics/exportEvents';
 import type { ExportBlock } from '@/lib/export/claudeApp';
-import type { Setup } from '@/lib/setup/types';
+import type { ChatGptBranch } from '@/lib/export/chatGpt';
+import type { Setup, ExportTarget } from '@/lib/setup/types';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -116,8 +117,21 @@ function ArrowRightIcon() {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function ExportView({ setup }: Props) {
-  const phase = useExportSetup(setup);
+  const showTargetPicker = setup.targets.length > 1;
+  const [target, setTarget] = useState<ExportTarget>(setup.targets[0] ?? 'claude-app');
+  const [chatGptBranch, setChatGptBranch] = useState<ChatGptBranch>('custom-gpt');
+  const phase = useExportSetup(setup, target, chatGptBranch);
   const [planChoice, setPlanChoice] = useState<PlanChoice>(null);
+
+  function chooseTarget(next: ExportTarget) {
+    setTarget(next);
+    saveExportChoice(next, chatGptBranch);
+  }
+
+  function chooseChatGptBranch(next: ChatGptBranch) {
+    setChatGptBranch(next);
+    saveExportChoice('chatgpt', next);
+  }
 
   // ── Loading / compiling ────────────────────────────────────────────────────
 
@@ -191,7 +205,7 @@ export default function ExportView({ setup }: Props) {
               margin: '0 0 8px',
             }}
           >
-            Your setup exceeds the Claude limit
+            Your setup exceeds the {phase.target === 'chatgpt' ? 'ChatGPT' : 'Claude'} limit
           </h2>
           <ul style={{ margin: 0, paddingLeft: '1.25rem' }}>
             {phase.errors.map((e, i) => (
@@ -232,11 +246,12 @@ export default function ExportView({ setup }: Props) {
 
       {/* Page heading */}
       <h1 style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.4rem)', marginBottom: '4px' }}>
-        Export to Claude
+        Export to {target === 'chatgpt' ? 'ChatGPT' : 'Claude'}
       </h1>
       <p className="muted" style={{ maxWidth: '42em', margin: '0 0 0 0' }}>
         Your <strong style={{ color: 'var(--ink)' }}>{setup.name}</strong> setup is ready. Copy
-        each block into Claude — the walkthrough shows exactly where everything goes.
+        each block into {target === 'chatgpt' ? 'ChatGPT' : 'Claude'} — the walkthrough shows
+        exactly where everything goes.
       </p>
 
       {/* 3-column layout */}
@@ -289,102 +304,188 @@ export default function ExportView({ setup }: Props) {
               void recordExportEvent({
                 kind: 'copy',
                 setupSlug: slug,
-                target: 'claude-app',
-                branch: planChoice,
+                target,
+                // branch is the Claude plan choice (pro/free); ChatGPT's
+                // builder sub-branch is not part of the analytics enum.
+                branch: target === 'chatgpt' ? null : planChoice,
               });
             }}
           />
 
-          {/* Plan picker */}
-          <div className="plan-ask">
-            <p className="q">Do you have Claude Pro?</p>
-            <p className="hint">
-              Claude Pro unlocks Projects, which save your setup permanently. On the free tier you
-              can still paste the instructions into any conversation.
-            </p>
-            <div className="seg" role="group" aria-label="Claude plan">
-              <button
-                type="button"
-                aria-pressed={planChoice === 'pro'}
-                onClick={() => { setPlanChoice('pro'); savePlanChoice('pro'); }}
-              >
-                Yes, I have Pro
-              </button>
-              <button
-                type="button"
-                aria-pressed={planChoice === 'free'}
-                onClick={() => { setPlanChoice('free'); savePlanChoice('free'); }}
-              >
-                No, free plan
-              </button>
-            </div>
-          </div>
+          {/* Claude plan branch (Pro / free) */}
+          {target !== 'chatgpt' && (
+            <>
+              <div className="plan-ask">
+                <p className="q">Do you have Claude Pro?</p>
+                <p className="hint">
+                  Claude Pro unlocks Projects, which save your setup permanently. On the free tier
+                  you can still paste the instructions into any conversation.
+                </p>
+                <div className="seg" role="group" aria-label="Claude plan">
+                  <button
+                    type="button"
+                    aria-pressed={planChoice === 'pro'}
+                    onClick={() => { setPlanChoice('pro'); savePlanChoice('pro'); }}
+                  >
+                    Yes, I have Pro
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={planChoice === 'free'}
+                    onClick={() => { setPlanChoice('free'); savePlanChoice('free'); }}
+                  >
+                    No, free plan
+                  </button>
+                </div>
+              </div>
 
-          {/* Pro path */}
-          {planChoice === 'pro' && (
-            <div>
-              <p className="muted small" style={{ marginBottom: '14px' }}>
-                Great — your setup becomes a permanent Claude Project. The walkthrough takes about
-                two minutes.
-              </p>
-              <Link href="/install" className="btn btn-primary btn-lg">
-                Install in Claude, step by step <ArrowRightIcon />
-              </Link>
-            </div>
+              {planChoice === 'pro' && (
+                <div>
+                  <p className="muted small" style={{ marginBottom: '14px' }}>
+                    Great — your setup becomes a permanent Claude Project. The walkthrough takes
+                    about two minutes.
+                  </p>
+                  <Link href="/install" className="btn btn-primary btn-lg">
+                    Install in Claude, step by step <ArrowRightIcon />
+                  </Link>
+                </div>
+              )}
+
+              {planChoice === 'free' && (
+                <div>
+                  <ol
+                    style={{
+                      margin: '0 0 16px',
+                      paddingLeft: '20px',
+                      color: 'var(--ink-soft)',
+                      fontSize: '0.94rem',
+                      display: 'grid',
+                      gap: '8px',
+                    }}
+                  >
+                    <li>
+                      Copy the <strong>Custom instructions</strong> block above and paste it at the
+                      start of a new Claude conversation.
+                    </li>
+                    <li>
+                      Paste the <strong>knowledge-file content</strong> in the same message, right
+                      after the instructions.
+                    </li>
+                    <li>
+                      Send your first request in that same conversation — your setup is live for the
+                      whole chat.
+                    </li>
+                  </ol>
+                </div>
+              )}
+            </>
           )}
 
-          {/* Free path */}
-          {planChoice === 'free' && (
-            <div>
-              <ol
-                style={{
-                  margin: '0 0 16px',
-                  paddingLeft: '20px',
-                  color: 'var(--ink-soft)',
-                  fontSize: '0.94rem',
-                  display: 'grid',
-                  gap: '8px',
-                }}
-              >
-                <li>
-                  Copy the <strong>Custom instructions</strong> block above and paste it at the
-                  start of a new Claude conversation.
-                </li>
-                <li>
-                  Paste the <strong>knowledge-file content</strong> in the same message, right
-                  after the instructions.
-                </li>
-                <li>
-                  Send your first request in that same conversation — your setup is live for the
-                  whole chat.
-                </li>
-              </ol>
-            </div>
+          {/* ChatGPT builder branch (Custom GPT / Custom Instructions) */}
+          {target === 'chatgpt' && (
+            <>
+              <div className="plan-ask" data-testid="chatgpt-branch-ask">
+                <p className="q">How will you set up ChatGPT?</p>
+                <p className="hint">
+                  A Custom GPT keeps your instructions and files together and is reusable. No Custom
+                  GPT? Paste everything into ChatGPT&apos;s Custom Instructions instead.
+                </p>
+                <div className="seg" role="group" aria-label="ChatGPT setup method">
+                  <button
+                    type="button"
+                    aria-pressed={chatGptBranch === 'custom-gpt'}
+                    onClick={() => chooseChatGptBranch('custom-gpt')}
+                  >
+                    Build a Custom GPT
+                  </button>
+                  <button
+                    type="button"
+                    aria-pressed={chatGptBranch === 'no-builder'}
+                    onClick={() => chooseChatGptBranch('no-builder')}
+                  >
+                    Use Custom Instructions
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <p className="muted small" style={{ marginBottom: '14px' }}>
+                  {chatGptBranch === 'custom-gpt'
+                    ? 'Great — your setup becomes a reusable Custom GPT. The walkthrough takes about two minutes.'
+                    : "No problem — you'll paste everything into ChatGPT's Custom Instructions, with any knowledge included inline."}
+                </p>
+                <Link
+                  href="/install"
+                  className="btn btn-primary btn-lg"
+                  data-testid="chatgpt-install-link"
+                  onClick={() => saveExportChoice('chatgpt', chatGptBranch)}
+                >
+                  Install in ChatGPT, step by step <ArrowRightIcon />
+                </Link>
+              </div>
+            </>
           )}
         </section>
 
         {/* ── Right: export options + download ──────────────────────────── */}
         <aside>
-          <span className="eyebrow">Export target</span>
-          <label className="option-card" style={{ marginTop: '8px' }}>
-            <input type="radio" name="target" defaultChecked />
-            <strong>
-              Claude Projects <span className="rec">Recommended</span>
-            </strong>
-            <p>
-              A permanent home for your setup — instructions and files stay attached to every
-              conversation.
-            </p>
-          </label>
-          <div className="option-card disabled" aria-disabled="true">
-            <strong>
-              ChatGPT Custom Instructions{' '}
-              <span className="status status-soon" style={{ fontSize: '0.68rem' }}>
-                Coming soon
-              </span>
-            </strong>
-            <p>The same setup, exported in ChatGPT&apos;s format. On the roadmap as the fast-follow.</p>
-          </div>
+          <span className="eyebrow">
+            {showTargetPicker ? 'Where will you use this?' : 'Export target'}
+          </span>
+          {showTargetPicker ? (
+            <div role="radiogroup" aria-label="Export target" data-testid="target-picker" style={{ marginTop: '8px' }}>
+              <label className="option-card" data-testid="target-claude-app">
+                <input
+                  type="radio"
+                  name="target"
+                  checked={target === 'claude-app'}
+                  onChange={() => chooseTarget('claude-app')}
+                />
+                <strong>
+                  Claude Projects <span className="rec">Recommended</span>
+                </strong>
+                <p>
+                  A permanent home for your setup — instructions and files stay attached to every
+                  conversation.
+                </p>
+              </label>
+              <label className="option-card" data-testid="target-chatgpt">
+                <input
+                  type="radio"
+                  name="target"
+                  checked={target === 'chatgpt'}
+                  onChange={() => chooseTarget('chatgpt')}
+                />
+                <strong>ChatGPT</strong>
+                <p>
+                  The same setup in ChatGPT&apos;s format — a reusable Custom GPT, or pasted into
+                  Custom Instructions.
+                </p>
+              </label>
+            </div>
+          ) : (
+            <>
+              <label className="option-card" style={{ marginTop: '8px' }}>
+                <input type="radio" name="target" defaultChecked />
+                <strong>
+                  Claude Projects <span className="rec">Recommended</span>
+                </strong>
+                <p>
+                  A permanent home for your setup — instructions and files stay attached to every
+                  conversation.
+                </p>
+              </label>
+              <div className="option-card disabled" aria-disabled="true">
+                <strong>
+                  ChatGPT Custom Instructions{' '}
+                  <span className="status status-soon" style={{ fontSize: '0.68rem' }}>
+                    Coming soon
+                  </span>
+                </strong>
+                <p>The same setup, exported in ChatGPT&apos;s format. On the roadmap as the fast-follow.</p>
+              </div>
+            </>
+          )}
           <button
             type="button"
             className="btn btn-outline"

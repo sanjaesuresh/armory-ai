@@ -7,6 +7,7 @@ import type { Setup, Answers, KnowledgeFile } from '@/lib/setup/types';
 import SetupForm from './SetupForm';
 import FileAttachment from './fields/FileAttachment';
 import PreviewPanel from './PreviewPanel';
+import TestDrivePanel from './TestDrivePanel';
 import StepRail, { type WizardStep } from './StepRail';
 import {
   type AttachmentsMap,
@@ -64,16 +65,21 @@ function isStepValid(
 
 interface Props {
   setup: Setup;
+  /** Whether the test-drive feature flag is on (sourced server-side). */
+  testDriveEnabled?: boolean;
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export default function CustomizeView({ setup }: Props) {
+export default function CustomizeView({ setup, testDriveEnabled = false }: Props) {
   const router = useRouter();
   const steps = deriveSteps(setup);
 
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
+  // Bumped when the preview's "Test-drive with your answers" button is clicked,
+  // to trigger a run inside TestDrivePanel for the setup's first scenario.
+  const [externalRun, setExternalRun] = useState<{ scenarioId: string; key: number } | null>(null);
   const [attachments, setAttachments] = useState<AttachmentsMap>({});
   const [validateNow, setValidateNow] = useState(0);
   const [knowledgeError, setKnowledgeError] = useState<string | null>(null);
@@ -386,7 +392,23 @@ export default function CustomizeView({ setup }: Props) {
 
         {/* Right: live preview */}
         <div data-testid="customize-right">
-          <PreviewPanel setup={setup} answers={answers} />
+          <PreviewPanel
+            setup={setup}
+            answers={answers}
+            testDriveEnabled={testDriveEnabled}
+            onTestDrive={(scenarioId) =>
+              setExternalRun((prev) => ({ scenarioId, key: (prev?.key ?? 0) + 1 }))
+            }
+          />
+          {testDriveEnabled && (
+            <TestDrivePanel
+              setup={setup}
+              answers={answers}
+              canRun={canExport}
+              runDisabledReason={exportDisabledReason}
+              externalRun={externalRun}
+            />
+          )}
         </div>
 
       </div>

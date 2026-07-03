@@ -16,6 +16,9 @@ import {
   CLAUDE_APP_INSTRUCTION_MAX_CHARS,
   CLAUDE_APP_MAX_FILES,
   CLAUDE_APP_MAX_FILE_BYTES,
+  CHATGPT_INSTRUCTION_MAX_CHARS,
+  CHATGPT_MAX_FILES,
+  CHATGPT_MAX_FILE_BYTES,
 } from '@/lib/setup/limits';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -291,6 +294,43 @@ export function validateCompiledForTarget(
         errors.push({
           code: 'FILE_TOO_LARGE',
           message: `Knowledge file "${file.name}" is ${excessBytes} byte${excessBytes === 1 ? '' : 's'} over the ${CLAUDE_APP_MAX_FILE_BYTES}-byte limit for Claude Projects.`,
+          path: `knowledgeFiles[${i}].content`,
+        });
+      }
+    }
+  } else if (target === 'chatgpt') {
+    // Instruction character limit (Custom GPT Instructions field).
+    if (compiled.instruction.length > CHATGPT_INSTRUCTION_MAX_CHARS) {
+      const excessChars = compiled.instruction.length - CHATGPT_INSTRUCTION_MAX_CHARS;
+      errors.push({
+        code: 'INSTRUCTION_TOO_LONG',
+        message: `Your instructions are ${excessChars} character${excessChars === 1 ? '' : 's'} over the ${CHATGPT_INSTRUCTION_MAX_CHARS}-character limit for a Custom GPT.`,
+        path: 'instruction',
+      });
+    }
+
+    // Knowledge-file count limit.
+    if (compiled.knowledgeFiles.length > CHATGPT_MAX_FILES) {
+      const excessFiles = compiled.knowledgeFiles.length - CHATGPT_MAX_FILES;
+      errors.push({
+        code: 'TOO_MANY_FILES',
+        message: `You have ${excessFiles} knowledge file${excessFiles === 1 ? '' : 's'} over the limit of ${CHATGPT_MAX_FILES} for a Custom GPT.`,
+        path: 'knowledgeFiles',
+      });
+    }
+
+    // Per-file byte-size limit (UTF-8 byte length, not character count).
+    for (let i = 0; i < compiled.knowledgeFiles.length; i++) {
+      const file = compiled.knowledgeFiles[i];
+      const byteLength =
+        typeof Buffer !== 'undefined'
+          ? Buffer.byteLength(file.content, 'utf8')
+          : new TextEncoder().encode(file.content).length;
+      if (byteLength > CHATGPT_MAX_FILE_BYTES) {
+        const excessBytes = byteLength - CHATGPT_MAX_FILE_BYTES;
+        errors.push({
+          code: 'FILE_TOO_LARGE',
+          message: `Knowledge file "${file.name}" is ${excessBytes} byte${excessBytes === 1 ? '' : 's'} over the ${CHATGPT_MAX_FILE_BYTES}-byte limit for a Custom GPT.`,
           path: `knowledgeFiles[${i}].content`,
         });
       }
