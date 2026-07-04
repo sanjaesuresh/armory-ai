@@ -9,6 +9,7 @@ import { getCategoryTint, getSetupIcon } from '@/lib/catalog/categoryUtils';
 import UpvoteButton from './UpvoteButton';
 import ReportSetup from './ReportSetup';
 import TakedownControl from './admin/TakedownControl';
+import PlugIcon from './icons/PlugIcon';
 
 interface Props {
   setup: Setup;
@@ -155,6 +156,14 @@ export default function SetupDetail({
                   AI-generated
                 </span>
               ) : null}
+
+              {/* Tier badge — orthogonal to source; an advanced community setup shows both */}
+              {setup.tier === 'advanced' && (
+                <span className="badge badge-advanced" data-testid="detail-badge-advanced">
+                  <PlugIcon size={11} />
+                  Advanced
+                </span>
+              )}
             </div>
 
             <h1 style={{ marginBottom: '8px' }}>{setup.name}</h1>
@@ -174,6 +183,20 @@ export default function SetupDetail({
                 </span>
               ))}
             </div>
+
+            {/* Advanced-tier expectations block — honest minimum; no fabricated tool lists.
+                Full tool-requirements block comes with the deferred connector amendment. */}
+            {setup.tier === 'advanced' && (
+              <div
+                className="advanced-expectations"
+                data-testid="advanced-expectations"
+              >
+                <p>
+                  This setup uses tools you&apos;ll connect yourself — we&apos;ll walk
+                  you through it.
+                </p>
+              </div>
+            )}
 
             <div className="detail-ctas">
               <Link

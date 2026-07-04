@@ -406,3 +406,101 @@ describe('recommend (scored internals)', () => {
     expect(result.whyLabels['why-tag-only']).toEqual([]);
   });
 });
+
+// ─── Advanced-tier filtering ──────────────────────────────────────────────────
+
+describe('recommend — advanced-tier filtering', () => {
+  it('recommendations never include advanced setups without opt-in (topPicks)', () => {
+    const coreSetup = makeSetup({ id: 'adv-core-1', name: 'Core', role: 'Marketing Manager' });
+    const advancedSetup = makeSetup({
+      id: 'adv-tier-1',
+      name: 'Advanced',
+      role: 'Marketing Manager',
+      tier: 'advanced',
+    });
+
+    const { topPicks, remainder } = recommend([coreSetup, advancedSetup], {
+      role: 'marketing-manager',
+      now: FIXED_NOW,
+    });
+
+    // Advanced setup is excluded from both topPicks and remainder
+    expect(topPicks).toContain(coreSetup);
+    expect(topPicks).not.toContain(advancedSetup);
+    expect(remainder).not.toContain(advancedSetup);
+  });
+
+  it('advanced setups are absent from the fallback popular pool when not opted in', () => {
+    // Unrelated role → score < MIN_SCORE_THRESHOLD → fallback fires.
+    // The advanced setup has popularity so it would appear in the fallback pool —
+    // but only if it were eligible. Without the opt-in, it must stay out.
+    const advancedPopular = makeSetup({
+      id: 'adv-popular',
+      name: 'Advanced Popular',
+      role: 'Recruiter',
+      tier: 'advanced',
+      popularity: 50,
+    });
+    const corePopular = makeSetup({
+      id: 'core-popular',
+      name: 'Core Popular',
+      role: 'Recruiter',
+      tier: 'core',
+      popularity: 10,
+    });
+
+    const result = recommend([advancedPopular, corePopular], {
+      role: 'marketing-manager',
+      now: FIXED_NOW,
+    });
+
+    expect(result.fallback).toBe(true);
+    // advancedPopular must not appear even though it has higher popularity
+    expect(result.topPicks).not.toContain(advancedPopular);
+    expect(result.remainder).not.toContain(advancedPopular);
+    // corePopular is still present (in topPicks or remainder)
+    const all = [...result.topPicks, ...result.remainder];
+    expect(all).toContain(corePopular);
+  });
+
+  it('with includeAdvanced=true, advanced setups are eligible alongside core setups', () => {
+    const coreSetup = makeSetup({ id: 'adv-core-2', name: 'Core', role: 'Marketing Manager' });
+    const advancedSetup = makeSetup({
+      id: 'adv-tier-2',
+      name: 'Advanced',
+      role: 'Marketing Manager',
+      tier: 'advanced',
+    });
+
+    const { topPicks } = recommend([coreSetup, advancedSetup], {
+      role: 'marketing-manager',
+      includeAdvanced: true,
+      now: FIXED_NOW,
+    });
+
+    expect(topPicks).toContain(coreSetup);
+    expect(topPicks).toContain(advancedSetup);
+  });
+
+  it('includeAdvanced=false is the explicit default (equivalent to omitting the flag)', () => {
+    const advancedSetup = makeSetup({
+      id: 'adv-tier-3',
+      name: 'Advanced',
+      role: 'Marketing Manager',
+      tier: 'advanced',
+    });
+
+    const withDefault = recommend([advancedSetup], { role: 'marketing-manager', now: FIXED_NOW });
+    const withExplicitFalse = recommend([advancedSetup], {
+      role: 'marketing-manager',
+      includeAdvanced: false,
+      now: FIXED_NOW,
+    });
+
+    // Both exclude the advanced setup
+    expect(withDefault.topPicks).not.toContain(advancedSetup);
+    expect(withDefault.remainder).not.toContain(advancedSetup);
+    expect(withExplicitFalse.topPicks).not.toContain(advancedSetup);
+    expect(withExplicitFalse.remainder).not.toContain(advancedSetup);
+  });
+});

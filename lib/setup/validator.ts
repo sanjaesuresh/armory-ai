@@ -19,6 +19,9 @@ import {
   CHATGPT_INSTRUCTION_MAX_CHARS,
   CHATGPT_MAX_FILES,
   CHATGPT_MAX_FILE_BYTES,
+  CLAUDE_CODE_INSTRUCTION_MAX_CHARS,
+  CLAUDE_CODE_MAX_FILES,
+  CLAUDE_CODE_MAX_FILE_BYTES,
 } from '@/lib/setup/limits';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -245,13 +248,12 @@ export function validateSetup(setup: Setup): ValidationResult {
 /**
  * Validates a CompiledSetup against the hard limits of the given export target.
  *
- * Currently supports 'claude-app'; structured for additional targets to be added
- * by extending the target branch below.
+ * Supports 'claude-app', 'chatgpt', and 'claude-code'. Each target branch
+ * checks the same three kinds of violation:
  *
- * Checks:
- *   INSTRUCTION_TOO_LONG — instruction.length > CLAUDE_APP_INSTRUCTION_MAX_CHARS
- *   TOO_MANY_FILES       — knowledgeFiles.length > CLAUDE_APP_MAX_FILES
- *   FILE_TOO_LARGE       — any file's UTF-8 byte length > CLAUDE_APP_MAX_FILE_BYTES
+ *   INSTRUCTION_TOO_LONG — instruction.length > the target's max chars
+ *   TOO_MANY_FILES       — knowledgeFiles.length > the target's max file count
+ *   FILE_TOO_LARGE       — any file's UTF-8 byte length > the target's per-file limit
  */
 export function validateCompiledForTarget(
   compiled: CompiledSetup,
@@ -331,6 +333,43 @@ export function validateCompiledForTarget(
         errors.push({
           code: 'FILE_TOO_LARGE',
           message: `Knowledge file "${file.name}" is ${excessBytes} byte${excessBytes === 1 ? '' : 's'} over the ${CHATGPT_MAX_FILE_BYTES}-byte limit for a Custom GPT.`,
+          path: `knowledgeFiles[${i}].content`,
+        });
+      }
+    }
+  } else if (target === 'claude-code') {
+    // Instruction character limit (Claude Code project memory file / CLAUDE.md).
+    if (compiled.instruction.length > CLAUDE_CODE_INSTRUCTION_MAX_CHARS) {
+      const excessChars = compiled.instruction.length - CLAUDE_CODE_INSTRUCTION_MAX_CHARS;
+      errors.push({
+        code: 'INSTRUCTION_TOO_LONG',
+        message: `Your instructions are ${excessChars} character${excessChars === 1 ? '' : 's'} over the ${CLAUDE_CODE_INSTRUCTION_MAX_CHARS}-character limit for a Claude Code memory file.`,
+        path: 'instruction',
+      });
+    }
+
+    // Knowledge-file count limit.
+    if (compiled.knowledgeFiles.length > CLAUDE_CODE_MAX_FILES) {
+      const excessFiles = compiled.knowledgeFiles.length - CLAUDE_CODE_MAX_FILES;
+      errors.push({
+        code: 'TOO_MANY_FILES',
+        message: `You have ${excessFiles} knowledge file${excessFiles === 1 ? '' : 's'} over the limit of ${CLAUDE_CODE_MAX_FILES} for a Claude Code project.`,
+        path: 'knowledgeFiles',
+      });
+    }
+
+    // Per-file byte-size limit (UTF-8 byte length, not character count).
+    for (let i = 0; i < compiled.knowledgeFiles.length; i++) {
+      const file = compiled.knowledgeFiles[i];
+      const byteLength =
+        typeof Buffer !== 'undefined'
+          ? Buffer.byteLength(file.content, 'utf8')
+          : new TextEncoder().encode(file.content).length;
+      if (byteLength > CLAUDE_CODE_MAX_FILE_BYTES) {
+        const excessBytes = byteLength - CLAUDE_CODE_MAX_FILE_BYTES;
+        errors.push({
+          code: 'FILE_TOO_LARGE',
+          message: `Knowledge file "${file.name}" is ${excessBytes} byte${excessBytes === 1 ? '' : 's'} over the ${CLAUDE_CODE_MAX_FILE_BYTES}-byte limit for a Claude Code project.`,
           path: `knowledgeFiles[${i}].content`,
         });
       }

@@ -1150,6 +1150,26 @@ pre.code {
 .badge-curated    { background: var(--sage);  color: #3d6b3a; }
 /* #7a5414 on --butter (#fbf1d3) → ~6.1:1 — WCAG AA pass */
 .badge-ai         { background: var(--butter); color: #7a5414; }
+/* #1a4a72 on --sky (#e2eef8) → ~7.8:1 — WCAG AA pass */
+/* unslop-ignore: sky tint chosen for technical/tier distinction, orthogonal to source badges */
+/* Border keeps the pill visible on sky-tinted cards (customer-support, research, data). */
+.badge-advanced   { background: var(--sky);    color: #1a4a72; border: 1px solid #b8d4ec; }
+
+/* Advanced-tier expectations block — shown on detail page before the customize action */
+/* #1a4a72 on --sky (#e2eef8) → ~7.8:1 — WCAG AA pass (same pairing as badge-advanced) */
+.advanced-expectations {
+  background: var(--sky);
+  border: 1px solid #b8d4ec;
+  border-radius: var(--r-md);
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+.advanced-expectations p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a4a72;
+}
 
 /* Two-column field layout (role + category side by side in the builder) */
 .field.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }

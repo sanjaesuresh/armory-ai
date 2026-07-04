@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useExportSetup, savePlanChoice, saveExportChoice } from './useExportSetup';
 import BundleTabs from './BundleTabs';
 import { recordExportEvent } from '@/lib/analytics/exportEvents';
+import { targetLabel } from '@/lib/export/targets';
 import type { ExportBlock } from '@/lib/export/claudeApp';
 import type { ChatGptBranch } from '@/lib/export/chatGpt';
 import type { Setup, ExportTarget } from '@/lib/setup/types';
@@ -127,7 +128,8 @@ export default function ExportView({ setup, signedIn = false }: Props) {
 
   function chooseTarget(next: ExportTarget) {
     setTarget(next);
-    saveExportChoice(next, chatGptBranch);
+    // Only persist chatGptBranch for the ChatGPT target; omit it for all others.
+    saveExportChoice(next, next === 'chatgpt' ? chatGptBranch : undefined);
   }
 
   function chooseChatGptBranch(next: ChatGptBranch) {
@@ -207,7 +209,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
               margin: '0 0 8px',
             }}
           >
-            Your setup exceeds the {phase.target === 'chatgpt' ? 'ChatGPT' : 'Claude'} limit
+            Your setup exceeds the {targetLabel(phase.target)} limit
           </h2>
           <ul style={{ margin: 0, paddingLeft: '1.25rem' }}>
             {phase.errors.map((e, i) => (
@@ -248,12 +250,12 @@ export default function ExportView({ setup, signedIn = false }: Props) {
 
       {/* Page heading */}
       <h1 style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.4rem)', marginBottom: '4px' }}>
-        Export to {target === 'chatgpt' ? 'ChatGPT' : 'Claude'}
+        Export to {targetLabel(target)}
       </h1>
       <p className="muted" style={{ maxWidth: '42em', margin: '0 0 0 0' }}>
         Your <strong style={{ color: 'var(--ink)' }}>{setup.name}</strong> setup is ready. Copy
-        each block into {target === 'chatgpt' ? 'ChatGPT' : 'Claude'} — the walkthrough shows
-        exactly where everything goes.
+        each block into {targetLabel(target)} — the walkthrough shows exactly where everything
+        goes.
       </p>
 
       {/* Stored-copy note: a knowledge file was filled from the user's saved copy
@@ -301,8 +303,22 @@ export default function ExportView({ setup, signedIn = false }: Props) {
             <li>
               <CheckIcon />
               <div>
-                <strong>Project configuration</strong>
-                <span>Name and layout for Claude Projects</span>
+                {target === 'claude-code' ? (
+                  <>
+                    <strong>Project memory</strong>
+                    <span>CLAUDE.md file for your Claude Code project</span>
+                  </>
+                ) : target === 'chatgpt' ? (
+                  <>
+                    <strong>GPT configuration</strong>
+                    <span>Name and settings for your Custom GPT</span>
+                  </>
+                ) : (
+                  <>
+                    <strong>Project configuration</strong>
+                    <span>Name and layout for Claude Projects</span>
+                  </>
+                )}
               </div>
             </li>
           </ul>
@@ -326,15 +342,15 @@ export default function ExportView({ setup, signedIn = false }: Props) {
                 kind: 'copy',
                 setupSlug: slug,
                 target,
-                // branch is the Claude plan choice (pro/free); ChatGPT's
-                // builder sub-branch is not part of the analytics enum.
-                branch: target === 'chatgpt' ? null : planChoice,
+                // branch is the Claude Projects plan choice (pro/free); ChatGPT
+                // and Claude Code have no plan branch in the analytics enum.
+                branch: target === 'claude-app' ? planChoice : null,
               });
             }}
           />
 
-          {/* Claude plan branch (Pro / free) */}
-          {target !== 'chatgpt' && (
+          {/* Claude Projects plan branch (Pro / free) */}
+          {target === 'claude-app' && (
             <>
               <div className="plan-ask">
                 <p className="q">Do you have Claude Pro?</p>
@@ -402,6 +418,26 @@ export default function ExportView({ setup, signedIn = false }: Props) {
             </>
           )}
 
+          {/* Claude Code install CTA */}
+          {target === 'claude-code' && (
+            <div data-testid="claude-code-install-cta">
+              <p className="muted small" style={{ marginBottom: '14px' }}>
+                Copy the <strong style={{ color: 'var(--ink)' }}>Project memory</strong> block
+                into your project&apos;s <strong style={{ color: 'var(--ink)' }}>CLAUDE.md</strong>,
+                add any knowledge files to the project directory, then start a conversation — Claude
+                Code picks it all up automatically.
+              </p>
+              <Link
+                href="/install"
+                className="btn btn-primary btn-lg"
+                data-testid="claude-code-install-link"
+                onClick={() => saveExportChoice('claude-code')}
+              >
+                Install in Claude Code, step by step <ArrowRightIcon />
+              </Link>
+            </div>
+          )}
+
           {/* ChatGPT builder branch (Custom GPT / Custom Instructions) */}
           {target === 'chatgpt' && (
             <>
@@ -455,34 +491,53 @@ export default function ExportView({ setup, signedIn = false }: Props) {
           </span>
           {showTargetPicker ? (
             <div role="radiogroup" aria-label="Export target" data-testid="target-picker" style={{ marginTop: '8px' }}>
-              <label className="option-card" data-testid="target-claude-app">
-                <input
-                  type="radio"
-                  name="target"
-                  checked={target === 'claude-app'}
-                  onChange={() => chooseTarget('claude-app')}
-                />
-                <strong>
-                  Claude Projects <span className="rec">Recommended</span>
-                </strong>
-                <p>
-                  A permanent home for your setup — instructions and files stay attached to every
-                  conversation.
-                </p>
-              </label>
-              <label className="option-card" data-testid="target-chatgpt">
-                <input
-                  type="radio"
-                  name="target"
-                  checked={target === 'chatgpt'}
-                  onChange={() => chooseTarget('chatgpt')}
-                />
-                <strong>ChatGPT</strong>
-                <p>
-                  The same setup in ChatGPT&apos;s format — a reusable Custom GPT, or pasted into
-                  Custom Instructions.
-                </p>
-              </label>
+              {setup.targets.includes('claude-app') && (
+                <label className="option-card" data-testid="target-claude-app">
+                  <input
+                    type="radio"
+                    name="target"
+                    checked={target === 'claude-app'}
+                    onChange={() => chooseTarget('claude-app')}
+                  />
+                  <strong>
+                    Claude Projects <span className="rec">Recommended</span>
+                  </strong>
+                  <p>
+                    A permanent home for your setup — instructions and files stay attached to every
+                    conversation.
+                  </p>
+                </label>
+              )}
+              {setup.targets.includes('chatgpt') && (
+                <label className="option-card" data-testid="target-chatgpt">
+                  <input
+                    type="radio"
+                    name="target"
+                    checked={target === 'chatgpt'}
+                    onChange={() => chooseTarget('chatgpt')}
+                  />
+                  <strong>ChatGPT</strong>
+                  <p>
+                    The same setup in ChatGPT&apos;s format — a reusable Custom GPT, or pasted into
+                    Custom Instructions.
+                  </p>
+                </label>
+              )}
+              {setup.targets.includes('claude-code') && (
+                <label className="option-card" data-testid="target-claude-code">
+                  <input
+                    type="radio"
+                    name="target"
+                    checked={target === 'claude-code'}
+                    onChange={() => chooseTarget('claude-code')}
+                  />
+                  <strong>Claude Code</strong>
+                  <p>
+                    Paste the instructions into your project&apos;s CLAUDE.md memory file — active
+                    in every Claude Code conversation inside that project.
+                  </p>
+                </label>
+              )}
             </div>
           ) : (
             <>

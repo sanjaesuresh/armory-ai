@@ -78,3 +78,46 @@ export const CHATGPT_MAX_FILES = 20;
  * until an explicit number is confirmed.
  */
 export const CHATGPT_MAX_FILE_BYTES = 30 * 1_024 * 1_024; // 31 457 280
+
+// ─── Claude Code target limits ────────────────────────────────────────────────
+//
+// Sources checked 2026-07-04: docs.anthropic.com/en/docs/claude-code (quickstart,
+// memory, settings, and configuration reference pages). Anthropic does not publish
+// explicit character or byte limits for Claude Code memory files (CLAUDE.md) or
+// project knowledge files in its official documentation as of this date. All values
+// below are conservative assumption floors; re-verify when Anthropic publishes
+// explicit limits.
+
+/**
+ * Maximum characters allowed in a Claude Code project memory file (CLAUDE.md).
+ *
+ * ASSUMPTION — no official number found as of 2026-07-04.
+ * Claude Code reads CLAUDE.md into context before every conversation. The model
+ * context window is large (~200 K tokens), but memory files are recommended to be
+ * concise and focused. 10 000 characters is a conservative practical floor that
+ * keeps the memory file useful without crowding out the conversation; revisit
+ * when Anthropic publishes explicit guidance on CLAUDE.md size limits.
+ */
+export const CLAUDE_CODE_INSTRUCTION_MAX_CHARS = 10_000;
+
+/**
+ * Maximum number of knowledge files that can be added to a Claude Code project.
+ *
+ * ASSUMPTION — no official hard count found as of 2026-07-04.
+ * Claude Code can reference any file in the project directory. No published
+ * file-count limit exists. 20 is used as a conservative practical floor
+ * matching the other export targets.
+ */
+export const CLAUDE_CODE_MAX_FILES = 20;
+
+/**
+ * Maximum size in bytes of a single Claude Code knowledge file.
+ *
+ * ASSUMPTION — no official byte ceiling found as of 2026-07-04.
+ * Files are served from the local filesystem; no hard upload limit applies in
+ * the same way it does for cloud-hosted targets. 30 MB (= 30 × 1 024 × 1 024
+ * bytes) is used as a conservative practical floor matching the other export
+ * targets, and reflects a practical upper bound for content that can be read
+ * usefully within a single conversation context.
+ */
+export const CLAUDE_CODE_MAX_FILE_BYTES = 30 * 1_024 * 1_024; // 31 457 280

@@ -45,4 +45,12 @@ describe('InstallView — walkthrough per target', () => {
     await screen.findByRole('heading', { name: /Install in ChatGPT/i });
     expect(screen.getAllByText(/Open Custom Instructions/i).length).toBeGreaterThan(0);
   });
+
+  it('renders the Claude Code walkthrough when target is claude-code', async () => {
+    seed('claude-code');
+    render(<InstallView />);
+    await screen.findByRole('heading', { name: /Install in Claude Code/i });
+    // First step is about opening the project in Claude Code
+    expect(screen.getAllByText(/Open your project in Claude Code/i).length).toBeGreaterThan(0);
+  });
 });

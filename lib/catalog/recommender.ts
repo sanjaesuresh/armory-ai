@@ -39,6 +39,12 @@ export interface RecommendOptions {
    * Defaults to Date.now() when absent.
    */
   now?: number | Date;
+  /**
+   * When true, advanced-tier setups are eligible for recommendations.
+   * Default false — advanced setups are excluded from core recommendations so
+   * the standard audience never trips over them.
+   */
+  includeAdvanced?: boolean;
 }
 
 export interface RecommendResult {
@@ -70,11 +76,17 @@ function byFeaturedThenName(a: Setup, b: Setup): number {
 }
 
 export function recommend(setups: Setup[], options: RecommendOptions): RecommendResult {
-  const { role: roleId, industry, goalTagIds, target, now: injectedNow } = options;
+  const { role: roleId, industry, goalTagIds, target, now: injectedNow, includeAdvanced = false } = options;
 
   // ── 1. Target filter ──────────────────────────────────────────────────────
-  const eligible =
+  const targetFiltered =
     target != null ? setups.filter((s) => s.targets.includes(target)) : setups;
+
+  // ── 1b. Tier filter — advanced setups excluded unless explicitly opted in ──
+  // Mirrors the target-compatibility filter: a hard exclusion, not a score penalty.
+  const eligible = includeAdvanced
+    ? targetFiltered
+    : targetFiltered.filter((s) => s.tier !== 'advanced');
 
   // ── 2. Resolve current time ───────────────────────────────────────────────
   const nowMs =

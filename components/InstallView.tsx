@@ -9,6 +9,7 @@ import WalkPanel, { type PanelStep } from './WalkPanel';
 import { marketingManagerSetup } from '@/data/curated/marketing-manager';
 import type { Setup, ExportTarget } from '@/lib/setup/types';
 import type { ChatGptBranch } from '@/lib/export/chatGpt';
+import { targetLabel } from '@/lib/export/targets';
 
 // ─── Setup lookup (expand as more curated setups ship) ────────────────────────
 
@@ -97,6 +98,81 @@ function buildSteps(
       </>
     ) as ReactNode,
     imageKey: 'project-ready',
+  });
+
+  return steps;
+}
+
+/** Claude Code walkthrough steps, matching the toClaudeCodeExport adapter. */
+function buildClaudeCodeSteps(
+  hasKnowledgeFiles: boolean,
+  starterFileName: string,
+): PanelStep[] {
+  const steps: PanelStep[] = [
+    {
+      label: 'Open your project in Claude Code',
+      heading: 'Open your project in Claude Code',
+      body: (
+        <>
+          In your terminal, navigate to the project directory. Run{' '}
+          <strong style={{ color: 'var(--ink)' }}>claude</strong> to start Claude Code.
+          Haven&apos;t installed it yet?{' '}
+          <a
+            href="https://docs.anthropic.com/en/docs/claude-code/quickstart"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--ink)' }}
+          >
+            Install Claude Code first
+          </a>
+          .
+        </>
+      ) as ReactNode,
+      imageKey: 'claude-code-open-project',
+    },
+    {
+      label: 'Paste into CLAUDE.md',
+      heading: 'Paste into CLAUDE.md',
+      body: (
+        <>
+          In your project root, open or create{' '}
+          <strong style={{ color: 'var(--ink)' }}>CLAUDE.md</strong> (the project memory file).
+          Copy the{' '}
+          <strong style={{ color: 'var(--ink)' }}>Project memory (CLAUDE.md)</strong> block from
+          your export page and paste it in, then save. Claude Code reads this file automatically
+          before every conversation in this project.
+        </>
+      ) as ReactNode,
+      imageKey: 'claude-code-paste-memory',
+    },
+  ];
+
+  if (hasKnowledgeFiles) {
+    steps.push({
+      label: 'Add knowledge files',
+      heading: 'Add knowledge files',
+      body: (
+        <>
+          Create <strong style={{ color: 'var(--ink)' }}>{starterFileName}</strong> — and any
+          other knowledge files from your export page — in your project directory at the paths
+          shown. You can reference them in conversations when you need Claude to use them.
+        </>
+      ) as ReactNode,
+      imageKey: 'claude-code-add-file',
+    });
+  }
+
+  steps.push({
+    label: "You're set up",
+    heading: "You're set up",
+    body: (
+      <>
+        Start a new conversation inside Claude Code. Claude will pick up the instructions in{' '}
+        <strong style={{ color: 'var(--ink)' }}>CLAUDE.md</strong> automatically — no extra
+        command needed. Try something relevant to your setup and see the difference.
+      </>
+    ) as ReactNode,
+    imageKey: 'claude-code-confirm-setup',
   });
 
   return steps;
@@ -295,6 +371,8 @@ export default function InstallView() {
       if (parsedBranch === 'no-builder' || parsedBranch === 'custom-gpt') {
         setChatGptBranch(parsedBranch);
       }
+    } else if (parsedTarget === 'claude-code') {
+      setTarget('claude-code');
     }
 
     if (typeof parsedSlug !== 'string' || !parsedSlug) {
@@ -329,9 +407,13 @@ export default function InstallView() {
   // ── Build steps (derived from state, never stored in state) ──────────────
   const steps = useMemo<PanelStep[]>(() => {
     if (loadState !== 'ready') return [];
-    return target === 'chatgpt'
-      ? buildChatGptSteps(brandName, chatGptBranch, hasKnowledgeFiles, starterFileName)
-      : buildSteps(brandName, hasKnowledgeFiles, starterFileName);
+    if (target === 'chatgpt') {
+      return buildChatGptSteps(brandName, chatGptBranch, hasKnowledgeFiles, starterFileName);
+    }
+    if (target === 'claude-code') {
+      return buildClaudeCodeSteps(hasKnowledgeFiles, starterFileName);
+    }
+    return buildSteps(brandName, hasKnowledgeFiles, starterFileName);
   }, [loadState, brandName, hasKnowledgeFiles, starterFileName, target, chatGptBranch]);
 
   const railSteps = useMemo<RailStep[]>(
@@ -350,7 +432,9 @@ export default function InstallView() {
         kind: 'done',
         setupSlug: slug,
         target,
-        branch: target === 'chatgpt' ? null : planChoiceRef.current,
+        // plan branch only applies to the Claude Projects path; ChatGPT and
+        // Claude Code have no plan-choice concept in the analytics enum.
+        branch: target === 'claude-app' ? planChoiceRef.current : null,
       });
     }
   }, [currentIndex, loadState, slug, steps.length, target]);
@@ -485,7 +569,7 @@ export default function InstallView() {
               Back to export
             </Link>
             <h1 style={{ fontSize: 'clamp(1.8rem,3.4vw,2.4rem)', marginBottom: '4px' }}>
-              Install in {target === 'chatgpt' ? 'ChatGPT' : 'Claude'}, step by step
+              Install in {targetLabel(target)}, step by step
             </h1>
             <p className="muted" style={{ margin: 0 }}>
               {stepWord} short steps, about two minutes. Keep the export page handy — you'll paste
@@ -546,6 +630,27 @@ export default function InstallView() {
               <li>
                 Answers feel generic? Double-check the instructions pasted completely into the
                 Configure tab (or Custom Instructions).
+              </li>
+              <li>
+                Want different answers?{' '}
+                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again — it
+                takes a minute.
+              </li>
+            </ul>
+          ) : target === 'claude-code' ? (
+            <ul className="understand-list" style={{ maxWidth: '46em' }}>
+              <li>
+                Can&apos;t find a CLAUDE.md? Create the file yourself — any plain-text editor works.
+                Place it in the root of the project directory where you run{' '}
+                <strong>claude</strong>.
+              </li>
+              <li>
+                Claude ignoring the instructions? Make sure CLAUDE.md is saved in the project root
+                (the same directory where you started Claude Code), not in a subdirectory.
+              </li>
+              <li>
+                Knowledge files not being used? You need to mention the file in conversation —
+                Claude Code doesn&apos;t read arbitrary files automatically, only CLAUDE.md.
               </li>
               <li>
                 Want different answers?{' '}

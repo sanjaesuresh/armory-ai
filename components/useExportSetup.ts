@@ -5,6 +5,7 @@ import { compileSetup } from '@/lib/setup/compiler';
 import { toClaudeAppExport } from '@/lib/export/claudeApp';
 import type { ClaudeAppExport } from '@/lib/export/claudeApp';
 import { toChatGptExport, type ChatGptBranch } from '@/lib/export/chatGpt';
+import { toClaudeCodeExport } from '@/lib/export/claudeCode';
 import { validateCompiledForTarget } from '@/lib/setup/validator';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 import { createSupabaseStoredFilesStore, resolveExportContent } from '@/lib/saved/storedFiles';
@@ -51,11 +52,12 @@ export function savePlanChoice(choice: 'pro' | 'free' | null): void {
 /**
  * Persists the chosen export target and (for ChatGPT) the builder branch into
  * the armory-export-state entry so InstallView renders the matching walkthrough.
+ * chatGptBranch is only written when provided — omit it for non-ChatGPT targets.
  * No-ops silently if the session entry is absent or unparseable.
  */
 export function saveExportChoice(
   target: ExportTarget,
-  chatGptBranch: ChatGptBranch,
+  chatGptBranch?: ChatGptBranch,
 ): void {
   try {
     const raw = sessionStorage.getItem('armory-export-state');
@@ -63,7 +65,11 @@ export function saveExportChoice(
     const state = JSON.parse(raw) as Record<string, unknown>;
     sessionStorage.setItem(
       'armory-export-state',
-      JSON.stringify({ ...state, target, chatGptBranch }),
+      JSON.stringify({
+        ...state,
+        target,
+        ...(chatGptBranch !== undefined ? { chatGptBranch } : {}),
+      }),
     );
   } catch {
     // ignore — analytics must never disrupt the export flow
@@ -179,10 +185,14 @@ export function useExportSetup(
           (f) => f.content.trim() !== '',
         ),
       };
-      const blocks =
-        target === 'chatgpt'
-          ? toChatGptExport(compiledForExport, chatGptBranch).blocks
-          : toClaudeAppExport(compiledForExport).blocks;
+      let blocks: ClaudeAppExport['blocks'];
+      if (target === 'chatgpt') {
+        blocks = toChatGptExport(compiledForExport, chatGptBranch).blocks;
+      } else if (target === 'claude-code') {
+        blocks = toClaudeCodeExport(compiledForExport).blocks;
+      } else {
+        blocks = toClaudeAppExport(compiledForExport).blocks;
+      }
 
       setPhase({
         kind: 'ready',

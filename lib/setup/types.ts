@@ -24,7 +24,7 @@ export type Category =
   | 'devops'
   | 'general';
 
-export type ExportTarget = 'claude-app' | 'chatgpt';
+export type ExportTarget = 'claude-app' | 'chatgpt' | 'claude-code';
 
 // ─── Variable ────────────────────────────────────────────────────────────────
 

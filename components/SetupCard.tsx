@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Setup } from '@/lib/setup/types';
 import { getCategoryTint, getSetupIcon } from '@/lib/catalog/categoryUtils';
+import PlugIcon from './icons/PlugIcon';
 
 interface SetupCardProps {
   setup: Setup;
@@ -56,20 +57,30 @@ export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
           {icon}
         </span>
 
-        {setup.source === 'curated' ? (
-          <span className="badge badge-curated" data-testid="badge-curated">
-            <ShieldBadgeIcon />
-            Curated · reviewed
-          </span>
-        ) : setup.source === 'community' ? (
-          <span className="badge badge-community" data-testid="badge-community">
-            Community
-          </span>
-        ) : setup.source === 'ai-generated' ? (
-          <span className="badge badge-ai" data-testid="badge-ai">
-            AI-generated
-          </span>
-        ) : null}
+        {/* Badge group — source badge + optional tier badge, stacked vertically */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+          {setup.source === 'curated' ? (
+            <span className="badge badge-curated" data-testid="badge-curated">
+              <ShieldBadgeIcon />
+              Curated · reviewed
+            </span>
+          ) : setup.source === 'community' ? (
+            <span className="badge badge-community" data-testid="badge-community">
+              Community
+            </span>
+          ) : setup.source === 'ai-generated' ? (
+            <span className="badge badge-ai" data-testid="badge-ai">
+              AI-generated
+            </span>
+          ) : null}
+
+          {setup.tier === 'advanced' && (
+            <span className="badge badge-advanced" data-testid="badge-advanced">
+              <PlugIcon />
+              Advanced
+            </span>
+          )}
+        </div>
       </div>
 
       <h3 data-testid="card-name">{setup.name}</h3>

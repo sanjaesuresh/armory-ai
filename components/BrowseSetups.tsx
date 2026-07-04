@@ -4,6 +4,7 @@ import { useState, useMemo, useId } from 'react';
 import Link from 'next/link';
 import type { Setup } from '@/lib/setup/types';
 import { recommend } from '@/lib/catalog/recommender';
+import { advancedVisible } from '@/lib/catalog/advancedFilter';
 import SetupCard from './SetupCard';
 import EmptyState from './EmptyState';
 import CategoryChips from './CategoryChips';
@@ -28,8 +29,11 @@ export default function BrowseSetups({
   initialGoals,
 }: BrowseSetupsProps) {
   const searchId = useId();
+  const advancedToggleId = useId();
   const [search, setSearch] = useState('');
   const [activeCat, setActiveCat] = useState(initialCat ?? 'All');
+  // Advanced setups are hidden by default — core audience never trips over them.
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   // Show the goal-chips prompt only when role is set and the user hasn't
   // committed (or skipped) goal selection yet.  Once goals= is present in the
@@ -37,6 +41,10 @@ export default function BrowseSetups({
   const showGoalChips = !!initialRole && initialGoals === undefined;
 
   // Derive unique categories from the fetched setups (preserving insertion order).
+  // NOTE: iterates ALL tiers (including advanced). Once real advanced-only categories
+  // are seeded, their chip will appear for core users and yield zero results when the
+  // advanced toggle is off. Revisit then: either filter categories to visible tiers,
+  // or surface an advanced-toggle hint in the empty state (per the connector amendment).
   const categories = useMemo(() => {
     const seen = new Set<string>();
     for (const s of allSetups) {
@@ -52,6 +60,8 @@ export default function BrowseSetups({
   );
 
   // Run recommender once when a role is supplied.
+  // includeAdvanced mirrors showAdvanced — advanced setups excluded from
+  // recommendations unless the user has explicitly toggled them on.
   const { topPicks, remainder, whyLabels, fallback } = useMemo(() => {
     if (!initialRole) {
       return {
@@ -61,10 +71,10 @@ export default function BrowseSetups({
         fallback: false,
       };
     }
-    return recommend(allSetups, { role: initialRole, goalTagIds });
-  }, [allSetups, initialRole, goalTagIds]);
+    return recommend(allSetups, { role: initialRole, goalTagIds, includeAdvanced: showAdvanced });
+  }, [allSetups, initialRole, goalTagIds, showAdvanced]);
 
-  /** Returns true when a setup should be visible given current search + chip. */
+  /** Returns true when a setup should be visible given current search + chip + advanced toggle. */
   function matchesFilter(s: Setup): boolean {
     const catOK = activeCat === 'All' || s.category === activeCat;
     const q = search.toLowerCase().trim();
@@ -74,7 +84,10 @@ export default function BrowseSetups({
         .join(' ')
         .toLowerCase()
         .includes(q);
-    return catOK && qOK;
+    // Advanced setups are hidden unless the user has opted in.
+    // Uses the shared advancedVisible() predicate — the single source of truth for the gate.
+    const advOK = advancedVisible(s.tier, showAdvanced);
+    return catOK && qOK && advOK;
   }
 
   function resetFilters() {
@@ -97,6 +110,11 @@ export default function BrowseSetups({
           categories={categories}
           activeCat={activeCat}
           onChange={setActiveCat}
+        />
+        <AdvancedToggle
+          id={advancedToggleId}
+          checked={showAdvanced}
+          onChange={setShowAdvanced}
         />
         <EmptyState
           message="No setups for this role yet — more are on the way."
@@ -129,6 +147,12 @@ export default function BrowseSetups({
         categories={categories}
         activeCat={activeCat}
         onChange={setActiveCat}
+      />
+
+      <AdvancedToggle
+        id={advancedToggleId}
+        checked={showAdvanced}
+        onChange={setShowAdvanced}
       />
 
       <p
@@ -278,6 +302,45 @@ function BrowseHead({ searchId, search, onSearch }: BrowseHeadProps) {
           value={search}
           onChange={(e) => onSearch(e.target.value)}
         />
+      </label>
+    </div>
+  );
+}
+
+// ── Advanced-tier toggle sub-component ────────────────────────────────────────
+// Visible to all users; off by default so core audience never trips over advanced setups.
+
+interface AdvancedToggleProps {
+  id: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}
+
+function AdvancedToggle({ id, checked, onChange }: AdvancedToggleProps) {
+  return (
+    <div style={{ marginBottom: '14px' }}>
+      <label
+        htmlFor={id}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px',
+          fontSize: '0.88rem',
+          fontWeight: 600,
+          color: 'var(--ink-soft)',
+          cursor: 'pointer',
+          userSelect: 'none',
+        }}
+      >
+        <input
+          id={id}
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          data-testid="show-advanced-toggle"
+          style={{ accentColor: 'var(--ink)', cursor: 'pointer' }}
+        />
+        Show advanced setups
       </label>
     </div>
   );
