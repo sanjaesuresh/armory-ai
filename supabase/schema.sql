@@ -607,6 +607,19 @@ alter table reports add constraint reports_reason_check
 -- Keep setups.upvotes in sync with the upvotes rows. SECURITY DEFINER so the
 -- count write bypasses RLS (a user upvoting a setup they don't own must still
 -- update its denormalized count).
+-- ══════════════════════════════════════════════════════════════════════════════
+-- Phase 6: AI-generated setups
+-- ══════════════════════════════════════════════════════════════════════════════
+--
+-- AI-generated setups enter the same review gate as community submissions.
+-- generation_meta is operational (like safety_screen): it carries the
+-- originating brief + per-scenario eval evidence for moderator review.
+-- Only ai-generated rows populate it; curated and community rows leave it null.
+
+alter table setups add column if not exists generation_meta jsonb;
+
+-- ─── Upvote-count sync trigger ─────────────────────────────────────────────────
+
 create or replace function sync_setup_upvotes() returns trigger
   language plpgsql security definer set search_path = public as $$
 declare

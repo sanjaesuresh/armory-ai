@@ -9,7 +9,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import ReviewQueue, { type QueueItemData } from './ReviewQueue';
+import ReviewQueue, { type QueueItemData, type GenerationMeta } from './ReviewQueue';
 
 // ── Module mocks ──────────────────────────────────────────────────────────────
 
@@ -36,6 +36,7 @@ const baseItem: QueueItemData = {
     },
   ],
   compiledInstruction: 'You are an SEO blog writer. [placeholder]',
+  source: 'community',
 };
 
 const cleanItem: QueueItemData = {
@@ -46,6 +47,7 @@ const cleanItem: QueueItemData = {
   needsAttention: false,
   findings: [],
   compiledInstruction: 'Summarize standups.',
+  source: 'community',
 };
 
 const modelFlagItem: QueueItemData = {
@@ -63,6 +65,59 @@ const modelFlagItem: QueueItemData = {
     },
   ],
   compiledInstruction: 'You are a helpful assistant.',
+  source: 'community',
+};
+
+const aiGenerationMeta: GenerationMeta = {
+  brief: {
+    kind: 'gap-fill',
+    role: 'marketing-manager',
+    industry: null,
+    goalTags: ['email-campaigns', 'analytics'],
+  },
+  evals: [
+    {
+      scenarioId: 'scenario-write-email',
+      pass: true,
+      outputSnippet: 'Here is a draft email for your campaign…',
+    },
+  ],
+};
+
+const aiGeneratedItem: QueueItemData = {
+  id: 'setup-ai-1',
+  name: 'Marketing Email Assistant',
+  author: null,
+  submittedAt: '1 hour ago',
+  needsAttention: false,
+  findings: [],
+  compiledInstruction: 'You are a marketing email writer.',
+  source: 'ai-generated',
+  generationMeta: aiGenerationMeta,
+};
+
+const aiVariationMeta: GenerationMeta = {
+  brief: {
+    kind: 'variation',
+    role: 'sales-rep',
+    industry: 'saas',
+    goalTags: [],
+    sourceSlug: 'marketing-email-assistant',
+    vary: 'role',
+  },
+  evals: [],
+};
+
+const aiVariationItem: QueueItemData = {
+  id: 'setup-ai-2',
+  name: 'Sales Email Assistant',
+  author: null,
+  submittedAt: '2 hours ago',
+  needsAttention: false,
+  findings: [],
+  compiledInstruction: 'You are a sales email writer.',
+  source: 'ai-generated',
+  generationMeta: aiVariationMeta,
 };
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -289,5 +344,104 @@ describe('ReviewQueue', () => {
 
     expect(screen.getByTestId('review-detail').textContent).toContain('Weekly Standup');
     expect(screen.getByTestId('finding-clean')).toBeInTheDocument();
+  });
+
+  // ── AI-generated eval report ───────────────────────────────────────────────
+
+  it('shows the AI-generated badge for an ai-generated item', () => {
+    render(<ReviewQueue items={[aiGeneratedItem]} />);
+    expect(screen.getByTestId('detail-badge-ai')).toBeInTheDocument();
+    expect(screen.getByTestId('detail-badge-ai').textContent).toContain('AI-generated');
+  });
+
+  it('renders the generation brief for an ai-generated item', () => {
+    render(<ReviewQueue items={[aiGeneratedItem]} />);
+    const brief = screen.getByTestId('gen-brief');
+    expect(brief).toBeInTheDocument();
+    expect(brief.textContent).toContain('Gap-fill');
+    expect(brief.textContent).toContain('marketing-manager');
+    expect(brief.textContent).toContain('email-campaigns');
+  });
+
+  it('renders the scenario eval report for an ai-generated item', () => {
+    render(<ReviewQueue items={[aiGeneratedItem]} />);
+    const eval0 = screen.getByTestId('eval-0');
+    expect(eval0).toBeInTheDocument();
+    expect(eval0.textContent).toContain('scenario-write-email');
+    expect(eval0.textContent).toContain('Pass');
+    expect(eval0.textContent).toContain('Here is a draft email for your campaign');
+  });
+
+  it('renders variation brief details including sourceSlug and vary', () => {
+    render(<ReviewQueue items={[aiVariationItem]} />);
+    const brief = screen.getByTestId('gen-brief');
+    expect(brief.textContent).toContain('Variation');
+    expect(brief.textContent).toContain('sales-rep');
+    expect(brief.textContent).toContain('saas');
+    expect(brief.textContent).toContain('marketing-email-assistant');
+    expect(brief.textContent).toContain('role');
+  });
+
+  it('shows no-scenarios message when evals array is empty', () => {
+    render(<ReviewQueue items={[aiVariationItem]} />);
+    expect(screen.getByTestId('evals-none')).toBeInTheDocument();
+  });
+
+  it('does not render the AI badge or eval report for a community item', () => {
+    render(<ReviewQueue items={[cleanItem]} />);
+    expect(screen.queryByTestId('detail-badge-ai')).toBeNull();
+    expect(screen.queryByTestId('gen-brief')).toBeNull();
+  });
+
+  // ── Fix 1: malformed generationMeta must not throw ─────────────────────────
+
+  it('renders without crashing when generationMeta is an empty object', () => {
+    const itemWithEmptyMeta: QueueItemData = {
+      ...aiGeneratedItem,
+      id: 'setup-malformed-1',
+      generationMeta: {} as unknown as GenerationMeta,
+    };
+    expect(() => render(<ReviewQueue items={[itemWithEmptyMeta]} />)).not.toThrow();
+    expect(screen.queryByTestId('gen-brief')).toBeNull();
+  });
+
+  it('renders without crashing when generationMeta has null brief and evals', () => {
+    const itemWithNullFields: QueueItemData = {
+      ...aiGeneratedItem,
+      id: 'setup-malformed-2',
+      generationMeta: { brief: null, evals: null } as unknown as GenerationMeta,
+    };
+    expect(() => render(<ReviewQueue items={[itemWithNullFields]} />)).not.toThrow();
+    expect(screen.queryByTestId('gen-brief')).toBeNull();
+  });
+
+  // ── Fix 2: honest pass/fail eval styling ──────────────────────────────────
+
+  it('renders a failed eval row with finding-flag class and no finding-ok', () => {
+    const failMeta: GenerationMeta = {
+      brief: {
+        kind: 'gap-fill',
+        role: 'analyst',
+        industry: null,
+        goalTags: [],
+      },
+      evals: [
+        {
+          scenarioId: 'scenario-fail-test',
+          pass: false,
+          outputSnippet: 'Output did not meet criteria.',
+        },
+      ],
+    };
+    const itemWithFailEval: QueueItemData = {
+      ...aiGeneratedItem,
+      id: 'setup-fail-eval',
+      generationMeta: failMeta,
+    };
+    render(<ReviewQueue items={[itemWithFailEval]} />);
+    const evalRow = screen.getByTestId('eval-0');
+    expect(evalRow.className).toContain('finding-flag');
+    expect(evalRow.className).not.toContain('finding-ok');
+    expect(evalRow.textContent).toContain('Fail');
   });
 });

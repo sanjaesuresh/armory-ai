@@ -128,8 +128,8 @@ export async function takedown(
   const trimmed = note?.trim() ?? '';
   if (trimmed === '') throw new Error('a takedown note is required');
   const row = await loadPendingOrThrow(setupId, store, 'approved');
-  if (row.source !== 'community') {
-    throw new Error('only community setups can be taken down');
+  if (row.source === 'curated') {
+    throw new Error('curated setups cannot be taken down');
   }
   await store.updateRow(setupId, { review_status: 'rejected', review_note: trimmed, updated_at: now });
   await store.writeAudit(

@@ -1148,6 +1148,8 @@ pre.code {
 .badge-community { background: var(--lilac); color: #4b3fb0; }
 /* #3d6b3a on #e6f0e0 → ~6.2:1 — WCAG AA pass */
 .badge-curated    { background: var(--sage);  color: #3d6b3a; }
+/* #7a5414 on --butter (#fbf1d3) → ~6.1:1 — WCAG AA pass */
+.badge-ai         { background: var(--butter); color: #7a5414; }
 
 /* Two-column field layout (role + category side by side in the builder) */
 .field.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }

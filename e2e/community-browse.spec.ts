@@ -56,6 +56,47 @@ test.skip('pending, rejected, and draft community setups never appear in the pub
   await expect(page.getByTestId('empty-state')).toBeVisible();
 });
 
+// ── Phase 6: AI-generated badge + lifecycle parity (GATED) ──────────────────
+// These require a local Supabase instance with at least one approved ai-generated
+// setup seeded in the database. Remove test.skip to run locally.
+
+test.skip('an approved ai-generated setup shows the AI-generated badge in /catalog', async ({
+  page,
+}) => {
+  await page.goto('/catalog');
+
+  // At least one AI-generated badge must be visible.
+  const badge = page.getByTestId('badge-ai').first();
+  await expect(badge).toBeVisible();
+  await expect(badge).toContainText('AI-generated');
+});
+
+test.skip('an approved ai-generated setup detail page shows the AI-generated badge', async ({
+  page,
+}) => {
+  // Adjust 'ai-generated-test-setup' to the slug of the seeded ai-generated setup.
+  await page.goto('/setup/ai-generated-test-setup');
+  await expect(page.getByTestId('detail-badge-ai')).toBeVisible();
+});
+
+test.skip('a moderator can take down an approved ai-generated setup', async ({ page }) => {
+  // This test confirms lifecycle parity: ai-generated setups support takedown.
+  // Requires a signed-in moderator session and a seeded approved ai-generated setup.
+  await page.goto('/setup/ai-generated-test-setup');
+
+  // The takedown control must be visible for a moderator.
+  await expect(page.getByTestId('takedown-open')).toBeVisible();
+});
+
+test.skip('a signed-in user can report an approved ai-generated setup', async ({ page }) => {
+  // Confirms reporting is source-agnostic: works on both community and ai-generated.
+  await page.goto('/setup/ai-generated-test-setup');
+
+  // The report trigger must be visible (signed-in user).
+  const reportTrigger = page.locator('.report-setup-trigger');
+  await expect(reportTrigger).toBeVisible();
+});
+
 test.skip('a signed-in user can upvote a community setup and the count survives reload', async ({
   page,
 }) => {

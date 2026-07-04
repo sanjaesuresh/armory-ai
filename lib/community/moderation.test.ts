@@ -96,7 +96,7 @@ describe('takedown', () => {
     const approved = memStore({ moderator: true, status: 'approved' });
     await expect(takedown('setup-1', 'mod-1', '  ', approved.store, 'T')).rejects.toThrow(/note/);
   });
-  it('refuses takedown of an approved curated (non-community) setup', async () => {
+  it('refuses takedown of an approved curated setup', async () => {
     // Build a store that returns source:'curated' — a setup from the Armory catalog.
     const curatedRow = { ...baseRow('approved'), source: 'curated' } as unknown as SetupRow;
     const store: ModerationStore = {
@@ -107,7 +107,27 @@ describe('takedown', () => {
       async listPending() { return []; },
     };
     await expect(takedown('setup-1', 'mod-1', 'some note', store, 'T')).rejects.toThrow(
-      /only community setups can be taken down/,
+      /curated setups cannot be taken down/,
     );
+  });
+
+  it('allows takedown of an approved ai-generated setup', async () => {
+    const aiRow = { ...baseRow('approved'), source: 'ai-generated' } as unknown as SetupRow;
+    const audits: AuditRow[] = [];
+    let storedStatus = 'approved';
+    const store: ModerationStore = {
+      async isModerator() { return true; },
+      async getRow() { return { ...aiRow, review_status: storedStatus } as unknown as SetupRow; },
+      async updateRow(_id, patch) {
+        if (typeof patch.review_status === 'string') storedStatus = patch.review_status;
+        Object.assign(aiRow, patch);
+      },
+      async writeAudit(a) { audits.push(a); },
+      async listPending() { return []; },
+    };
+    await takedown('setup-1', 'mod-1', 'Harmful content in AI-generated setup.', store, 'T');
+    expect(storedStatus).toBe('rejected');
+    expect(audits).toHaveLength(1);
+    expect(audits[0].action).toBe('takedown');
   });
 });

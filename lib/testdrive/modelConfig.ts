@@ -49,6 +49,13 @@ export const STARTER_KNOWLEDGE_CAP_TOKENS = 4_000;
 export const CHARS_PER_TOKEN = 4;
 
 /**
+ * Output token cap for AI-generated Setup JSON (Phase 6).
+ * A full Setup object is substantially larger than a test-drive reply, so it
+ * gets its own higher cap distinct from the test-drive OUTPUT_TOKEN_CAP (700).
+ */
+export const GENERATION_OUTPUT_CAP = 4_096;
+
+/**
  * Returns the estimated cost in USD for a completed run given true token counts.
  * Used to populate the usage row and the `estimatedCostUsd` field on results.
  */

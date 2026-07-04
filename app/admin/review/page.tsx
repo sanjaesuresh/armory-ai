@@ -19,7 +19,7 @@ import { rowToSetup, type SetupRow } from '@/lib/catalog/repository';
 import { compileSetup } from '@/lib/setup/compiler';
 import type { SafetyScreenResult } from '@/lib/community/safetyScreen';
 import type { Answers, Variable } from '@/lib/setup/types';
-import ReviewQueue, { type QueueItemData } from '@/components/admin/ReviewQueue';
+import ReviewQueue, { type QueueItemData, type GenerationMeta } from '@/components/admin/ReviewQueue';
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
@@ -83,9 +83,13 @@ function timeAgo(iso: string): string {
   return `${days} day${days !== 1 ? 's' : ''} ago`;
 }
 
-// The safety_screen column is jsonb but not typed on SetupRow (it was added in
-// Phase 5). Read it off the raw row with this augmented type.
-type RawRow = SetupRow & { safety_screen?: SafetyScreenResult | null };
+// safety_screen and generation_meta are jsonb columns not typed on SetupRow
+// (safety_screen was added in Phase 5, generation_meta in Phase 6).
+// Read them off the raw row with this augmented type.
+type RawRow = SetupRow & {
+  safety_screen?: SafetyScreenResult | null;
+  generation_meta?: GenerationMeta | null;
+};
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -142,9 +146,10 @@ export default async function ReviewQueuePage() {
 
   // ── Build queue item data ────────────────────────────────────────────────────
   const items: QueueItemData[] = rows.map((row) => {
-    // safety_screen is not typed on SetupRow — read off the raw row.
+    // safety_screen and generation_meta are not typed on SetupRow — read off the raw row.
     const raw = row as RawRow;
     const safetyScreen = raw.safety_screen ?? null;
+    const generationMeta = raw.generation_meta ?? null;
 
     // Compile with default answers for the preview. Fall back to the raw
     // template if compilation fails (e.g. malformed template in a community
@@ -167,6 +172,8 @@ export default async function ReviewQueuePage() {
       needsAttention: safetyScreen?.needsAttention ?? false,
       findings: safetyScreen?.findings ?? [],
       compiledInstruction,
+      source: row.source as 'curated' | 'community' | 'ai-generated',
+      ...(generationMeta ? { generationMeta } : {}),
     };
   });
 

@@ -24,6 +24,29 @@ export interface FindingData {
   path: string;
 }
 
+/** Per-scenario evidence from the generation pipeline's own-scenario evals. */
+export interface EvalEntry {
+  scenarioId: string;
+  pass: boolean;
+  /** Short snippet of model output (≤280 chars) authored during the eval run. */
+  outputSnippet: string;
+}
+
+/** Brief + per-scenario eval evidence stored in generation_meta on ai-generated rows. */
+export interface GenerationMeta {
+  brief: {
+    kind: 'gap-fill' | 'variation';
+    role: string;
+    industry: string | null;
+    goalTags: string[];
+    /** Only on variation briefs. */
+    sourceSlug?: string;
+    /** Only on variation briefs. */
+    vary?: string;
+  };
+  evals: EvalEntry[];
+}
+
 export interface QueueItemData {
   id: string;
   name: string;
@@ -32,6 +55,10 @@ export interface QueueItemData {
   needsAttention: boolean;
   findings: FindingData[];
   compiledInstruction: string;
+  /** The setup's source value; determines badge and eval-report visibility. */
+  source: 'curated' | 'community' | 'ai-generated';
+  /** Present only for ai-generated rows that passed the pipeline gauntlet. */
+  generationMeta?: GenerationMeta;
 }
 
 // ─── Inline icon SVGs ─────────────────────────────────────────────────────────
@@ -273,10 +300,16 @@ export default function ReviewQueue({ items }: Props) {
           <h2 id="review-detail-name" style={{ margin: 0 }}>
             {selected.name}
           </h2>
-          <span className="badge badge-community">
-            Community &middot; author{' '}
-            {selected.author ? `${selected.author.slice(0, 8)}…` : 'unknown'}
-          </span>
+          {selected.source === 'ai-generated' ? (
+            <span className="badge badge-ai" data-testid="detail-badge-ai">
+              AI-generated &middot; pipeline
+            </span>
+          ) : (
+            <span className="badge badge-community">
+              Community &middot; author{' '}
+              {selected.author ? `${selected.author.slice(0, 8)}…` : 'unknown'}
+            </span>
+          )}
         </div>
 
         {/* Safety findings */}
@@ -315,6 +348,96 @@ export default function ReviewQueue({ items }: Props) {
               </div>
             </div>
           ))
+        )}
+
+        {/* Generation brief + eval report — ai-generated rows only */}
+        {selected.source === 'ai-generated' && selected.generationMeta && (
+          <>
+            {selected.generationMeta.brief && (
+              <>
+                <h3
+                  style={{
+                    fontSize: '0.8rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: 'var(--muted)',
+                    margin: '24px 0 10px',
+                  }}
+                >
+                  Generation brief
+                </h3>
+                <div className="finding finding-ok" data-testid="gen-brief">
+                  <CheckIcon />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <strong>
+                      {selected.generationMeta.brief.kind === 'variation' ? 'Variation' : 'Gap-fill'}
+                      {' · '}{selected.generationMeta.brief.role}
+                      {selected.generationMeta.brief.industry
+                        ? ` · ${selected.generationMeta.brief.industry}`
+                        : ''}
+                    </strong>
+                    {(selected.generationMeta.brief.goalTags?.length ?? 0) > 0 && (
+                      <span>
+                        Goal tags: {selected.generationMeta.brief.goalTags?.join(', ')}
+                      </span>
+                    )}
+                    {selected.generationMeta.brief.kind === 'variation' &&
+                      selected.generationMeta.brief.sourceSlug && (
+                        <span>
+                          Derived from: <code>{selected.generationMeta.brief.sourceSlug}</code>
+                          {selected.generationMeta.brief.vary
+                            ? ` · vary: ${selected.generationMeta.brief.vary}`
+                            : ''}
+                        </span>
+                      )}
+                  </div>
+                </div>
+              </>
+            )}
+
+            <h3
+              style={{
+                fontSize: '0.8rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+                margin: '24px 0 10px',
+              }}
+            >
+              Scenario evals
+            </h3>
+            {(selected.generationMeta.evals?.length ?? 0) === 0 ? (
+              <div
+                className="finding finding-ok"
+                data-testid="evals-none"
+              >
+                <CheckIcon />
+                <div>No scenarios evaluated.</div>
+              </div>
+            ) : (
+              (selected.generationMeta.evals ?? []).map((e, i) => (
+                <div
+                  key={i}
+                  className={`finding ${e.pass ? 'finding-ok' : 'finding-flag'}`}
+                  data-testid={`eval-${i}`}
+                >
+                  {e.pass ? <CheckIcon /> : <AlertIcon />}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <strong>
+                      <code>{e.scenarioId}</code>
+                      {' — '}
+                      <span role="status">{e.pass ? 'Pass' : 'Fail'}</span>
+                    </strong>
+                    <span
+                      style={{ fontSize: '0.82rem', color: 'var(--ink-soft)' }}
+                    >
+                      {e.outputSnippet}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </>
         )}
 
         {/* Compiled preview */}

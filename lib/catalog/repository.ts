@@ -62,6 +62,12 @@ export interface SetupRow {
   scenarios: unknown;
   /** Moderator note set during review; not present on curated rows. */
   review_note?: string | null;
+  /**
+   * Operational: brief + per-scenario eval evidence for the P6-4 moderator queue.
+   * Only ai-generated rows populate this; curated and community rows leave it null.
+   * Not a content field — not mapped into the Setup domain type.
+   */
+  generation_meta?: unknown;
 }
 
 /** Exported for unit testing the DB-row → Setup mapping. */

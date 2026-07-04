@@ -150,6 +150,10 @@ export default function SetupDetail({
                 <span className="badge badge-community" data-testid="detail-badge-community">
                   Community
                 </span>
+              ) : setup.source === 'ai-generated' ? (
+                <span className="badge badge-ai" data-testid="detail-badge-ai">
+                  AI-generated
+                </span>
               ) : null}
             </div>
 
@@ -210,9 +214,9 @@ export default function SetupDetail({
               <ReportSetup setupId={setup.id} userId={userId} />
             </div>
 
-            {/* Moderator takedown — only when: moderator + community + approved */}
+            {/* Moderator takedown — only when: moderator + community or ai-generated + approved */}
             {isModerator &&
-              setup.source === 'community' &&
+              (setup.source === 'community' || setup.source === 'ai-generated') &&
               setup.reviewStatus === 'approved' && (
                 <div
                   style={{

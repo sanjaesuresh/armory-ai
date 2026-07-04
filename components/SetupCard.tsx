@@ -65,6 +65,10 @@ export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
           <span className="badge badge-community" data-testid="badge-community">
             Community
           </span>
+        ) : setup.source === 'ai-generated' ? (
+          <span className="badge badge-ai" data-testid="badge-ai">
+            AI-generated
+          </span>
         ) : null}
       </div>
 
