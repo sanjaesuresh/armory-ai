@@ -33,4 +33,10 @@ export interface UsageRow extends UsageSnapshot {
   ipHash: string;
   /** ISO UTC string. */
   createdAt: string;
+  /**
+   * The signed-in user's id when the run happened in a session, else undefined.
+   * Anonymous runs write no user id; on first sign-in a browser's rows adopt it
+   * via the merge. Used so metering counts the union of user + token rows.
+   */
+  userId?: string;
 }

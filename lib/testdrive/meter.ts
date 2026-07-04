@@ -39,12 +39,24 @@ const ALERT_THRESHOLD = 0.8;
 export interface MeterDataSource {
   /** Count runs for this token from dayStart (ISO UTC) until now. */
   countTokenRunsToday(token: string, dayStart: string): Promise<number>;
+  /**
+   * Count runs from dayStart belonging to EITHER this user id OR this token —
+   * the session cap for a signed-in user. Counts each row once (union), so
+   * signing in never resets or doubles quota.
+   */
+  countUserOrTokenRunsToday(userId: string, token: string, dayStart: string): Promise<number>;
   /** Count runs for this IP hash from dayStart (ISO UTC) until now. */
   countIpRunsToday(ipHash: string, dayStart: string): Promise<number>;
   /** Sum estimatedCostUsd of all rows from dayStart (ISO UTC) until now. */
   sumCostToday(dayStart: string): Promise<number>;
   /** Append a completed-run usage row. */
   recordUsage(row: UsageRow): Promise<void>;
+  /**
+   * Assign this token's still-anonymous usage rows (user_id is null) to the
+   * user. Returns the number of rows updated. Idempotent: re-running assigns
+   * nothing because the rows already carry a user id.
+   */
+  assignTokenRunsToUser(userId: string, token: string): Promise<number>;
   /** Returns true if the budget alert has already fired for this dayKey. */
   hasAlertFiredToday(dayKey: string): Promise<boolean>;
   /** Marks the budget alert as fired for this dayKey. */
@@ -59,6 +71,12 @@ export interface CheckMeterParams {
   /** ISO UTC string for "now". */
   now: string;
   dataSource: MeterDataSource;
+  /**
+   * The signed-in user's id, when present. When set, the session cap counts the
+   * union of the user's rows and this token's rows so signing in cannot mint a
+   * fresh allowance.
+   */
+  userId?: string;
 }
 
 export interface BudgetStatus {
@@ -98,11 +116,14 @@ export function saltIp(rawIp: string): string {
  * Returns { allowed: true } if all pass; { allowed: false, reason, retryAt? } on first failure.
  */
 export async function checkMeter(params: CheckMeterParams): Promise<MeterDecision> {
-  const { token, ipHash, now, dataSource } = params;
+  const { token, ipHash, now, dataSource, userId } = params;
   const dayStart = utcDayStart(now);
 
-  // 1. Per-token daily cap.
-  const tokenRuns = await dataSource.countTokenRunsToday(token, dayStart);
+  // 1. Per-session daily cap. For a signed-in user the cap counts the union of
+  //    their rows and this token's rows; anonymously it is the token alone.
+  const tokenRuns = userId
+    ? await dataSource.countUserOrTokenRunsToday(userId, token, dayStart)
+    : await dataSource.countTokenRunsToday(token, dayStart);
   if (tokenRuns >= TOKEN_CAP) {
     return { allowed: false, reason: 'session-cap', retryAt: nextUtcMidnight(now) };
   }
@@ -128,6 +149,21 @@ export async function checkMeter(params: CheckMeterParams): Promise<MeterDecisio
  */
 export async function recordUsage(row: UsageRow, dataSource: MeterDataSource): Promise<void> {
   await dataSource.recordUsage(row);
+}
+
+/**
+ * Merges a browser's anonymous test-drive usage into a freshly signed-in user:
+ * the token's still-anonymous rows adopt the user id. Idempotent — a second
+ * call finds no null-owner rows for the token and changes nothing. Returns the
+ * number of rows assigned. Best-effort at the sign-in callback; never blocks
+ * sign-in.
+ */
+export async function mergeAnonUsageToUser(
+  userId: string,
+  token: string,
+  dataSource: MeterDataSource,
+): Promise<number> {
+  return dataSource.assignTokenRunsToUser(userId, token);
 }
 
 /**
@@ -184,6 +220,16 @@ export function createSupabaseMeterDataSource(): MeterDataSource {
       return count ?? 0;
     },
 
+    async countUserOrTokenRunsToday(userId, token, dayStart) {
+      const { count, error } = await getClient()
+        .from('testdrive_usage')
+        .select('*', { count: 'exact', head: true })
+        .or(`user_id.eq.${userId},token.eq.${token}`)
+        .gte('created_at', dayStart);
+      if (error) throw new Error(`Supabase countUserOrTokenRunsToday error: ${error.message}`);
+      return count ?? 0;
+    },
+
     async countIpRunsToday(ipHash, dayStart) {
       const { count, error } = await getClient()
         .from('testdrive_usage')
@@ -217,8 +263,23 @@ export function createSupabaseMeterDataSource(): MeterDataSource {
           output_tokens: row.outputTokens,
           estimated_cost_usd: row.estimatedCostUsd,
           created_at: row.createdAt,
+          // Present only for signed-in runs; anonymous rows stay null until merge.
+          ...(row.userId ? { user_id: row.userId } : {}),
         });
       if (error) throw new Error(`Supabase recordUsage error: ${error.message}`);
+    },
+
+    async assignTokenRunsToUser(userId, token) {
+      // Only claim rows that are still anonymous — makes the merge idempotent and
+      // prevents reassigning rows already owned by a prior user of this browser.
+      const { data, error } = await getClient()
+        .from('testdrive_usage')
+        .update({ user_id: userId })
+        .eq('token', token)
+        .is('user_id', null)
+        .select('id');
+      if (error) throw new Error(`Supabase assignTokenRunsToUser error: ${error.message}`);
+      return data?.length ?? 0;
     },
 
     async hasAlertFiredToday(dayKey) {

@@ -15,6 +15,7 @@ import type { CatalogDataSource } from '@/lib/catalog/repository';
 import { cacheKeyFor } from './cache';
 import { compileSetup } from '@/lib/setup/compiler';
 import { marketingManagerSetup } from '@/data/curated/marketing-manager';
+import type { RecordRunInput } from '@/lib/saved/testDriveHistory';
 import type { Setup } from '@/lib/setup/types';
 import { MODEL_ID, OUTPUT_TOKEN_CAP, estimatedCostUsd, INPUT_TOKEN_CAP, CHARS_PER_TOKEN } from './modelConfig';
 
@@ -46,9 +47,11 @@ function makeMeterDataSource(runsToday = 0, costToday = 0): {
   const recorded: Array<Parameters<MeterDataSource['recordUsage']>[0]> = [];
   const ds: MeterDataSource = {
     async countTokenRunsToday() { return runsToday; },
+    async countUserOrTokenRunsToday() { return runsToday; },
     async countIpRunsToday() { return runsToday; },
     async sumCostToday() { return costToday; },
     async recordUsage(row) { recorded.push(row); },
+    async assignTokenRunsToUser() { return 0; },
     async hasAlertFiredToday() { return true; },
     async markAlertFiredToday() { /* no-op */ },
   };
@@ -382,5 +385,62 @@ describe('runTestDrive — chunk callback', () => {
     if (outcome.kind === 'success') {
       expect(outcome.result.output).toBe('Part1 Part2');
     }
+  });
+});
+
+describe('runTestDrive — signed-in history + attribution (Task 4)', () => {
+  it('records history and a user-attributed usage row on a live run', async () => {
+    const meter = makeMeterDataSource();
+    const history: RecordRunInput[] = [];
+    const deps = makeDeps({
+      meterDataSource: meter.ds,
+      userId: 'user-1',
+      historyRecorder: { async record(input) { history.push(input); } },
+    });
+
+    const outcome = await runTestDrive(VALID_REQUEST, deps);
+
+    expect(outcome.kind).toBe('success');
+    // Usage row attributed to the user (for union metering + merge).
+    expect(meter.recorded).toHaveLength(1);
+    expect(meter.recorded[0].userId).toBe('user-1');
+    // One history entry, live.
+    expect(history).toHaveLength(1);
+    expect(history[0].cached).toBe(false);
+    expect(history[0].userId).toBe('user-1');
+    expect(history[0].setupSlug).toBe('marketing-manager');
+    expect(history[0].scenarioId).toBe(SCENARIO.id);
+  });
+
+  it('records history with cached:true on a cache hit', async () => {
+    const cache = makeCacheDataSource();
+    const history: RecordRunInput[] = [];
+    const deps = makeDeps({
+      cacheDataSource: cache.ds,
+      userId: 'user-1',
+      historyRecorder: { async record(input) { history.push(input); } },
+    });
+
+    await runTestDrive(VALID_REQUEST, deps); // fills cache (history #1, live)
+    const outcome = await runTestDrive(VALID_REQUEST, deps); // cache hit (history #2)
+
+    expect(outcome.kind).toBe('cache-hit');
+    expect(history).toHaveLength(2);
+    expect(history[1].cached).toBe(true);
+  });
+
+  it('records no history and no user id for anonymous runs', async () => {
+    const meter = makeMeterDataSource();
+    const history: RecordRunInput[] = [];
+    const deps = makeDeps({
+      meterDataSource: meter.ds,
+      historyRecorder: { async record(input) { history.push(input); } },
+    });
+
+    const outcome = await runTestDrive(VALID_REQUEST, deps);
+
+    expect(outcome.kind).toBe('success');
+    expect(history).toHaveLength(0);
+    expect(meter.recorded[0].userId).toBeUndefined();
   });
 });

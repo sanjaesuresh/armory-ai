@@ -55,6 +55,9 @@ import { createSupabaseCacheDataSource } from '@/lib/testdrive/cache';
 import { createSupabaseDataSource } from '@/lib/catalog/repository';
 import { runTestDrive } from '@/lib/testdrive/runner';
 import { createAnthropicModelClient } from '@/lib/testdrive/anthropicClient';
+import { getSessionUser } from '@/lib/supabase/server';
+import { createSupabaseServiceClient } from '@/lib/supabase/serviceClient';
+import { createSupabaseTestDriveHistoryStore } from '@/lib/saved/testDriveHistory';
 
 // ─── SSE helpers ─────────────────────────────────────────────────────────────
 
@@ -129,6 +132,12 @@ export async function POST(req: NextRequest): Promise<Response> {
     );
   }
 
+  // ── Resolve the signed-in user (optional) ───────────────────────────────
+
+  // Never gates the run — anonymous test-drives are unchanged. A session only
+  // attributes the run (union metering) and records history.
+  const user = await getSessionUser();
+
   // ── Build runner deps ───────────────────────────────────────────────────
 
   const deps = {
@@ -139,6 +148,11 @@ export async function POST(req: NextRequest): Promise<Response> {
     cacheDataSource: createSupabaseCacheDataSource(),
     catalogDataSource: createSupabaseDataSource(),
     modelClient: createAnthropicModelClient(),
+    userId: user?.id,
+    // Service-role recorder: RLS-bypassing, sets the correct user id server-side.
+    historyRecorder: user
+      ? createSupabaseTestDriveHistoryStore(createSupabaseServiceClient())
+      : undefined,
   };
 
   // ── Stream the response ─────────────────────────────────────────────────

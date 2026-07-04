@@ -20,6 +20,7 @@ import type { CacheDataSource } from './cache';
 import type { CatalogDataSource } from '@/lib/catalog/repository';
 import type { Answers } from '@/lib/setup/types';
 import type { MeterDenialReason } from './types';
+import type { RecordRunInput } from '@/lib/saved/testDriveHistory';
 import { checkMeter, recordUsage } from './meter';
 import { cacheKeyFor, getCached, putCached } from './cache';
 import { compileSetup } from '@/lib/setup/compiler';
@@ -99,10 +100,25 @@ export interface RunnerDeps {
   catalogDataSource: CatalogDataSource;
   /** Model client (real SDK adapter in prod; stub in tests). */
   modelClient: ModelClient;
+  /**
+   * The signed-in user's id, when the run happens in a session. Drives the
+   * union metering cap and history attribution. Absent for anonymous runs.
+   */
+  userId?: string;
+  /**
+   * Records signed-in test-drive history. Only used when `userId` is also set.
+   * Recording is best-effort — a failure never fails the run.
+   */
+  historyRecorder?: HistoryRecorder;
   /** ISO UTC string for "now"; defaults to new Date().toISOString(). */
   now?: string;
   /** Epoch ms for "now"; defaults to Date.now(). */
   nowMs?: number;
+}
+
+/** Minimal seam for recording test-drive history (see lib/saved/testDriveHistory). */
+export interface HistoryRecorder {
+  record(input: RecordRunInput): Promise<void>;
 }
 
 // ─── Outcome union ────────────────────────────────────────────────────────────
@@ -186,6 +202,8 @@ export async function runTestDrive(
     cacheDataSource,
     catalogDataSource,
     modelClient,
+    userId,
+    historyRecorder,
   } = deps;
 
   const now = deps.now ?? new Date().toISOString();
@@ -211,7 +229,7 @@ export async function runTestDrive(
 
   // ── 3. Meter check ───────────────────────────────────────────────────────
 
-  const meterDecision = await checkMeter({ token, ipHash, now, dataSource: meterDataSource });
+  const meterDecision = await checkMeter({ token, ipHash, now, dataSource: meterDataSource, userId });
   if (!meterDecision.allowed) {
     return {
       kind: 'denied',
@@ -250,6 +268,26 @@ export async function runTestDrive(
     };
   }
 
+  // Best-effort history recording for signed-in runs (cache hit or live). Never
+  // fails the run; anonymous runs (no userId / no recorder) record nothing.
+  async function recordHistory(output: string, cached: boolean): Promise<void> {
+    if (!userId || !historyRecorder) return;
+    try {
+      await historyRecorder.record({
+        userId,
+        setupSlug: setup!.slug,
+        setupName: setup!.name,
+        scenarioId: scenario!.id,
+        scenarioTitle: scenario!.title,
+        output,
+        cached,
+        createdAt: now,
+      });
+    } catch (err) {
+      console.error('[runner] history record failed:', err);
+    }
+  }
+
   // ── 7. Compile setup ─────────────────────────────────────────────────────
 
   let compiled;
@@ -267,6 +305,7 @@ export async function runTestDrive(
   const cached = await getCached(cacheKey, cacheDataSource, nowMs);
 
   if (cached) {
+    await recordHistory(cached.output, true);
     return {
       kind: 'cache-hit',
       result: {
@@ -334,6 +373,8 @@ export async function runTestDrive(
     outputTokens: modelUsage.outputTokens,
     estimatedCostUsd: cost,
     createdAt: now,
+    // Attribute signed-in runs so union metering and the merge stay consistent.
+    ...(userId ? { userId } : {}),
   };
 
   try {
@@ -363,6 +404,8 @@ export async function runTestDrive(
     // Non-fatal: log and continue.
     console.error('[runner] putCached failed:', err);
   }
+
+  await recordHistory(output, false);
 
   return {
     kind: 'success',

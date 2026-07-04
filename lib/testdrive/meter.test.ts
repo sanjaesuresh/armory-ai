@@ -11,6 +11,7 @@ import {
   recordUsage,
   budgetStatus,
   saltIp,
+  mergeAnonUsageToUser,
   type MeterDataSource,
   type CheckMeterParams,
 } from './meter';
@@ -55,6 +56,12 @@ function makeDataSource(opts?: {
       if (fixedTokenRuns !== undefined) return fixedTokenRuns;
       return rows.filter((r) => r.token === token && r.createdAt >= dayStart).length;
     },
+    async countUserOrTokenRunsToday(userId: string, token: string, dayStart: string) {
+      if (fixedTokenRuns !== undefined) return fixedTokenRuns;
+      return rows.filter(
+        (r) => (r.userId === userId || r.token === token) && r.createdAt >= dayStart,
+      ).length;
+    },
     async countIpRunsToday(ipHash: string, dayStart: string) {
       if (fixedIpRuns !== undefined) return fixedIpRuns;
       return rows.filter((r) => r.ipHash === ipHash && r.createdAt >= dayStart).length;
@@ -67,6 +74,16 @@ function makeDataSource(opts?: {
     },
     async recordUsage(row: UsageRow) {
       rows.push(row);
+    },
+    async assignTokenRunsToUser(userId: string, token: string) {
+      let n = 0;
+      for (const r of rows) {
+        if (r.token === token && r.userId === undefined) {
+          r.userId = userId;
+          n += 1;
+        }
+      }
+      return n;
     },
     async hasAlertFiredToday(_dayKey: string) {
       return alertFired;
@@ -172,6 +189,11 @@ describe('checkMeter', () => {
       async countTokenRunsToday(token, dayStart) {
         return rows.filter((r) => r.token === token && r.createdAt >= dayStart).length;
       },
+      async countUserOrTokenRunsToday(userId, token, dayStart) {
+        return rows.filter(
+          (r) => (r.userId === userId || r.token === token) && r.createdAt >= dayStart,
+        ).length;
+      },
       async countIpRunsToday(ipHash, dayStart) {
         return rows.filter((r) => r.ipHash === ipHash && r.createdAt >= dayStart).length;
       },
@@ -181,6 +203,7 @@ describe('checkMeter', () => {
           .reduce((sum, r) => sum + r.estimatedCostUsd, 0);
       },
       async recordUsage(row) { rows.push(row); },
+      async assignTokenRunsToUser() { return 0; },
       async hasAlertFiredToday() { return false; },
       async markAlertFiredToday() { /* noop */ },
     };
@@ -193,6 +216,83 @@ describe('checkMeter', () => {
     });
 
     expect(decision.allowed).toBe(true);
+  });
+});
+
+const USER = '11111111-1111-1111-1111-111111111111';
+const TOKEN_2 = '1111' + '2222' + '3333' + '4444' + '5555' + '6666' + '7777' + '8888';
+
+function usageRow(overrides: Partial<UsageRow>): UsageRow {
+  return {
+    token: TOKEN,
+    ipHash: IP_HASH,
+    inputTokens: 100,
+    outputTokens: 50,
+    estimatedCostUsd: 0.001,
+    createdAt: '2026-07-02T10:00:00.000Z',
+    ...overrides,
+  };
+}
+
+describe('checkMeter — signed-in union cap (Task 4)', () => {
+  it('counts the union of the user rows and the current token rows', async () => {
+    const { ds, rows } = makeDataSource();
+    // 3 rows already owned by the user (from another browser) + 2 on this token.
+    for (let i = 0; i < 3; i++) rows.push(usageRow({ userId: USER, token: TOKEN_2, createdAt: `2026-07-02T0${i}:00:00.000Z` }));
+    for (let i = 0; i < 2; i++) rows.push(usageRow({ token: TOKEN, createdAt: `2026-07-02T1${i}:00:00.000Z` }));
+
+    // Union = 3 + 2 = 5 = TOKEN_CAP → denied.
+    const decision = await checkMeter({ token: TOKEN, ipHash: IP_HASH, now: NOW, dataSource: ds, userId: USER });
+    expect(decision.allowed).toBe(false);
+    expect(decision.reason).toBe('session-cap');
+  });
+
+  it('signing in on a fresh browser does not mint a new allowance', async () => {
+    const { ds, rows } = makeDataSource();
+    // The user already used their full daily cap under a previous token.
+    for (let i = 0; i < TOKEN_CAP; i++) rows.push(usageRow({ userId: USER, token: TOKEN_2, createdAt: `2026-07-02T0${i}:00:00.000Z` }));
+
+    // New browser: brand-new token with zero rows, but signed in as the same user.
+    const decision = await checkMeter({ token: TOKEN, ipHash: 'freship', now: NOW, dataSource: ds, userId: USER });
+    expect(decision.allowed).toBe(false);
+    expect(decision.reason).toBe('session-cap');
+  });
+
+  it('anonymous cap is unchanged (token-only) when no userId is given', async () => {
+    const { ds, rows } = makeDataSource();
+    for (let i = 0; i < TOKEN_CAP - 1; i++) rows.push(usageRow({ token: TOKEN, createdAt: `2026-07-02T0${i}:00:00.000Z` }));
+    const decision = await checkMeter({ token: TOKEN, ipHash: IP_HASH, now: NOW, dataSource: ds });
+    expect(decision.allowed).toBe(true);
+  });
+});
+
+describe('mergeAnonUsageToUser (Task 4)', () => {
+  it('assigns the token\'s anonymous rows to the user and is idempotent', async () => {
+    const { ds, rows } = makeDataSource();
+    rows.push(usageRow({ token: TOKEN, createdAt: '2026-07-02T01:00:00.000Z' }));
+    rows.push(usageRow({ token: TOKEN, createdAt: '2026-07-02T02:00:00.000Z' }));
+    rows.push(usageRow({ token: TOKEN_2, createdAt: '2026-07-02T03:00:00.000Z' })); // other token, untouched
+
+    const first = await mergeAnonUsageToUser(USER, TOKEN, ds);
+    expect(first).toBe(2);
+    expect(rows.filter((r) => r.userId === USER)).toHaveLength(2);
+    expect(rows.find((r) => r.token === TOKEN_2)?.userId).toBeUndefined();
+
+    // Re-running changes nothing (rows already owned).
+    const second = await mergeAnonUsageToUser(USER, TOKEN, ds);
+    expect(second).toBe(0);
+    expect(rows.filter((r) => r.userId === USER)).toHaveLength(2);
+  });
+
+  it('after merge, the union cap counts the adopted rows exactly once', async () => {
+    const { ds, rows } = makeDataSource();
+    for (let i = 0; i < TOKEN_CAP; i++) rows.push(usageRow({ token: TOKEN, createdAt: `2026-07-02T0${i}:00:00.000Z` }));
+
+    await mergeAnonUsageToUser(USER, TOKEN, ds);
+    // Same user + same token → the rows match both predicates but count once.
+    const decision = await checkMeter({ token: TOKEN, ipHash: IP_HASH, now: NOW, dataSource: ds, userId: USER });
+    expect(decision.allowed).toBe(false);
+    expect(decision.reason).toBe('session-cap');
   });
 });
 

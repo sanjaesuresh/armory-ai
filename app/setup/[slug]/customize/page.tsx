@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { createCatalogRepository } from '@/lib/catalog/repository';
 import { isTestDriveLaunched } from '@/lib/testdrive/flags';
+import { getSessionUser } from '@/lib/supabase/server';
 import CustomizeView from '@/components/CustomizeView';
 import Link from 'next/link';
 
@@ -62,10 +63,19 @@ export default async function CustomizePage({ params }: Props) {
   // to hide the panel on every page load.
   const testDriveEnabled = isTestDriveLaunched();
 
+  // Session lookup is for the optional "Save my setup" affordance only — it never
+  // gates the page. Signed-out users get the full customize/export flow unchanged.
+  const user = await getSessionUser();
+
   return (
     <main className="section-tight">
       <div className="wrap">
-        <CustomizeView setup={setup} testDriveEnabled={testDriveEnabled} />
+        <CustomizeView
+          setup={setup}
+          testDriveEnabled={testDriveEnabled}
+          signedIn={Boolean(user)}
+          userId={user?.id}
+        />
       </div>
     </main>
   );

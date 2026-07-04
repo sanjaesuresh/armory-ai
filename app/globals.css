@@ -224,6 +224,49 @@ img, svg { vertical-align: middle; }
 .nav-links .btn-primary { color: #fff; }
 .nav-links .btn-primary:hover { background: #3d372a; color: #fff; }
 
+/* Nav account menu (desktop) */
+.nav-account { position: relative; }
+/* #fff on #272319 = 18.1:1 — WCAG AAA */ /* unslop-ignore: brand-consistent ink badge */
+.account-initial {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--ink); color: #fff;
+  font-size: 0.68rem; font-weight: 800; flex: none;
+}
+.account-dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  min-width: 196px; z-index: 50;
+  background: var(--paper); border: 1px solid var(--hairline);
+  border-radius: var(--r-md); box-shadow: var(--shadow-2);
+  padding: 6px; display: flex; flex-direction: column; gap: 2px;
+}
+.account-dropdown-email {
+  padding: 6px 10px 10px; font-size: 0.8rem; color: var(--ink-soft);
+  border-bottom: 1px solid var(--hairline); margin-bottom: 4px;
+  word-break: break-all; line-height: 1.4;
+}
+/* --ink-soft (#4f483c) on --paper (#fff): ~6.8:1 — WCAG AA pass */
+.account-dropdown a,
+.account-dropdown-signout {
+  display: block; width: 100%; padding: 8px 10px;
+  border-radius: 8px;
+  font: inherit; font-size: 0.88rem; font-weight: 600;
+  color: var(--ink-soft); background: none; border: 0;
+  cursor: pointer; text-align: left; text-decoration: none;
+  transition: background var(--t-base), color var(--t-base);
+}
+.account-dropdown a:hover,
+.account-dropdown-signout:hover {
+  background: var(--oat); color: var(--ink); text-decoration: none;
+}
+
+/* Mobile-only nav button (sign out in dropdown) */
+.nav-mobile-btn {
+  display: none; background: none; border: none; cursor: pointer; font: inherit;
+  color: var(--ink-soft); font-weight: 600; font-size: 0.92rem;
+  padding: 7px 12px; border-radius: 999px; text-align: left;
+}
+
 /* ---- buttons ---------------------------------------------- */
 
 .btn {
@@ -862,6 +905,53 @@ pre.code {
 }
 .td-section h2 { font-size: clamp(1.5rem, 2.8vw, 1.9rem); margin-bottom: 6px; }
 
+/* ---- auth prompt ------------------------------------------ */
+
+/* Container used on the account page and inside gated-action inline prompts */
+.auth-prompt { display: grid; gap: 14px; }
+/* --ink-soft (#4f483c) on --paper (#fff): ~6.8:1 — WCAG AA pass */
+.auth-prompt-msg { font-size: 0.95rem; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+.auth-prompt-form { display: flex; gap: 10px; flex-wrap: wrap; }
+.auth-prompt-form input[type="email"] { flex: 1 1 180px; min-width: 0; }
+.auth-prompt-sent {
+  background: var(--good-tint); color: var(--good);
+  border-radius: var(--r-sm); padding: 12px 16px;
+  font-size: 0.9rem; margin: 0; line-height: 1.5;
+}
+.auth-prompt-error { font-size: 0.85rem; font-weight: 600; color: var(--bad); margin: 0; }
+.auth-prompt-note { margin: 0; }
+
+/* ---- account page ----------------------------------------- */
+
+.account-page { padding: 48px 0 72px; }
+.account-sign-in-card {
+  max-width: 500px; margin: 0 auto;
+}
+.account-sign-in-card h1 { font-size: 1.8rem; margin-bottom: 6px; }
+.account-sign-in-card .account-lede { color: var(--muted); font-size: 0.94rem; margin-bottom: 28px; }
+.account-info-card {
+  max-width: 500px; margin: 0 auto;
+  background: var(--paper); border: 1px solid var(--hairline);
+  border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow-1);
+  display: grid; gap: 24px;
+}
+.account-info-email {
+  font-size: 0.92rem; color: var(--ink-soft); font-weight: 600;
+  background: var(--oat); border-radius: var(--r-sm);
+  padding: 10px 14px; word-break: break-all;
+}
+.account-links { display: flex; flex-direction: column; gap: 8px; }
+.account-link {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 13px 16px; border: 1px solid var(--hairline); border-radius: var(--r-md);
+  color: var(--ink); font-weight: 600; font-size: 0.94rem;
+  transition: border-color var(--t-base), background var(--t-base);
+}
+.account-link:hover {
+  border-color: var(--hairline-strong); background: var(--oat); text-decoration: none;
+}
+.account-link svg { color: var(--muted); flex: none; }
+
 /* ---- footer ----------------------------------------------- */
 
 .footer { border-top: 1px solid var(--hairline); background: var(--oat); padding: 44px 0; margin-top: 40px; }
@@ -903,8 +993,12 @@ pre.code {
     background: var(--paper); border-bottom: 1px solid var(--hairline);
     padding: 12px 24px 20px; box-shadow: var(--shadow-2);
   }
-  /* Show the CTA inside the mobile dropdown */
+  /* Show mobile-only items inside the open dropdown */
   .nav.open .nav-links .nav-mobile-cta { display: inline-flex; align-self: flex-start; margin-top: 6px; }
+  .nav.open .nav-links .nav-mobile-btn {
+    display: block; align-self: flex-start; margin-top: 6px;
+  }
+  .nav.open .nav-links .nav-mobile-btn:hover { background: var(--oat); color: var(--ink); }
   .hero-grid, .detail-head, .two-col { grid-template-columns: 1fr; }
   .hero-art { display: none; }
   .doodle-note { display: none; }
@@ -948,3 +1042,89 @@ pre.code {
    RULE: place .muted / .small text on any tint using --ink-soft (#4f483c, ~6.8:1),
    never --muted. --ink (#272319) body text passes on all tints by a wide margin.
 */
+
+/* ── Saved setups list + test-drive history (ported from docs/mock/library.html) ── */
+
+.lib-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap; margin-bottom: 22px;
+}
+
+.lib-row {
+  display: flex; align-items: center; gap: 16px;
+  border: 1px solid var(--hairline); border-radius: var(--r-md);
+  padding: 16px 20px; margin-bottom: 12px; background: var(--paper);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.lib-row:hover { border-color: var(--hairline-strong); box-shadow: var(--shadow-1); }
+.lib-row .icon-badge { flex: none; }
+.lib-row .lib-body { flex: 1; min-width: 0; }
+.lib-row .lib-body strong { display: block; font-size: 0.98rem; }
+.lib-row .lib-body span { font-size: 0.82rem; color: var(--ink-soft); }
+.lib-row .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* Kebab "more actions" trigger + its dropdown menu (accessible: real menu, not the mock's inert ⋯). */
+.saved-menu-wrap { position: relative; flex: none; }
+.kebab {
+  font: inherit; background: none; border: 1px solid transparent; border-radius: var(--r-sm);
+  padding: 6px 10px; cursor: pointer; color: var(--muted); font-weight: 800; letter-spacing: 1px;
+  line-height: 1;
+}
+.kebab:hover { background: var(--oat); color: var(--ink); }
+.saved-menu {
+  position: absolute; right: 0; top: calc(100% + 4px); z-index: 20;
+  min-width: 168px; padding: 6px; margin: 0; list-style: none;
+  background: var(--paper); border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-md); box-shadow: var(--shadow-2, 0 8px 24px rgba(0,0,0,0.12));
+}
+.saved-menu button {
+  display: block; width: 100%; text-align: left; font: inherit; font-size: 0.9rem;
+  background: none; border: 0; border-radius: var(--r-sm); padding: 8px 10px;
+  cursor: pointer; color: var(--ink);
+}
+.saved-menu button:hover, .saved-menu button:focus-visible { background: var(--oat); }
+.saved-menu button.danger { color: var(--bad); }
+.saved-menu button:disabled { color: var(--muted); cursor: not-allowed; }
+
+/* Inline rename field inside a row. */
+.saved-rename { display: flex; gap: 8px; align-items: center; flex: 1; min-width: 0; }
+.saved-rename input { flex: 1; min-width: 0; }
+
+/* Small modal dialog for the resume-conflict question and delete confirmation. */
+.saved-dialog-overlay {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  background: rgba(39, 35, 25, 0.42);
+}
+.saved-dialog {
+  max-width: 420px; width: 100%; background: var(--paper);
+  border-radius: var(--r-lg, 16px); padding: 24px; box-shadow: var(--shadow-2, 0 8px 24px rgba(0,0,0,0.12));
+}
+.saved-dialog h2 { font-size: 1.15rem; margin: 0 0 8px; }
+.saved-dialog p { color: var(--ink-soft); font-size: 0.92rem; margin: 0 0 18px; }
+.saved-dialog-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+
+/* Neutral informational banner (version-drift note on resume). */
+.info-note {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: var(--sky); border: 1px solid var(--hairline);
+  border-radius: var(--r-md); padding: 12px 16px; margin-bottom: 20px;
+  font-size: 0.9rem; color: var(--ink);
+}
+.info-note button {
+  margin-left: auto; background: none; border: 0; cursor: pointer;
+  color: var(--ink-soft); font: inherit; font-weight: 700; padding: 0 4px;
+}
+
+.history-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.history-table th {
+  text-align: left; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); font-weight: 700; padding: 10px 14px; border-bottom: 1px solid var(--hairline);
+}
+.history-table td { padding: 14px; border-bottom: 1px solid var(--hairline); }
+.history-table tr:last-child td { border-bottom: 0; }
+
+@media (max-width: 640px) {
+  .lib-row { flex-wrap: wrap; }
+  .lib-row .lib-body { flex-basis: 100%; }
+}

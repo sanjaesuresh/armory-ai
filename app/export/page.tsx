@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createCatalogRepository } from '@/lib/catalog/repository';
+import { getSessionUser } from '@/lib/supabase/server';
 import ExportView from '@/components/ExportView';
 
 interface Props {
@@ -37,9 +38,13 @@ export default async function ExportPage({ searchParams }: Props) {
     notFound();
   }
 
+  // Session lookup enables the stored-file export fallback only; the export flow
+  // stays fully functional signed out.
+  const user = await getSessionUser();
+
   return (
     <main>
-      <ExportView setup={setup} />
+      <ExportView setup={setup} signedIn={Boolean(user)} />
     </main>
   );
 }

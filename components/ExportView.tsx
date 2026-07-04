@@ -15,6 +15,8 @@ type PlanChoice = 'pro' | 'free' | null;
 
 interface Props {
   setup: Setup;
+  /** Whether a user session exists — enables the stored-file export fallback. */
+  signedIn?: boolean;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -116,11 +118,11 @@ function ArrowRightIcon() {
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export default function ExportView({ setup }: Props) {
+export default function ExportView({ setup, signedIn = false }: Props) {
   const showTargetPicker = setup.targets.length > 1;
   const [target, setTarget] = useState<ExportTarget>(setup.targets[0] ?? 'claude-app');
   const [chatGptBranch, setChatGptBranch] = useState<ChatGptBranch>('custom-gpt');
-  const phase = useExportSetup(setup, target, chatGptBranch);
+  const phase = useExportSetup(setup, target, chatGptBranch, signedIn);
   const [planChoice, setPlanChoice] = useState<PlanChoice>(null);
 
   function chooseTarget(next: ExportTarget) {
@@ -224,7 +226,7 @@ export default function ExportView({ setup }: Props) {
 
   // ── Happy path ─────────────────────────────────────────────────────────────
 
-  const { slug, blocks, answers } = phase;
+  const { slug, blocks, answers, storedFiles } = phase;
   const brandName =
     typeof answers.brandName === 'string' && answers.brandName.trim()
       ? answers.brandName.trim()
@@ -253,6 +255,25 @@ export default function ExportView({ setup }: Props) {
         each block into {target === 'chatgpt' ? 'ChatGPT' : 'Claude'} — the walkthrough shows
         exactly where everything goes.
       </p>
+
+      {/* Stored-copy note: a knowledge file was filled from the user's saved copy
+          because there was no fresh in-browser attachment this session. */}
+      {storedFiles && storedFiles.length > 0 && (
+        <div className="info-note" role="status" data-testid="stored-copy-note" style={{ marginTop: 16 }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flex: 'none', marginTop: 1 }}>
+            <path d="M6.5 3.5h7L18.5 8v11.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z" />
+            <path d="M13.5 3.5V8h4.5" />
+          </svg>
+          <div style={{ flex: 1 }}>
+            {storedFiles.map((f) => (
+              <div key={f.name}>
+                Using your saved file <strong>{f.name}</strong> from{' '}
+                {new Date(f.savedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}.
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 3-column layout */}
       <div className="export-layout">

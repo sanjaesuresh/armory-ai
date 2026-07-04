@@ -92,9 +92,11 @@ const flagChecker: FlagChecker = { isTestDriveEnabled: async () => true };
 
 const meterDataSource: MeterDataSource = {
   countTokenRunsToday: async () => 0,
+  countUserOrTokenRunsToday: async () => 0,
   countIpRunsToday: async () => 0,
   sumCostToday: async () => 0,
   recordUsage: async () => {},
+  assignTokenRunsToUser: async () => 0,
   hasAlertFiredToday: async () => true,
   markAlertFiredToday: async () => {},
 };

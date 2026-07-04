@@ -1,13 +1,17 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { Setup, Answers, KnowledgeFile } from '@/lib/setup/types';
+import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+import { createSupabaseStoredFilesStore } from '@/lib/saved/storedFiles';
 import SetupForm from './SetupForm';
 import FileAttachment from './fields/FileAttachment';
 import PreviewPanel from './PreviewPanel';
 import TestDrivePanel from './TestDrivePanel';
+import SaveSetupControl from './SaveSetupControl';
+import ResumeNotice from './ResumeNotice';
 import StepRail, { type WizardStep } from './StepRail';
 import {
   type AttachmentsMap,
@@ -67,11 +71,20 @@ interface Props {
   setup: Setup;
   /** Whether the test-drive feature flag is on (sourced server-side). */
   testDriveEnabled?: boolean;
+  /** Whether a user session exists (sourced server-side). Gates "Save my setup". */
+  signedIn?: boolean;
+  /** The signed-in user's id, when present. */
+  userId?: string;
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-export default function CustomizeView({ setup, testDriveEnabled = false }: Props) {
+export default function CustomizeView({
+  setup,
+  testDriveEnabled = false,
+  signedIn = false,
+  userId,
+}: Props) {
   const router = useRouter();
   const steps = deriveSteps(setup);
 
@@ -84,8 +97,32 @@ export default function CustomizeView({ setup, testDriveEnabled = false }: Props
   const [validateNow, setValidateNow] = useState(0);
   const [knowledgeError, setKnowledgeError] = useState<string | null>(null);
   const [exportError, setExportError] = useState<string | null>(null);
+  // Existing account-stored copies keyed by knowledge-file name (signed-in only).
+  const [storedByName, setStoredByName] = useState<Record<string, { id: string; storagePath: string }>>({});
 
   const stepHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  // Load the user's stored knowledge files once, so the attachment fields can
+  // show which are already saved. Signed-in only; failures are non-fatal.
+  useEffect(() => {
+    if (!signedIn) return;
+    let active = true;
+    (async () => {
+      try {
+        const store = createSupabaseStoredFilesStore(createSupabaseBrowserClient());
+        const files = await store.list();
+        if (!active) return;
+        const map: Record<string, { id: string; storagePath: string }> = {};
+        for (const f of files) map[f.knowledgeFileName] = { id: f.id, storagePath: f.storagePath };
+        setStoredByName(map);
+      } catch {
+        // Stored files are optional — ignore load failures.
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [signedIn]);
 
   // ── Answers handler ────────────────────────────────────────────────────────
 
@@ -203,6 +240,9 @@ export default function CustomizeView({ setup, testDriveEnabled = false }: Props
         Claude&apos;s standing instructions.
       </p>
 
+      {/* One-time notice after resuming a saved setup whose version drifted */}
+      <ResumeNotice slug={setup.slug} />
+
       {/* 3-column wizard layout */}
       <div className="cust-layout">
 
@@ -272,6 +312,9 @@ export default function CustomizeView({ setup, testDriveEnabled = false }: Props
                     }
                     setKnowledgeError(null);
                   }}
+                  signedIn={signedIn}
+                  userId={userId}
+                  savedMeta={storedByName[kf.name] ?? null}
                 />
               ))}
 
@@ -365,6 +408,17 @@ export default function CustomizeView({ setup, testDriveEnabled = false }: Props
                   {exportError}
                 </p>
               )}
+
+              {/* Save my setup — optional, account-gated inline (never blocks export) */}
+              <SaveSetupControl
+                setupId={setup.id}
+                setupVersion={setup.version}
+                setupName={setup.name}
+                slug={setup.slug}
+                answers={answers}
+                signedIn={signedIn}
+                userId={userId}
+              />
             </div>
           )}
 

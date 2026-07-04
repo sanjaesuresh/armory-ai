@@ -211,3 +211,223 @@ create table if not exists testdrive_meter_state (
 alter table testdrive_meter_state enable row level security;
 
 -- No anon policies — service-role only.
+
+-- ─── Phase 4: accounts & saving ───────────────────────────────────────────────
+--
+-- Local test setup (RLS integration tests in tests/rls.test.ts):
+--   supabase start
+--   supabase db reset            # applies migrations/schema + seed
+--   (or apply this file to the local db, then create two test users via the
+--    service-role admin API — see the header of tests/rls.test.ts)
+--
+-- Every table below is owner-scoped under RLS from creation: policies are
+-- TO authenticated with an (select auth.uid()) = user_id ownership predicate;
+-- UPDATE carries both USING and WITH CHECK so a row cannot be reassigned to
+-- another user. No SECURITY DEFINER, no user_metadata in policies.
+
+-- ─── saved_setups ─────────────────────────────────────────────────────────────
+-- A signed-in user's saved customization: the setup id + version and exactly the
+-- answers they entered, under a user-given name. Owner-only.
+
+create table if not exists saved_setups (
+  id            uuid primary key default gen_random_uuid(),
+  user_id       uuid not null references auth.users(id) on delete cascade,
+  setup_id      text not null,
+  setup_version text not null,
+  name          text not null,
+  answers       jsonb not null,
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now()
+);
+
+create index if not exists saved_setups_user_id_idx on saved_setups (user_id);
+
+alter table saved_setups enable row level security;
+
+drop policy if exists "owner reads own saved setups" on saved_setups;
+create policy "owner reads own saved setups"
+  on saved_setups for select
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+drop policy if exists "owner inserts own saved setups" on saved_setups;
+create policy "owner inserts own saved setups"
+  on saved_setups for insert
+  to authenticated
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "owner updates own saved setups" on saved_setups;
+create policy "owner updates own saved setups"
+  on saved_setups for update
+  to authenticated
+  using ((select auth.uid()) = user_id)
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "owner deletes own saved setups" on saved_setups;
+create policy "owner deletes own saved setups"
+  on saved_setups for delete
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+-- ─── stored_files ─────────────────────────────────────────────────────────────
+-- Metadata for a signed-in user's opt-in stored knowledge files (Task 5). The
+-- bytes live in Supabase Storage under a per-user path; this row is the index.
+-- Owner-only.
+
+create table if not exists stored_files (
+  id                  uuid primary key default gen_random_uuid(),
+  user_id             uuid not null references auth.users(id) on delete cascade,
+  knowledge_file_name text not null,
+  storage_path        text not null,
+  size_bytes          integer,
+  created_at          timestamptz not null default now(),
+  updated_at          timestamptz not null default now()
+);
+
+create index if not exists stored_files_user_id_idx on stored_files (user_id);
+
+-- One metadata row per (user, knowledge-file name) so opting in again REPLACES
+-- the prior copy (the store upserts on this key).
+create unique index if not exists stored_files_user_name_key
+  on stored_files (user_id, knowledge_file_name);
+
+alter table stored_files enable row level security;
+
+drop policy if exists "owner reads own stored files" on stored_files;
+create policy "owner reads own stored files"
+  on stored_files for select
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+drop policy if exists "owner inserts own stored files" on stored_files;
+create policy "owner inserts own stored files"
+  on stored_files for insert
+  to authenticated
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "owner updates own stored files" on stored_files;
+create policy "owner updates own stored files"
+  on stored_files for update
+  to authenticated
+  using ((select auth.uid()) = user_id)
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "owner deletes own stored files" on stored_files;
+create policy "owner deletes own stored files"
+  on stored_files for delete
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+-- ─── testdrive_usage: add user_id (for the Task 4 anon → user merge) ──────────
+-- Nullable: anonymous runs keep user_id null; on first sign-in a browser's rows
+-- adopt the user id (idempotent merge). The existing anonymous-insert path is
+-- unchanged — no anon policy is added or removed here. A signed-in user may read
+-- only their own linked rows.
+
+alter table testdrive_usage
+  add column if not exists user_id uuid references auth.users(id) on delete set null;
+
+create index if not exists testdrive_usage_user_id_idx on testdrive_usage (user_id);
+
+drop policy if exists "owner reads own usage" on testdrive_usage;
+create policy "owner reads own usage"
+  on testdrive_usage for select
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+-- ─── testdrive_runs ───────────────────────────────────────────────────────────
+-- Signed-in test-drive history (Task 4). One row per signed-in run — cached or
+-- live — recording what the user needs to review it: the setup + scenario, a
+-- truncated output snippet, and the cached flag. Kept separate from
+-- testdrive_usage on purpose: that table is the cost/quota ledger (non-cached
+-- runs only, no content), while this one is the display log (all runs, includes
+-- a snippet). Anonymous runs write no history row.
+--
+-- Trust boundary: the server route inserts here with the service-role key (which
+-- bypasses RLS) setting the correct user_id. Reads are owner-only under RLS via
+-- the user's own session. No anon access.
+
+create table if not exists testdrive_runs (
+  id             uuid primary key default gen_random_uuid(),
+  user_id        uuid not null references auth.users(id) on delete cascade,
+  setup_slug     text not null,
+  setup_name     text not null,
+  scenario_id    text not null,
+  scenario_title text not null,
+  output_snippet text not null,
+  cached         boolean not null default false,
+  created_at     timestamptz not null default now()
+);
+
+create index if not exists testdrive_runs_user_created_idx
+  on testdrive_runs (user_id, created_at desc);
+
+alter table testdrive_runs enable row level security;
+
+drop policy if exists "owner reads own runs" on testdrive_runs;
+create policy "owner reads own runs"
+  on testdrive_runs for select
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+drop policy if exists "owner inserts own runs" on testdrive_runs;
+create policy "owner inserts own runs"
+  on testdrive_runs for insert
+  to authenticated
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "owner deletes own runs" on testdrive_runs;
+create policy "owner deletes own runs"
+  on testdrive_runs for delete
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+-- ─── Storage: user-files bucket (Task 5) ──────────────────────────────────────
+-- Private bucket holding opt-in account-stored knowledge files. Objects live at
+-- `${user_id}/${filename}`; the first path segment is the RLS ownership key, so
+-- a user can only read/write/delete objects inside their own folder. Nothing is
+-- public; the anon role has no access.
+
+insert into storage.buckets (id, name, public)
+  values ('user-files', 'user-files', false)
+  on conflict (id) do nothing;
+
+drop policy if exists "own files read" on storage.objects;
+create policy "own files read"
+  on storage.objects for select
+  to authenticated
+  using (
+    bucket_id = 'user-files'
+    and (storage.foldername(name))[1] = (select auth.uid())::text
+  );
+
+drop policy if exists "own files insert" on storage.objects;
+create policy "own files insert"
+  on storage.objects for insert
+  to authenticated
+  with check (
+    bucket_id = 'user-files'
+    and (storage.foldername(name))[1] = (select auth.uid())::text
+  );
+
+drop policy if exists "own files update" on storage.objects;
+create policy "own files update"
+  on storage.objects for update
+  to authenticated
+  using (
+    bucket_id = 'user-files'
+    and (storage.foldername(name))[1] = (select auth.uid())::text
+  )
+  with check (
+    bucket_id = 'user-files'
+    and (storage.foldername(name))[1] = (select auth.uid())::text
+  );
+
+drop policy if exists "own files delete" on storage.objects;
+create policy "own files delete"
+  on storage.objects for delete
+  to authenticated
+  using (
+    bucket_id = 'user-files'
+    and (storage.foldername(name))[1] = (select auth.uid())::text
+  );

@@ -206,3 +206,45 @@ describe('missingRequiredAttachments', () => {
     expect(missingRequiredAttachments([starterFile], map)).toEqual([]);
   });
 });
+
+describe('FileAttachment — opt-in account storage (Task 5)', () => {
+  it('shows no account-save control when signed out (default)', () => {
+    render(
+      <FileAttachment knowledgeFile={userProvidedFile} value="attached content" onChange={vi.fn()} />,
+    );
+    expect(screen.queryByTestId('stored-file-optin')).toBeNull();
+    // The default in-browser-only warning is present.
+    expect(screen.getByText(/Files stay in your browser/i)).toBeInTheDocument();
+  });
+
+  it('offers the opt-in save only when signed in AND a file is attached', () => {
+    const { rerender } = render(
+      <FileAttachment knowledgeFile={userProvidedFile} value={undefined} onChange={vi.fn()} signedIn userId="u1" />,
+    );
+    // Signed in but nothing attached yet — no save button (no implicit upload).
+    expect(screen.queryByTestId('stored-file-save')).toBeNull();
+
+    rerender(
+      <FileAttachment knowledgeFile={userProvidedFile} value="attached content" onChange={vi.fn()} signedIn userId="u1" />,
+    );
+    expect(screen.getByTestId('stored-file-save')).toBeInTheDocument();
+  });
+
+  it('reflects an existing stored copy and swaps the refresh warning for a saved note', () => {
+    render(
+      <FileAttachment
+        knowledgeFile={userProvidedFile}
+        value={undefined}
+        onChange={vi.fn()}
+        signedIn
+        userId="u1"
+        savedMeta={{ id: 'f1', storagePath: 'u1/your-brand-guidelines' }}
+      />,
+    );
+    expect(screen.getByTestId('stored-file-saved')).toBeInTheDocument();
+    expect(screen.getByTestId('stored-file-remove')).toBeInTheDocument();
+    // The in-browser-only warning is replaced by the saved-copy note.
+    expect(screen.queryByText(/Files stay in your browser/i)).toBeNull();
+    expect(screen.getByText(/used at export even after a refresh/i)).toBeInTheDocument();
+  });
+});
