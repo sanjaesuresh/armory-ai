@@ -322,6 +322,13 @@ img, svg { vertical-align: middle; }
 .status-draft  { background: var(--warn-tint); color: var(--warn); }
 .status-soon   { background: var(--oat-deep);  color: var(--ink-soft); } /* unslop-ignore: contrast fix, --muted fails AA on --oat-deep at small size */
 
+.finding {
+  display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px;
+  border-radius: var(--r-sm); font-size: 0.88rem; margin-bottom: 8px;
+}
+.finding-flag { background: var(--peach); }
+.finding-ok   { background: var(--sage); }
+
 .trust-cue {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 0.85rem; font-weight: 600; color: var(--good);
@@ -1127,4 +1134,102 @@ pre.code {
 @media (max-width: 640px) {
   .lib-row { flex-wrap: wrap; }
   .lib-row .lib-body { flex-basis: 100%; }
+}
+
+/* ── Community builder (Phase 5) ─────────────────────────────────────────── */
+
+/* Source badges: curated and community labels on catalog rows and preview */
+/* #4b3fb0 on #ece9fa → ~6.5:1 — WCAG AA pass */ /* unslop-ignore: brand-consistent community badge */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.02em;
+  padding: 3px 9px; border-radius: 999px; white-space: nowrap;
+}
+.badge-community { background: var(--lilac); color: #4b3fb0; }
+/* #3d6b3a on #e6f0e0 → ~6.2:1 — WCAG AA pass */
+.badge-curated    { background: var(--sage);  color: #3d6b3a; }
+
+/* Two-column field layout (role + category side by side in the builder) */
+.field.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field.two-col > div { display: flex; flex-direction: column; }
+@media (max-width: 560px) { .field.two-col { grid-template-columns: 1fr; } }
+
+/* ── Moderation queue (Phase 5) ──────────────────────────────────────────── */
+
+/* One pending-submission row in the review queue. */
+.queue-item {
+  display: flex; align-items: center; gap: 16px;
+  border: 1px solid var(--hairline); border-radius: var(--r-md);
+  padding: 16px 20px; margin-bottom: 12px; background: var(--paper);
+}
+/* "Needs attention" pill inside a queue-item title */
+/* #9a5b1a on --peach (#fcebdb) → ~5.2:1 — WCAG AA pass for bold text */
+.queue-item .flag {
+  font-size: 0.72rem; font-weight: 700; color: #9a5b1a; background: var(--peach);
+  padding: 3px 9px; border-radius: 999px;
+}
+
+/* Save-state indicator inside the builder form-nav */
+.save-indicator {
+  font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px;
+}
+.save-indicator--saved  { color: var(--good); }
+.save-indicator--saving { color: var(--muted); }
+.save-indicator--error  { color: var(--bad); }
+
+/* ── Community affordances: upvote button, report, takedown (Phase 5) ──────── */
+
+/* Upvote toggle button — on catalog cards (just the count span) and on the detail page */
+/* --ink-soft (#4f483c) on --paper (#fff): ~6.8:1 — WCAG AA pass */
+.upvote-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: 1px solid var(--hairline-strong);
+  border-radius: 999px; padding: 6px 14px;
+  font: inherit; font-size: 0.88rem; font-weight: 700;
+  color: var(--ink-soft); cursor: pointer;
+  transition: background var(--t-base), border-color var(--t-base), color var(--t-base);
+}
+.upvote-btn:hover { background: var(--oat); border-color: var(--ink); color: var(--ink); }
+/* Active (upvoted): #4b3fb0 on --iris-tint (#efedfb) → ~6.5:1 — WCAG AA pass */
+/* unslop-ignore: brand-consistent iris accent for upvoted state */
+.upvote-btn--active { background: var(--iris-tint); border-color: var(--iris); color: #4b3fb0; }
+.upvote-btn--active:hover { background: var(--iris-tint); border-color: var(--iris-deep); }
+.upvote-btn:disabled { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+.upvote-btn:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; }
+.upvote-wrap { display: inline-block; }
+
+/* Report trigger — low-key text link; expands to a contained form */
+.report-setup-trigger {
+  background: none; border: 0; padding: 0;
+  font: inherit; font-size: 0.82rem; font-weight: 600;
+  color: var(--muted); cursor: pointer;
+  text-decoration: underline; text-decoration-color: transparent;
+  transition: color var(--t-base), text-decoration-color var(--t-base);
+}
+.report-setup-trigger:hover { color: var(--ink-soft); text-decoration-color: currentColor; }
+.report-setup-trigger:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; border-radius: 2px; }
+/* Form container for the expanded report form */
+.report-setup-form {
+  padding: 14px 18px; background: var(--oat);
+  border-radius: var(--r-md); border: 1px solid var(--hairline);
+}
+/* Outcome message (success / already-reported) */
+.report-setup-outcome { font-size: 0.88rem; color: var(--ink-soft); margin: 0; }
+
+/* Moderator takedown — destructive, kept visually minor */
+/* --bad (#b3402f) on --paper (#fff): ~5.4:1 — WCAG AA pass for bold text */
+.takedown-trigger {
+  background: none; border: 0; padding: 0;
+  font: inherit; font-size: 0.82rem; font-weight: 600;
+  color: var(--bad); cursor: pointer;
+  text-decoration: underline; text-decoration-color: transparent;
+  transition: text-decoration-color var(--t-base);
+}
+.takedown-trigger:hover { text-decoration-color: currentColor; }
+.takedown-trigger:focus-visible { outline: 2px solid var(--bad); outline-offset: 2px; border-radius: 2px; }
+/* Form container for the takedown confirmation */
+.takedown-form {
+  padding: 14px 18px;
+  background: var(--bad-tint); border: 1px solid rgba(179, 64, 47, 0.25);
+  border-radius: var(--r-md);
 }

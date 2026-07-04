@@ -431,3 +431,195 @@ create policy "own files delete"
     bucket_id = 'user-files'
     and (storage.foldername(name))[1] = (select auth.uid())::text
   );
+
+-- ══════════════════════════════════════════════════════════════════════════════
+-- Phase 5: community (authoring, review gate, moderation, upvotes)
+-- ══════════════════════════════════════════════════════════════════════════════
+--
+-- One schema: a community submission is just a setups row with source='community'
+-- and author = the author's auth uid (as text). Lifecycle lives on review_status
+-- (draft → pending → approved | rejected). No auto-publish: authors can move
+-- their own rows only within {draft, pending}; approved/rejected are set only by
+-- moderators through the service role after an allowlist check. Public reads stay
+-- approved-only (the Phase 1 policy is unchanged).
+
+-- Operational column: the stored safety-screen result for a submission (null for
+-- curated rows). Not a content field — the "one schema" constraint is about
+-- content, and this is lifecycle bookkeeping like review_status/upvotes.
+alter table setups add column if not exists safety_screen jsonb;
+
+-- ─── setups: author lifecycle RLS ─────────────────────────────────────────────
+-- The existing "anonymous can read approved setups" SELECT policy stays. These
+-- add authenticated authors' own-row access without widening the public surface.
+
+-- Authors read their OWN rows in any status (so drafts/pending/rejected show on
+-- their submissions page); everyone still reads approved via the anon policy.
+drop policy if exists "authors read own setups" on setups;
+create policy "authors read own setups"
+  on setups for select
+  to authenticated
+  using (author = (select auth.uid())::text);
+
+-- Authors create only their own community drafts (author + source + status fixed).
+drop policy if exists "authors insert own community drafts" on setups;
+create policy "authors insert own community drafts"
+  on setups for insert
+  to authenticated
+  with check (
+    author = (select auth.uid())::text
+    and source = 'community'
+    and review_status = 'draft'
+  );
+
+-- Authors edit/submit/withdraw only their own rows, and only within {draft,
+-- pending} — so they can never set approved/rejected, and never touch an
+-- approved row. The content-lock (no edits while pending) is enforced in the
+-- app/data-access layer: /build/[id] redirects away for non-draft rows, and
+-- updateDraftFields() scopes content writes to review_status='draft'.
+drop policy if exists "authors update own non-approved setups" on setups;
+create policy "authors update own non-approved setups"
+  on setups for update
+  to authenticated
+  -- USING allows acting on any non-approved row (incl. rejected, so the author
+  -- can reopen it → draft). WITH CHECK forbids the resulting row from being
+  -- approved OR rejected, so an author can only ever land a row in draft/pending
+  -- (submit, withdraw, reopen) — never self-approve and never keep it rejected.
+  using (author = (select auth.uid())::text and review_status in ('draft', 'pending', 'rejected'))
+  with check (author = (select auth.uid())::text and review_status in ('draft', 'pending'));
+
+-- Authors delete only their own non-approved rows.
+drop policy if exists "authors delete own non-approved setups" on setups;
+create policy "authors delete own non-approved setups"
+  on setups for delete
+  to authenticated
+  using (author = (select auth.uid())::text and review_status <> 'approved');
+
+-- ─── moderators ───────────────────────────────────────────────────────────────
+-- Allowlist of moderator user ids. Membership is checked server-side before any
+-- moderation action (which then runs via the service role). No self-service:
+-- only the service role writes this table.
+
+create table if not exists moderators (
+  user_id     uuid primary key references auth.users(id) on delete cascade,
+  added_at    timestamptz not null default now()
+);
+
+alter table moderators enable row level security;
+-- No anon/authenticated policies — readable/writable only via the service role.
+
+-- ─── upvotes ──────────────────────────────────────────────────────────────────
+-- One row per (user, setup); the unique pair is the source of truth. The
+-- denormalized count lives in setups.upvotes, refreshed by the popularity job.
+
+create table if not exists upvotes (
+  user_id     uuid not null references auth.users(id) on delete cascade,
+  setup_id    text not null references setups(id) on delete cascade,
+  created_at  timestamptz not null default now(),
+  primary key (user_id, setup_id)
+);
+
+create index if not exists upvotes_setup_idx on upvotes (setup_id);
+
+alter table upvotes enable row level security;
+
+-- A signed-in user manages only their own upvote rows.
+drop policy if exists "owner reads own upvotes" on upvotes;
+create policy "owner reads own upvotes"
+  on upvotes for select
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+drop policy if exists "owner inserts own upvotes" on upvotes;
+create policy "owner inserts own upvotes"
+  on upvotes for insert
+  to authenticated
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "owner deletes own upvotes" on upvotes;
+create policy "owner deletes own upvotes"
+  on upvotes for delete
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+-- ─── reports ──────────────────────────────────────────────────────────────────
+-- A signed-in user reports an approved setup. The unique (reporter, setup) pair
+-- rate-limits to one report per user per setup. Moderators read via the service
+-- role; reporters never read others' reports.
+
+create table if not exists reports (
+  id           uuid primary key default gen_random_uuid(),
+  reporter_id  uuid not null references auth.users(id) on delete cascade,
+  setup_id     text not null references setups(id) on delete cascade,
+  reason       text not null,
+  note         text,
+  created_at   timestamptz not null default now(),
+  unique (reporter_id, setup_id)
+);
+
+create index if not exists reports_setup_idx on reports (setup_id);
+
+alter table reports enable row level security;
+
+drop policy if exists "reporter inserts own reports" on reports;
+create policy "reporter inserts own reports"
+  on reports for insert
+  to authenticated
+  with check ((select auth.uid()) = reporter_id);
+
+drop policy if exists "reporter reads own reports" on reports;
+create policy "reporter reads own reports"
+  on reports for select
+  to authenticated
+  using ((select auth.uid()) = reporter_id);
+
+-- ─── review_audit ─────────────────────────────────────────────────────────────
+-- One row per moderation action (approve / reject / takedown): who, what
+-- transition, the note, when. Written only by the service role; no client reads.
+
+create table if not exists review_audit (
+  id            uuid primary key default gen_random_uuid(),
+  setup_id      text not null,
+  moderator_id  uuid not null,
+  action        text not null check (action in ('approve', 'reject', 'takedown')),
+  from_status   text not null,
+  to_status     text not null,
+  note          text,
+  created_at    timestamptz not null default now()
+);
+
+create index if not exists review_audit_setup_idx on review_audit (setup_id, created_at desc);
+
+alter table review_audit enable row level security;
+-- No client policies — service-role only.
+
+-- ─── Moderation note + report reasons + upvote-count trigger ───────────────────
+
+-- The moderator's rejection / takedown note, shown to the author verbatim.
+-- Cleared when the author reopens or resubmits (see lib/community/drafts.ts) and
+-- when a setup is approved.
+alter table setups add column if not exists review_note text;
+
+-- Reports carry one of a closed set of reason categories.
+alter table reports drop constraint if exists reports_reason_check;
+alter table reports add constraint reports_reason_check
+  check (reason in ('spam', 'harmful', 'broken', 'impersonation', 'other'));
+
+-- Keep setups.upvotes in sync with the upvotes rows. SECURITY DEFINER so the
+-- count write bypasses RLS (a user upvoting a setup they don't own must still
+-- update its denormalized count).
+create or replace function sync_setup_upvotes() returns trigger
+  language plpgsql security definer set search_path = public as $$
+declare
+  target text := coalesce(new.setup_id, old.setup_id);
+begin
+  update setups
+    set upvotes = (select count(*) from upvotes where setup_id = target)
+    where id = target;
+  return null;
+end;
+$$;
+
+drop trigger if exists upvotes_count_sync on upvotes;
+create trigger upvotes_count_sync
+  after insert or delete on upvotes
+  for each row execute function sync_setup_upvotes();

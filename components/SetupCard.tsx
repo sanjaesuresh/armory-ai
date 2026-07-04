@@ -11,9 +11,29 @@ interface SetupCardProps {
   whyLabels?: string[];
 }
 
+/* Small shield icon for the curated badge — inline SVG (no sprite dependency). */
+const ShieldBadgeIcon = () => (
+  <svg
+    width="11"
+    height="11"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 3.5 5 6v6c0 4.5 3 7.6 7 8.5 4-.9 7-4 7-8.5V6z" />
+    <path d="m9 12 2 2 4-4.5" />
+  </svg>
+);
+
 export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
   const tint = getCategoryTint(setup.category);
   const icon = getSetupIcon(setup.role, setup.category);
+
+  const upvoteLabel = `${setup.upvotes} ${setup.upvotes === 1 ? 'upvote' : 'upvotes'}`;
 
   return (
     <Link
@@ -35,14 +55,17 @@ export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
         >
           {icon}
         </span>
-        {setup.source === 'curated' && (
-          <span
-            className="tag"
-            style={{ background: 'rgba(255,255,255,0.75)' }}
-          >
-            Curated
+
+        {setup.source === 'curated' ? (
+          <span className="badge badge-curated" data-testid="badge-curated">
+            <ShieldBadgeIcon />
+            Curated · reviewed
           </span>
-        )}
+        ) : setup.source === 'community' ? (
+          <span className="badge badge-community" data-testid="badge-community">
+            Community
+          </span>
+        ) : null}
       </div>
 
       <h3 data-testid="card-name">{setup.name}</h3>
@@ -70,6 +93,21 @@ export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
           ))}
         </div>
       )}
+
+      {/* Card meta: upvote count + community author attribution */}
+      <div className="meta">
+        <span aria-label={upvoteLabel} data-testid="card-upvotes">
+          ▲ {upvoteLabel}
+        </span>
+        {setup.source === 'community' && setup.author && (
+          <span data-testid="card-author">
+            by{' '}
+            {setup.author.length > 20
+              ? `${setup.author.substring(0, 20)}…`
+              : setup.author}
+          </span>
+        )}
+      </div>
     </Link>
   );
 }

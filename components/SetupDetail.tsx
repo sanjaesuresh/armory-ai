@@ -6,9 +6,18 @@ import type { Setup } from '@/lib/setup/types';
 import SpecPlateRow from './SpecPlateRow';
 import SetupTabs, { type TabId } from './SetupTabs';
 import { getCategoryTint, getSetupIcon } from '@/lib/catalog/categoryUtils';
+import UpvoteButton from './UpvoteButton';
+import ReportSetup from './ReportSetup';
+import TakedownControl from './admin/TakedownControl';
 
 interface Props {
   setup: Setup;
+  /** Authenticated user's ID; null/undefined = signed out. */
+  userId?: string | null;
+  /** Whether the current user has already upvoted this setup (queried server-side). */
+  initialUpvoted?: boolean;
+  /** Whether the current user is a moderator (checked server-side, service role). */
+  isModerator?: boolean;
 }
 
 /* Arrow-left inline SVG (matches the mock's back-link icon) */
@@ -78,7 +87,12 @@ const DetailIllustration = () => (
   </svg>
 );
 
-export default function SetupDetail({ setup }: Props) {
+export default function SetupDetail({
+  setup,
+  userId = null,
+  initialUpvoted = false,
+  isModerator = false,
+}: Props) {
   const [activeTab, setActiveTab] = useState<TabId>('overview');
   const tabsRef = useRef<HTMLDivElement>(null);
 
@@ -127,12 +141,16 @@ export default function SetupDetail({ setup }: Props) {
                 {icon}
               </span>
 
-              {setup.source === 'curated' && (
+              {setup.source === 'curated' ? (
                 <span className="trust-cue">
                   <ShieldIcon />
                   Reviewed by the Armory team
                 </span>
-              )}
+              ) : setup.source === 'community' ? (
+                <span className="badge badge-community" data-testid="detail-badge-community">
+                  Community
+                </span>
+              ) : null}
             </div>
 
             <h1 style={{ marginBottom: '8px' }}>{setup.name}</h1>
@@ -168,6 +186,44 @@ export default function SetupDetail({ setup }: Props) {
                 Preview setup
               </button>
             </div>
+
+            {/* Community meta: upvote count, author attribution */}
+            <div className="detail-meta" style={{ marginTop: '18px' }}>
+              <UpvoteButton
+                setupId={setup.id}
+                initialCount={setup.upvotes}
+                initialUpvoted={initialUpvoted}
+                userId={userId}
+              />
+              {setup.source === 'community' && setup.author && (
+                <span data-testid="detail-author">
+                  by{' '}
+                  {setup.author.length > 24
+                    ? `${setup.author.substring(0, 24)}…`
+                    : setup.author}
+                </span>
+              )}
+            </div>
+
+            {/* Report — shown for all setups (signed-out → inline AuthPrompt) */}
+            <div style={{ marginTop: '12px' }}>
+              <ReportSetup setupId={setup.id} userId={userId} />
+            </div>
+
+            {/* Moderator takedown — only when: moderator + community + approved */}
+            {isModerator &&
+              setup.source === 'community' &&
+              setup.reviewStatus === 'approved' && (
+                <div
+                  style={{
+                    marginTop: '20px',
+                    paddingTop: '16px',
+                    borderTop: '1px solid var(--hairline)',
+                  }}
+                >
+                  <TakedownControl setupId={setup.id} />
+                </div>
+              )}
           </div>
 
           {/* Illustration */}

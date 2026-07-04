@@ -87,7 +87,7 @@ async function main(): Promise<void> {
 
   const { data: setupRows, error: setupsError } = await supabase
     .from('setups')
-    .select('slug, popularity');
+    .select('slug, popularity, upvotes');
 
   if (setupsError) {
     console.error('ERROR fetching setups:', setupsError.message);
@@ -102,12 +102,19 @@ async function main(): Promise<void> {
     ]),
   );
 
+  // Phase 5: the upvote term. setups.upvotes is kept in sync by a trigger, so the
+  // denormalized column is authoritative and needs no separate aggregation.
+  const upvotesBySlug = new Map<string, number>(
+    (setupRows ?? []).map((r: { slug: string; upvotes: number | null }) => [r.slug, r.upvotes ?? 0]),
+  );
+
   // ── 3. Compute popularity ───────────────────────────────────────────────────
 
   const counts = computePopularity(
     (events ?? []) as PopularityEventRow[],
     now,
     allSlugs,
+    upvotesBySlug,
   );
 
   // ── 4. Write changed values ─────────────────────────────────────────────────

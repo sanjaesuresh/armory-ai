@@ -154,4 +154,88 @@ describe.skipIf(!hasLocal)('RLS: owner-scoped account tables', () => {
     expect(aRead.data?.length).toBe(1);
     await userA.client.from('testdrive_runs').delete().eq('user_id', userA.id);
   });
+
+  // ── Phase 5: community authoring / moderation authz ──────────────────────────
+
+  const draftRow = (userId: string, id: string) => ({
+    id,
+    slug: id,
+    name: 'Draft',
+    tagline: 'A draft',
+    description: 'A draft setup',
+    role: 'sales-rep',
+    category: 'sales',
+    source: 'community',
+    author: userId,
+    version: '0.1.0',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    review_status: 'draft',
+    tier: 'core',
+    instruction_template: 'You write emails.',
+  });
+
+  it("author B cannot read or edit author A's draft; anon sees no drafts", async () => {
+    const id = `draft-a-${Date.now()}`;
+    const ins = await userA.client.from('setups').insert(draftRow(userA.id, id)).select().single();
+    expect(ins.error).toBeNull();
+
+    // B sees none of A's drafts (only approved rows are public).
+    const bRead = await userB.client.from('setups').select('*').eq('id', id);
+    expect(bRead.data?.length ?? 0).toBe(0);
+    // B's update affects zero rows.
+    const bUpd = await userB.client.from('setups').update({ name: 'hacked' }).eq('id', id).select();
+    expect(bUpd.data?.length ?? 0).toBe(0);
+    // Anonymous sees no drafts.
+    const anonRead = await anon.from('setups').select('*').eq('id', id);
+    expect(anonRead.data?.length ?? 0).toBe(0);
+
+    await userA.client.from('setups').delete().eq('id', id);
+  });
+
+  it('an author cannot flip their own draft to approved (only moderators, via service role)', async () => {
+    const id = `draft-approve-${Date.now()}`;
+    await userA.client.from('setups').insert(draftRow(userA.id, id));
+    const upd = await userA.client.from('setups').update({ review_status: 'approved' }).eq('id', id).select();
+    // The WITH CHECK forbids approved — the row is not updated to approved.
+    expect(upd.data?.length ?? 0).toBe(0);
+    const check = await userA.client.from('setups').select('review_status').eq('id', id).single();
+    expect(check.data?.review_status).toBe('draft');
+    await userA.client.from('setups').delete().eq('id', id);
+  });
+
+  it('an author CAN reopen their own rejected setup (rejected → draft) but not to approved', async () => {
+    const id = `draft-reopen-${Date.now()}`;
+    // Seed a rejected row owned by A (service role, since authors cannot self-reject).
+    await admin.from('setups').insert({ ...draftRow(userA.id, id), review_status: 'rejected' });
+
+    // Reopen: rejected → draft is allowed (USING includes rejected, CHECK allows draft).
+    const reopen = await userA.client.from('setups').update({ review_status: 'draft' }).eq('id', id).select();
+    expect(reopen.data?.length).toBe(1);
+    expect(reopen.data?.[0]?.review_status).toBe('draft');
+
+    // But the author still cannot jump a rejected row straight to approved.
+    await admin.from('setups').update({ review_status: 'rejected' }).eq('id', id);
+    const cheat = await userA.client.from('setups').update({ review_status: 'approved' }).eq('id', id).select();
+    expect(cheat.data?.length ?? 0).toBe(0);
+
+    await admin.from('setups').delete().eq('id', id);
+  });
+
+  it('upvotes and reports are owner-scoped across users', async () => {
+    const setupId = `up-setup-${Date.now()}`;
+    await admin.from('setups').insert({ ...draftRow(userA.id, setupId), review_status: 'approved' });
+
+    await userA.client.from('upvotes').insert({ user_id: userA.id, setup_id: setupId });
+    const bUp = await userB.client.from('upvotes').select('*').eq('setup_id', setupId);
+    expect(bUp.data?.length ?? 0).toBe(0); // B cannot see A's upvote row
+
+    await userA.client.from('reports').insert({ reporter_id: userA.id, setup_id: setupId, reason: 'spam' });
+    const bReports = await userB.client.from('reports').select('*').eq('setup_id', setupId);
+    expect(bReports.data?.length ?? 0).toBe(0); // B cannot read A's report
+
+    await userA.client.from('upvotes').delete().eq('setup_id', setupId);
+    await userA.client.from('reports').delete().eq('setup_id', setupId);
+    await admin.from('setups').delete().eq('id', setupId);
+  });
 });

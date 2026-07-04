@@ -4,7 +4,7 @@ node_modules/
 !.env.local.example
 .DS_Store
 dist/
-build/
+/build/
 *.log
 CLAUDE.md
 docs/

@@ -125,3 +125,20 @@ describe('computePopularity', () => {
     expect(result.get('heavy-hitter')).toBe(10);
   });
 });
+
+describe('computePopularity — upvote term (Phase 5)', () => {
+  it('adds upvotes to the same per-slug bucket as done events', () => {
+    const events = [makeEvent('slug-a', 'done', 1, NOW), makeEvent('slug-a', 'done', 2, NOW)];
+    const result = computePopularity(events, NOW, ['slug-a', 'slug-b'], { 'slug-a': 3, 'slug-b': 5 });
+    expect(result.get('slug-a')).toBe(5); // 2 events + 3 upvotes
+    expect(result.get('slug-b')).toBe(5); // 0 events + 5 upvotes
+  });
+
+  it('accepts a Map of upvotes and leaves event-only behavior unchanged when omitted', () => {
+    const events = [makeEvent('slug-a', 'done', 1, NOW)];
+    const withMap = computePopularity(events, NOW, undefined, new Map([['slug-a', 4]]));
+    expect(withMap.get('slug-a')).toBe(5);
+    const without = computePopularity(events, NOW);
+    expect(without.get('slug-a')).toBe(1);
+  });
+});

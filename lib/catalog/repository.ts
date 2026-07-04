@@ -60,6 +60,8 @@ export interface SetupRow {
   variables: unknown;
   knowledge_files: unknown;
   scenarios: unknown;
+  /** Moderator note set during review; not present on curated rows. */
+  review_note?: string | null;
 }
 
 /** Exported for unit testing the DB-row → Setup mapping. */

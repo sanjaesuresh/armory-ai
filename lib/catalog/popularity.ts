@@ -47,13 +47,16 @@ const WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
  *   the returned Map with at least 0, guaranteeing no slug is "missing" even
  *   if it has no qualifying events. Pass the full list of known setup slugs so
  *   callers can rely on Map.get(slug) returning a number (not undefined).
+ * @param upvotesBySlug - Optional (Phase 5): a per-slug upvote total added to the
+ *   same bucket as the export-event term. Upvotes are cumulative (not windowed).
  *
- * @returns Map<slug, count> — count of done events in the window per slug.
+ * @returns Map<slug, count> — done-events-in-window + upvotes, per slug.
  */
 export function computePopularity(
   events: PopularityEventRow[],
   now: Date,
   allSlugs?: string[],
+  upvotesBySlug?: Map<string, number> | Record<string, number>,
 ): Map<string, number> {
   const counts = new Map<string, number>();
 
@@ -71,6 +74,16 @@ export function computePopularity(
     const eventMs = new Date(event.created_at).getTime();
     if (eventMs < cutoffMs) continue;
     counts.set(event.setup_slug, (counts.get(event.setup_slug) ?? 0) + 1);
+  }
+
+  // Add the upvote term to the same per-slug bucket.
+  if (upvotesBySlug !== undefined) {
+    const entries =
+      upvotesBySlug instanceof Map ? upvotesBySlug.entries() : Object.entries(upvotesBySlug);
+    for (const [slug, votes] of entries) {
+      if (!votes) continue;
+      counts.set(slug, (counts.get(slug) ?? 0) + votes);
+    }
   }
 
   return counts;
