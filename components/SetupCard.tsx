@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import type { Setup } from '@/lib/setup/types';
 import { getCategoryTint, getSetupIcon } from '@/lib/catalog/categoryUtils';
+import { formatStars } from '@/lib/catalog/format-stars';
+import { GITHUB_STARS_AS_OF } from '@/lib/catalog/source-tags';
 import PlugIcon from './icons/PlugIcon';
 import KindBadge from './KindBadge';
 
@@ -69,11 +71,15 @@ export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
             </span>
           ) : setup.source === 'community' ? (
             <span className="badge badge-community" data-testid="badge-community">
-              Community
+              Member post
             </span>
           ) : setup.source === 'ai-generated' ? (
             <span className="badge badge-ai" data-testid="badge-ai">
               AI-generated
+            </span>
+          ) : setup.source === 'github' ? (
+            <span className="badge badge-github" data-testid="badge-github">
+              Community pick
             </span>
           ) : null}
 
@@ -81,6 +87,16 @@ export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
             <span className="badge badge-advanced" data-testid="badge-advanced">
               <PlugIcon />
               Advanced
+            </span>
+          )}
+
+          {setup.source === 'github' && setup.githubStars != null && (
+            <span
+              className="stars"
+              data-testid="card-stars"
+              title={`GitHub stars as of ${GITHUB_STARS_AS_OF}`}
+            >
+              ★ {formatStars(setup.githubStars)}
             </span>
           )}
         </div>

@@ -1148,10 +1148,20 @@ pre.code {
 .badge-curated    { background: var(--sage);  color: #3d6b3a; }
 /* #7a5414 on --butter (#fbf1d3) → ~6.1:1 — WCAG AA pass */
 .badge-ai         { background: var(--butter); color: #7a5414; }
+/* #7a2c3a on --blush (#fae7e1) → ~7.5:1 — WCAG AA pass */ /* unslop-ignore: blush chosen as the one paper-tone not already claimed by curated/community/ai/advanced */
+.badge-github     { background: var(--blush);  color: #7a2c3a; }
 /* #1a4a72 on --sky (#e2eef8) → ~7.8:1 — WCAG AA pass */
 /* unslop-ignore: sky tint chosen for technical/tier distinction, orthogonal to source badges */
 /* Border keeps the pill visible on sky-tinted cards (customer-support, research, data). */
 .badge-advanced   { background: var(--sky);    color: #1a4a72; border: 1px solid #b8d4ec; }
+
+/* GitHub stars snapshot — shown on Community pick (source=github) cards and detail pages */
+/* #5a4000 on --butter (#fbf1d3) → ~9.0:1 — WCAG AA pass */
+.stars {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.01em;
+  color: #5a4000; background: var(--butter);
+  padding: 2px 7px; border-radius: 999px; white-space: nowrap;
+}
 
 /* Advanced-tier expectations block — shown on detail page before the customize action */
 /* #1a4a72 on --sky (#e2eef8) → ~7.8:1 — WCAG AA pass (same pairing as badge-advanced) */

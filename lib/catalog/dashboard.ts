@@ -70,6 +70,8 @@ export interface FilterCriteria {
   category?: string;
   /** Exact kind match. */
   kind?: SetupKind;
+  /** Exact source match. */
+  source?: Setup['source'];
 }
 
 /**
@@ -78,7 +80,7 @@ export interface FilterCriteria {
  * Does not mutate the input array.
  */
 export function filterList(items: Setup[], criteria: FilterCriteria): Setup[] {
-  const { query, category, kind } = criteria;
+  const { query, category, kind, source } = criteria;
   const q = query?.toLowerCase();
 
   return items.filter((s) => {
@@ -93,6 +95,7 @@ export function filterList(items: Setup[], criteria: FilterCriteria): Setup[] {
     }
     if (category !== undefined && s.category !== category) return false;
     if (kind !== undefined && s.kind !== kind) return false;
+    if (source !== undefined && s.source !== source) return false;
     return true;
   });
 }

@@ -151,7 +151,7 @@ export interface Setup {
   industry: string | null;
   tags: string[];
   category: Category;
-  source: 'curated' | 'ai-generated' | 'community';
+  source: 'curated' | 'ai-generated' | 'community' | 'github';
   author: string | null;
   /** Semantic version string, e.g. "1.0.0". */
   version: string;
@@ -184,6 +184,11 @@ export interface Setup {
   artifactFiles: ArtifactFile[];
   /** GitHub HTTPS URL for the registry item's source repo, or null. */
   repoUrl: string | null;
+  /**
+   * GitHub stars snapshot for source='github' items; null otherwise.
+   * Populated by scripts/refresh-github-stars.ts.
+   */
+  githubStars?: number | null;
   /** CLI/slash-command capabilities exposed by the registry item. Empty for kind='setup'. */
   capabilities: Capability[];
 }

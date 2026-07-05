@@ -606,7 +606,7 @@ export default function BuilderView({ draft }: Props) {
                   )}
                 </span>
               </div>
-              <span className="badge badge-community">Community</span>
+              <span className="badge badge-community">Member post</span>
             </div>
           </div>
 

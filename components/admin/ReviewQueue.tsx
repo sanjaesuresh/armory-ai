@@ -64,7 +64,7 @@ export interface QueueItemData {
    */
   compiledInstruction: string;
   /** The setup's source value; determines badge and eval-report visibility. */
-  source: 'curated' | 'community' | 'ai-generated';
+  source: 'curated' | 'community' | 'ai-generated' | 'github';
   /** Present only for ai-generated rows that passed the pipeline gauntlet. */
   generationMeta?: GenerationMeta;
   // ── Phase 8: kind + registry fields ───────────────────────────────────────
@@ -346,9 +346,14 @@ export default function ReviewQueue({ items }: Props) {
             <span className="badge badge-ai" data-testid="detail-badge-ai">
               AI-generated &middot; pipeline
             </span>
+          ) : selected.source === 'github' ? (
+            <span className="badge badge-github" data-testid="detail-badge-github">
+              Community pick &middot; author{' '}
+              {selected.author ? `${selected.author.slice(0, 8)}…` : 'unknown'}
+            </span>
           ) : (
             <span className="badge badge-community">
-              Community &middot; author{' '}
+              Member post &middot; author{' '}
               {selected.author ? `${selected.author.slice(0, 8)}…` : 'unknown'}
             </span>
           )}

@@ -152,11 +152,15 @@ export default function SetupDetail({
                 </span>
               ) : setup.source === 'community' ? (
                 <span className="badge badge-community" data-testid="detail-badge-community">
-                  Community
+                  Member post
                 </span>
               ) : setup.source === 'ai-generated' ? (
                 <span className="badge badge-ai" data-testid="detail-badge-ai">
                   AI-generated
+                </span>
+              ) : setup.source === 'github' ? (
+                <span className="badge badge-github" data-testid="detail-badge-github">
+                  Community pick
                 </span>
               ) : null}
 

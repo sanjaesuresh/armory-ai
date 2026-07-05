@@ -308,6 +308,27 @@ describe('filterList', () => {
     ];
     expect(filterList(items, {})).toHaveLength(2);
   });
+
+  it('filters by source: returns only the github item when source=github', () => {
+    const github = makeSetup({ id: 'g', slug: 'g', name: 'G', source: 'github' });
+    const community = makeSetup({ id: 'c', slug: 'c', name: 'C', source: 'community' });
+    const curated = makeSetup({ id: 'cu', slug: 'cu', name: 'CU', source: 'curated' });
+    const list = [github, community, curated];
+
+    const result = filterList(list, { source: 'github' });
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe('g');
+  });
+
+  it('filters by source: undefined source returns all items', () => {
+    const github = makeSetup({ id: 'g', slug: 'g', name: 'G', source: 'github' });
+    const community = makeSetup({ id: 'c', slug: 'c', name: 'C', source: 'community' });
+    const curated = makeSetup({ id: 'cu', slug: 'cu', name: 'CU', source: 'curated' });
+    const list = [github, community, curated];
+
+    const all = filterList(list, { source: undefined });
+    expect(all).toHaveLength(3);
+  });
 });
 
 // ─── sortList ─────────────────────────────────────────────────────────────────

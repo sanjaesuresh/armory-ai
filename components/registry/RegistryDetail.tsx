@@ -22,6 +22,8 @@ import UpvoteButton from '@/components/UpvoteButton';
 import ReportSetup from '@/components/ReportSetup';
 import TakedownControl from '@/components/admin/TakedownControl';
 import ArtifactFileViewer from './ArtifactFileViewer';
+import { formatStars } from '@/lib/catalog/format-stars';
+import { GITHUB_STARS_AS_OF } from '@/lib/catalog/source-tags';
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 
@@ -147,13 +149,27 @@ export default function RegistryDetail({
               </span>
             ) : setup.source === 'community' ? (
               <span className="badge badge-community" data-testid="detail-badge-community">
-                Community
+                Member post
               </span>
             ) : setup.source === 'ai-generated' ? (
               <span className="badge badge-ai" data-testid="detail-badge-ai">
                 AI-generated
               </span>
+            ) : setup.source === 'github' ? (
+              <span className="badge badge-github" data-testid="detail-badge-github">
+                Community pick
+              </span>
             ) : null}
+
+            {setup.source === 'github' && setup.githubStars != null && (
+              <span
+                className="stars"
+                data-testid="detail-stars"
+                title={`GitHub stars as of ${GITHUB_STARS_AS_OF}`}
+              >
+                ★ {formatStars(setup.githubStars)}
+              </span>
+            )}
           </div>
 
           <h1>{setup.name}</h1>

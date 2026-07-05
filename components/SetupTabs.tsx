@@ -174,8 +174,8 @@ export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
         <h3 style={{ marginTop: '28px' }}>Who made it</h3>
         <p className="muted" style={{ marginBottom: 0 }}>
           {setup.source === 'curated'
-            ? 'Curated by the Armory team and reviewed before publishing. Community-contributed setups are coming later — every one will pass the same review gate.'
-            : 'Community-contributed setup.'}
+            ? 'Curated by the Armory team and reviewed before publishing. Member-contributed setups are also available — every one passes the same review gate.'
+            : 'Member-contributed setup.'}
         </p>
       </div>
 

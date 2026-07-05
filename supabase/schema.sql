@@ -655,6 +655,13 @@ alter table setups
   add column if not exists repo_url       text,
   add column if not exists capabilities   jsonb not null default '[]';
 
+-- ─── setups: github_stars (Phase 9, Task 1) ───────────────────────────────────
+-- GitHub stars snapshot for source='github' items; null otherwise.
+-- Populated and refreshed by scripts/refresh-github-stars.ts.
+-- Additive nullable column: no CHECK on source (one-schema principle).
+alter table setups
+  add column if not exists github_stars integer;
+
 alter table setups drop constraint if exists setups_kind_check;
 alter table setups add constraint setups_kind_check
   check (kind in ('setup', 'agent', 'skill', 'harness'));

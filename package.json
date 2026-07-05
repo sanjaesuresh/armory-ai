@@ -12,6 +12,7 @@
     "seed": "npx tsx scripts/seed-from-curated.ts",
     "report": "npx tsx --env-file=.env.local scripts/export-report.ts",
     "popularity": "npx tsx --env-file=.env.local scripts/refresh-popularity.ts",
+    "github-stars": "npx tsx --env-file=.env.local scripts/refresh-github-stars.ts",
     "eval": "npx tsx --env-file=.env.local scripts/eval-setups.ts"
   },
   "dependencies": {

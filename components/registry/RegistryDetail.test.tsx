@@ -104,11 +104,22 @@ describe('RegistryDetail', () => {
     expect(screen.getByText(/Curated/i)).toBeInTheDocument();
   });
 
-  it('renders a community source badge', () => {
+  it('renders a community source badge with "Member post" text', () => {
     render(
       <RegistryDetail setup={makeSetup({ source: 'community' })} />,
     );
-    expect(screen.getByTestId('detail-badge-community')).toBeInTheDocument();
+    const badge = screen.getByTestId('detail-badge-community');
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent('Member post');
+  });
+
+  it('renders a github source badge', () => {
+    render(
+      <RegistryDetail setup={makeSetup({ source: 'github' })} />,
+    );
+    const badge = screen.getByTestId('detail-badge-github');
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent('Community pick');
   });
 
   it('renders an ai-generated source badge', () => {

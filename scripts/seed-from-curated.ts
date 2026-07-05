@@ -18,6 +18,8 @@ import { commitMessageSkillSetup } from '../data/curated/commit-message-skill';
 import { prDescriptionSkillSetup } from '../data/curated/pr-description-skill';
 import { tddLoopHarnessSetup } from '../data/curated/tdd-loop-harness';
 import { docsWritingHarnessSetup } from '../data/curated/docs-writing-harness';
+import { githubPicks } from '../data/community-picks/github-picks';
+import { toolkitItems } from '../data/member-posts/toolkit.generated';
 import type { Setup } from '../lib/setup/types';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
@@ -34,6 +36,9 @@ const CURATED_SETUPS: Setup[] = [
   tddLoopHarnessSetup,
   docsWritingHarnessSetup,
 ];
+
+// All seed rows: curated first, then github community picks, then toolkit member-post items.
+const ALL_SETUPS: Setup[] = [...CURATED_SETUPS, ...githubPicks, ...toolkitItems];
 
 // ─── SQL helpers ─────────────────────────────────────────────────────────────
 
@@ -63,7 +68,8 @@ function toInsert(setup: Setup): string {
   created_at, updated_at, review_status, upvotes, featured,
   targets, tier, instruction_template,
   variables, knowledge_files, scenarios,
-  kind, artifact_files, repo_url, capabilities
+  kind, artifact_files, repo_url, capabilities,
+  github_stars
 ) VALUES (
   ${sqlStr(setup.id)},
   ${sqlStr(setup.slug)},
@@ -91,7 +97,8 @@ function toInsert(setup: Setup): string {
   ${sqlStr(setup.kind)},
   ${sqlJsonb(setup.artifactFiles)},
   ${sqlStr(setup.repoUrl)},
-  ${sqlJsonb(setup.capabilities)}
+  ${sqlJsonb(setup.capabilities)},
+  ${sqlInt(setup.githubStars ?? null)}
 )
 ON CONFLICT (id) DO UPDATE SET
   slug = EXCLUDED.slug,
@@ -119,22 +126,23 @@ ON CONFLICT (id) DO UPDATE SET
   kind = EXCLUDED.kind,
   artifact_files = EXCLUDED.artifact_files,
   repo_url = EXCLUDED.repo_url,
-  capabilities = EXCLUDED.capabilities;`;
+  capabilities = EXCLUDED.capabilities,
+  github_stars = EXCLUDED.github_stars;`;
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
-const nonApproved = CURATED_SETUPS.filter((s) => s.reviewStatus !== 'approved');
+const nonApproved = ALL_SETUPS.filter((s) => s.reviewStatus !== 'approved');
 if (nonApproved.length > 0) {
   console.warn(
-    'WARNING: the following curated setups do not have reviewStatus="approved" and ' +
+    'WARNING: the following setups do not have reviewStatus="approved" and ' +
       'will NOT be visible to anonymous users via RLS:\n' +
       nonApproved.map((s) => `  ${s.slug} (reviewStatus="${s.reviewStatus}")`).join('\n'),
   );
 }
 
-const inserts = CURATED_SETUPS.map(toInsert).join('\n\n');
-const banner = `-- Armory: seed data generated from data/curated/
+const inserts = ALL_SETUPS.map(toInsert).join('\n\n');
+const banner = `-- Armory: seed data generated from data/curated/, data/community-picks/, and data/member-posts/
 -- Generated: ${new Date().toISOString()}
 -- DO NOT EDIT by hand — run \`npm run seed\` to regenerate.
 -- Apply in Supabase: Database → SQL Editor → paste and run.
@@ -143,4 +151,6 @@ const banner = `-- Armory: seed data generated from data/curated/
 const output = `${banner}\n${inserts}\n`;
 const outPath = path.resolve(__dirname, '../supabase/seed.sql');
 fs.writeFileSync(outPath, output, 'utf8');
-console.log(`Wrote ${CURATED_SETUPS.length} setup(s) to ${outPath}`);
+console.log(
+  `Wrote ${CURATED_SETUPS.length} curated + ${githubPicks.length} github picks + ${toolkitItems.length} toolkit items = ${ALL_SETUPS.length} total setup(s) to ${outPath}`,
+);

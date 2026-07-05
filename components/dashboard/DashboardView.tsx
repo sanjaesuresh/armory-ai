@@ -79,6 +79,15 @@ const KIND_CHIPS: Array<{ label: string; value: 'all' | SetupKind }> = [
   { label: 'Setups', value: 'setup' },
 ];
 
+// Developer source chips → filterList source value ('all' = no source filter).
+type SourceFilterValue = 'all' | 'github' | 'community' | 'curated' | 'ai-generated';
+const SOURCE_CHIPS: Array<{ label: string; value: SourceFilterValue }> = [
+  { label: 'All', value: 'all' },
+  { label: 'Community pick', value: 'github' },
+  { label: 'Member post', value: 'community' },
+  { label: 'Curated', value: 'curated' },
+];
+
 const SORT_OPTIONS: Array<{ label: string; value: SortKey }> = [
   { label: 'Most popular', value: 'popularity' },
   { label: 'Most upvoted', value: 'upvotes' },
@@ -102,6 +111,7 @@ export default function DashboardView({
   const [filter, setFilter] = useState(
     isDevelopers ? (initialKind ?? 'all') : (initialCat ?? 'All'),
   );
+  const [source, setSource] = useState<SourceFilterValue>('all');
   const [sortKey, setSortKey] = useState<SortKey>('popularity');
 
   // ── Shelves (over the full, unfiltered item set) ───────────────────────────
@@ -123,10 +133,14 @@ export default function DashboardView({
   const list = useMemo(() => {
     const query = search.trim() || undefined;
     const criteria = isDevelopers
-      ? { query, kind: filter === 'all' ? undefined : (filter as SetupKind) }
+      ? {
+          query,
+          kind: filter === 'all' ? undefined : (filter as SetupKind),
+          source: source === 'all' ? undefined : (source as Setup['source']),
+        }
       : { query, category: filter === 'All' ? undefined : filter };
     return sortList(filterList(items, criteria), sortKey);
-  }, [items, isDevelopers, filter, search, sortKey]);
+  }, [items, isDevelopers, filter, source, search, sortKey]);
 
   const countLabel =
     list.length === 1 ? `1 ${copy.nounOne}` : `${list.length} ${copy.nounMany}`;
@@ -134,6 +148,7 @@ export default function DashboardView({
   function resetFilters() {
     setSearch('');
     setFilter(isDevelopers ? 'all' : 'All');
+    if (isDevelopers) setSource('all');
   }
 
   return (
@@ -247,19 +262,34 @@ export default function DashboardView({
       </div>
 
       {isDevelopers ? (
-        <div className="filter-row" role="group" aria-label="Filter by kind">
-          {KIND_CHIPS.map((chip) => (
-            <button
-              key={chip.value}
-              type="button"
-              className="chip"
-              aria-pressed={filter === chip.value}
-              onClick={() => setFilter(chip.value)}
-            >
-              {chip.label}
-            </button>
-          ))}
-        </div>
+        <>
+          <div className="filter-row" role="group" aria-label="Filter by kind">
+            {KIND_CHIPS.map((chip) => (
+              <button
+                key={chip.value}
+                type="button"
+                className="chip"
+                aria-pressed={filter === chip.value}
+                onClick={() => setFilter(chip.value)}
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+          <div className="filter-row" role="group" aria-label="Filter by source">
+            {SOURCE_CHIPS.map((chip) => (
+              <button
+                key={chip.value}
+                type="button"
+                className="chip"
+                aria-pressed={source === chip.value}
+                onClick={() => setSource(chip.value)}
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+        </>
       ) : (
         <CategoryChips
           categories={categories}
