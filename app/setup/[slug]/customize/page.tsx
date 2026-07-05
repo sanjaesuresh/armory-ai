@@ -43,7 +43,7 @@ export default async function CustomizePage({ params }: Props) {
             <div>
               <strong>We couldn&apos;t load this setup</strong>
               <p>Please try again in a moment.</p>
-              <Link href="/catalog" className="btn btn-outline btn-sm">
+              <Link href="/professionals" className="btn btn-outline btn-sm">
                 Back to catalog
               </Link>
             </div>

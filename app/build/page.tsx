@@ -13,9 +13,9 @@ import AuthPrompt from '@/components/AuthPrompt';
 import NewBuildStarter from '@/components/builder/NewBuildStarter';
 
 export const metadata: Metadata = {
-  title: 'Build a setup · Armory',
+  title: 'Build & post · Armory',
   description:
-    'Author a reusable AI setup for your role and share it with the Armory community.',
+    'Author a reusable AI setup, or post an agent, skill, or harness to the developer registry.',
 };
 
 export default async function BuildPage() {
@@ -28,11 +28,11 @@ export default async function BuildPage() {
         <div className="wrap">
           <div style={{ maxWidth: 500, margin: '40px auto 0' }}>
             <h1 style={{ fontSize: 'clamp(1.7rem,3.2vw,2.2rem)', marginBottom: 6 }}>
-              Build a setup to share
+              Build something to share
             </h1>
             <p className="muted" style={{ marginBottom: 28, maxWidth: '38em' }}>
-              Author a setup other people can pick up and customize. Every
-              submission is reviewed before it goes live.
+              Author a guided setup, or post an agent, skill, or harness to the
+              developer registry. Every submission is reviewed before it goes live.
             </p>
             <div className="form-card" style={{ padding: 28 }}>
               <AuthPrompt
@@ -52,12 +52,13 @@ export default async function BuildPage() {
       <div className="wrap">
         <div style={{ paddingTop: 40, paddingBottom: 72 }}>
           <h1 style={{ fontSize: 'clamp(1.7rem,3.2vw,2.2rem)', marginBottom: 8 }}>
-            Build a setup to share
+            Build something to share
           </h1>
           <p className="muted" style={{ marginBottom: 28, maxWidth: '44em' }}>
-            Author a setup other people can pick up and customize. Every
-            submission is reviewed by the Armory team before it goes live — we
-            check each one for safety, not polish.
+            Author a guided setup people can customize, or post an agent, skill,
+            or harness to the developer registry. Every submission is reviewed by
+            the Armory team before it goes live — we check each one for safety,
+            not polish.
           </p>
           <NewBuildStarter />
         </div>

@@ -139,12 +139,12 @@ export default async function RoleLandingPage({ params }: Props) {
           <div className="hero-ctas">
             <Link
               className="btn btn-primary btn-lg"
-              href={`/catalog?role=${roleId}`}
+              href={`/professionals?role=${roleId}`}
               data-testid="role-catalog-cta"
             >
               Browse {roleMeta.label} setups
             </Link>
-            <Link className="btn btn-outline btn-lg" href="/catalog">
+            <Link className="btn btn-outline btn-lg" href="/professionals">
               Browse all setups
             </Link>
           </div>
@@ -185,7 +185,7 @@ export default async function RoleLandingPage({ params }: Props) {
               </svg>
               <h3>No setups yet</h3>
               <p>Check back soon — we&apos;re adding new setups regularly.</p>
-              <Link href="/catalog" className="btn btn-outline btn-sm">
+              <Link href="/professionals" className="btn btn-outline btn-sm">
                 Browse all setups
               </Link>
             </div>
@@ -204,7 +204,7 @@ export default async function RoleLandingPage({ params }: Props) {
           <div style={{ marginTop: '28px' }}>
             <Link
               className="btn btn-primary"
-              href={`/catalog?role=${roleId}`}
+              href={`/professionals?role=${roleId}`}
             >
               Find my {roleMeta.label} setup
             </Link>

@@ -28,7 +28,7 @@ export default function Footer() {
 
         {/* Site navigation */}
         <nav className="footer-links" aria-label="Site">
-          <Link href="/catalog">Browse setups</Link>
+          <Link href="/professionals">Browse setups</Link>
           <Link href="/#how">How it works</Link>
         </nav>
 

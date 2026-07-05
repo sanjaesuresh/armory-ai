@@ -26,7 +26,7 @@ export default async function ExportPage({ searchParams }: Props) {
           <p className="muted" style={{ marginBottom: '1.25rem' }}>
             Please try again in a moment.
           </p>
-          <Link href="/catalog" className="btn btn-outline">
+          <Link href="/professionals" className="btn btn-outline">
             Back to catalog
           </Link>
         </div>

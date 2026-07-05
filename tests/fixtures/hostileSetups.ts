@@ -11,6 +11,7 @@ import type { Setup } from '@/lib/setup/types';
 /** A minimal, structurally-valid Setup; override instructionTemplate per case. */
 export function baseSetup(overrides: Partial<Setup> = {}): Setup {
   return {
+    kind: 'setup',
     id: 'fixture-setup',
     slug: 'fixture-setup',
     name: 'Fixture Setup',
@@ -34,6 +35,10 @@ export function baseSetup(overrides: Partial<Setup> = {}): Setup {
     variables: [],
     knowledgeFiles: [],
     scenarios: [],
+    // Registry-only fields — empty for kind='setup'.
+    artifactFiles: [],
+    repoUrl: null,
+    capabilities: [],
     ...overrides,
   };
 }

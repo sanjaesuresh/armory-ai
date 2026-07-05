@@ -9,8 +9,22 @@
  *     getSetupBySlug. Accepts an injected data source for testing.
  */
 
-import type { Setup } from '@/lib/setup/types';
+import type { Setup, SetupKind } from '@/lib/setup/types';
+import { REGISTRY_KINDS } from '@/lib/setup/types';
 import { createSupabaseClient } from '@/lib/supabase/client';
+
+// ─── Kind guard ──────────────────────────────────────────────────────────────
+
+/**
+ * Runtime guard: accepts only the four valid SetupKind values.
+ * Any other DB value (unexpected string, null, undefined) falls back to 'setup'
+ * so the app never propagates an invalid kind through the domain layer.
+ */
+function guardKind(v: unknown): SetupKind {
+  if (v === 'setup') return 'setup';
+  if ((REGISTRY_KINDS as ReadonlyArray<string>).includes(v as string)) return v as SetupKind;
+  return 'setup';
+}
 
 // ─── Filter ──────────────────────────────────────────────────────────────────
 
@@ -68,11 +82,22 @@ export interface SetupRow {
    * Not a content field — not mapped into the Setup domain type.
    */
   generation_meta?: unknown;
+  // ── Phase 8: registry columns (optional so the mapper tolerates pre-migration rows) ──
+  /** Discriminator: 'setup' | 'agent' | 'skill' | 'harness'. Absent on legacy rows → defaults to 'setup'. */
+  kind?: string;
+  /** JSONB array of bundled artifact files. Absent on legacy rows → defaults to []. */
+  artifact_files?: unknown;
+  /** GitHub HTTPS URL for the registry item's source repo, or null. */
+  repo_url?: string | null;
+  /** JSONB array of CLI/slash-command capabilities. Absent on legacy rows → defaults to []. */
+  capabilities?: unknown;
 }
 
 /** Exported for unit testing the DB-row → Setup mapping. */
 export function rowToSetup(row: SetupRow): Setup {
   return {
+    // guardKind validates the DB value; any unexpected string falls back to 'setup'.
+    kind: guardKind(row.kind),
     id: row.id,
     slug: row.slug,
     name: row.name,
@@ -98,6 +123,10 @@ export function rowToSetup(row: SetupRow): Setup {
     variables: row.variables as Setup['variables'],
     knowledgeFiles: row.knowledge_files as Setup['knowledgeFiles'],
     scenarios: row.scenarios as Setup['scenarios'],
+    // Registry-only fields: absent on legacy (pre-migration) rows — default to safe empty values.
+    artifactFiles: (row.artifact_files as Setup['artifactFiles']) ?? [],
+    repoUrl: row.repo_url ?? null,
+    capabilities: (row.capabilities as Setup['capabilities']) ?? [],
   };
 }
 

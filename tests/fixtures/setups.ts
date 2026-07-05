@@ -14,6 +14,7 @@ export { marketingManagerSetup } from '@/data/curated/marketing-manager';
 // deviates from the spec in exactly the way its name describes.
 
 const base: Setup = {
+  kind: 'setup',
   id: 'fixture-base',
   slug: 'fixture-base',
   name: 'Base Fixture',
@@ -44,6 +45,10 @@ const base: Setup = {
   ],
   knowledgeFiles: [],
   scenarios: [],
+  // Registry-only fields — empty for kind='setup'.
+  artifactFiles: [],
+  repoUrl: null,
+  capabilities: [],
 };
 
 // ─── Invalid fixture 1: missing-required-field ────────────────────────────────

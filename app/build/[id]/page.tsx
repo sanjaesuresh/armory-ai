@@ -13,8 +13,10 @@ import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getSessionUser, createSupabaseServerClient } from '@/lib/supabase/server';
 import { createSupabaseDraftsStore, isContentEditable } from '@/lib/community/drafts';
+import { isRegistryKind, type SetupKind } from '@/lib/setup/types';
 import AuthPrompt from '@/components/AuthPrompt';
 import BuilderView from '@/components/builder/BuilderView';
+import RegistryBuilderView from '@/components/builder/RegistryBuilderView';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -72,10 +74,17 @@ export default async function BuildIdPage({ params }: Props) {
   }
 
   /* ── Render builder ─────────────────────────────────────────── */
+  // Branch on the fixed kind: registry kinds (agent/skill/harness) use the
+  // registry builder; setups use the guided BuilderView exactly as before.
+  const kind = (row.kind ?? 'setup') as SetupKind;
   return (
     <main className="section-tight">
       <div className="wrap">
-        <BuilderView draft={row} />
+        {isRegistryKind(kind) ? (
+          <RegistryBuilderView draft={row} />
+        ) : (
+          <BuilderView draft={row} />
+        )}
       </div>
     </main>
   );

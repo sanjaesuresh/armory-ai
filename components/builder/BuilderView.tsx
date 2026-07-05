@@ -68,6 +68,7 @@ const METADATA_PATHS = new Set(['name', 'tagline', 'description', 'role', 'categ
  */
 function validateMetadata(input: DraftInput): MetadataFinding[] {
   const partial: Setup = {
+    kind: 'setup',
     id: 'validate',
     slug: input.slug,
     name: input.name,
@@ -94,6 +95,10 @@ function validateMetadata(input: DraftInput): MetadataFinding[] {
     variables: [],
     knowledgeFiles: [],
     scenarios: [],
+    // Registry-only fields — community builder only produces setups.
+    artifactFiles: [],
+    repoUrl: null,
+    capabilities: [],
   };
 
   const result = validateSetup(partial);

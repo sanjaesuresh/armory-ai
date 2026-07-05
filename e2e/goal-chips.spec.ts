@@ -12,8 +12,8 @@ import { test, expect } from '@playwright/test';
 test('chips render after picking a role and are skippable, with skip landing on the role-filtered catalog', async ({
   page,
 }) => {
-  // Arriving at the catalog with a role but no goals → chip prompt visible.
-  await page.goto('/catalog?role=marketing-manager');
+  // Arriving at the dashboard with a role but no goals → chip prompt visible.
+  await page.goto('/professionals?role=marketing-manager');
 
   const goalChips = page.getByTestId('goal-chips');
   await expect(goalChips).toBeVisible();
@@ -27,7 +27,7 @@ test('chips render after picking a role and are skippable, with skip landing on 
 
   await expect(goalChips).not.toBeVisible();
 
-  // The role-filtered catalog content should remain; URL still carries the role.
+  // The role-filtered dashboard content should remain; URL still carries the role.
   await expect(page).toHaveURL(/role=marketing-manager/);
   await expect(page.getByTestId('recommended-section')).toBeVisible();
 });
@@ -35,7 +35,7 @@ test('chips render after picking a role and are skippable, with skip landing on 
 test('selected chips appear in the catalog URL and persist across reload', async ({
   page,
 }) => {
-  await page.goto('/catalog?role=marketing-manager');
+  await page.goto('/professionals?role=marketing-manager');
 
   // Select one goal chip.
   const writeEmailsChip = page.getByRole('button', { name: 'Write emails' });
@@ -60,13 +60,13 @@ test('selected chips appear in the catalog URL and persist across reload', async
 test('the browse-popular path never shows the chips prompt', async ({
   page,
 }) => {
-  // Direct catalog browse with no role.
-  await page.goto('/catalog');
+  // Direct dashboard browse with no role.
+  await page.goto('/professionals');
   await expect(page.getByTestId('goal-chips')).not.toBeVisible();
 
-  // "Browse popular" escape hatch on the start page.
+  // "Browse popular" escape hatch on the start page (routes through the redirect).
   await page.goto('/start');
   await page.getByTestId('escape-link').click();
-  await expect(page).toHaveURL('/catalog');
+  await expect(page).toHaveURL('/professionals');
   await expect(page.getByTestId('goal-chips')).not.toBeVisible();
 });

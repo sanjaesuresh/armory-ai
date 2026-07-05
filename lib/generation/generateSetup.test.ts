@@ -36,6 +36,7 @@ const BRIEF_VARIATION: Brief = {
  */
 function makeValidSetupJson(overrides: Partial<Setup> = {}): string {
   const base: Setup = {
+    kind: 'setup',
     id: 'model-id-001',
     slug: 'test-marketing-setup',
     name: 'Test Marketing Setup',
@@ -77,6 +78,9 @@ function makeValidSetupJson(overrides: Partial<Setup> = {}): string {
         mustContain: [],
       },
     ],
+    artifactFiles: [],
+    repoUrl: null,
+    capabilities: [],
     ...overrides,
   };
   return JSON.stringify(base);

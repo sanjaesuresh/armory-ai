@@ -24,7 +24,8 @@ async function seedExport(page: import('@playwright/test').Page) {
 
 const PAGES = [
   { name: 'landing', path: '/', seed: false },
-  { name: 'catalog', path: '/catalog', seed: false },
+  { name: 'professionals', path: '/professionals', seed: false },
+  { name: 'developers', path: '/developers', seed: false },
   { name: 'setup-detail', path: '/setup/marketing-manager', seed: false },
   { name: 'export', path: '/export?setup=marketing-manager', seed: true },
 ];

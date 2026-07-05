@@ -14,10 +14,11 @@ import {
   CLAUDE_APP_MAX_FILE_BYTES,
   CLAUDE_APP_INSTRUCTION_MAX_CHARS,
 } from '@/lib/setup/limits';
-import type { Setup, CompiledSetup } from '@/lib/setup/types';
+import type { Setup, CompiledSetup, SetupKind, ArtifactFile, ExportTarget } from '@/lib/setup/types';
 
 // Minimal valid setup used as a spread base for inline test fixtures.
 const minimalBase: Setup = {
+  kind: 'setup',
   id: 'test-inline',
   slug: 'test-inline',
   name: 'Inline Test Setup',
@@ -41,6 +42,9 @@ const minimalBase: Setup = {
   variables: [],
   knowledgeFiles: [],
   scenarios: [],
+  artifactFiles: [],
+  repoUrl: null,
+  capabilities: [],
 };
 
 describe('validateSetup', () => {
@@ -248,6 +252,268 @@ describe('validateSetup — additional structural rules', () => {
     const result = validateSetup(setup);
     expect(result.valid).toBe(false);
     expect(result.errors.some((e) => e.code === 'MISSING_USER_PROVIDED_GUIDANCE')).toBe(true);
+  });
+});
+
+// ─── Phase 8 Task 2: kind discriminator + registry validation ────────────────
+
+// A minimal valid registry (agent) item. Used as a spread base.
+const minimalRegistryBase: Setup = {
+  kind: 'agent' as SetupKind,
+  id: 'test-agent',
+  slug: 'test-agent',
+  name: 'Test Agent',
+  tagline: 'A test agent',
+  description: 'A test agent fixture.',
+  role: 'Test Role',
+  industry: null,
+  tags: [],
+  category: 'general',
+  source: 'curated',
+  author: null,
+  version: '1.0.0',
+  createdAt: '2025-01-01T00:00:00Z',
+  updatedAt: '2025-01-01T00:00:00Z',
+  reviewStatus: 'draft',
+  upvotes: 0,
+  featured: null,
+  targets: [] as ExportTarget[],
+  tier: 'core',
+  // Registry items: no instruction template, variables, or scenarios.
+  instructionTemplate: '',
+  variables: [],
+  knowledgeFiles: [],
+  scenarios: [],
+  // Registry-specific fields.
+  artifactFiles: [{ name: 'README.md', content: '# Agent readme', isPrimary: true }],
+  repoUrl: null,
+  capabilities: [{ command: '/help', description: 'Show usage.' }],
+};
+
+describe('validateSetup — kind discriminator + registry validation', () => {
+  // (a) registry kind with zero artifact files → ARTIFACT_FILES_REQUIRED
+  it('(a) registry kind with no artifact files fails with ARTIFACT_FILES_REQUIRED', () => {
+    const s: Setup = { ...minimalRegistryBase, artifactFiles: [] as ArtifactFile[] };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'ARTIFACT_FILES_REQUIRED')).toBe(true);
+  });
+
+  // (b) registry item with 11 files → TOO_MANY_ARTIFACT_FILES
+  it('(b) registry item with 11 artifact files fails with TOO_MANY_ARTIFACT_FILES', () => {
+    const files: ArtifactFile[] = Array.from({ length: 11 }, (_, i) => ({
+      name: `file-${i}.md`,
+      content: '# Content',
+      isPrimary: i === 0,
+    }));
+    const s: Setup = { ...minimalRegistryBase, artifactFiles: files };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'TOO_MANY_ARTIFACT_FILES')).toBe(true);
+  });
+
+  // (c) file content exceeds 102 400 bytes → ARTIFACT_FILE_TOO_LARGE
+  it('(c) artifact file exceeding 102 400 bytes fails with ARTIFACT_FILE_TOO_LARGE', () => {
+    const oversizedFile: ArtifactFile = {
+      name: 'big.md',
+      content: 'A'.repeat(102_401),
+      isPrimary: true,
+    };
+    const s: Setup = { ...minimalRegistryBase, artifactFiles: [oversizedFile] };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'ARTIFACT_FILE_TOO_LARGE')).toBe(true);
+  });
+
+  // (d) file with disallowed extension → ARTIFACT_FILE_BAD_TYPE
+  it('(d) artifact file with disallowed extension (.exe) fails with ARTIFACT_FILE_BAD_TYPE', () => {
+    const badFile: ArtifactFile = { name: 'exploit.exe', content: '...', isPrimary: true };
+    const s: Setup = { ...minimalRegistryBase, artifactFiles: [badFile] };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'ARTIFACT_FILE_BAD_TYPE')).toBe(true);
+  });
+
+  it('(d) artifact file with disallowed extension (.sh) fails with ARTIFACT_FILE_BAD_TYPE', () => {
+    const badFile: ArtifactFile = { name: 'install.sh', content: '#!/bin/bash', isPrimary: true };
+    const s: Setup = { ...minimalRegistryBase, artifactFiles: [badFile] };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'ARTIFACT_FILE_BAD_TYPE')).toBe(true);
+  });
+
+  // (e) file name with path separator or >100 chars → ARTIFACT_FILE_BAD_NAME
+  it('(e) artifact file name with a path separator fails with ARTIFACT_FILE_BAD_NAME', () => {
+    const slashedFile: ArtifactFile = { name: 'dir/evil.md', content: '# Hi', isPrimary: true };
+    const s: Setup = { ...minimalRegistryBase, artifactFiles: [slashedFile] };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'ARTIFACT_FILE_BAD_NAME')).toBe(true);
+  });
+
+  it('(e) artifact file name over 100 chars fails with ARTIFACT_FILE_BAD_NAME', () => {
+    const longName = 'a'.repeat(98) + '.md'; // 101 chars total — over the 100-char limit
+    const s: Setup = {
+      ...minimalRegistryBase,
+      artifactFiles: [{ name: longName, content: '# Hi', isPrimary: true }],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'ARTIFACT_FILE_BAD_NAME')).toBe(true);
+  });
+
+  // (f) no primary file → PRIMARY_FILE_REQUIRED
+  it('(f) no artifact file marked primary fails with PRIMARY_FILE_REQUIRED', () => {
+    const files: ArtifactFile[] = [
+      { name: 'a.md', content: '# A', isPrimary: false },
+      { name: 'b.md', content: '# B', isPrimary: false },
+    ];
+    const s: Setup = { ...minimalRegistryBase, artifactFiles: files };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'PRIMARY_FILE_REQUIRED')).toBe(true);
+  });
+
+  it('(f) two artifact files marked primary fails with PRIMARY_FILE_REQUIRED', () => {
+    const files: ArtifactFile[] = [
+      { name: 'a.md', content: '# A', isPrimary: true },
+      { name: 'b.md', content: '# B', isPrimary: true },
+    ];
+    const s: Setup = { ...minimalRegistryBase, artifactFiles: files };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'PRIMARY_FILE_REQUIRED')).toBe(true);
+  });
+
+  // (g) non-empty repoUrl that is not a GitHub HTTPS URL → REPO_URL_INVALID
+  it('(g) repoUrl that is non-empty but not a GitHub HTTPS URL fails with REPO_URL_INVALID', () => {
+    const s: Setup = { ...minimalRegistryBase, repoUrl: 'https://gitlab.com/example/agent' };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'REPO_URL_INVALID')).toBe(true);
+  });
+
+  it('(g) null repoUrl is valid (no error)', () => {
+    const s: Setup = { ...minimalRegistryBase, repoUrl: null };
+    const result = validateSetup(s);
+    // The only errors should NOT include REPO_URL_INVALID
+    expect(result.errors.some((e) => e.code === 'REPO_URL_INVALID')).toBe(false);
+  });
+
+  // (h) capability with empty command or description → CAPABILITY_INVALID
+  it('(h) capability with empty command fails with CAPABILITY_INVALID', () => {
+    const s: Setup = {
+      ...minimalRegistryBase,
+      capabilities: [{ command: '', description: 'Does something.' }],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'CAPABILITY_INVALID')).toBe(true);
+  });
+
+  it('(h) capability with empty description fails with CAPABILITY_INVALID', () => {
+    const s: Setup = {
+      ...minimalRegistryBase,
+      capabilities: [{ command: '/help', description: '' }],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'CAPABILITY_INVALID')).toBe(true);
+  });
+
+  // (i) registry item with non-empty setup-only fields → KIND_FIELD_MISMATCH
+  it('(i) registry item with non-empty instructionTemplate fails with KIND_FIELD_MISMATCH', () => {
+    const s: Setup = {
+      ...minimalRegistryBase,
+      instructionTemplate: 'You are an agent for {{topic}}.',
+      variables: [{ key: 'topic', label: 'Topic', type: 'text', required: true }],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'KIND_FIELD_MISMATCH')).toBe(true);
+  });
+
+  it('(i) registry item with non-empty variables array fails with KIND_FIELD_MISMATCH', () => {
+    const s: Setup = {
+      ...minimalRegistryBase,
+      variables: [{ key: 'x', label: 'X', type: 'text', required: false }],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'KIND_FIELD_MISMATCH')).toBe(true);
+  });
+
+  it('(i) registry item with non-empty scenarios array fails with KIND_FIELD_MISMATCH', () => {
+    const s: Setup = {
+      ...minimalRegistryBase,
+      scenarios: [
+        { id: 's1', title: 'T', userInput: 'Hi', expectedBehavior: 'Help' },
+      ],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'KIND_FIELD_MISMATCH')).toBe(true);
+  });
+
+  it('(i) registry item with non-empty targets array fails with KIND_FIELD_MISMATCH', () => {
+    const s: Setup = {
+      ...minimalRegistryBase,
+      targets: ['claude-app'] as ExportTarget[],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'KIND_FIELD_MISMATCH')).toBe(true);
+  });
+
+  // (j) setup kind with registry-only fields → KIND_FIELD_MISMATCH
+  it('(j) setup kind with non-empty artifactFiles fails with KIND_FIELD_MISMATCH', () => {
+    const s: Setup = {
+      ...minimalBase,
+      artifactFiles: [{ name: 'README.md', content: '# Hi', isPrimary: true }],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'KIND_FIELD_MISMATCH')).toBe(true);
+  });
+
+  it('(j) setup kind with a non-null repoUrl fails with KIND_FIELD_MISMATCH', () => {
+    const s: Setup = {
+      ...minimalBase,
+      repoUrl: 'https://github.com/example/repo',
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'KIND_FIELD_MISMATCH')).toBe(true);
+  });
+
+  it('(j) setup kind with non-empty capabilities fails with KIND_FIELD_MISMATCH', () => {
+    const s: Setup = {
+      ...minimalBase,
+      capabilities: [{ command: '/help', description: 'Show help.' }],
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some((e) => e.code === 'KIND_FIELD_MISMATCH')).toBe(true);
+  });
+
+  // (k) valid agent → passes
+  it('(k) a valid agent with one primary .md file, capabilities, and a GitHub repoUrl passes', () => {
+    const s: Setup = {
+      ...minimalRegistryBase,
+      repoUrl: 'https://github.com/example/my-agent',
+    };
+    const result = validateSetup(s);
+    expect(result.valid).toBe(true);
+    expect(result.errors).toHaveLength(0);
+  });
+
+  // (l) existing valid-setup fixtures still pass once given kind:'setup' + empty registry fields
+  it('(l) existing valid-setup fixtures still pass with kind:setup and empty registry fields', () => {
+    // minimalBase already has kind:'setup' and empty registry fields after the Step 3 backfill.
+    // Verifying marketingManagerSetup (updated in the curated data file) also passes.
+    const result = validateSetup(marketingManagerSetup);
+    expect(result.valid).toBe(true);
+    expect(result.errors).toHaveLength(0);
   });
 });
 

@@ -117,10 +117,13 @@ export default function SetupDetail({
   return (
     <main>
       <div className="wrap">
-        {/* Back link */}
-        <Link href="/catalog" className="back-link">
+        {/* Back link — advanced setups live on the Developers tab, core on Professionals */}
+        <Link
+          href={setup.tier === 'advanced' ? '/developers' : '/professionals'}
+          className="back-link"
+        >
           <ArrowLeftIcon />
-          All setups
+          {setup.tier === 'advanced' ? 'All tools' : 'All setups'}
         </Link>
 
         {/* Detail head */}

@@ -20,14 +20,14 @@ test('"Find my setup" primary hero CTA navigates to /start', async ({ page }) =>
   await expect(page).toHaveURL('/start');
 });
 
-test('"Browse all setups" hero CTA navigates to /catalog', async ({ page }) => {
+test('"Browse all setups" hero CTA navigates to /professionals', async ({ page }) => {
   await page.goto('/');
 
   const mainContent = page.locator('main');
   const browseLink = mainContent.getByRole('link', { name: 'Browse all setups' });
   await expect(browseLink).toBeVisible();
   await browseLink.click();
-  await expect(page).toHaveURL('/catalog');
+  await expect(page).toHaveURL('/professionals');
 });
 
 test('role grid renders exactly 7 role links inside the #roles section', async ({ page }) => {
@@ -36,8 +36,8 @@ test('role grid renders exactly 7 role links inside the #roles section', async (
   const rolesSection = page.locator('#roles');
   await expect(rolesSection).toBeVisible();
 
-  // Each of the 7 ROLES links to /catalog?role=<id>
-  const roleLinks = rolesSection.locator('a[href*="/catalog?role="]');
+  // Each of the 7 ROLES links to /professionals?role=<id>
+  const roleLinks = rolesSection.locator('a[href*="/professionals?role="]');
   await expect(roleLinks).toHaveCount(7);
 });
 

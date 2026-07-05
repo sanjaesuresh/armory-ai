@@ -10,12 +10,12 @@ test.describe('setup detail page', () => {
     await expect(page.getByText(/Configure Claude as a senior marketing/).first()).toBeVisible();
   });
 
-  test('back link points to /catalog', async ({ page }) => {
+  test('back link points to /professionals for a core setup', async ({ page }) => {
     await page.goto('/setup/marketing-manager');
 
     const backLink = page.getByRole('link', { name: 'All setups' });
     await expect(backLink).toBeVisible();
-    await expect(backLink).toHaveAttribute('href', '/catalog');
+    await expect(backLink).toHaveAttribute('href', '/professionals');
   });
 
   test('spec plates are rendered', async ({ page }) => {

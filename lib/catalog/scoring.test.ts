@@ -15,6 +15,7 @@ import type { Setup } from '@/lib/setup/types';
 
 function makeSetup(overrides: Partial<Setup> & { id: string; name: string; role: string }): Setup {
   return {
+    kind: 'setup',
     slug: overrides.id,
     tagline: 'Test setup',
     description: 'Test description',
@@ -35,6 +36,9 @@ function makeSetup(overrides: Partial<Setup> & { id: string; name: string; role:
     variables: [],
     knowledgeFiles: [],
     scenarios: [],
+    artifactFiles: [],
+    repoUrl: null,
+    capabilities: [],
     ...overrides,
   };
 }

@@ -404,6 +404,11 @@ export async function generateSetupFromBrief(
     candidate.slug = slug;
     candidate.createdAt = now;
     candidate.updatedAt = now;
+    // Registry fields: generated setups are always kind='setup' with no artifact files.
+    candidate.kind = 'setup';
+    candidate.artifactFiles = [];
+    candidate.repoUrl = null;
+    candidate.capabilities = [];
 
     // ── Step 4: validateSetup ─────────────────────────────────────────────────
 

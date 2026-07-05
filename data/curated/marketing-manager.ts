@@ -5,6 +5,7 @@ import type { Setup } from '@/lib/setup/types';
  * Used as the shared test input for validator, compiler, and exporter tasks.
  */
 export const marketingManagerSetup: Setup = {
+  kind: 'setup',
   id: 'curated-marketing-manager-v1',
   slug: 'marketing-manager',
   name: 'Marketing Manager',
@@ -181,4 +182,8 @@ Fill in each section below. Claude will consult this file every time it writes c
       mustContain: ['30%'],
     },
   ],
+  // Registry-only fields — empty for kind='setup'.
+  artifactFiles: [],
+  repoUrl: null,
+  capabilities: [],
 };

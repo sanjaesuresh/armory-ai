@@ -82,11 +82,14 @@ export function recommend(setups: Setup[], options: RecommendOptions): Recommend
   const targetFiltered =
     target != null ? setups.filter((s) => s.targets.includes(target)) : setups;
 
-  // ── 1b. Tier filter — advanced setups excluded unless explicitly opted in ──
-  // Mirrors the target-compatibility filter: a hard exclusion, not a score penalty.
+  // ── 1b. Kind + tier filter ────────────────────────────────────────────────
+  // The recommender is for setup-kind items only — registry kinds (agent, skill,
+  // harness) are always excluded, regardless of includeAdvanced.
+  // includeAdvanced controls only the tier filter within setup-kind items.
+  const setupKindOnly = targetFiltered.filter((s) => s.kind === 'setup');
   const eligible = includeAdvanced
-    ? targetFiltered
-    : targetFiltered.filter((s) => s.tier !== 'advanced');
+    ? setupKindOnly
+    : setupKindOnly.filter((s) => s.tier !== 'advanced');
 
   // ── 2. Resolve current time ───────────────────────────────────────────────
   const nowMs =

@@ -14,6 +14,7 @@ import { marketingManagerSetup } from '@/data/curated/marketing-manager';
 
 function makeSetup(overrides: Partial<Setup> & { id: string; slug: string; name: string }): Setup {
   return {
+    kind: 'setup',
     tagline: 'Test tagline',
     description: 'Test description',
     role: 'Generic',
@@ -34,6 +35,9 @@ function makeSetup(overrides: Partial<Setup> & { id: string; slug: string; name:
     variables: [],
     knowledgeFiles: [],
     scenarios: [],
+    artifactFiles: [],
+    repoUrl: null,
+    capabilities: [],
     ...overrides,
   };
 }
@@ -202,4 +206,48 @@ describe('rowToSetup', () => {
     const setup = rowToSetup({ ...minimalRow } as any);
     expect(setup.popularity).toBe(0);
   });
+
+  // ─── Registry fields (Phase 8) ───────────────────────────────────────────────
+
+  it('maps kind, artifactFiles, repoUrl, capabilities from DB columns', () => {
+    const row = {
+      ...minimalRow,
+      kind: 'agent',
+      artifact_files: [{ name: 'main.md', content: '# Hello', isPrimary: true }],
+      repo_url: 'https://github.com/example/agent',
+      capabilities: [{ command: '/help', description: 'Get help' }],
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setup = rowToSetup(row as any);
+    expect(setup.kind).toBe('agent');
+    expect(setup.artifactFiles).toEqual([{ name: 'main.md', content: '# Hello', isPrimary: true }]);
+    expect(setup.repoUrl).toBe('https://github.com/example/agent');
+    expect(setup.capabilities).toEqual([{ command: '/help', description: 'Get help' }]);
+  });
+
+  it('defaults all four registry fields for a legacy row missing them', () => {
+    // minimalRow has no kind, artifact_files, repo_url, or capabilities columns.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setup = rowToSetup({ ...minimalRow } as any);
+    expect(setup.kind).toBe('setup');
+    expect(setup.artifactFiles).toEqual([]);
+    expect(setup.repoUrl).toBeNull();
+    expect(setup.capabilities).toEqual([]);
+  });
+
+  it('guards an invalid kind value and falls back to "setup"', () => {
+    // A DB value that is not one of the four valid kinds must not propagate.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setup = rowToSetup({ ...minimalRow, kind: 'banana' } as any);
+    expect(setup.kind).toBe('setup');
+  });
+
+  it.each(['setup', 'agent', 'skill', 'harness'] as const)(
+    'passes valid kind "%s" through unchanged',
+    (kind) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const setup = rowToSetup({ ...minimalRow, kind } as any);
+      expect(setup.kind).toBe(kind);
+    },
+  );
 });

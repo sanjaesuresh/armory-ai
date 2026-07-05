@@ -15,13 +15,14 @@ test('a non-technical user completes the loop', async ({ page, context }) => {
   await findSetup.click();
   await expect(page).toHaveURL('/start');
 
-  // ── 2. Role picker → catalog filtered by marketing-manager ───────────────
+  // ── 2. Role picker → professionals dashboard filtered by marketing-manager ─
   const marketingCard = page.getByTestId('role-card-marketing-manager');
   await expect(marketingCard).toBeVisible();
   await marketingCard.click();
-  await expect(page).toHaveURL('/catalog?role=marketing-manager');
+  // RolePicker now links directly to /professionals.
+  await expect(page).toHaveURL('/professionals?role=marketing-manager');
 
-  // ── 3. Catalog → setup detail page via the recommended card ─────────────
+  // ── 3. Dashboard → setup detail page via the recommended card ───────────
   const recommendedSection = page.getByTestId('recommended-section');
   await expect(recommendedSection).toBeVisible();
 

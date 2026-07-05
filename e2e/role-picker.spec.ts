@@ -14,12 +14,12 @@ test('role picker renders one card per ROLE with icon, label, and description', 
   }
 });
 
-test('role picker renders an escape link to the catalog', async ({ page }) => {
+test('role picker renders an escape link to professionals', async ({ page }) => {
   await page.goto('/start');
   await expect(page.getByTestId('escape-link')).toBeVisible();
 });
 
-test('selecting a role navigates to the catalog filtered by that role', async ({
+test('selecting a role navigates to professionals filtered by that role', async ({
   page,
 }) => {
   await page.goto('/start');
@@ -27,15 +27,15 @@ test('selecting a role navigates to the catalog filtered by that role', async ({
   const firstRole = ROLES[0];
   await page.getByTestId(`role-card-${firstRole.id}`).click();
 
-  await expect(page).toHaveURL(`/catalog?role=${firstRole.id}`);
+  await expect(page).toHaveURL(`/professionals?role=${firstRole.id}`);
 });
 
-test('the escape link navigates to the catalog with no role filter', async ({
+test('the escape link navigates to professionals with no role filter', async ({
   page,
 }) => {
   await page.goto('/start');
 
   await page.getByTestId('escape-link').click();
 
-  await expect(page).toHaveURL('/catalog');
+  await expect(page).toHaveURL('/professionals');
 });

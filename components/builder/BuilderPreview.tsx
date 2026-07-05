@@ -60,6 +60,7 @@ export interface BuilderPreviewProps {
  *  placeholders let validateSetup surface real content issues at preview time. */
 function buildPreviewSetup(input: DraftInput): Setup {
   return {
+    kind: 'setup',
     id: 'preview',
     slug: input.slug || 'preview',
     name: input.name,
@@ -84,6 +85,10 @@ function buildPreviewSetup(input: DraftInput): Setup {
     variables: (input.variables ?? []) as Variable[],
     knowledgeFiles: (input.knowledgeFiles ?? []) as KnowledgeFile[],
     scenarios: (input.scenarios ?? []) as Scenario[],
+    // Registry-only fields — community builder only produces setups.
+    artifactFiles: [],
+    repoUrl: null,
+    capabilities: [],
   };
 }
 

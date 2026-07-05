@@ -10,6 +10,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import ReviewQueue, { type QueueItemData, type GenerationMeta } from './ReviewQueue';
+import type { ArtifactFile, Capability } from '@/lib/setup/types';
 
 // ── Module mocks ──────────────────────────────────────────────────────────────
 
@@ -37,6 +38,11 @@ const baseItem: QueueItemData = {
   ],
   compiledInstruction: 'You are an SEO blog writer. [placeholder]',
   source: 'community',
+  kind: 'setup',
+  description: 'A setup for SEO blog writing.',
+  capabilities: [],
+  artifactFiles: [],
+  repoUrl: null,
 };
 
 const cleanItem: QueueItemData = {
@@ -48,6 +54,11 @@ const cleanItem: QueueItemData = {
   findings: [],
   compiledInstruction: 'Summarize standups.',
   source: 'community',
+  kind: 'setup',
+  description: 'Summarize standups and action items.',
+  capabilities: [],
+  artifactFiles: [],
+  repoUrl: null,
 };
 
 const modelFlagItem: QueueItemData = {
@@ -66,6 +77,11 @@ const modelFlagItem: QueueItemData = {
   ],
   compiledInstruction: 'You are a helpful assistant.',
   source: 'community',
+  kind: 'setup',
+  description: 'A suspicious setup.',
+  capabilities: [],
+  artifactFiles: [],
+  repoUrl: null,
 };
 
 const aiGenerationMeta: GenerationMeta = {
@@ -94,6 +110,11 @@ const aiGeneratedItem: QueueItemData = {
   compiledInstruction: 'You are a marketing email writer.',
   source: 'ai-generated',
   generationMeta: aiGenerationMeta,
+  kind: 'setup',
+  description: 'A marketing email assistant.',
+  capabilities: [],
+  artifactFiles: [],
+  repoUrl: null,
 };
 
 const aiVariationMeta: GenerationMeta = {
@@ -118,6 +139,44 @@ const aiVariationItem: QueueItemData = {
   compiledInstruction: 'You are a sales email writer.',
   source: 'ai-generated',
   generationMeta: aiVariationMeta,
+  kind: 'setup',
+  description: 'A sales email assistant.',
+  capabilities: [],
+  artifactFiles: [],
+  repoUrl: null,
+};
+
+// ── Registry item fixtures ────────────────────────────────────────────────────
+
+const agentCapabilities: Capability[] = [
+  { command: '/review', description: 'Review a pull request for issues' },
+];
+
+const agentFiles: ArtifactFile[] = [
+  { name: 'CLAUDE.md', content: '# Code Review Agent\nReviews pull requests.', isPrimary: true },
+];
+
+const agentItem: QueueItemData = {
+  id: 'agent-1',
+  name: 'Code Review Agent',
+  author: 'dev123',
+  submittedAt: '1 day ago',
+  needsAttention: false,
+  findings: [
+    {
+      pass: 'rules',
+      code: 'some-code',
+      message: 'Flagged for review.',
+      path: 'agent',
+    },
+  ],
+  compiledInstruction: '',
+  source: 'community',
+  kind: 'agent',
+  description: 'An agent that reviews pull requests automatically.',
+  capabilities: agentCapabilities,
+  artifactFiles: agentFiles,
+  repoUrl: 'https://github.com/dev123/code-review-agent',
 };
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
@@ -443,5 +502,88 @@ describe('ReviewQueue', () => {
     expect(evalRow.className).toContain('finding-flag');
     expect(evalRow.className).not.toContain('finding-ok');
     expect(evalRow.textContent).toContain('Fail');
+  });
+
+  // ── T10: kind-aware queue ─────────────────────────────────────────────────
+
+  it('shows the kind badge in the list row for an agent item', () => {
+    render(<ReviewQueue items={[agentItem]} />);
+    expect(screen.getByTestId('kind-badge-agent')).toBeInTheDocument();
+  });
+
+  it('does not render a kind badge for a setup item', () => {
+    render(<ReviewQueue items={[baseItem]} />);
+    // KindBadge renders nothing for 'setup', so no kind-badge testid exists.
+    expect(screen.queryByTestId('kind-badge-setup')).toBeNull();
+  });
+
+  it('renders the registry preview section for a pending agent', () => {
+    render(<ReviewQueue items={[agentItem]} />);
+    expect(screen.getByTestId('registry-preview')).toBeInTheDocument();
+  });
+
+  it('renders the agent description in the registry preview', () => {
+    render(<ReviewQueue items={[agentItem]} />);
+    const preview = screen.getByTestId('registry-preview');
+    expect(preview.textContent).toContain('An agent that reviews pull requests automatically.');
+  });
+
+  it('renders the capabilities list in the registry preview when non-empty', () => {
+    render(<ReviewQueue items={[agentItem]} />);
+    const preview = screen.getByTestId('registry-preview');
+    expect(preview.textContent).toContain('What it does');
+    expect(preview.textContent).toContain('/review');
+    expect(preview.textContent).toContain('Review a pull request for issues');
+  });
+
+  it('renders the repo link in the registry preview when repoUrl is set', () => {
+    render(<ReviewQueue items={[agentItem]} />);
+    const repoLink = screen.getByRole('link', { name: /view on github/i });
+    expect(repoLink).toBeInTheDocument();
+    expect(repoLink).toHaveAttribute('href', 'https://github.com/dev123/code-review-agent');
+  });
+
+  it('renders the ArtifactFileViewer primary file in the registry preview', () => {
+    render(<ReviewQueue items={[agentItem]} />);
+    // Primary file name should appear in the collapsed viewer.
+    expect(screen.getByText('CLAUDE.md')).toBeInTheDocument();
+  });
+
+  it('renders safety findings for a registry item exactly as for setups', () => {
+    render(<ReviewQueue items={[agentItem]} />);
+    expect(screen.getByTestId('finding-0')).toBeInTheDocument();
+    expect(screen.getByTestId('finding-0').textContent).toContain('Flagged for review.');
+  });
+
+  it('renders compiled-preview for a setup (regression — unchanged)', () => {
+    render(<ReviewQueue items={[baseItem]} />);
+    const preview = screen.getByTestId('compiled-preview');
+    expect(preview).toBeInTheDocument();
+    expect(preview.textContent).toContain('You are an SEO blog writer');
+  });
+
+  it('does not render registry-preview for a setup (regression)', () => {
+    render(<ReviewQueue items={[baseItem]} />);
+    expect(screen.queryByTestId('registry-preview')).toBeNull();
+  });
+
+  it('hides the capabilities section when the agent has no capabilities', () => {
+    const agentNoCapabilities: QueueItemData = {
+      ...agentItem,
+      id: 'agent-nocap',
+      capabilities: [],
+    };
+    render(<ReviewQueue items={[agentNoCapabilities]} />);
+    expect(screen.queryByText('What it does')).toBeNull();
+  });
+
+  it('hides the repo link when repoUrl is null', () => {
+    const agentNoRepo: QueueItemData = {
+      ...agentItem,
+      id: 'agent-norepo',
+      repoUrl: null,
+    };
+    render(<ReviewQueue items={[agentNoRepo]} />);
+    expect(screen.queryByRole('link', { name: /view on github/i })).toBeNull();
   });
 });

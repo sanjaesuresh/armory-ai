@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Setup } from '@/lib/setup/types';
 import { getCategoryTint, getSetupIcon } from '@/lib/catalog/categoryUtils';
 import PlugIcon from './icons/PlugIcon';
+import KindBadge from './KindBadge';
 
 interface SetupCardProps {
   setup: Setup;
@@ -57,8 +58,10 @@ export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
           {icon}
         </span>
 
-        {/* Badge group — source badge + optional tier badge, stacked vertically */}
+        {/* Badge group — kind badge (registry items) + source badge + optional tier badge */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+          <KindBadge kind={setup.kind} />
+
           {setup.source === 'curated' ? (
             <span className="badge badge-curated" data-testid="badge-curated">
               <ShieldBadgeIcon />

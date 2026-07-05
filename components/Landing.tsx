@@ -122,7 +122,7 @@ export default function Landing() {
               <Link className="btn btn-primary btn-lg" href="/start">
                 Find my setup
               </Link>
-              <Link className="btn btn-outline btn-lg" href="/catalog">
+              <Link className="btn btn-outline btn-lg" href="/professionals">
                 Browse all setups
               </Link>
             </div>
@@ -339,7 +339,7 @@ export default function Landing() {
               <Link
                 key={role.id}
                 className="role-card"
-                href={`/catalog?role=${role.id}`}
+                href={`/professionals?role=${role.id}`}
               >
                 <span className="icon-badge">
                   <RoleIcon roleId={role.id} />
@@ -350,7 +350,7 @@ export default function Landing() {
             ))}
             <Link
               className="role-card role-card--browse"
-              href="/catalog"
+              href="/professionals"
             >
               <strong>Browse everything →</strong>
             </Link>

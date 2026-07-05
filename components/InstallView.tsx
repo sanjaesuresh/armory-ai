@@ -520,7 +520,7 @@ export default function InstallView() {
               It looks like the session expired or you arrived here directly. Start again from
               the catalog to pick and customise your setup.
             </p>
-            <Link href="/catalog" className="btn btn-primary">
+            <Link href="/professionals" className="btn btn-primary">
               Browse the catalog
             </Link>
           </div>

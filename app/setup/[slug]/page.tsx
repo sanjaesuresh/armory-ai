@@ -1,5 +1,6 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { createCatalogRepository } from '@/lib/catalog/repository';
+import { isRegistryKind } from '@/lib/setup/types';
 import SetupDetail from '@/components/SetupDetail';
 import Link from 'next/link';
 import { getSessionUser, createSupabaseServerClient } from '@/lib/supabase/server';
@@ -44,7 +45,7 @@ export default async function SetupPage({ params }: Props) {
             <div>
               <strong>We couldn&apos;t load this setup</strong>
               <p>Please try again in a moment.</p>
-              <Link href="/catalog" className="btn btn-outline btn-sm">
+              <Link href="/professionals" className="btn btn-outline btn-sm">
                 Back to catalog
               </Link>
             </div>
@@ -56,6 +57,11 @@ export default async function SetupPage({ params }: Props) {
 
   if (!setup) {
     notFound();
+  }
+
+  // Cross-redirect: registry items (agent, skill, harness) live at /dev/[slug].
+  if (isRegistryKind(setup.kind)) {
+    redirect(`/dev/${setup.slug}`);
   }
 
   // ── Optional signed-in affordances (never breaks the account-free guarantee) ─

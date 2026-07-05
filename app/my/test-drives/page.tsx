@@ -92,7 +92,7 @@ export default async function TestDriveHistoryPage() {
               Run a test-drive on any setup and the results will be saved here so
               you can review and compare them later.
             </p>
-            <Link className="btn btn-primary btn-sm" href="/catalog">
+            <Link className="btn btn-primary btn-sm" href="/professionals">
               Browse setups
             </Link>
           </div>

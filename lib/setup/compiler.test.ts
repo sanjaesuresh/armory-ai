@@ -6,6 +6,7 @@ import type { Answers, Setup } from '@/lib/setup/types';
 // ─── Shared base fixture ───────────────────────────────────────────────────────
 
 const base: Setup = {
+  kind: 'setup',
   id: 'compiler-test',
   slug: 'compiler-test',
   name: 'Compiler Test Setup',
@@ -29,6 +30,9 @@ const base: Setup = {
   variables: [],
   knowledgeFiles: [],
   scenarios: [],
+  artifactFiles: [],
+  repoUrl: null,
+  capabilities: [],
 };
 
 // ─── Golden answers for canonical fixture ──────────────────────────────────────

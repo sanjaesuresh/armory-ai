@@ -17,36 +17,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getSessionUser, createSupabaseServerClient } from '@/lib/supabase/server';
 import { createSupabaseDraftsStore } from '@/lib/community/drafts';
-import type { SetupRow } from '@/lib/catalog/repository';
+import { rowToSetup, type SetupRow } from '@/lib/catalog/repository';
 import AuthPrompt from '@/components/AuthPrompt';
-import SubmissionActions from '@/components/submissions/SubmissionActions';
+import SubmissionRow from '@/components/submissions/SubmissionRow';
 
 export const metadata: Metadata = {
   title: 'My submissions · Armory',
 };
-
-function formatUpdated(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return 'recently';
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
-function statusLabel(status: string): string {
-  switch (status) {
-    case 'approved': return 'Approved';
-    case 'pending':  return 'Pending review';
-    case 'rejected': return 'Rejected';
-    default:         return 'Draft';
-  }
-}
-
-function statusClass(status: string): string {
-  switch (status) {
-    case 'approved': return 'status status-ready';
-    case 'pending':  return 'status status-soon';
-    default:         return 'status status-draft';
-  }
-}
 
 interface Props {
   searchParams: Promise<{ submitted?: string }>;
@@ -168,101 +145,19 @@ export default async function MySubmissionsPage({ searchParams }: Props) {
           </div>
         )}
 
-        {rows.map((row) => {
-          const reviewNote = row.review_note;
-
-          return (
-            <div
-              key={row.id}
-              className="lib-row"
-              style={row.review_status === 'rejected' ? { alignItems: 'flex-start' } : undefined}
-              data-testid={`submission-row-${row.id}`}
-            >
-              {/* Icon badge — color by status */}
-              <span
-                className="icon-badge"
-                style={{
-                  background:
-                    row.review_status === 'approved' ? 'var(--mint)' :
-                    row.review_status === 'pending'  ? 'var(--sky)'  :
-                    row.review_status === 'rejected' ? 'var(--blush)' :
-                                                       'var(--sand)',
-                  flexShrink: 0,
-                }}
-                aria-hidden="true"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"
-                  strokeLinejoin="round">
-                  <rect x="2" y="7" width="20" height="14" rx="2" />
-                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-                </svg>
-              </span>
-
-              {/* Body */}
-              <div className="lib-body">
-                <strong>{row.name || 'Untitled setup'}</strong>
-                {row.review_status === 'approved' && (
-                  <span>
-                    Live in the catalog &middot; {row.upvotes} upvote{row.upvotes !== 1 ? 's' : ''} &middot; updated {formatUpdated(row.updated_at)}
-                  </span>
-                )}
-                {row.review_status === 'pending' && (
-                  <span>
-                    Being reviewed — we check every setup before it goes live.
-                  </span>
-                )}
-                {row.review_status === 'rejected' && (
-                  <>
-                    <span>Not approved &middot; reviewed {formatUpdated(row.updated_at)}</span>
-                    {reviewNote && (
-                      <div className="finding finding-flag" style={{ marginTop: 8 }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"
-                          strokeLinejoin="round" style={{ flex: 'none', marginTop: 1 }}
-                          aria-hidden="true">
-                          <path d="M12 4 2.8 19.5h18.4z" />
-                          <path d="M12 10v4.5M12 17.2v.1" />
-                        </svg>
-                        <div>
-                          <strong>Moderator note:</strong>{' '}
-                          {/* Rendered as text — never innerHTML (plain text from moderator) */}
-                          {reviewNote}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-                {row.review_status === 'draft' && (
-                  <span>Draft &middot; not submitted &middot; last edited {formatUpdated(row.updated_at)}</span>
-                )}
-              </div>
-
-              {/* Status chip */}
-              <span className={statusClass(row.review_status)}>
-                {statusLabel(row.review_status)}
-              </span>
-
-              {/* Actions */}
-              {row.review_status === 'approved' && (
-                <Link className="btn btn-outline btn-sm" href={`/setup/${row.slug}`}>
-                  View public page
-                </Link>
-              )}
-              {row.review_status === 'draft' && (
-                <Link className="btn btn-primary btn-sm" href={`/build/${row.id}`}>
-                  Continue building
-                </Link>
-              )}
-              {(row.review_status === 'pending' || row.review_status === 'rejected') && (
-                <SubmissionActions
-                  id={row.id}
-                  reviewStatus={row.review_status as 'pending' | 'rejected'}
-                />
-              )}
-            </div>
-          );
-        })}
+        {rows.map((row) => (
+          <SubmissionRow
+            key={row.id}
+            id={row.id}
+            name={row.name || 'Untitled setup'}
+            kind={rowToSetup(row).kind}
+            reviewStatus={row.review_status as 'draft' | 'pending' | 'approved' | 'rejected'}
+            reviewNote={row.review_note}
+            upvotes={row.upvotes}
+            updatedAt={row.updated_at}
+            slug={row.slug}
+          />
+        ))}
       </div>
     </main>
   );

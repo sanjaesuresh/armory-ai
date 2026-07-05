@@ -21,10 +21,10 @@ import { test, expect } from '@playwright/test';
 // seeded community rows. Remove test.skip to run in a credentialed local env.
 // ---------------------------------------------------------------------------
 
-test.skip('an approved community setup appears in /catalog with the Community badge and author', async ({
+test.skip('an approved community setup appears in /professionals with the Community badge and author', async ({
   page,
 }) => {
-  await page.goto('/catalog');
+  await page.goto('/professionals');
 
   // At least one community badge must be visible in the catalog.
   const badge = page.getByTestId('badge-community').first();
@@ -43,7 +43,7 @@ test.skip('pending, rejected, and draft community setups never appear in the pub
   // This is the hostile-state assertion — the account-free / approved-only guarantee.
   // Seeded data must include at least one pending, one rejected, and one draft row.
   // All three must remain invisible in any public browse or search.
-  await page.goto('/catalog');
+  await page.goto('/professionals');
 
   // Look for any card whose slug matches the seeded non-approved slugs.
   // (Adjust these slugs to match whatever was seeded.)
@@ -60,10 +60,10 @@ test.skip('pending, rejected, and draft community setups never appear in the pub
 // These require a local Supabase instance with at least one approved ai-generated
 // setup seeded in the database. Remove test.skip to run locally.
 
-test.skip('an approved ai-generated setup shows the AI-generated badge in /catalog', async ({
+test.skip('an approved ai-generated setup shows the AI-generated badge in /professionals', async ({
   page,
 }) => {
-  await page.goto('/catalog');
+  await page.goto('/professionals');
 
   // At least one AI-generated badge must be visible.
   const badge = page.getByTestId('badge-ai').first();

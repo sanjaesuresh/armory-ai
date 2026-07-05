@@ -157,7 +157,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
         <p style={{ marginBottom: '1rem' }}>
           We couldn&apos;t find your answers &mdash; start again from the catalog.
         </p>
-        <Link href="/catalog" className="btn btn-outline">
+        <Link href="/professionals" className="btn btn-outline">
           Browse setups
         </Link>
       </div>
@@ -172,7 +172,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
         <p style={{ color: 'var(--bad)', marginBottom: '0.75rem' }}>
           Something went wrong: {phase.message}
         </p>
-        <Link href="/catalog" className="btn btn-outline">
+        <Link href="/professionals" className="btn btn-outline">
           Browse setups
         </Link>
       </div>

@@ -19,6 +19,7 @@
  */
 
 import type { Setup } from '@/lib/setup/types';
+import { ARTIFACT_FILE_LIMITS } from '@/lib/setup/types';
 import type { ModelClient } from '@/lib/testdrive/runner';
 
 // ─── Result types ─────────────────────────────────────────────────────────────
@@ -53,6 +54,13 @@ const BASE64_BLOB_MIN = 40;
 
 /** The grader's output is capped small — it returns a one-line verdict. */
 export const MODEL_GRADER_MAX_TOKENS = 120;
+
+/**
+ * Maximum characters we send to the model grader for a registry item. We
+ * concatenate all artifact file contents and truncate at this limit before the
+ * model call — the grader only needs enough to assess intent.
+ */
+export const ARTIFACT_EXCERPT_MAX_CHARS = 8_000;
 
 /**
  * The fixed grading prompt for the model pass. Deliberately narrow: it grades
@@ -232,6 +240,126 @@ export async function runSafetyScreen(
   modelClient: ModelClient,
 ): Promise<SafetyScreenResult> {
   const findings = [...runRulesPass(setup), ...(await runModelPass(setup, modelClient))];
+  return {
+    clean: findings.length === 0,
+    needsAttention: findings.length > 0,
+    findings,
+  };
+}
+
+// ─── Registry rules pass ──────────────────────────────────────────────────────
+
+/**
+ * The deterministic rules pass for registry items (agent, skill, harness).
+ * Runs the same RULES over:
+ *   - The setup's description field
+ *   - Every artifact file's content (plus an oversized check keyed to the
+ *     100 KB artifact file limit)
+ *   - Every capability's description
+ *
+ * A flag NEVER auto-rejects — any finding is stored and surfaces the submission
+ * as needs-attention in the moderator queue, matching the setup-kind behavior.
+ */
+export function runRegistryRulesPass(setup: Setup): SafetyFinding[] {
+  const findings: SafetyFinding[] = [];
+
+  // Description field
+  if (setup.description) {
+    for (const rule of RULES) {
+      if (rule.test(setup.description)) {
+        findings.push({ pass: 'rules', code: rule.code, message: rule.message, path: 'description' });
+      }
+    }
+  }
+
+  // Artifact file contents
+  for (let i = 0; i < setup.artifactFiles.length; i++) {
+    const file = setup.artifactFiles[i];
+    for (const rule of RULES) {
+      if (rule.test(file.content)) {
+        findings.push({
+          pass: 'rules',
+          code: rule.code,
+          message: rule.message,
+          path: `artifactFiles[${i}].content`,
+        });
+      }
+    }
+    // Oversized artifact — a signal to look closer, not enforcement (the
+    // validator enforces the hard byte limit; this is an attention flag).
+    if (file.content.length > ARTIFACT_FILE_LIMITS.maxBytesPerFile) {
+      findings.push({
+        pass: 'rules',
+        code: 'oversized-artifact',
+        message: `Artifact file "${file.name}" content exceeds ${ARTIFACT_FILE_LIMITS.maxBytesPerFile} characters.`,
+        path: `artifactFiles[${i}].content`,
+      });
+    }
+  }
+
+  // Capability descriptions
+  for (let i = 0; i < setup.capabilities.length; i++) {
+    const cap = setup.capabilities[i];
+    for (const rule of RULES) {
+      if (rule.test(cap.description)) {
+        findings.push({
+          pass: 'rules',
+          code: rule.code,
+          message: rule.message,
+          path: `capabilities[${i}].description`,
+        });
+      }
+    }
+  }
+
+  return findings;
+}
+
+// ─── Registry model pass ──────────────────────────────────────────────────────
+
+/**
+ * The bounded model-graded pass for registry items. Concatenates artifact file
+ * contents (size-capped to ARTIFACT_EXCERPT_MAX_CHARS) and sends the same
+ * fixed grading prompt used for setups. On any model error it returns no
+ * findings — the rules pass and human review still apply.
+ */
+async function runRegistryModelPass(setup: Setup, modelClient: ModelClient): Promise<SafetyFinding[]> {
+  const excerpt = setup.artifactFiles
+    .map((f) => f.content)
+    .join('\n\n')
+    .slice(0, ARTIFACT_EXCERPT_MAX_CHARS);
+  const chunks: string[] = [];
+  try {
+    await modelClient.call({
+      systemPrompt: MODEL_GRADER_SYSTEM_PROMPT,
+      userMessage: excerpt,
+      maxTokens: MODEL_GRADER_MAX_TOKENS,
+      onChunk: (t) => chunks.push(t),
+    });
+  } catch {
+    return [];
+  }
+  // Repath the verdict findings to 'artifactFiles' — the model inspected
+  // artifact content, not an instructionTemplate.
+  return parseVerdict(chunks.join('')).map((f) => ({ ...f, path: 'artifactFiles' }));
+}
+
+// ─── Registry combined screen ─────────────────────────────────────────────────
+
+/**
+ * Runs both passes for a registry item (agent, skill, harness) and returns the
+ * combined result. Same shape as runSafetyScreen. Findings from either pass
+ * mark the submission needs-attention; the screen never approves or rejects on
+ * its own — matching the existing setup behavior exactly.
+ */
+export async function runRegistrySafetyScreen(
+  setup: Setup,
+  modelClient: ModelClient,
+): Promise<SafetyScreenResult> {
+  const findings = [
+    ...runRegistryRulesPass(setup),
+    ...(await runRegistryModelPass(setup, modelClient)),
+  ];
   return {
     clean: findings.length === 0,
     needsAttention: findings.length > 0,

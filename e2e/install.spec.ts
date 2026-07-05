@@ -135,7 +135,7 @@ test.describe('/install page', () => {
     await expect(tipsSection.getByRole('heading', { name: 'Tips if you get stuck' })).toBeVisible();
   });
 
-  test('missing sessionStorage shows start-over state with /catalog link', async ({
+  test('missing sessionStorage shows start-over state with /professionals link', async ({
     page,
   }) => {
     // Navigate WITHOUT seeding sessionStorage
@@ -144,9 +144,9 @@ test.describe('/install page', () => {
     // Start-over message must be shown
     await expect(page.getByText(/couldn't find your setup/i)).toBeVisible();
 
-    // Must include a link to /catalog
+    // Must include a link to /professionals
     const catalogLink = page.getByRole('link', { name: /catalog/i });
-    await expect(catalogLink).toHaveAttribute('href', '/catalog');
+    await expect(catalogLink).toHaveAttribute('href', '/professionals');
   });
 
   test('Back button on step 2 returns to step 1', async ({ page }) => {

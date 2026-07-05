@@ -156,11 +156,18 @@ export default function Nav() {
           ref={menuRef}
         >
           <Link
-            href="/catalog"
+            href="/professionals"
             onClick={closeMenu}
-            aria-current={pathname === '/catalog' ? 'page' : undefined}
+            aria-current={pathname === '/professionals' ? 'page' : undefined}
           >
-            Browse setups
+            Professionals
+          </Link>
+          <Link
+            href="/developers"
+            onClick={closeMenu}
+            aria-current={pathname === '/developers' ? 'page' : undefined}
+          >
+            Developers
           </Link>
           <Link href="/#how" onClick={closeMenu}>
             How it works

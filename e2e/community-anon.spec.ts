@@ -44,7 +44,7 @@ test('/admin/review returns a 404 for an anonymous visitor', async ({ page }) =>
 test('the anonymous catalog still works after community additions', async ({ page }) => {
   // Account-free guarantee: browse works with no session — community features
   // must not break anonymous access.
-  await page.goto('/catalog');
+  await page.goto('/professionals');
   await expect(page.getByTestId('setup-card-marketing-manager')).toBeVisible();
 
   // Navigate to a setup detail page — no crash, no redirect.

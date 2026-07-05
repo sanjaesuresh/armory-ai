@@ -1255,3 +1255,195 @@ pre.code {
   background: var(--bad-tint); border: 1px solid rgba(179, 64, 47, 0.25);
   border-radius: var(--r-md);
 }
+
+/* ---- Phase 8: professionals / developers dashboards ------------------------ */
+/* Ported from docs/mock/styles.css (dash-head, shelf, reg-table). Tokens match
+   the app's :root; additive only — no existing rule is changed. */
+
+.dash-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; margin-bottom: 6px;
+}
+.dash-head h1 { font-size: clamp(1.8rem, 3.4vw, 2.4rem); margin: 0 0 6px; }
+.dash-head p  { margin: 0; max-width: 40em; }
+
+.dash-strip-heading {
+  font-size: 1.15rem; font-weight: 700; margin: 0 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.shelf-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px; margin: 40px 0 16px;
+}
+.shelf-head h2 { font-size: 1.2rem; margin: 0; }
+.shelf-head .eyebrow { margin: 0; }
+.shelf-head .shelf-link { font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+
+.shelf {
+  display: flex; gap: 16px; overflow-x: auto;
+  padding: 4px 2px 14px; scroll-snap-type: x proximity; scrollbar-width: thin;
+}
+.shelf::-webkit-scrollbar { height: 8px; }
+.shelf::-webkit-scrollbar-thumb { background: var(--hairline-strong); border-radius: 4px; }
+.shelf::-webkit-scrollbar-track { background: transparent; }
+.shelf > .setup-card {
+  flex: 0 0 300px; max-width: 320px; scroll-snap-align: start;
+}
+
+/* Full-list controls: search on the left, count + sort on the right. */
+.registry-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px 20px; flex-wrap: wrap; margin: 6px 0 16px;
+}
+.registry-controls-right {
+  display: flex; align-items: center; gap: 14px 18px; flex-wrap: wrap;
+}
+.registry-controls .result-count { margin: 0; }
+
+.dash-sort { display: inline-flex; align-items: center; gap: 8px; }
+.dash-sort > span { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.dash-sort select {
+  font: inherit; font-size: 0.86rem; font-weight: 600; color: var(--ink);
+  background: var(--paper); border: 1px solid var(--hairline-strong);
+  border-radius: 999px; padding: 7px 30px 7px 14px; cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%23756c5c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+}
+.dash-sort select:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; }
+
+/* Full catalog / registry table. */
+.reg-scroll { overflow-x: auto; }
+.reg-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.reg-table th {
+  text-align: left; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 10px 14px; border-bottom: 1px solid var(--hairline-strong);
+  white-space: nowrap;
+}
+.reg-table td { padding: 14px; border-bottom: 1px solid var(--hairline); vertical-align: middle; }
+.reg-table tbody tr { transition: background var(--t-base); }
+.reg-table tbody tr:hover td { background: var(--oat); }
+.reg-name { min-width: 220px; }
+.reg-name a { color: var(--ink); font-weight: 700; display: block; }
+.reg-name a:hover { color: var(--iris-deep); text-decoration: none; }
+.reg-name a:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; border-radius: 4px; }
+.reg-name strong { display: block; font-size: 0.95rem; }
+.reg-name span { display: block; font-size: 0.82rem; color: var(--muted); font-weight: 400; margin-top: 2px; }
+.reg-num { font-weight: 700; color: var(--ink-soft); white-space: nowrap; }
+.reg-updated { color: var(--muted); white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .reg-hide-sm { display: none; }
+  .shelf > .setup-card { flex-basis: 260px; }
+}
+
+/* ── Phase 8 Task 6: registry (developer) detail page ─────────────────────── */
+/* Ported from docs/mock/styles.css (dev-detail-head, file viewer, capabilities).
+   Additive only — no existing rule is changed. */
+
+/* Header: badges + title + meta row */
+.dev-detail-head { padding: 6px 0 26px; border-bottom: 1px solid var(--hairline); margin-bottom: 30px; }
+.dev-detail-head h1 { margin: 10px 0 12px; font-size: clamp(1.7rem, 3.2vw, 2.3rem); }
+.dev-badges { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+/* --muted (#756c5c) on --paper (#fff): ~4.6:1 — WCAG AA pass for bold/large text at 0.9rem */
+.dev-detail-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; font-size: 0.9rem; color: var(--muted); font-weight: 600; }
+.dev-detail-meta__report { margin-left: auto; }
+
+/* GitHub repo pill link */
+/* --ink (#272319) on --paper (#fff): ~14.3:1 — WCAG AA pass */
+.repo-link { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 0.88rem; padding: 8px 14px; border: 1px solid var(--hairline-strong); border-radius: 999px; color: var(--ink); }
+.repo-link:hover { text-decoration: none; border-color: var(--ink); }
+.repo-link:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; border-radius: 999px; }
+
+/* Capabilities list */
+.cap-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.cap-item { display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; border: 1px solid var(--hairline); border-radius: var(--r-md); background: var(--paper); }
+/* --ink (#272319) on --oat-deep (#f4efe6): ~13.9:1 — WCAG AA pass */
+.cap-cmd { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; background: var(--oat-deep); color: var(--ink); padding: 5px 10px; border-radius: 8px; white-space: nowrap; flex: none; }
+.cap-item .cap-body { min-width: 0; }
+.cap-item .cap-body strong { display: block; font-size: 0.9rem; margin-bottom: 1px; }
+/* --ink-soft (#4f483c) on --paper (#fff): ~6.8:1 — WCAG AA pass */
+.cap-item .cap-body p { margin: 0; font-size: 0.88rem; color: var(--ink-soft); }
+
+/* Artifact file viewer: primary file block (fileview) */
+.fileview { border: 1px solid var(--hairline); border-radius: var(--r-md); overflow: hidden; background: var(--paper); margin-bottom: 14px; }
+.file-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; background: var(--oat); border-bottom: 1px solid var(--hairline); }
+/* --ink (#272319) on --oat (#faf7f1): ~13.9:1 — WCAG AA pass */
+.file-head .fname { font-family: var(--mono); font-size: 0.82rem; font-weight: 700; color: var(--ink); display: inline-flex; align-items: center; gap: 8px; min-width: 0; overflow: hidden; }
+.file-head .fname svg { color: var(--muted); flex: none; }
+.file-head .fmeta { font-size: 0.74rem; color: var(--muted); font-weight: 600; }
+.file-actions { display: flex; gap: 8px; align-items: center; flex: none; }
+
+/* File body: collapsed cap, then expanded (no cap), with a fade overlay on collapse */
+.file-body { position: relative; }
+.file-body pre.code { max-height: 210px; overflow: hidden; margin: 0; }
+.file-body.expanded pre.code { max-height: 1400px; overflow: auto; }
+.file-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 66px; background: linear-gradient(rgba(255,255,255,0), var(--paper)); pointer-events: none; }
+.file-body.expanded .file-fade { display: none; }
+
+/* Artifact file viewer: secondary file rows (<details>) */
+.file-row { border: 1px solid var(--hairline); border-radius: var(--r-md); margin-bottom: 10px; background: var(--paper); overflow: hidden; }
+.file-row > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; }
+.file-row > summary::-webkit-details-marker { display: none; }
+.file-row > summary:focus-visible { outline: 2px solid var(--iris); outline-offset: -2px; }
+.file-row summary .fname { font-family: var(--mono); font-size: 0.82rem; font-weight: 700; color: var(--ink); display: inline-flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.file-row summary .chev { color: var(--muted); transition: transform 0.15s; flex: none; }
+.file-row[open] > summary { border-bottom: 1px solid var(--hairline); background: var(--oat); }
+.file-row[open] summary .chev { transform: rotate(90deg); }
+.file-row summary .fmeta { font-size: 0.74rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+@media (max-width: 560px) {
+  .dev-detail-meta { gap: 10px; }
+  .repo-link { padding: 7px 10px; font-size: 0.82rem; }
+}
+
+/* ---- registry builder (Phase 8, dev-submit) ---------------- */
+/* New styles for RegistryBuilderView. Ported from docs/mock/dev-submit.html.
+   Appended (never edits existing rules) per the task's CSS constraint. */
+
+/* Visible focus ring for the build-entry kind chooser radios — the mock's
+   .option-card lacks one; production must be keyboard-visible. */
+.option-card:has(input:focus-visible) { outline: 2px solid var(--iris); outline-offset: 2px; }
+
+/* Uploaded-file rows: name/size column, primary control, remove button. */
+.file-included .fx { flex: 1; min-width: 0; }
+.file-included .fx strong { display: block; font-size: 0.9rem; }
+.file-included .fx span { font-size: 0.8rem; color: var(--muted); }
+.file-primary { display: inline-flex; align-items: center; gap: 6px; flex: none; position: relative; font-size: 0.8rem; font-weight: 700; color: var(--ink-soft); cursor: pointer; }
+.file-primary input { width: 15px; height: 15px; accent-color: var(--iris); cursor: pointer; }
+.file-primary input:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; }
+.file-remove { font: inherit; background: none; border: 0; color: var(--muted); font-size: 0.8rem; font-weight: 700; cursor: pointer; padding: 4px 8px; border-radius: var(--r-sm); flex: none; }
+.file-remove:hover { background: var(--oat); color: var(--ink); }
+.file-remove:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; }
+
+/* "AI is drafting your listing…" state. */
+.drafting { text-align: center; padding: 54px 24px; border: 1px dashed var(--hairline-strong); border-radius: var(--r-lg); background: var(--oat); }
+.drafting .spinner { margin: 0 auto 18px; width: 34px; height: 34px; }
+.drafting h3 { margin: 0 0 4px; }
+.drafting p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+
+/* Inline notice (AI-unavailable fallback, moderation explainer). */
+.notice {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--warn-tint); color: var(--warn);
+  border: 1px solid rgba(138, 92, 19, 0.22);
+  border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 20px;
+  font-size: 0.88rem; font-weight: 600;
+}
+.notice svg { flex: none; margin-top: 1px; }
+.notice p { margin: 2px 0 0; font-weight: 500; }
+
+/* Capability editor rows. */
+.cap-edit { display: grid; grid-template-columns: 156px minmax(0, 1fr) auto; gap: 10px; align-items: start; margin-bottom: 10px; }
+.cap-edit .input { margin: 0; }
+.cap-edit input.mono { font-family: var(--mono); font-size: 0.82rem; }
+@media (max-width: 560px) { .cap-edit { grid-template-columns: 1fr; } }
+
+/* Review-and-submit summary. */
+.review-summary { list-style: none; margin: 0 0 18px; padding: 0; }
+.review-summary li { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--hairline); font-size: 0.9rem; }
+.review-summary li:last-child { border-bottom: 0; }
+.review-summary .k { flex: 0 0 130px; color: var(--muted); font-weight: 600; }
+.review-summary .v { color: var(--ink); font-weight: 600; word-break: break-word; }

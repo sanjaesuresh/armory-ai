@@ -4,7 +4,7 @@
  * ReviewQueue — client component for the moderator review queue.
  *
  * Renders the pending-submission list with "Needs attention" flags, a detail
- * view (safety findings + compiled preview), and approve / reject-with-note
+ * view (safety findings + compiled/registry preview), and approve / reject-with-note
  * controls. Calls POST /api/admin/moderate; the route re-checks moderator
  * status server-side via NotModeratorError.
  *
@@ -14,6 +14,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import type { SetupKind, ArtifactFile, Capability } from '@/lib/setup/types';
+import { isRegistryKind } from '@/lib/setup/types';
+import KindBadge from '@/components/KindBadge';
+import ArtifactFileViewer from '@/components/registry/ArtifactFileViewer';
 
 // ─── Types (shared with the server page) ──────────────────────────────────────
 
@@ -54,11 +58,26 @@ export interface QueueItemData {
   submittedAt: string; // formatted string, e.g. "3 days ago"
   needsAttention: boolean;
   findings: FindingData[];
+  /**
+   * Compiled instruction preview — populated only for setup kind. Empty string
+   * for registry kinds (they use the registry preview block instead).
+   */
   compiledInstruction: string;
   /** The setup's source value; determines badge and eval-report visibility. */
   source: 'curated' | 'community' | 'ai-generated';
   /** Present only for ai-generated rows that passed the pipeline gauntlet. */
   generationMeta?: GenerationMeta;
+  // ── Phase 8: kind + registry fields ───────────────────────────────────────
+  /** Discriminator — 'setup' for all pre-Phase-8 items; agent/skill/harness for registry. */
+  kind: SetupKind;
+  /** Human-readable description — shown in the registry preview for moderators. */
+  description: string;
+  /** CLI/slash-command capabilities — shown under "What it does" for registry items. */
+  capabilities: Capability[];
+  /** Bundled artifact files — shown in ArtifactFileViewer for registry items. */
+  artifactFiles: ArtifactFile[];
+  /** GitHub HTTPS URL, or null. */
+  repoUrl: string | null;
 }
 
 // ─── Inline icon SVGs ─────────────────────────────────────────────────────────
@@ -117,6 +136,27 @@ function CalendarIcon() {
     >
       <rect x="3" y="4" width="18" height="18" rx="2" />
       <path d="M16 2v4M8 2v4M3 10h18" />
+    </svg>
+  );
+}
+
+function GitBranchIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="6" y1="3" x2="6" y2="15" />
+      <circle cx="18" cy="6" r="3" />
+      <circle cx="6" cy="18" r="3" />
+      <path d="M18 9a9 9 0 01-9 9" />
     </svg>
   );
 }
@@ -247,6 +287,8 @@ export default function ReviewQueue({ items }: Props) {
               <div className="lib-body" style={{ flex: 1, minWidth: 0 }}>
                 <strong>
                   {item.name}
+                  {' '}
+                  <KindBadge kind={item.kind} />
                   {item.needsAttention && (
                     <span className="flag" style={{ marginLeft: 8 }}>
                       Needs attention
@@ -440,7 +482,7 @@ export default function ReviewQueue({ items }: Props) {
           </>
         )}
 
-        {/* Compiled preview */}
+        {/* Preview — setup: compiled instruction; registry: description + capabilities + repo + files */}
         <h3
           style={{
             fontSize: '0.8rem',
@@ -450,20 +492,82 @@ export default function ReviewQueue({ items }: Props) {
             margin: '24px 0 10px',
           }}
         >
-          Compiled preview (default answers)
+          {isRegistryKind(selected.kind) ? 'Registry preview' : 'Compiled preview (default answers)'}
         </h3>
-        <pre
-          className="code"
-          style={{
-            border: '1px solid var(--hairline)',
-            borderRadius: 10,
-            maxHeight: 200,
-            overflow: 'auto',
-          }}
-          data-testid="compiled-preview"
-        >
-          {selected.compiledInstruction}
-        </pre>
+
+        {isRegistryKind(selected.kind) ? (
+          <div data-testid="registry-preview">
+            {/* Description */}
+            <p
+              className="muted"
+              style={{ fontSize: '1rem', margin: '0 0 20px', maxWidth: '46em' }}
+            >
+              {selected.description}
+            </p>
+
+            {/* Capabilities — hidden when empty (mirrors RegistryDetail) */}
+            {selected.capabilities.length > 0 && (
+              <section
+                aria-labelledby="queue-capabilities-heading"
+                style={{ marginBottom: 20 }}
+              >
+                <h4
+                  id="queue-capabilities-heading"
+                  style={{ fontSize: '1rem', marginBottom: 10 }}
+                >
+                  What it does
+                </h4>
+                <ul className="cap-list" aria-label="Capabilities">
+                  {selected.capabilities.map((cap) => (
+                    <li key={cap.command} className="cap-item">
+                      <span className="cap-cmd">{cap.command}</span>
+                      <div className="cap-body">
+                        <p>{cap.description}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {/* GitHub repo link */}
+            {selected.repoUrl && (
+              <div style={{ marginBottom: 20 }}>
+                <a
+                  className="repo-link"
+                  href={selected.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View on GitHub (opens in new tab)"
+                >
+                  <GitBranchIcon />
+                  View on GitHub
+                </a>
+              </div>
+            )}
+
+            {/* Artifact files */}
+            {selected.artifactFiles.length > 0 && (
+              <ArtifactFileViewer
+                files={selected.artifactFiles}
+                slug={selected.id}
+              />
+            )}
+          </div>
+        ) : (
+          <pre
+            className="code"
+            style={{
+              border: '1px solid var(--hairline)',
+              borderRadius: 10,
+              maxHeight: 200,
+              overflow: 'auto',
+            }}
+            data-testid="compiled-preview"
+          >
+            {selected.compiledInstruction}
+          </pre>
+        )}
 
         {/* Success banner */}
         {actionSuccess && (

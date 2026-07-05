@@ -36,7 +36,7 @@ export default function GoalChips({ role, cat }: GoalChipsProps) {
   function buildUrl(goals: string): string {
     const params = new URLSearchParams({ role, goals });
     if (cat) params.set('cat', cat);
-    return `/catalog?${params.toString()}`;
+    return `/professionals?${params.toString()}`;
   }
 
   function submit() {

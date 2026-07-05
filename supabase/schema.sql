@@ -636,3 +636,45 @@ drop trigger if exists upvotes_count_sync on upvotes;
 create trigger upvotes_count_sync
   after insert or delete on upvotes
   for each row execute function sync_setup_upvotes();
+
+-- ══════════════════════════════════════════════════════════════════════════════
+-- Phase 8: registry kinds (agents, skills, harnesses)
+-- Live application is DEFERRED — apply in Supabase SQL editor when ready.
+-- ══════════════════════════════════════════════════════════════════════════════
+
+-- ─── setups: registry columns ─────────────────────────────────────────────────
+-- kind: discriminator for catalog item type. Defaults to 'setup' for all existing
+--   rows so the migration is non-destructive.
+-- artifact_files: JSONB array of bundled files (empty for kind='setup').
+-- repo_url: optional GitHub HTTPS URL for the item's source repository.
+-- capabilities: JSONB array of CLI/slash-command capabilities (empty for kind='setup').
+
+alter table setups
+  add column if not exists kind           text not null default 'setup',
+  add column if not exists artifact_files jsonb not null default '[]',
+  add column if not exists repo_url       text,
+  add column if not exists capabilities   jsonb not null default '[]';
+
+alter table setups drop constraint if exists setups_kind_check;
+alter table setups add constraint setups_kind_check
+  check (kind in ('setup', 'agent', 'skill', 'harness'));
+
+-- ─── describe_usage ───────────────────────────────────────────────────────────
+-- Stores one row per AI-describe API call: which user, when, and the USD spend.
+-- Used for per-user metering of the describe feature.
+--
+-- Trust boundary: service-role only. No anon/authenticated policies.
+-- Reads and writes use SUPABASE_SERVICE_ROLE_KEY (bypasses RLS).
+
+create table if not exists describe_usage (
+  id          bigint primary key generated always as identity,
+  user_id     uuid not null references auth.users(id) on delete cascade,
+  created_at  timestamptz not null default now(),
+  spend_usd   numeric(10,6) not null check (spend_usd >= 0)
+);
+
+create index if not exists describe_usage_user_id_created_at_idx
+  on describe_usage (user_id, created_at);
+
+alter table describe_usage enable row level security;
+-- No public policies — service-role access only.

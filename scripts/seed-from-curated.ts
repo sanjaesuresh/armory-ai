@@ -12,6 +12,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as url from 'url';
 import { marketingManagerSetup } from '../data/curated/marketing-manager';
+import { codeReviewAgentSetup } from '../data/curated/code-review-agent';
+import { debuggingAgentSetup } from '../data/curated/debugging-agent';
+import { commitMessageSkillSetup } from '../data/curated/commit-message-skill';
+import { prDescriptionSkillSetup } from '../data/curated/pr-description-skill';
+import { tddLoopHarnessSetup } from '../data/curated/tdd-loop-harness';
+import { docsWritingHarnessSetup } from '../data/curated/docs-writing-harness';
 import type { Setup } from '../lib/setup/types';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
@@ -19,7 +25,15 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 // ─── Registry ────────────────────────────────────────────────────────────────
 // Add new curated setups here. Import and list them in CURATED_SETUPS.
 
-const CURATED_SETUPS: Setup[] = [marketingManagerSetup];
+const CURATED_SETUPS: Setup[] = [
+  marketingManagerSetup,
+  codeReviewAgentSetup,
+  debuggingAgentSetup,
+  commitMessageSkillSetup,
+  prDescriptionSkillSetup,
+  tddLoopHarnessSetup,
+  docsWritingHarnessSetup,
+];
 
 // ─── SQL helpers ─────────────────────────────────────────────────────────────
 
@@ -48,7 +62,8 @@ function toInsert(setup: Setup): string {
   tags, category, source, author, version,
   created_at, updated_at, review_status, upvotes, featured,
   targets, tier, instruction_template,
-  variables, knowledge_files, scenarios
+  variables, knowledge_files, scenarios,
+  kind, artifact_files, repo_url, capabilities
 ) VALUES (
   ${sqlStr(setup.id)},
   ${sqlStr(setup.slug)},
@@ -72,7 +87,11 @@ function toInsert(setup: Setup): string {
   ${sqlStr(setup.instructionTemplate)},
   ${sqlJsonb(setup.variables)},
   ${sqlJsonb(setup.knowledgeFiles)},
-  ${sqlJsonb(setup.scenarios)}
+  ${sqlJsonb(setup.scenarios)},
+  ${sqlStr(setup.kind)},
+  ${sqlJsonb(setup.artifactFiles)},
+  ${sqlStr(setup.repoUrl)},
+  ${sqlJsonb(setup.capabilities)}
 )
 ON CONFLICT (id) DO UPDATE SET
   slug = EXCLUDED.slug,
@@ -96,7 +115,11 @@ ON CONFLICT (id) DO UPDATE SET
   instruction_template = EXCLUDED.instruction_template,
   variables = EXCLUDED.variables,
   knowledge_files = EXCLUDED.knowledge_files,
-  scenarios = EXCLUDED.scenarios;`;
+  scenarios = EXCLUDED.scenarios,
+  kind = EXCLUDED.kind,
+  artifact_files = EXCLUDED.artifact_files,
+  repo_url = EXCLUDED.repo_url,
+  capabilities = EXCLUDED.capabilities;`;
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────

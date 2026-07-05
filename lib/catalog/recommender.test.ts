@@ -23,6 +23,7 @@ const FIXED_NOW = new Date('2026-07-01').getTime();
 
 function makeSetup(overrides: Partial<Setup> & { id: string; name: string; role: string }): Setup {
   return {
+    kind: 'setup',
     slug: overrides.id,
     tagline: 'Test setup',
     description: 'Test description',
@@ -43,6 +44,9 @@ function makeSetup(overrides: Partial<Setup> & { id: string; name: string; role:
     variables: [],
     knowledgeFiles: [],
     scenarios: [],
+    artifactFiles: [],
+    repoUrl: null,
+    capabilities: [],
     ...overrides,
   };
 }
@@ -502,5 +506,69 @@ describe('recommend — advanced-tier filtering', () => {
     expect(withDefault.remainder).not.toContain(advancedSetup);
     expect(withExplicitFalse.topPicks).not.toContain(advancedSetup);
     expect(withExplicitFalse.remainder).not.toContain(advancedSetup);
+  });
+});
+
+// ─── Kind guard (Phase 8) ─────────────────────────────────────────────────────
+
+describe('recommend — kind guard', () => {
+  it('never returns a registry-kind item (agent) regardless of includeAdvanced', () => {
+    const agentItem = makeSetup({
+      id: 'kind-agent-1',
+      name: 'My Agent',
+      role: 'Marketing Manager',
+      kind: 'agent',
+    });
+    const setupItem = makeSetup({
+      id: 'kind-setup-1',
+      name: 'My Setup',
+      role: 'Marketing Manager',
+    });
+
+    // Without includeAdvanced — agent excluded
+    const r1 = recommend([agentItem, setupItem], { role: 'marketing-manager', now: FIXED_NOW });
+    const all1 = [...r1.topPicks, ...r1.remainder];
+    expect(all1).not.toContain(agentItem);
+    expect(all1).toContain(setupItem);
+
+    // With includeAdvanced=true — agent still excluded
+    const r2 = recommend([agentItem, setupItem], {
+      role: 'marketing-manager',
+      includeAdvanced: true,
+      now: FIXED_NOW,
+    });
+    const all2 = [...r2.topPicks, ...r2.remainder];
+    expect(all2).not.toContain(agentItem);
+    expect(all2).toContain(setupItem);
+  });
+
+  it('never returns skill or harness kinds regardless of includeAdvanced', () => {
+    const skillItem = makeSetup({
+      id: 'kind-skill-1',
+      name: 'My Skill',
+      role: 'Marketing Manager',
+      kind: 'skill',
+    });
+    const harnessItem = makeSetup({
+      id: 'kind-harness-1',
+      name: 'My Harness',
+      role: 'Marketing Manager',
+      kind: 'harness',
+    });
+    const setupItem = makeSetup({
+      id: 'kind-setup-2',
+      name: 'My Setup',
+      role: 'Marketing Manager',
+    });
+
+    const result = recommend([skillItem, harnessItem, setupItem], {
+      role: 'marketing-manager',
+      includeAdvanced: true,
+      now: FIXED_NOW,
+    });
+    const all = [...result.topPicks, ...result.remainder];
+    expect(all).not.toContain(skillItem);
+    expect(all).not.toContain(harnessItem);
+    expect(all).toContain(setupItem);
   });
 });

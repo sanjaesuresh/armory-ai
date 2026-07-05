@@ -30,8 +30,8 @@ for (const role of ROLES) {
     const firstCard = page.locator('[data-testid^="setup-card-"]').first();
     await expect(firstCard).toBeVisible();
 
-    // CTA link to the role-filtered catalog.
-    const cta = page.locator(`a[href="/catalog?role=${role.id}"]`).first();
+    // CTA link to the role-filtered professionals dashboard.
+    const cta = page.locator(`a[href="/professionals?role=${role.id}"]`).first();
     await expect(cta).toBeVisible();
   });
 }

@@ -35,7 +35,7 @@ export default function RolePicker() {
           {ROLES.map((role) => (
             <Link
               key={role.id}
-              href={`/catalog?role=${role.id}`}
+              href={`/professionals?role=${role.id}`}
               data-testid={`role-card-${role.id}`}
               className="role-card"
             >
@@ -54,7 +54,7 @@ export default function RolePicker() {
 
         <div className="center" style={{ marginTop: '28px' }}>
           <Link
-            href="/catalog"
+            href="/professionals"
             data-testid="escape-link"
             className="small"
             style={{ color: 'var(--ink-soft)' }}

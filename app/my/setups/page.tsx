@@ -127,7 +127,7 @@ export default async function MySetupsPage() {
         <div className="wrap">
           <div className="lib-head">
             <h1 style={{ fontSize: '1.7rem', margin: 0 }}>My setups</h1>
-            <Link className="btn btn-primary btn-sm" href="/catalog">
+            <Link className="btn btn-primary btn-sm" href="/professionals">
               Browse setups
             </Link>
           </div>
@@ -147,7 +147,7 @@ export default async function MySetupsPage() {
               Customize a setup and save it — it will appear here so you can
               pick up or adjust it later.
             </p>
-            <Link className="btn btn-primary btn-sm" href="/catalog">
+            <Link className="btn btn-primary btn-sm" href="/professionals">
               Browse setups
             </Link>
           </div>
@@ -161,7 +161,7 @@ export default async function MySetupsPage() {
       <div className="wrap">
         <div className="lib-head">
           <h1 style={{ fontSize: '1.7rem', margin: 0 }}>My setups</h1>
-          <Link className="btn btn-primary btn-sm" href="/catalog">
+          <Link className="btn btn-primary btn-sm" href="/professionals">
             Browse setups
           </Link>
         </div>

@@ -54,10 +54,21 @@ describe('Nav', () => {
     expect(brand).toHaveAttribute('href', '/');
   });
 
-  it('renders "Browse setups" link to /catalog', () => {
+  it('renders a "Professionals" link to /professionals', () => {
     render(<Nav />);
-    const link = screen.getByRole('link', { name: 'Browse setups' });
-    expect(link).toHaveAttribute('href', '/catalog');
+    const link = screen.getByRole('link', { name: 'Professionals' });
+    expect(link).toHaveAttribute('href', '/professionals');
+  });
+
+  it('renders a "Developers" link to /developers', () => {
+    render(<Nav />);
+    const link = screen.getByRole('link', { name: 'Developers' });
+    expect(link).toHaveAttribute('href', '/developers');
+  });
+
+  it('does not render a "Learn AI" entry', () => {
+    render(<Nav />);
+    expect(screen.queryByRole('link', { name: /learn ai/i })).toBeNull();
   });
 
   it('renders "How it works" link to /#how', () => {

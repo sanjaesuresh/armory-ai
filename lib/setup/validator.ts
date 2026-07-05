@@ -11,6 +11,7 @@
  */
 
 import type { Setup, Category, CompiledSetup, ExportTarget, ValidationResult } from '@/lib/setup/types';
+import { isRegistryKind, ARTIFACT_FILE_LIMITS } from '@/lib/setup/types';
 import { collectReferencedKeys, hasNestedIfBlock } from '@/lib/setup/tokens';
 import {
   CLAUDE_APP_INSTRUCTION_MAX_CHARS,
@@ -88,12 +89,13 @@ export function sanitizeTag(tag: string): string {
   return trimmed.slice(0, TAG_MAX_LENGTH);
 }
 
-// ─── validateSetup ────────────────────────────────────────────────────────────
+// ─── Shared checks (both setup and registry kinds) ───────────────────────────
 
-export function validateSetup(setup: Setup): ValidationResult {
-  const errors: Array<{ code: string; message: string; path: string }> = [];
-  const warnings: Array<{ code: string; message: string; path: string }> = [];
-
+function validateCommonFields(
+  setup: Setup,
+  errors: Array<{ code: string; message: string; path: string }>,
+  _warnings: Array<{ code: string; message: string; path: string }>,
+): void {
   // ── Required non-empty string fields ────────────────────────────────────────
   const requiredStringFields = [
     'id',
@@ -149,6 +151,35 @@ export function validateSetup(setup: Setup): ValidationResult {
       code: 'TOO_MANY_TAGS',
       message: `${setup.tags.length} tags exceed the maximum of ${TAG_MAX_COUNT}.`,
       path: 'tags',
+    });
+  }
+}
+
+// ─── Setup-kind-specific validation ──────────────────────────────────────────
+
+/** File extension check: returns true if the name ends with a known allowed extension. */
+function hasAllowedExtension(name: string): boolean {
+  const lower = name.toLowerCase();
+  return (ARTIFACT_FILE_LIMITS.allowedExtensions as ReadonlyArray<string>).some((ext) =>
+    lower.endsWith(ext),
+  );
+}
+
+function validateSetupKind(
+  setup: Setup,
+  errors: Array<{ code: string; message: string; path: string }>,
+  warnings: Array<{ code: string; message: string; path: string }>,
+): void {
+  // ── KIND_FIELD_MISMATCH: setup must not carry registry-only content ──────────
+  const hasArtifactFiles = setup.artifactFiles.length > 0;
+  const hasCapabilities = setup.capabilities.length > 0;
+  const hasRepoUrl = setup.repoUrl !== null;
+  if (hasArtifactFiles || hasCapabilities || hasRepoUrl) {
+    errors.push({
+      code: 'KIND_FIELD_MISMATCH',
+      message:
+        'A setup (kind=\'setup\') must not carry registry-only fields: artifactFiles, capabilities, or repoUrl.',
+      path: 'kind',
     });
   }
 
@@ -234,6 +265,141 @@ export function validateSetup(setup: Setup): ValidationResult {
         });
       }
     }
+  }
+}
+
+// ─── Registry-kind-specific validation ───────────────────────────────────────
+
+function validateRegistryKind(
+  setup: Setup,
+  errors: Array<{ code: string; message: string; path: string }>,
+): void {
+  // ── KIND_FIELD_MISMATCH: registry must not carry setup-only content ──────────
+  const hasTemplate = typeof setup.instructionTemplate === 'string' && setup.instructionTemplate.trim() !== '';
+  const hasVariables = setup.variables.length > 0;
+  const hasScenarios = setup.scenarios.length > 0;
+  const hasTargets = setup.targets.length > 0;
+  if (hasTemplate || hasVariables || hasScenarios || hasTargets) {
+    errors.push({
+      code: 'KIND_FIELD_MISMATCH',
+      message:
+        `A registry item (kind='${setup.kind}') must not carry setup-only fields: ` +
+        'instructionTemplate, variables, scenarios, or targets.',
+      path: 'kind',
+    });
+  }
+
+  // ── Artifact files ───────────────────────────────────────────────────────────
+  const files = setup.artifactFiles;
+
+  // (a) At least one artifact file required
+  if (files.length === 0) {
+    errors.push({
+      code: 'ARTIFACT_FILES_REQUIRED',
+      message: `Registry item (kind='${setup.kind}') must include at least one artifact file.`,
+      path: 'artifactFiles',
+    });
+    // Skip remaining artifact-file checks — nothing to validate.
+    return;
+  }
+
+  // (b) File count limit
+  if (files.length > ARTIFACT_FILE_LIMITS.maxFiles) {
+    errors.push({
+      code: 'TOO_MANY_ARTIFACT_FILES',
+      message: `${files.length} artifact files exceed the maximum of ${ARTIFACT_FILE_LIMITS.maxFiles}.`,
+      path: 'artifactFiles',
+    });
+  }
+
+  // Per-file checks
+  let primaryCount = 0;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    // (e) Name: no path separators, max 100 chars
+    if (file.name.includes('/') || file.name.includes('\\') || file.name.length > 100) {
+      errors.push({
+        code: 'ARTIFACT_FILE_BAD_NAME',
+        message:
+          `Artifact file "${file.name}" has an invalid name: must not contain path separators and must be ≤ 100 characters.`,
+        path: `artifactFiles[${i}].name`,
+      });
+    }
+
+    // (d) Allowed extension
+    if (!hasAllowedExtension(file.name)) {
+      errors.push({
+        code: 'ARTIFACT_FILE_BAD_TYPE',
+        message:
+          `Artifact file "${file.name}" has a disallowed extension. Allowed: ${ARTIFACT_FILE_LIMITS.allowedExtensions.join(', ')}.`,
+        path: `artifactFiles[${i}].name`,
+      });
+    }
+
+    // (c) File content size
+    const byteLength =
+      typeof Buffer !== 'undefined'
+        ? Buffer.byteLength(file.content, 'utf8')
+        : new TextEncoder().encode(file.content).length;
+    if (byteLength > ARTIFACT_FILE_LIMITS.maxBytesPerFile) {
+      errors.push({
+        code: 'ARTIFACT_FILE_TOO_LARGE',
+        message: `Artifact file "${file.name}" is ${byteLength} bytes, exceeding the limit of ${ARTIFACT_FILE_LIMITS.maxBytesPerFile} bytes.`,
+        path: `artifactFiles[${i}].content`,
+      });
+    }
+
+    if (file.isPrimary) primaryCount++;
+  }
+
+  // (f) Exactly one primary file
+  if (primaryCount !== 1) {
+    errors.push({
+      code: 'PRIMARY_FILE_REQUIRED',
+      message: `Exactly one artifact file must be marked isPrimary=true; found ${primaryCount}.`,
+      path: 'artifactFiles',
+    });
+  }
+
+  // ── repoUrl ──────────────────────────────────────────────────────────────────
+  // (g) If present (non-null), must start with the GitHub HTTPS prefix.
+  if (setup.repoUrl !== null && !setup.repoUrl.startsWith('https://github.com/')) {
+    errors.push({
+      code: 'REPO_URL_INVALID',
+      message: `repoUrl must be a GitHub HTTPS URL (starting with "https://github.com/") or null. Got: "${setup.repoUrl}".`,
+      path: 'repoUrl',
+    });
+  }
+
+  // ── Capabilities ─────────────────────────────────────────────────────────────
+  // (h) Each capability must have a non-empty command and description.
+  for (let i = 0; i < setup.capabilities.length; i++) {
+    const cap = setup.capabilities[i];
+    if (!cap.command || cap.command.trim() === '' || !cap.description || cap.description.trim() === '') {
+      errors.push({
+        code: 'CAPABILITY_INVALID',
+        message: `Capability at index ${i} must have a non-empty command and description.`,
+        path: `capabilities[${i}]`,
+      });
+    }
+  }
+}
+
+// ─── validateSetup ────────────────────────────────────────────────────────────
+
+export function validateSetup(setup: Setup): ValidationResult {
+  const errors: Array<{ code: string; message: string; path: string }> = [];
+  const warnings: Array<{ code: string; message: string; path: string }> = [];
+
+  // Common checks apply regardless of kind.
+  validateCommonFields(setup, errors, warnings);
+
+  if (isRegistryKind(setup.kind)) {
+    validateRegistryKind(setup, errors);
+  } else {
+    // kind === 'setup'
+    validateSetupKind(setup, errors, warnings);
   }
 
   return {

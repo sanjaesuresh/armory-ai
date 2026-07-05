@@ -18,11 +18,12 @@
  * carry no server-only imports.
  */
 
-import type { Setup, ValidationResult } from '@/lib/setup/types';
+import type { Setup, ValidationResult, ArtifactFile, Capability, SetupKind } from '@/lib/setup/types';
+import { isRegistryKind } from '@/lib/setup/types';
 import type { ModelClient } from '@/lib/testdrive/runner';
 import { validateSetup, sanitizeTag } from '@/lib/setup/validator';
 import { rowToSetup, type SetupRow } from '@/lib/catalog/repository';
-import { runSafetyScreen, type SafetyScreenResult } from './safetyScreen';
+import { runSafetyScreen, runRegistrySafetyScreen, type SafetyScreenResult } from './safetyScreen';
 
 // ─── Errors ───────────────────────────────────────────────────────────────────
 
@@ -50,6 +51,12 @@ export const INITIAL_VERSION = '0.1.0';
 
 /** The fields the builder controls. Everything else is set server-side. */
 export interface DraftInput {
+  /**
+   * Discriminator for the kind of catalog item. Fixed at draft creation —
+   * updateDraftFields rejects any attempt to change it. Defaults to 'setup'
+   * when absent (preserves backward compat with existing callers).
+   */
+  kind?: SetupKind;
   slug: string;
   name: string;
   tagline: string;
@@ -58,12 +65,17 @@ export interface DraftInput {
   industry?: string | null;
   category: string;
   tags?: string[];
+  // Setup-only fields (unused for registry kinds).
   targets?: string[];
   tier?: 'core' | 'advanced';
   instructionTemplate: string;
   variables?: unknown[];
   knowledgeFiles?: unknown[];
   scenarios?: unknown[];
+  // Registry-only fields (unused for kind='setup').
+  artifactFiles?: ArtifactFile[];
+  repoUrl?: string | null;
+  capabilities?: Capability[];
 }
 
 // ─── Pure helpers ─────────────────────────────────────────────────────────────
@@ -88,6 +100,8 @@ export function buildDraftRow(params: {
   input: DraftInput;
 }): Record<string, unknown> {
   const { id, authorId, now, input } = params;
+  const kind: SetupKind = input.kind ?? 'setup';
+  const isRegistry = isRegistryKind(kind);
   return {
     id,
     slug: input.slug,
@@ -98,6 +112,8 @@ export function buildDraftRow(params: {
     industry: input.industry ?? null,
     category: input.category,
     tags: sanitizeDraftTags(input.tags),
+    // Kind discriminator — fixed at creation; never changed by updateDraftFields.
+    kind,
     // Server-owned fields — never from the client.
     source: 'community',
     author: authorId,
@@ -106,12 +122,17 @@ export function buildDraftRow(params: {
     upvotes: 0,
     featured: null,
     popularity: 0,
-    targets: input.targets ?? ['claude-app'],
+    // Setup-only fields: forced empty for registry kinds so the validator passes.
+    targets: isRegistry ? [] : (input.targets ?? ['claude-app']),
     tier: input.tier ?? 'core',
-    instruction_template: input.instructionTemplate,
-    variables: input.variables ?? [],
-    knowledge_files: input.knowledgeFiles ?? [],
-    scenarios: input.scenarios ?? [],
+    instruction_template: isRegistry ? '' : input.instructionTemplate,
+    variables: isRegistry ? [] : (input.variables ?? []),
+    knowledge_files: isRegistry ? [] : (input.knowledgeFiles ?? []),
+    scenarios: isRegistry ? [] : (input.scenarios ?? []),
+    // Registry-only fields: forced empty for setup kinds.
+    artifact_files: isRegistry ? (input.artifactFiles ?? []) : [],
+    repo_url: isRegistry ? (input.repoUrl ?? null) : null,
+    capabilities: isRegistry ? (input.capabilities ?? []) : [],
     safety_screen: null,
     created_at: now,
     updated_at: now,
@@ -120,6 +141,10 @@ export function buildDraftRow(params: {
 
 /** Builds the editable-field update payload for an existing draft (never touches ownership/status). */
 export function buildDraftUpdate(input: Partial<DraftInput>, now: string): Record<string, unknown> {
+  // kind is fixed at draft creation — it can never be changed via an update.
+  if (input.kind !== undefined) {
+    throw new Error('kind cannot be changed after a draft is created');
+  }
   const patch: Record<string, unknown> = { updated_at: now };
   if (input.slug !== undefined) patch.slug = input.slug;
   if (input.name !== undefined) patch.name = input.name;
@@ -135,6 +160,10 @@ export function buildDraftUpdate(input: Partial<DraftInput>, now: string): Recor
   if (input.variables !== undefined) patch.variables = input.variables;
   if (input.knowledgeFiles !== undefined) patch.knowledge_files = input.knowledgeFiles;
   if (input.scenarios !== undefined) patch.scenarios = input.scenarios;
+  // Registry-only fields.
+  if (input.artifactFiles !== undefined) patch.artifact_files = input.artifactFiles;
+  if (input.repoUrl !== undefined) patch.repo_url = input.repoUrl;
+  if (input.capabilities !== undefined) patch.capabilities = input.capabilities;
   return patch;
 }
 
@@ -193,7 +222,15 @@ export async function submitDraft(
     return { ok: false, validation };
   }
 
-  const screen = await runSafetyScreen(setup, modelClient);
+  // Branch: registry kinds (agent, skill, harness) skip compileSetup and
+  // scenario checks — they have no instructionTemplate to compile. The safety
+  // screen runs a registry-specific pass over artifact files and capabilities.
+  // Setup kinds run the original setup safety screen. State transition and
+  // screen storage are identical in both branches.
+  const screen = isRegistryKind(setup.kind)
+    ? await runRegistrySafetyScreen(setup, modelClient)
+    : await runSafetyScreen(setup, modelClient);
+
   await store.updateRow(id, {
     review_status: 'pending',
     safety_screen: screen,

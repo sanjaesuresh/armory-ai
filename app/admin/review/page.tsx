@@ -19,6 +19,7 @@ import { rowToSetup, type SetupRow } from '@/lib/catalog/repository';
 import { compileSetup } from '@/lib/setup/compiler';
 import type { SafetyScreenResult } from '@/lib/community/safetyScreen';
 import type { Answers, Variable } from '@/lib/setup/types';
+import { isRegistryKind } from '@/lib/setup/types';
 import ReviewQueue, { type QueueItemData, type GenerationMeta } from '@/components/admin/ReviewQueue';
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -151,17 +152,22 @@ export default async function ReviewQueuePage() {
     const safetyScreen = raw.safety_screen ?? null;
     const generationMeta = raw.generation_meta ?? null;
 
-    // Compile with default answers for the preview. Fall back to the raw
-    // template if compilation fails (e.g. malformed template in a community
-    // submission shouldn't crash the moderator queue).
+    // Derive kind and registry fields via rowToSetup (guards unknown kind values,
+    // defaults artifactFiles/capabilities/repoUrl to safe empty values).
+    const setup = rowToSetup(row);
+    const { kind, description, capabilities, artifactFiles, repoUrl } = setup;
+
+    // Compile with default answers for the preview — setup kind only.
+    // Registry items have no meaningful instruction template, so skip compilation.
     let compiledInstruction = '';
-    try {
-      const setup = rowToSetup(row);
-      const answers = defaultAnswersFor(setup.variables);
-      const compiled = compileSetup(setup, answers);
-      compiledInstruction = compiled.instruction;
-    } catch {
-      compiledInstruction = row.instruction_template;
+    if (!isRegistryKind(kind)) {
+      try {
+        const answers = defaultAnswersFor(setup.variables);
+        const compiled = compileSetup(setup, answers);
+        compiledInstruction = compiled.instruction;
+      } catch {
+        compiledInstruction = row.instruction_template;
+      }
     }
 
     return {
@@ -174,6 +180,11 @@ export default async function ReviewQueuePage() {
       compiledInstruction,
       source: row.source as 'curated' | 'community' | 'ai-generated',
       ...(generationMeta ? { generationMeta } : {}),
+      kind,
+      description,
+      capabilities,
+      artifactFiles,
+      repoUrl,
     };
   });
 
