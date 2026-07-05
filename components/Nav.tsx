@@ -21,6 +21,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
+import LogoMark from '@/components/icons/LogoMark';
 
 interface AuthUser {
   email: string;
@@ -130,22 +131,7 @@ export default function Nav() {
     <header className={`nav${open ? ' open' : ''}`}>
       <div className="wrap nav-inner">
         <Link className="brand" href="/">
-          <svg
-            width="26"
-            height="26"
-            viewBox="0 0 26 26"
-            fill="none"
-            aria-hidden="true"
-          >
-            <rect x="1" y="1" width="24" height="24" rx="7.5" fill="#272319" />
-            <path
-              d="M8.2 19 13 7.5 17.8 19M9.9 15.2h6.2"
-              stroke="#fff"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <LogoMark size={26} />
           Armory
         </Link>
 

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ROLES } from '@/lib/catalog/roles';
+import LogoMark from '@/components/icons/LogoMark';
 
 export default function Footer() {
   return (
@@ -9,16 +10,7 @@ export default function Footer() {
         {/* Brand + promise */}
         <div>
           <Link className="brand" href="/">
-            <svg width="22" height="22" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-              <rect x="1" y="1" width="24" height="24" rx="7.5" fill="#272319" />
-              <path
-                d="M8.2 19 13 7.5 17.8 19M9.9 15.2h6.2"
-                stroke="#fff"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <LogoMark size={22} />
             Armory
           </Link>
           <p className="promise" style={{ color: 'var(--ink-soft)' }}>
