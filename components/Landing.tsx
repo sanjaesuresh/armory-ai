@@ -201,7 +201,7 @@ export default function Landing() {
                   <rect x="76" y="48" width="170" height="92" rx="14" fill="#fff" stroke="#EFE9DC" strokeWidth="1.5"/>
                   <text x="92" y="71" fontSize="9" fontWeight="700" letterSpacing="1.5" fill="#756C5C">YOUR BRAND</text>
                   <rect x="90" y="78" width="142" height="26" rx="8" fill="#FAF7F1" stroke="#D9D1C2" strokeWidth="1.5"/>
-                  <text x="100" y="95.5" fontSize="12.5" fontWeight="600" fill="#272319">Brightwave</text>
+                  <text x="100" y="95.5" fontSize="12.5" fontWeight="600" fill="#272319">Armory</text>
                   <rect x="172" y="83" width="1.8" height="16" fill="#5B50C8"/>
                   <rect x="90" y="112" width="94" height="20" rx="10" fill="#EFEDFB" stroke="#5B50C8" strokeWidth="1.5"/>
                   <text x="100" y="126" fontSize="10.5" fontWeight="700" fill="#453CA8">Conversational</text>
@@ -411,7 +411,7 @@ export default function Landing() {
               <span className="copy-btn">Copy</span>
             </div>
             <pre className="code">{`You are a senior Marketing Manager working
-exclusively for Brightwave.
+exclusively for Armory.
 
 Your responsibilities:
 - Develop and execute marketing campaigns…
@@ -420,7 +420,7 @@ Your responsibilities:
 - Maintain a consistent brand voice in every
   piece of content you produce.
 
-Active channels for Brightwave:
+Active channels for Armory:
 - Email
 - Instagram
 - LinkedIn
