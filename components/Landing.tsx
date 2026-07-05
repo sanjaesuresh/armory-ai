@@ -179,151 +179,82 @@ export default function Landing() {
           {/* Right illustration */}
           <div className="hero-art">
             <svg
-              viewBox="0 0 440 340"
+              viewBox="0 0 440 380"
               fill="none"
               role="img"
-              aria-label="Hand-drawn illustration of a person at a laptop, with a finished AI setup card floating above the screen"
+              aria-label="Illustration of the Armory flow: your answer becomes a compiled setup, ready to paste into Claude"
             >
-              {/* backdrop blobs */}
-              <path
-                d="M250 28c82-4 146 50 150 124 4 76-58 134-148 138-86 4-148-48-150-128C100 84 166 32 250 28Z"
-                fill="#ECE9FA"
-              />
-              <circle cx="116" cy="64" r="30" fill="#FBF1D3"/>
-              <circle cx="404" cy="222" r="12" fill="#DFF2EB"/>
+              {/* backdrop */}
+              <rect x="60" y="40" width="320" height="300" rx="48" fill="#FBF1D3" transform="rotate(-6 220 190)"/>
+              <circle cx="86" cy="322" r="26" fill="#E2EEF8"/>
+              <circle cx="392" cy="84" r="10" fill="#DFF2EB"/>
               <g fill="#D9D1C2">
-                <circle cx="58" cy="182" r="1.7"/><circle cx="70" cy="182" r="1.7"/><circle cx="82" cy="182" r="1.7"/>
-                <circle cx="58" cy="194" r="1.7"/><circle cx="70" cy="194" r="1.7"/><circle cx="82" cy="194" r="1.7"/>
-                <circle cx="58" cy="206" r="1.7"/><circle cx="70" cy="206" r="1.7"/><circle cx="82" cy="206" r="1.7"/>
+                <circle cx="366" cy="300" r="1.8"/><circle cx="378" cy="300" r="1.8"/><circle cx="390" cy="300" r="1.8"/>
+                <circle cx="366" cy="312" r="1.8"/><circle cx="378" cy="312" r="1.8"/><circle cx="390" cy="312" r="1.8"/>
+                <circle cx="366" cy="324" r="1.8"/><circle cx="378" cy="324" r="1.8"/><circle cx="390" cy="324" r="1.8"/>
               </g>
-              <path d="M60 262q6-9 12 0t12 0" stroke="#5B50C8" strokeWidth="2.4" strokeLinecap="round"/>
-              <ellipse cx="228" cy="308" rx="152" ry="9" fill="#F3EDE2"/>
 
-              {/* chair back */}
-              <rect x="134" y="178" width="13" height="58" rx="6.5" fill="#F3EDE2" stroke="#272319" strokeWidth="2.6"/>
-
-              {/* person body */}
-              <path d="M146 236c0-40 10-70 31-70s31 30 31 70" fill="#E6F0E0" stroke="#272319" strokeWidth="3"/>
-              <path d="M168 170c4 5 14 5 18 0" stroke="#272319" strokeWidth="2.4" strokeLinecap="round"/>
-              <circle cx="176" cy="132" r="27" fill="#fff" stroke="#272319" strokeWidth="3"/>
-              <path
-                d="M150 130c-1-22 11-34 27-34s27 12 26 32c-6-14-15-20-26.5-20S156 116 150 130Z"
-                fill="#272319"
-              />
-              <circle cx="200" cy="96" r="8.5" fill="#272319"/>
-              <path d="M192 102a10 10 0 0 0 7 4" stroke="#5B50C8" strokeWidth="2.5" strokeLinecap="round"/>
-              <circle cx="168" cy="131" r="1.8" fill="#272319"/>
-              <circle cx="185" cy="131" r="1.8" fill="#272319"/>
-              <path d="M171 140c3.5 3 9 3 12.5 0" stroke="#272319" strokeWidth="2.5" strokeLinecap="round"/>
-              <circle cx="161" cy="139" r="4" fill="#F6CDBD" opacity=".7"/>
-              <circle cx="193" cy="139" r="4" fill="#F6CDBD" opacity=".7"/>
-
-              {/* left arm + mug */}
-              <path d="M159 190c-12-4-22-12-26-21" stroke="#272319" strokeWidth="3" strokeLinecap="round"/>
-              <rect x="112" y="148" width="26" height="20" rx="5" fill="#FAE7E1" stroke="#272319" strokeWidth="3"/>
-              <path d="M112 153a7 7 0 0 0 0 13" stroke="#272319" strokeWidth="3" fill="none"/>
-              <circle cx="135" cy="167" r="4" fill="#fff" stroke="#272319" strokeWidth="2.6"/>
-              <path d="M120 140c-2-4 2-6 0-10M129 140c-2-4 2-6 0-10" stroke="#756C5C" strokeWidth="2.4" strokeLinecap="round"/>
-
-              {/* right arm */}
-              <path d="M197 194c17 12 33 20 49 25" stroke="#272319" strokeWidth="3" strokeLinecap="round"/>
-
-              {/* desk */}
-              <rect x="94" y="230" width="272" height="11" rx="5.5" fill="#fff" stroke="#272319" strokeWidth="3"/>
-              <path d="m116 241-8 64M344 241l8 64" stroke="#272319" strokeWidth="3" strokeLinecap="round"/>
-
-              {/* laptop */}
-              <rect x="246" y="150" width="98" height="68" rx="8" fill="#fff" stroke="#272319" strokeWidth="3"/>
-              <path d="M260 168h34" stroke="#5B50C8" strokeWidth="5" strokeLinecap="round"/>
-              <path d="M260 184h62M260 198h50" stroke="#D9D1C2" strokeWidth="5" strokeLinecap="round"/>
-              <circle cx="326" cy="168" r="8" fill="#E3F2E8" stroke="#2E7D4F" strokeWidth="2.2"/>
-              <path d="m322.5 168 2.5 2.5 4.5-5" stroke="#2E7D4F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M240 218h110l9 13H231z" fill="#F3EDE2" stroke="#272319" strokeWidth="3" strokeLinejoin="round"/>
-
-              {/* plant */}
-              <path d="m372 305-4-19h30l-4 19z" fill="#FCEBDB" stroke="#272319" strokeWidth="3" strokeLinejoin="round"/>
-              <path d="M383 286c-2-18-11-28-21-32 4 14 10 24 21 32Z" fill="#E6F0E0" stroke="#272319" strokeWidth="2.4" strokeLinejoin="round"/>
-              <path d="M385 286c2-20 11-30 21-34-4 14-10 26-21 34Z" fill="#E6F0E0" stroke="#272319" strokeWidth="2.4" strokeLinejoin="round"/>
-              <path d="M384 284c0-14 2-22 6-28" stroke="#272319" strokeWidth="2.4" strokeLinecap="round"/>
-
-              {/* dotted connector: screen → floating card */}
-              <path
-                d="M330 148c8-10 16-18 22-22"
-                stroke="#5B50C8"
-                strokeWidth="2.6"
-                strokeLinecap="round"
-                strokeDasharray=".5 8"
-              />
-
-              {/* floating setup card */}
-              <g className="hero-float">
-                <g transform="rotate(-5 362 96)">
-                  <rect x="316" y="74" width="100" height="62" rx="12" fill="#E9E3D8"/>
-                  <rect x="310" y="66" width="100" height="62" rx="12" fill="#fff" stroke="#272319" strokeWidth="3"/>
-                  <rect x="320" y="76" width="20" height="20" rx="6" fill="#FBF1D3" stroke="#272319" strokeWidth="2"/>
-                  <path
-                    d="m325.5 91 4.5-10 4.5 10M327.5 87h5"
-                    stroke="#272319"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path d="M348 82h52" stroke="#756C5C" strokeWidth="4.5" strokeLinecap="round"/>
-                  <path d="M348 92h36" stroke="#D9D1C2" strokeWidth="4.5" strokeLinecap="round"/>
-                  <circle cx="327" cy="114" r="7.5" fill="#E3F2E8" stroke="#2E7D4F" strokeWidth="2.2"/>
-                  <path
-                    d="m323.5 114 2.5 2.5 4.5-5"
-                    stroke="#2E7D4F"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path d="M340 114h40" stroke="#D9D1C2" strokeWidth="4.5" strokeLinecap="round"/>
+              {/* card 1: your answer */}
+              <g className="hero-float-2">
+                <g transform="rotate(-5 161 94)">
+                  <rect x="82" y="56" width="170" height="92" rx="14" fill="#E9E3D8"/>
+                  <rect x="76" y="48" width="170" height="92" rx="14" fill="#fff" stroke="#EFE9DC" strokeWidth="1.5"/>
+                  <text x="92" y="71" fontSize="9" fontWeight="700" letterSpacing="1.5" fill="#756C5C">YOUR BRAND</text>
+                  <rect x="90" y="78" width="142" height="26" rx="8" fill="#FAF7F1" stroke="#D9D1C2" strokeWidth="1.5"/>
+                  <text x="100" y="95.5" fontSize="12.5" fontWeight="600" fill="#272319">Brightwave</text>
+                  <rect x="172" y="83" width="1.8" height="16" fill="#5B50C8"/>
+                  <rect x="90" y="112" width="94" height="20" rx="10" fill="#EFEDFB" stroke="#5B50C8" strokeWidth="1.5"/>
+                  <text x="100" y="126" fontSize="10.5" fontWeight="700" fill="#453CA8">Conversational</text>
+                  <rect x="190" y="112" width="46" height="20" rx="10" fill="#fff" stroke="#D9D1C2" strokeWidth="1.5"/>
+                  <text x="198" y="126" fontSize="10.5" fontWeight="600" fill="#756C5C">Playful</text>
                 </g>
               </g>
 
-              {/* paper plane */}
-              <g className="hero-float-2">
-                <path
-                  d="M100 70 52 88l19 4z"
-                  fill="#ECE9FA"
-                  stroke="#272319"
-                  strokeWidth="2.4"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M100 70 71 92l7 16z"
-                  fill="#fff"
-                  stroke="#272319"
-                  strokeWidth="2.4"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M96 86c14 16 30 26 48 32"
-                  stroke="#B9B1E8"
-                  strokeWidth="2.4"
-                  strokeLinecap="round"
-                  strokeDasharray="3 7"
-                />
+              {/* flow 1 */}
+              <path d="M250 122c14 10 18 22 12 36" stroke="#5B50C8" strokeWidth="2.6" strokeLinecap="round" strokeDasharray="1 8"/>
+              <path d="m262 158-6-7M262 158l-9 1" stroke="#5B50C8" strokeWidth="2.4" strokeLinecap="round"/>
+
+              {/* card 2: compiled setup */}
+              <g className="hero-float">
+                <g transform="rotate(3 268 213)">
+                  <rect x="186" y="162" width="176" height="118" rx="16" fill="#E9E3D8"/>
+                  <rect x="180" y="154" width="176" height="118" rx="16" fill="#fff" stroke="#EFE9DC" strokeWidth="1.5"/>
+                  <rect x="194" y="168" width="26" height="26" rx="9" fill="#5B50C8"/>
+                  <path d="m201 187.5 6-13.5 6 13.5M203.6 183h6.8" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <text x="228" y="180" fontSize="12.5" fontWeight="800" fill="#272319">Marketing Manager</text>
+                  <text x="228" y="193" fontSize="10" fontWeight="600" fill="#756C5C">Built from your answers</text>
+                  <path d="M194 204h148" stroke="#EFE9DC" strokeWidth="1.5"/>
+                  <rect x="194" y="212" width="148" height="7" rx="3.5" fill="#EDE7DC"/>
+                  <rect x="194" y="225" width="118" height="7" rx="3.5" fill="#DCD7F5"/>
+                  <rect x="194" y="238" width="136" height="7" rx="3.5" fill="#EDE7DC"/>
+                  <circle cx="336" cy="258" r="9" fill="#E3F2E8"/>
+                  <path d="m331.5 258 3 3 6-6.5" stroke="#27713F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+                </g>
+                <g transform="rotate(3 229 270)">
+                  <rect x="170" y="258" width="118" height="25" rx="12.5" fill="#272319"/>
+                  <circle cx="184" cy="270.5" r="4" fill="#7ED09A"/>
+                  <text x="194" y="274.5" fontSize="11.5" fontWeight="700" fill="#fff">Ready to paste</text>
+                </g>
+              </g>
+
+              {/* flow 2 */}
+              <path d="M302 284c-8 8-20 14-34 17" stroke="#5B50C8" strokeWidth="2.6" strokeLinecap="round" strokeDasharray="1 8"/>
+              <path d="m268 301 8-4M268 301l6 6" stroke="#5B50C8" strokeWidth="2.4" strokeLinecap="round"/>
+
+              {/* card 3: pasted into Claude */}
+              <g transform="rotate(-4 218 330)">
+                <rect x="124" y="299" width="200" height="76" rx="12" fill="#E9E3D8"/>
+                <rect x="118" y="292" width="200" height="76" rx="12" fill="#fff" stroke="#EFE9DC" strokeWidth="1.5"/>
+                <circle cx="133" cy="305" r="3" fill="#F4B8AE"/>
+                <circle cx="144" cy="305" r="3" fill="#F5D57C"/>
+                <circle cx="155" cy="305" r="3" fill="#A8D8B0"/>
+                <rect x="120" y="316" width="38" height="50" fill="#FAF7F1"/>
+                <rect x="168" y="322" width="136" height="20" rx="7" fill="#EFEDFB" stroke="#5B50C8" strokeWidth="1.5" strokeDasharray="4 3"/>
+                <text x="180" y="335.5" fontSize="9.5" fontWeight="600" fill="#756C5C">Paste your setup…</text>
+                <rect x="173" y="327" width="1.8" height="10" fill="#5B50C8"/>
+                <rect x="168" y="350" width="100" height="6" rx="3" fill="#F0EAE0"/>
               </g>
             </svg>
-            <span className="doodle-note doodle-note--hero">
-              your setup, ready to paste
-              <svg
-                width="46"
-                height="42"
-                viewBox="0 0 46 42"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M40 4C30 12 20 24 10 36"/>
-                <path d="M10 36l1.5-9M10 36l9-1"/>
-              </svg>
-            </span>
           </div>
 
         </div>

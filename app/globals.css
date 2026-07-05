@@ -366,8 +366,6 @@ img, svg { vertical-align: middle; }
   font-size: 0.85rem; font-style: italic; color: var(--iris-deep);
 }
 .doodle-note svg { color: var(--iris); }
-/* Hero art doodle note position */
-.doodle-note--hero { top: -10px; right: 0; }
 /* Large shield icon (export section) */
 .shield-lg { width: 40px; height: 40px; color: var(--iris); }
 
