@@ -9,11 +9,13 @@ interface ListTableProps {
   variant: 'developers' | 'professionals';
 }
 
-/** Author attribution matching the mock: the Armory team for curated, the
- *  truncated author handle for community/AI-drafted items. */
+/** Author attribution matching the mock: the Armory team for curated,
+ *  "AI-generated" for pipeline-drafted items (author is always null there),
+ *  the truncated author handle for community items. */
 function authorLabel(setup: Setup): string {
   if (setup.source === 'curated') return 'Armory team';
   if (setup.source === 'github') return 'GitHub';
+  if (setup.source === 'ai-generated') return 'AI-generated';
   if (setup.author) {
     const handle = setup.author.length > 12 ? `${setup.author.slice(0, 12)}…` : setup.author;
     return `author ${handle}`;
