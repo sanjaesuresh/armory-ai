@@ -685,3 +685,47 @@ create index if not exists describe_usage_user_id_created_at_idx
 
 alter table describe_usage enable row level security;
 -- No public policies — service-role access only.
+
+-- ══════════════════════════════════════════════════════════════════════════════
+-- Phase 10: Learn AI — lesson progress
+-- Live application is DEFERRED — apply in Supabase SQL editor when ready.
+-- ══════════════════════════════════════════════════════════════════════════════
+
+-- ─── learn_progress ───────────────────────────────────────────────────────────
+-- One row per (user, lesson). Tracks lesson status, best quiz score, and
+-- completion timestamp. Owner-only; no public access. The browser client writes
+-- via RLS; the app falls back to localStorage if this table is absent.
+
+create table if not exists learn_progress (
+  user_id       uuid not null references auth.users(id) on delete cascade,
+  lesson_slug   text not null,
+  status        text not null check (status in ('in-progress', 'completed')),
+  best_score_pct integer check (best_score_pct between 0 and 100),
+  completed_at  timestamptz,
+  updated_at    timestamptz not null default now(),
+  primary key (user_id, lesson_slug)
+);
+
+create index if not exists learn_progress_user_id_idx on learn_progress (user_id);
+
+alter table learn_progress enable row level security;
+
+drop policy if exists "owner reads own progress" on learn_progress;
+create policy "owner reads own progress"
+  on learn_progress for select
+  to authenticated
+  using ((select auth.uid()) = user_id);
+
+drop policy if exists "owner inserts own progress" on learn_progress;
+create policy "owner inserts own progress"
+  on learn_progress for insert
+  to authenticated
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "owner updates own progress" on learn_progress;
+create policy "owner updates own progress"
+  on learn_progress for update
+  to authenticated
+  using ((select auth.uid()) = user_id)
+  with check ((select auth.uid()) = user_id);
+-- No delete policy and no public access.

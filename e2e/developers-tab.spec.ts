@@ -1,7 +1,7 @@
 /**
  * Developers tab e2e specs.
  *
- * Covers: nav tab links (Professionals / Developers / no "Learn AI"), the
+ * Covers: nav tab links (Professionals / Developers / Learn AI), the
  * /developers page header, and the developer-specific kind-filter chip bar.
  *
  * Always-on tests: verified with only the existing core seed (marketing-manager).
@@ -29,12 +29,14 @@ test('nav renders Professionals and Developers tab links with correct hrefs', as
   await expect(devLink).toHaveAttribute('href', '/developers');
 });
 
-test('nav does not contain a "Learn AI" entry', async ({ page }) => {
+test('nav contains Developers, Professionals, and Learn AI entries', async ({
+  page,
+}) => {
   await page.goto('/');
   const nav = page.getByRole('navigation', { name: 'Main' });
-  // The third nav link is /#how ("How it works") — "Learn AI" is reserved for
-  // a future phase and must not appear.
-  await expect(nav.getByText(/learn ai/i)).toHaveCount(0);
+  await expect(nav.getByRole('link', { name: 'Professionals' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Developers' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Learn AI' })).toBeVisible();
 });
 
 test('/developers loads the Developers h1 heading', async ({ page }) => {

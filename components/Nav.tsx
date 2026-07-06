@@ -155,6 +155,13 @@ export default function Nav() {
           >
             Developers
           </Link>
+          <Link
+            href="/learn"
+            onClick={closeMenu}
+            aria-current={pathname?.startsWith('/learn') ? 'page' : undefined}
+          >
+            Learn AI
+          </Link>
           <Link href="/#how" onClick={closeMenu}>
             How it works
           </Link>

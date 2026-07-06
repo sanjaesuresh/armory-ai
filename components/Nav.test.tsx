@@ -66,9 +66,10 @@ describe('Nav', () => {
     expect(link).toHaveAttribute('href', '/developers');
   });
 
-  it('does not render a "Learn AI" entry', () => {
+  it('renders a "Learn AI" link to /learn', () => {
     render(<Nav />);
-    expect(screen.queryByRole('link', { name: /learn ai/i })).toBeNull();
+    const link = screen.getByRole('link', { name: 'Learn AI' });
+    expect(link).toHaveAttribute('href', '/learn');
   });
 
   it('renders "How it works" link to /#how', () => {

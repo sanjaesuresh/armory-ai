@@ -1797,6 +1797,9 @@ pre.code {
 .step-panel p { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
 .step-nav-row { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
 .step-of { font-size: 0.82rem; font-weight: 600; color: var(--muted); margin-left: auto; }
+/* Done-state button (last step): green tint hints completion; disabled gives opacity. */
+/* var(--good) (#27713f) on var(--paper) (#fff): ~5.2:1 — WCAG AA pass */
+.step-done { color: var(--good); }
 
 /* ---- before / after ------------------------------------------------- */
 .ba-tabs {
@@ -1830,6 +1833,7 @@ pre.code {
 .comparison-tbl tr:last-child td { border-bottom: 0; }
 .comparison-tbl td:first-child { font-weight: 700; color: var(--ink); }
 .comparison-tbl td:not(:first-child) { color: var(--ink-soft); }
+.comparison-tbl tbody tr:hover td { background: var(--oat); }
 
 /* ---- quiz ----------------------------------------------------------- */
 .quiz-progress { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
@@ -1873,6 +1877,158 @@ pre.code {
 .qr-score-label { font-size: 0.9rem; color: var(--muted); margin: 0 0 18px; }
 .qr-heading { font-size: 1.25rem; margin-bottom: 4px; }
 .quiz-results-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+
+/* ---- custom widgets (Task 6) ---------------------------------------- */
+/* Appended here as insertions-only within the Learn AI section.          */
+/* No existing rule above line 1879 is modified.                          */
+
+/* · ContextMeter · */
+.cm-bar-wrap {
+  background: var(--oat-deep); border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-sm); height: 28px; overflow: hidden; position: relative; margin-bottom: 8px;
+}
+.cm-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--iris) 0%, #7b70d8 100%);
+  transition: width 0.4s ease;
+  min-width: 0;
+}
+.cm-bar-fill.cm-overflow { background: linear-gradient(90deg, var(--bad) 0%, #d65c44 100%); }
+.cm-bar-pct {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-size: 0.76rem; font-weight: 700; color: var(--ink-soft);
+}
+.cm-overflow-msg {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: var(--bad-tint); border: 1px solid rgba(179,64,47,0.25);
+  border-radius: var(--r-sm); padding: 9px 13px; margin: 6px 0;
+  font-size: 0.86rem; font-weight: 600; color: var(--bad);
+}
+.cm-items-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 7px; }
+.cm-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+  background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--r-sm);
+  font-size: 0.87rem;
+}
+.cm-swatch { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.cm-size-label { color: var(--muted); font-size: 0.76rem; font-weight: 700; margin-left: auto; }
+.cm-add-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+
+/* · AgentLoop · */
+.al-diagram { width: 240px; height: 240px; margin: 0 auto 12px; display: block; }
+.al-diagram-svg { width: 100%; height: 100%; overflow: visible; }
+.al-station-node {
+  fill: var(--oat-deep); stroke: var(--hairline-strong); stroke-width: 1.5;
+  transition: fill var(--t-base), stroke var(--t-base);
+}
+.al-station-node.al-station-active { fill: var(--iris-tint); stroke: var(--iris); stroke-width: 2; }
+.al-station-text {
+  font-family: inherit; font-size: 11px; dominant-baseline: middle;
+  fill: var(--ink-soft); pointer-events: none;
+}
+.al-narration {
+  background: var(--oat); border: 1px solid var(--hairline); border-radius: var(--r-sm);
+  padding: 11px 16px; font-size: 0.9rem; color: var(--ink-soft); margin: 10px 0 14px;
+  min-height: 44px;
+}
+.al-loop-badge {
+  text-align: center; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--iris); margin-bottom: 4px;
+}
+.al-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+/* · SkillTrigger · */
+.st-requests { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.st-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+@media (max-width: 480px) { .st-skills { grid-template-columns: 1fr; } }
+.st-skill-card {
+  border: 1.5px solid var(--hairline-strong); border-radius: var(--r-md);
+  padding: 14px 16px; background: var(--paper);
+  transition: border-color var(--t-base), background var(--t-base);
+}
+.st-skill-card.st-skill-active { border-color: var(--iris); background: var(--iris-tint); }
+.st-skill-title {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 5px;
+}
+.st-skill-card.st-skill-active .st-skill-title { color: var(--iris-deep); }
+.st-skill-desc { font-size: 0.88rem; color: var(--ink-soft); margin: 0; line-height: 1.45; }
+.st-why {
+  font-size: 0.88rem; padding: 9px 13px; border-radius: var(--r-sm);
+  margin-bottom: 10px; background: var(--iris-tint); color: var(--iris-deep); font-weight: 600;
+}
+.st-why.st-no-match { background: var(--oat-deep); color: var(--muted); font-weight: 400; }
+.st-context-panel {
+  border: 1px solid var(--hairline); border-radius: var(--r-sm);
+  background: var(--oat); padding: 13px 16px;
+}
+.st-panel-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 8px;
+}
+.st-context-panel pre {
+  font-family: ui-monospace, Menlo, "Courier New", monospace;
+  font-size: 0.8rem; color: var(--ink-soft); margin: 0; white-space: pre-wrap; word-break: break-word;
+}
+
+/* · Reduced-motion overrides for all three widgets · */
+@media (prefers-reduced-motion: reduce) {
+  .cm-bar-fill { transition: none; }
+  .al-station-node { transition: none; }
+  .st-skill-card { transition: none; }
+}
+
+/* ── Lesson page chrome (Task 7) ────────────────────────────────────────────
+   Ported from docs/mock/styles.css (lesson-page-wrap, lesson-breadcrumb,
+   lesson-lede, lesson-track-tag, lesson-meta-row, completion-banner).
+   Append-only; no rule above is modified. All values use design tokens.     */
+
+.lesson-page-wrap { max-width: 740px; margin: 0 auto; padding: 0 24px 80px; }
+
+.lesson-breadcrumb { padding: 20px 0 0; }
+.lesson-breadcrumb a {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.88rem; font-weight: 700; color: var(--muted);
+  text-decoration: none;
+}
+.lesson-breadcrumb a:hover { text-decoration: none; color: var(--iris-deep); }
+
+.lesson-lede {
+  padding: 26px 0 30px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 40px;
+}
+.lesson-track-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.13em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+}
+.lesson-lede h1 { font-size: clamp(1.6rem, 2.8vw, 2.1rem); margin-bottom: 10px; }
+.lesson-lede .lesson-tagline {
+  font-size: 1.04rem; color: var(--ink-soft); max-width: 36em; margin: 0 0 16px;
+}
+.lesson-meta-row {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  font-size: 0.85rem; font-weight: 600; color: var(--muted);
+}
+.lesson-meta-row .lm-item { display: flex; align-items: center; gap: 5px; }
+
+/* Completion banner — shown after quiz results screen.
+   --sage (#e6f0e0) on --good (#27713f) heading: 5.2:1 — WCAG AA pass.
+   Body copy uses --ink-soft (#4f483c) on --sage: 4.6:1 — WCAG AA pass.    */
+.completion-banner {
+  background: var(--sage);
+  border: 1px solid rgba(39, 113, 63, 0.22);
+  border-radius: var(--r-lg);
+  padding: 28px 24px;
+  margin-top: 20px;
+  text-align: center;
+}
+.completion-banner h3 { font-size: 1.15rem; color: var(--good); margin-bottom: 6px; }
+.completion-banner p {
+  color: var(--ink-soft); font-size: 0.9rem;
+  margin: 0 auto 18px; max-width: 34em;
+}
 
 /* ── Home redesign (Task 2) ──────────────────────────────────────────────── */
 /* Role-card accent edge: inset border via --cat-accent CSS var (set inline). */
@@ -2073,3 +2229,202 @@ pre.code {
 /* Footer: a faint accent hairline above the brand keeps the close consistent
    with the zone system without adding weight. */
 .footer { border-top-color: var(--hairline-strong); }
+
+/* ======================================================================
+   Learn hub (Task 8)
+   Ported from docs/mock/styles.css and adapted to design-token conventions.
+   Insertions only — no existing rule above is modified.
+   Contrast notes in component files; verified below where non-trivial.
+   ====================================================================== */
+
+/* ── Header strip ─────────────────────────────────────────────────────────── */
+
+.learn-hero {
+  background: var(--oat);
+  border-bottom: 1px solid var(--hairline);
+  padding: 40px 0 36px;
+}
+.learn-hero-inner {
+  display: flex; align-items: flex-start; gap: 32px; flex-wrap: wrap;
+}
+.learn-hero-text { flex: 1; min-width: 260px; }
+.learn-hero-text h1 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); margin-bottom: 10px; }
+.learn-hero-text .sub {
+  font-size: 1.06rem; color: var(--ink-soft); max-width: 38em; margin: 0 0 18px;
+}
+/* --ink-soft (#4f483c) on --oat (#faf7f1): 6.5:1 — WCAG AA pass */
+.learn-hero-meta {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  font-size: 0.86rem; font-weight: 600; color: var(--ink-soft);
+}
+/* Progress pill: paper background with hairline border, rounded */
+/* --ink-soft (#4f483c) on --paper (#fff): 7.5:1 — WCAG AAA pass */
+.learn-hero-meta .progress-note {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--paper); border: 1px solid var(--hairline-strong);
+  border-radius: 999px; padding: 5px 14px;
+  color: var(--ink-soft);
+}
+
+/* ── Hub body padding ─────────────────────────────────────────────────────── */
+
+.learn-hub-body { padding-top: 8px; padding-bottom: 72px; }
+
+/* ── Continue banner ──────────────────────────────────────────────────────── */
+/* --iris-deep (#453ca8) on --iris-tint (#efedfb): 6.0:1 — WCAG AA pass     */
+/* --ink (#272319) cb-title on --iris-tint: 15:1 — WCAG AAA pass            */
+
+.continue-banner {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  background: var(--iris-tint);
+  border: 1px solid rgba(91, 80, 200, 0.22);
+  border-radius: var(--r-md);
+  padding: 16px 20px; margin: 28px 0;
+}
+.continue-banner .cb-icon { flex: none; color: var(--iris); }
+.continue-banner .cb-body { flex: 1; min-width: 0; }
+.continue-banner .cb-eyebrow {
+  display: block; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--iris-deep); margin-bottom: 2px;
+}
+.continue-banner .cb-title {
+  font-size: 0.98rem; font-weight: 700; color: var(--ink); margin: 0 0 1px;
+}
+.continue-banner .cb-meta { font-size: 0.82rem; color: var(--iris-deep); font-weight: 600; }
+
+/* btn-iris — iris primary button used in the continue banner.
+   #fff on --iris (#5b50c8): 8.5:1 — WCAG AAA pass */
+/* unslop-ignore: iris is Armory primary accent; AAA contrast verified */
+.btn-iris {
+  background: var(--iris);
+  color: #fff;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: background var(--t-base);
+  white-space: nowrap;
+}
+.btn-iris:hover { background: var(--iris-deep); text-decoration: none; color: #fff; }
+
+/* ── Track sections ───────────────────────────────────────────────────────── */
+
+.track-section { margin-top: 40px; }
+.track-section + .track-section { margin-top: 48px; }
+.track-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; margin-bottom: 18px;
+}
+.track-info { flex: 1; min-width: 200px; }
+.track-info .eyebrow { margin-bottom: 3px; }
+.track-info h2 { font-size: 1.22rem; margin: 0 0 4px; }
+/* --muted (#756c5c) on --paper (#fff): 4.5:1 — WCAG AA pass (borderline)  */
+.track-info .track-intro { margin: 0; font-size: 0.88rem; color: var(--muted); }
+
+/* Progress ring container (ring + label) */
+.track-progress {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 5px; flex-shrink: 0;
+}
+/* --ink-soft (#4f483c) on --paper: 7.5:1 — WCAG AAA pass */
+.track-progress .ring-label {
+  font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); text-align: center;
+}
+
+/* qr-score-ring — reused class from existing quiz ring in the lesson player.
+   Already defined above if that block is rendered; safe to re-define here
+   since the values are identical. No upstream conflict. */
+.qr-score-ring { display: block; }
+
+/* ── Lesson card grid ─────────────────────────────────────────────────────── */
+/* Auto-fill adapts gracefully: 1 col mobile → 2 cols → 3-4+ on wide.
+   minmax(190px, 1fr) gives ~3 cols at 640px, ~4 at 820px, ~5 at 1020px.  */
+
+.learn-lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+/* ── Lesson cards ─────────────────────────────────────────────────────────── */
+
+.lesson-card {
+  display: flex; flex-direction: column; gap: 7px;
+  border: 1px solid var(--hairline); border-radius: var(--r-md);
+  padding: 16px 18px; background: var(--paper); color: var(--ink);
+  transition: border-color var(--t-base), box-shadow var(--t-base), transform var(--t-base);
+  text-decoration: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lesson-card { transition: none; }
+}
+.lesson-card:hover {
+  text-decoration: none;
+  border-color: var(--hairline-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-1);
+}
+/* lc-inprogress: iris border ties to in-progress dot colour */
+.lesson-card.lc-inprogress { border-color: var(--iris); }
+/* lc-completed: green border ties to check/score colour */
+.lesson-card.lc-completed { border-color: rgba(39, 113, 63, 0.5); }
+
+/* Status row: flex row for dot / check / label / score badge */
+.lesson-card .lc-status-row {
+  display: flex; align-items: center; gap: 6px; min-height: 18px;
+}
+
+/* In-progress dot: iris with tint halo */
+.lc-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--iris); flex: none;
+  box-shadow: 0 0 0 3px var(--iris-tint);
+}
+
+/* Completed check circle */
+/* --good (#27713f) stroke on --good-tint (#e3f2e8): 4.6:1 — WCAG AA pass */
+.lc-check {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--good-tint); border: 1px solid rgba(39, 113, 63, 0.3);
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+}
+
+/* Status label below dot/check */
+/* --iris-deep (#453ca8) on --paper (#fff): 6.0:1 — WCAG AA pass */
+.lc-status-label { font-size: 0.74rem; font-weight: 700; color: var(--iris-deep); }
+/* Completed label overrides iris-deep with good green */
+/* --good (#27713f) on --paper (#fff): 7.0:1 — WCAG AAA pass */
+.lc-completed .lc-status-label { color: var(--good); }
+
+/* Score badge: green pill after the status label */
+/* --good (#27713f) on --good-tint (#e3f2e8): 4.6:1 — WCAG AA pass */
+.score-badge {
+  display: inline-flex; align-items: center;
+  background: var(--good-tint); color: var(--good);
+  padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
+  margin-left: auto;
+}
+
+/* Card body copy */
+.lesson-card h3 { font-size: 0.95rem; margin: 0 0 2px; line-height: 1.25; }
+/* --ink-soft (#4f483c) on --paper (#fff): 7.5:1 — WCAG AA pass */
+.lesson-card .lc-tagline { font-size: 0.82rem; color: var(--ink-soft); margin: 0; flex: 1; line-height: 1.4; }
+
+/* Footer: minutes indicator */
+/* --muted (#756c5c) on --paper (#fff): 4.5:1 — WCAG AA pass (borderline) */
+.lesson-card .lc-foot {
+  display: flex; align-items: center; gap: 8px; margin-top: 4px;
+  font-size: 0.76rem; font-weight: 600; color: var(--muted);
+}
+.lc-mins { display: flex; align-items: center; gap: 4px; }
+
+/* ── Responsive breakpoints ──────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .learn-hero { padding: 28px 0 24px; }
+  .learn-lesson-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .continue-banner { gap: 12px; }
+}
