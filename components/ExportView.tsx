@@ -281,7 +281,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
       <div className="export-layout">
 
         {/* ── Left: what's included ──────────────────────────────────────── */}
-        <aside>
+        <aside className="export-panel-card">
           <span className="eyebrow">What&apos;s included</span>
           <ul className="side-checklist" style={{ marginTop: '8px' }}>
             <li>
@@ -485,7 +485,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
         </section>
 
         {/* ── Right: export options + download ──────────────────────────── */}
-        <aside>
+        <aside className="export-panel-card">
           <span className="eyebrow">
             {showTargetPicker ? 'Where will you use this?' : 'Export target'}
           </span>

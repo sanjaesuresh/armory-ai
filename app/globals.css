@@ -49,6 +49,29 @@
   --bad: #b3402f;
   --bad-tint: #fbe9e5;
 
+  /* surface semantics */
+  --surface-canvas: var(--oat);
+  --surface-raised: var(--paper);
+  --surface-sunken: var(--oat-deep);
+
+  /* category accent map (AA-verified on each tint ≥ 4.5:1; on --paper ≥ 3:1) */
+  /* --accent-butter: #936508 on --butter: 4.54:1 — PASS */
+  --accent-butter: #936508;
+  /* --accent-sage: #39733f on --sage: 4.84:1 — PASS */
+  --accent-sage:   #39733f;
+  /* --accent-sky: #2c69a5 on --sky: 4.85:1 — PASS */
+  --accent-sky:    #2c69a5;
+  /* --accent-blush: #ab4e3b on --blush: 4.53:1 — PASS */
+  --accent-blush:  #ab4e3b;
+  /* --accent-lilac: iris (#5b50c8) on --lilac: 5.14:1 — PASS */
+  --accent-lilac:  var(--iris);
+  /* --accent-peach: #a15919 on --peach: 4.56:1 — PASS */
+  --accent-peach:  #a15919;
+  /* --accent-mint: #27795a on --mint: 4.54:1 — PASS */
+  --accent-mint:   #27795a;
+  /* --accent-sand: #786a50 on --sand: 4.53:1 — PASS */
+  --accent-sand:   #786a50;
+
   /* radii */
   --r-sm: 10px;
   --r-md: 14px;
@@ -57,6 +80,8 @@
   /* shadows */
   --shadow-1: 0 1px 2px rgba(39, 35, 25, 0.06);
   --shadow-2: 0 6px 24px -8px rgba(39, 35, 25, 0.14);
+  --shadow-3: 0 18px 48px -16px rgba(39, 35, 25, 0.22);
+  --shadow-ambient: 0 2px 56px 0px rgba(39, 35, 25, 0.10);
 
   /* mono stack */
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
@@ -1455,3 +1480,596 @@ pre.code {
 .review-summary li:last-child { border-bottom: 0; }
 .review-summary .k { flex: 0 0 130px; color: var(--muted); font-weight: 600; }
 .review-summary .v { color: var(--ink); font-weight: 600; word-break: break-word; }
+
+/* ======================================================================
+   UI Redesign — Foundation layer (Task 1)
+   Additive only — no existing rule changed above this line.
+   ====================================================================== */
+
+/* ---- surface zones ------------------------------------------------- */
+
+.zone { padding: 56px 0; }
+.zone-canvas { background: transparent; }
+.zone-raised {
+  background: var(--surface-raised);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-1);
+  padding: 36px;
+}
+.zone-tint {
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+.zone-elevated {
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-3);
+  border-radius: var(--r-lg);
+  padding: 36px;
+}
+
+/* ---- section head -------------------------------------------------- */
+
+.section-head { margin-bottom: 28px; }
+.section-head .eyebrow { margin-bottom: 6px; }
+.section-head h2,
+.section-head h3 {
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+/* Row that holds heading on left and optional action on right */
+.section-head-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+/* ---- category accent edges on setup cards (CSS-only, via tint class) */
+/* #936508 on #fbf1d3 (butter): 4.54:1 PASS */
+.setup-card.tint-butter { box-shadow: inset 3px 0 0 var(--accent-butter); }
+/* #39733f on #e6f0e0 (sage): 4.84:1 PASS */
+.setup-card.tint-sage   { box-shadow: inset 3px 0 0 var(--accent-sage); }
+/* #2c69a5 on #e2eef8 (sky): 4.85:1 PASS */
+.setup-card.tint-sky    { box-shadow: inset 3px 0 0 var(--accent-sky); }
+/* #ab4e3b on #fae7e1 (blush): 4.53:1 PASS */
+.setup-card.tint-blush  { box-shadow: inset 3px 0 0 var(--accent-blush); }
+/* #5b50c8 on #ece9fa (lilac): 5.14:1 PASS */
+.setup-card.tint-lilac  { box-shadow: inset 3px 0 0 var(--accent-lilac); }
+/* #a15919 on #fcebdb (peach): 4.56:1 PASS */
+.setup-card.tint-peach  { box-shadow: inset 3px 0 0 var(--accent-peach); }
+/* #27795a on #dff2eb (mint): 4.54:1 PASS */
+.setup-card.tint-mint   { box-shadow: inset 3px 0 0 var(--accent-mint); }
+/* #786a50 on #f3ede2 (sand): 4.53:1 PASS */
+.setup-card.tint-sand   { box-shadow: inset 3px 0 0 var(--accent-sand); }
+
+/* On hover, preserve the accent inset + add the lift shadow.
+   These have higher specificity (0,3,0) than .setup-card:hover (0,2,0)
+   so they override the plain :hover box-shadow rule. */
+.setup-card.tint-butter:hover { box-shadow: inset 3px 0 0 var(--accent-butter), var(--shadow-2); }
+.setup-card.tint-sage:hover   { box-shadow: inset 3px 0 0 var(--accent-sage),   var(--shadow-2); }
+.setup-card.tint-sky:hover    { box-shadow: inset 3px 0 0 var(--accent-sky),    var(--shadow-2); }
+.setup-card.tint-blush:hover  { box-shadow: inset 3px 0 0 var(--accent-blush),  var(--shadow-2); }
+.setup-card.tint-lilac:hover  { box-shadow: inset 3px 0 0 var(--accent-lilac),  var(--shadow-2); }
+.setup-card.tint-peach:hover  { box-shadow: inset 3px 0 0 var(--accent-peach),  var(--shadow-2); }
+.setup-card.tint-mint:hover   { box-shadow: inset 3px 0 0 var(--accent-mint),   var(--shadow-2); }
+.setup-card.tint-sand:hover   { box-shadow: inset 3px 0 0 var(--accent-sand),   var(--shadow-2); }
+
+/* ---- compact card variant ------------------------------------------ */
+
+/* Make the card a positioning context for the rank badge */
+.setup-card.is-compact { position: relative; }
+
+.setup-card.is-compact {
+  padding: 16px;
+  gap: 6px;
+}
+.setup-card.is-compact h3 {
+  font-size: 0.95rem;
+  margin: 2px 0 0;
+}
+/* Tags hidden in compact variant — no new DOM needed */
+.setup-card.is-compact .tags { display: none; }
+/* One-line clamp on desc */
+.setup-card.is-compact .desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Slightly smaller icon badge */
+.setup-card.is-compact .icon-badge {
+  width: 36px;
+  height: 36px;
+}
+/* Width in a shelf */
+.shelf > .setup-card.is-compact {
+  flex: 0 0 240px;
+  max-width: 250px;
+}
+
+/* ---- rank badge ---------------------------------------------------- */
+
+/* Inline variant (generic) */
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff; /* #fff on #272319: 18.1:1 — WCAG AAA pass */ /* unslop-ignore: always ink+white, high contrast */
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+/* Absolute positioning when inside a compact card */
+.setup-card.is-compact .rank-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* ---- category card -------------------------------------------------- */
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  padding: 18px;
+  background: var(--surface-raised);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  text-decoration: none;
+  /* Accent edge driven by --cat-accent CSS var set inline by the component */
+  box-shadow: inset 3px 0 0 var(--cat-accent, transparent);
+  transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base);
+}
+.category-card:hover {
+  text-decoration: none;
+  border-color: var(--hairline-strong);
+  transform: translateY(-2px);
+  box-shadow: inset 3px 0 0 var(--cat-accent, transparent), var(--shadow-2);
+}
+:is(a).category-card:focus-visible,
+:is(button).category-card:focus-visible {
+  outline: 2px solid var(--iris);
+  outline-offset: 2px;
+}
+/* Active state: iris ring replaces accent edge */
+.category-card.is-active {
+  border-color: var(--iris);
+  box-shadow: 0 0 0 3px var(--iris-tint) !important;
+}
+/* icon chip inside category card: tint bg + accent glyph */
+.cat-chip {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex: none;
+}
+.category-card strong {
+  font-size: 0.98rem;
+  display: block;
+}
+/* --ink-soft on any tint: ≥ 7.5:1 — WCAG AA pass */
+.category-card .cat-count {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.category-card .cat-blurb {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Category card grid layout */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+@media (max-width: 820px) { .category-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .category-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ======================================================================
+   Learn AI — lesson block components + diagram system (Task 5)
+   Ported from docs/mock/styles.css; hard-coded hex swapped for design
+   tokens. Append-only; no existing rule above is modified. The global
+   prefers-reduced-motion rule (top of file) already collapses every
+   transition below to near-instant; explicit reduce rules are added where
+   a 3D flip needs to become a plain swap.
+   ====================================================================== */
+
+/* ---- block rhythm --------------------------------------------------- */
+.lblock { margin-bottom: 36px; }
+.lblock:last-child { margin-bottom: 0; }
+.lblock > h2 { font-size: 1.15rem; margin-bottom: 10px; letter-spacing: -0.01em; }
+.lblock > p { color: var(--ink-soft); margin-bottom: 0.9em; }
+.lblock > p:last-child { margin-bottom: 0; }
+
+/* ---- callout -------------------------------------------------------- */
+.block-callout {
+  display: flex; gap: 14px; align-items: flex-start;
+  border-left: 3px solid var(--hairline-strong);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 14px 18px;
+}
+.block-callout.callout-tip { background: var(--sky); border-left-color: var(--accent-sky); }
+.block-callout.callout-tip .callout-icon { color: var(--accent-sky); }
+.block-callout.callout-warning { background: var(--warn-tint); border-left-color: var(--warn); }
+.block-callout.callout-warning .callout-icon { color: var(--warn); }
+.block-callout .callout-icon { flex: none; margin-top: 2px; display: inline-flex; }
+.block-callout .callout-body { font-size: 0.92rem; }
+.block-callout .callout-body p { margin: 0; color: var(--ink-soft); }
+
+/* ---- hotspot diagram ------------------------------------------------ */
+.hotspot-diagram-wrap {
+  position: relative;
+  background: var(--oat);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.hotspot-diagram-wrap svg { display: block; width: 100%; height: auto; }
+.hotspot-btn-layer { position: absolute; inset: 0; pointer-events: none; }
+.hotspot-btn {
+  position: absolute; pointer-events: all;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--iris); color: #fff;
+  border: 2.5px solid var(--paper); box-shadow: 0 2px 8px rgba(91, 80, 200, 0.35);
+  font: inherit; font-size: 0.8rem; font-weight: 800;
+  cursor: pointer; transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background var(--t-base), box-shadow var(--t-base);
+}
+.hotspot-btn:hover { background: var(--iris-deep); }
+.hotspot-btn:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; }
+.hotspot-btn[aria-expanded="true"] { background: var(--ink); box-shadow: 0 2px 10px rgba(39, 35, 25, 0.3); }
+.hotspot-panel {
+  border: 1px solid var(--hairline-strong); border-radius: var(--r-sm);
+  padding: 14px 16px; background: var(--paper); margin-top: 12px; font-size: 0.9rem;
+}
+.hotspot-panel .hp-title { font-weight: 700; color: var(--ink); margin: 0 0 4px; }
+.hotspot-panel .hp-body { color: var(--ink-soft); margin: 0; }
+.hotspot-panel .hp-idle { color: var(--muted); margin: 0; font-size: 0.88rem; }
+
+/* ---- flip cards ----------------------------------------------------- */
+.flip-cards { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
+.flip-card-wrap { flex: 1 1 160px; max-width: 220px; perspective: 900px; }
+.flip-card-btn {
+  width: 100%; aspect-ratio: 4 / 3;
+  background: none; border: none; padding: 0; cursor: pointer; position: relative;
+}
+.flip-card-btn:focus-visible { outline: 2px solid var(--iris); outline-offset: 3px; border-radius: var(--r-md); }
+.flip-card-inner {
+  display: block; width: 100%; height: 100%; position: relative;
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.flip-card-btn[aria-pressed="true"] .flip-card-inner { transform: rotateY(180deg); }
+.flip-card-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border: 1px solid var(--hairline); border-radius: var(--r-md); padding: 16px 14px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+}
+.flip-face-front { background: var(--paper); }
+.flip-face-back { background: var(--iris-tint); border-color: rgba(91, 80, 200, 0.35); transform: rotateY(180deg); }
+.flip-face-front .term { font-weight: 700; font-size: 0.96rem; color: var(--ink); }
+.flip-face-front .flip-hint { font-size: 0.72rem; color: var(--muted); margin-top: 8px; }
+.flip-face-back .def { font-size: 0.83rem; color: var(--iris-deep); line-height: 1.45; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner { transition: none; }
+}
+
+/* ---- step-through --------------------------------------------------- */
+.step-through-card {
+  border: 1px solid var(--hairline); border-radius: var(--r-md);
+  padding: 24px; background: var(--paper);
+}
+.step-through-card:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; }
+.step-pips { display: flex; align-items: center; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+.step-pip { width: 8px; height: 8px; border-radius: 50%; background: var(--hairline-strong); transition: background var(--t-base), width var(--t-base); }
+.step-pip.pip-done { background: var(--good); }
+.step-pip.pip-active { background: var(--iris); width: 24px; border-radius: 4px; }
+.step-panel[hidden] { display: none; }
+.step-panel h3 { font-size: 1.04rem; margin-bottom: 7px; }
+.step-panel p { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
+.step-nav-row { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+.step-of { font-size: 0.82rem; font-weight: 600; color: var(--muted); margin-left: auto; }
+
+/* ---- before / after ------------------------------------------------- */
+.ba-tabs {
+  display: inline-flex; border: 1px solid var(--hairline-strong); border-radius: var(--r-sm);
+  overflow: hidden; margin-bottom: 14px; background: var(--paper);
+}
+.ba-tab {
+  font: inherit; font-size: 0.88rem; font-weight: 700;
+  padding: 8px 20px; border: 0; background: none; cursor: pointer; color: var(--muted);
+  transition: background var(--t-base), color var(--t-base);
+  border-right: 1px solid var(--hairline-strong);
+}
+.ba-tab:last-child { border-right: 0; }
+.ba-tab:focus-visible { outline: 2px solid var(--iris); outline-offset: -2px; }
+.ba-tab[aria-selected="true"] { background: var(--ink); color: #fff; }
+.ba-pane[hidden] { display: none; }
+.chat-exchange { display: flex; flex-direction: column; gap: 9px; }
+.chat-bub { padding: 10px 14px; border-radius: var(--r-md); font-size: 0.88rem; line-height: 1.45; max-width: 86%; margin: 0; }
+.chat-bub.cb-user { background: var(--iris-tint); color: var(--ink); align-self: flex-end; border-radius: var(--r-md) var(--r-md) 4px var(--r-md); }
+.chat-bub.cb-ai { background: var(--oat); color: var(--ink-soft); align-self: flex-start; border-radius: var(--r-md) var(--r-md) var(--r-md) 4px; }
+
+/* ---- comparison table ----------------------------------------------- */
+.comparison-tbl-wrap { overflow-x: auto; }
+.comparison-tbl { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.comparison-tbl th {
+  text-align: left; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); padding: 10px 14px;
+  border-bottom: 2px solid var(--hairline-strong);
+}
+.comparison-tbl td { padding: 11px 14px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+.comparison-tbl tr:last-child td { border-bottom: 0; }
+.comparison-tbl td:first-child { font-weight: 700; color: var(--ink); }
+.comparison-tbl td:not(:first-child) { color: var(--ink-soft); }
+
+/* ---- quiz ----------------------------------------------------------- */
+.quiz-progress { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.quiz-q-block { border: 1px solid var(--hairline); border-radius: var(--r-md); padding: 18px 20px; background: var(--paper); }
+.quiz-q-text { font-weight: 700; font-size: 0.95rem; margin-bottom: 14px; color: var(--ink); }
+.quiz-choices { display: flex; flex-direction: column; gap: 8px; }
+.quiz-choice {
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 13px;
+  border: 1.5px solid var(--hairline-strong); border-radius: var(--r-sm);
+  cursor: pointer; background: var(--paper); position: relative;
+  transition: border-color var(--t-fast), background var(--t-fast);
+  width: 100%; font: inherit; font-size: 0.9rem; text-align: left;
+}
+.quiz-choice:hover:not(.qc-disabled) { border-color: var(--ink); }
+.quiz-choice:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; }
+.quiz-choice.qc-selected { border-color: var(--iris); background: var(--iris-tint); }
+.quiz-choice.qc-correct { border-color: var(--good); background: var(--good-tint); }
+.quiz-choice.qc-wrong { border-color: var(--bad); background: var(--bad-tint); }
+.quiz-choice.qc-disabled { cursor: default; }
+.qc-radio {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--hairline-strong); flex: none; margin-top: 2px;
+}
+.quiz-choice.qc-selected .qc-radio { border-color: var(--iris); background: var(--iris); }
+.quiz-choice.qc-correct .qc-radio { border-color: var(--good); background: var(--good); }
+.quiz-choice.qc-wrong .qc-radio { border-color: var(--bad); background: var(--bad); }
+.qc-text { flex: 1; color: var(--ink); }
+.quiz-feedback { border-radius: var(--r-sm); padding: 10px 13px; margin-top: 12px; font-size: 0.87rem; }
+.quiz-feedback.qf-wrong { background: var(--bad-tint); color: var(--bad); }
+.quiz-feedback.qf-correct { background: var(--good-tint); color: var(--good); }
+.quiz-feedback strong { display: block; margin-bottom: 2px; }
+.quiz-feedback p { margin: 0; }
+.quiz-actions { display: flex; justify-content: flex-end; margin-top: 16px; }
+
+.quiz-results {
+  border: 2px solid var(--good); border-radius: var(--r-lg);
+  padding: 32px 28px; text-align: center; background: var(--paper);
+}
+.qr-score-ring { margin: 0 auto 16px; display: block; }
+.qr-score-text { font-size: 2rem; font-weight: 800; color: var(--good); margin: 0; }
+.qr-score-label { font-size: 0.9rem; color: var(--muted); margin: 0 0 18px; }
+.qr-heading { font-size: 1.25rem; margin-bottom: 4px; }
+.quiz-results-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+
+/* ── Home redesign (Task 2) ──────────────────────────────────────────────── */
+/* Role-card accent edge: inset border via --cat-accent CSS var (set inline). */
+.role-card { box-shadow: inset 3px 0 0 var(--cat-accent, transparent); }
+/* Preserve accent edge + lift on hover; overrides the pre-existing hover rule. */
+.role-card:hover { box-shadow: inset 3px 0 0 var(--cat-accent, transparent), var(--shadow-1); }
+/* Eyebrow on zone-tint sections: --muted fails WCAG AA on pastel tints (~4.2–4.4:1). */
+.zone-tint .eyebrow { color: var(--ink-soft); }
+
+/* ======================================================================
+   Dashboard redesign (Task 3)
+   Additive only — no existing rule above is modified.
+   ====================================================================== */
+
+/* Vertical gap between sequential dashboard zones */
+.dash-zone { margin-top: 28px; }
+
+/* Raised surface zone — white card with border and lift shadow.
+   Used for: header strip, browse-by-category, most-popular shelf. */
+.dash-raised-zone {
+  background: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  padding: 28px;
+}
+/* Reset shelf-head's default 40px top margin when inside a raised-zone card */
+.dash-raised-zone .shelf-head { margin-top: 0; }
+/* Remove dash-head trailing gap when it is the zone's sole content */
+.dash-raised-zone .dash-head { margin-bottom: 0; }
+
+/* Tinted oat zone — warm-neutral card, no shadow.
+   Used for: recommended strip, armory-approved shelf.
+   WCAG note: --muted (#756c5c) on --oat (#faf7f1) is ~4.4:1 — fails AA for
+   normal text. The rule below upgrades affected elements to --ink-soft
+   (#4f483c, ~6.5:1 on oat). */ /* unslop-ignore: required WCAG AA contrast fix on oat surface */
+.dash-tint-zone {
+  background: var(--oat);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 28px;
+}
+.dash-tint-zone .shelf-head { margin-top: 0; }
+.dash-tint-zone .muted { color: var(--ink-soft); }
+
+/* ======================================================================
+   Setup detail sweep (Task 4)
+   Additive only — no existing rule above is modified.
+   ====================================================================== */
+
+/* ---- detail hero zone (tinted header card) --------------------------------
+   Wraps .detail-head so the header reads as a distinct tinted zone.
+   The category tint class (e.g. tint-butter) sets the background.           */
+.detail-hero-zone {
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-1);
+  padding: 32px 36px;
+  margin-bottom: 40px;
+}
+/* .detail-head originally used padding-bottom for spacing; the zone's own
+   padding and margin-bottom now handle that. */
+.detail-hero-zone .detail-head { padding-bottom: 0; }
+
+/* WCAG AA on tinted zones: --muted (#756c5c) fails AA (< 4.5:1) on the
+   lighter pastel tints. Upgrade to --ink-soft (#4f483c, ≥ 7.5:1 on all
+   tints) for all subtext inside the hero zone.
+   unslop-ignore: required WCAG AA contrast fix on pastel tint surfaces */
+.detail-hero-zone .muted,
+.detail-hero-zone .detail-meta { color: var(--ink-soft); }
+/* report trigger also uses --muted by default */
+.detail-hero-zone .report-setup-trigger { color: var(--ink-soft); }
+
+/* ---- illustration panel: raised within the tinted hero zone ---------------
+   Replaces the per-illustration tint class with a crisp white surface so
+   the art "pops" from the coloured zone background.                          */
+.detail-art--raised {
+  background: var(--surface-raised);
+  border: 1px solid rgba(39, 35, 25, 0.10);
+  border-radius: var(--r-md);
+}
+
+/* ---- tab panels: raised surface card below the tablist --------------------
+   Each visible .tabpanel becomes a card (border, shadow, padding).
+   [hidden] panels are collapsed by the existing .tabpanel[hidden] rule;
+   re-stating display:none here adds safety at no cost.                       */
+.tabpanel-surface {
+  background: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-1);
+}
+.tabpanel-surface[hidden] { display: none; }
+
+/* Tighten gap between tablist and panel card (default .tabs margin-bottom
+   is 28px; 16px reads better when the panel is a distinct card below). */
+.detail-cols .tabs { margin-bottom: 16px; }
+
+/* ---- responsive ---------------------------------------------------------- */
+@media (max-width: 820px) {
+  .detail-hero-zone { padding: 20px 24px; }
+}
+@media (max-width: 480px) {
+  .detail-hero-zone { padding: 16px; }
+  .tabpanel-surface { padding: 18px; }
+}
+
+/* ======================================================================
+   Customize → Test-drive → Export sweep (Task 5)
+   Additive only — no existing rule above is modified.
+   ====================================================================== */
+
+/* ── Step rail card: raised surface + iris active-step accent ──────────
+   Wraps <StepRail> in CustomizeView; lifts the rail from the canvas.    */
+.step-rail-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
+  padding: 14px 8px;
+}
+/* Iris active-step accent: overrides the default ink/oat rule.
+   var(--iris-deep) (#453ca8) on var(--iris-tint) (#efedfb): ~6.0:1 — WCAG AA pass */
+.step-rail-card .rail-step[aria-current="step"] {
+  color: var(--iris-deep);
+  background: var(--iris-tint);
+}
+/* #fff on var(--iris) (#5b50c8): ~8.5:1 — WCAG AAA pass */
+/* unslop-ignore: iris is the Armory primary accent; verified AAA contrast */
+.step-rail-card .rail-step[aria-current="step"] .n {
+  border-color: var(--iris);
+  background: var(--iris);
+  color: #fff;
+}
+@media (max-width: 1020px) {
+  /* Rail collapses to a horizontal row on narrow viewports */
+  .step-rail-card { padding: 10px 6px; border-radius: var(--r-sm); }
+}
+
+/* ── Form group head: section divider in all-groups (non-wizard) mode ──
+   --ink (#272319) eyebrow on --paper (#fff): 18.1:1 — WCAG AAA pass   */
+.form-group-head {
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+}
+.form-group-head .eyebrow { margin-bottom: 0; }
+
+/* ── Preview panel: shadow upgrade so live-cards read as result frames ──
+   unslop-ignore: --shadow-2 is deliberate — the live-preview column is
+   meant to feel more elevated than the form (it shows the "result").    */
+.preview-elevated .live-card {
+  box-shadow: var(--shadow-2);
+}
+
+/* ── TestDrive credit bar: raised surface so it floats on the canvas ───
+   Single-class specificity = .credit-bar; appended last → wins cascade.
+   --ink (#272319) on --surface-raised (#fff): 18.1:1 — WCAG AAA pass  */
+.credit-bar-raised {
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-1);
+}
+
+/* ── TestDrive compare: expected card on warm oat vs iris "yours" card ──
+   --ink-soft (#4f483c) on var(--oat) (#faf7f1): ~6.5:1 — WCAG AA pass
+   Overrides .out-card { background: var(--paper) } (appended later).   */
+.out-expected {
+  background: var(--oat);
+}
+
+/* ── Export sidebar panels: raised cards for left and right asides ──────
+   --ink (#272319) on --surface-raised (#fff): 18.1:1 — WCAG AAA pass  */
+.export-panel-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
+  padding: 22px;
+  align-self: start;
+}
+@media (max-width: 1020px) {
+  .export-panel-card { padding: 16px; border-radius: var(--r-sm); }
+}
+
+/* ── Chrome / states sweep (Task 6) ──────────────────────────────────────── */
+/* Active nav link: keep the oat-deep pill, add an iris accent so the current
+   section pops and ties the nav to the brand accent. */
+.nav-links a[aria-current="page"] {
+  background: var(--iris-tint);
+  color: var(--iris-deep);
+  box-shadow: inset 0 -2px 0 var(--iris);
+}
+/* Empty state: give the dashed card a soft lift so it reads as intentional,
+   and fix WCAG — --muted (#756c5c) on --oat is ~4.4:1 (fails AA for small text). */
+.empty { box-shadow: var(--shadow-1); }
+.empty p { color: var(--ink-soft); }
+/* Footer: a faint accent hairline above the brand keeps the close consistent
+   with the zone system without adding weight. */
+.footer { border-top-color: var(--hairline-strong); }

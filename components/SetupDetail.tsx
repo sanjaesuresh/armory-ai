@@ -5,7 +5,7 @@ import { useState, useRef, useCallback } from 'react';
 import type { Setup } from '@/lib/setup/types';
 import SpecPlateRow from './SpecPlateRow';
 import SetupTabs, { type TabId } from './SetupTabs';
-import { getCategoryTint, getSetupIcon } from '@/lib/catalog/categoryUtils';
+import { getCategoryTint, getSetupIcon, getCategoryAccent } from '@/lib/catalog/categoryUtils';
 import UpvoteButton from './UpvoteButton';
 import ReportSetup from './ReportSetup';
 import TakedownControl from './admin/TakedownControl';
@@ -99,6 +99,7 @@ export default function SetupDetail({
 
   const tint = getCategoryTint(setup.category);
   const icon = getSetupIcon(setup.role, setup.category);
+  const accent = getCategoryAccent(setup.category);
 
   const handlePreview = useCallback(() => {
     setActiveTab('scenarios');
@@ -126,7 +127,8 @@ export default function SetupDetail({
           {setup.tier === 'advanced' ? 'All tools' : 'All setups'}
         </Link>
 
-        {/* Detail head */}
+        {/* Detail head — tinted hero zone: category tint as background, raised card */}
+        <div className={`detail-hero-zone ${tint}`}>
         <div className="detail-head">
           <div>
             <div
@@ -140,7 +142,7 @@ export default function SetupDetail({
               <span
                 className="icon-badge"
                 aria-hidden="true"
-                style={{ fontSize: '1.25rem' }}
+                style={{ fontSize: '1.25rem', border: `1.5px solid ${accent}` }}
               >
                 {icon}
               </span>
@@ -260,11 +262,12 @@ export default function SetupDetail({
               )}
           </div>
 
-          {/* Illustration */}
-          <div className={`detail-art ${tint}`} aria-hidden="true">
+          {/* Illustration — raised panel within the tinted zone */}
+          <div className="detail-art detail-art--raised" aria-hidden="true">
             <DetailIllustration />
           </div>
         </div>
+        </div>{/* /detail-hero-zone */}
 
         {/* Spec plates */}
         <SpecPlateRow setup={setup} />

@@ -2,6 +2,7 @@
 
 import { useRef, useCallback, useId } from 'react';
 import type { Setup } from '@/lib/setup/types';
+import { getCategoryAccent } from '@/lib/catalog/categoryUtils';
 
 export type TabId = 'overview' | 'included' | 'scenarios';
 
@@ -87,6 +88,7 @@ const DownloadIcon = () => (
 export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
   const uid = useId().replace(/:/g, 'x');
   const tabsListRef = useRef<HTMLDivElement>(null);
+  const accent = getCategoryAccent(setup.category);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -149,7 +151,7 @@ export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
         id={`overview-panel-${uid}`}
         role="tabpanel"
         aria-labelledby={`tab-${uid}-overview`}
-        className="tabpanel"
+        className="tabpanel tabpanel-surface"
         hidden={activeTab !== 'overview'}
       >
         <h3>What this setup does</h3>
@@ -184,11 +186,11 @@ export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
         id={`included-panel-${uid}`}
         role="tabpanel"
         aria-labelledby={`tab-${uid}-included`}
-        className="tabpanel"
+        className="tabpanel tabpanel-surface"
         hidden={activeTab !== 'included'}
       >
         <ul className="included-list">
-          <li>
+          <li style={{ boxShadow: `inset 3px 0 0 ${accent}` }}>
             <span className="icon-badge" aria-hidden="true">
               <PenIcon />
             </span>
@@ -202,7 +204,7 @@ export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
           </li>
 
           {setup.knowledgeFiles.map((kf) => (
-            <li key={kf.name}>
+            <li key={kf.name} style={{ boxShadow: `inset 3px 0 0 ${accent}` }}>
               <span className="icon-badge" aria-hidden="true">
                 <FileIcon />
               </span>
@@ -214,7 +216,7 @@ export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
           ))}
 
           {setup.scenarios.length > 0 && (
-            <li>
+            <li style={{ boxShadow: `inset 3px 0 0 ${accent}` }}>
               <span className="icon-badge" aria-hidden="true">
                 <BeakerIcon />
               </span>
@@ -231,7 +233,7 @@ export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
             </li>
           )}
 
-          <li>
+          <li style={{ boxShadow: `inset 3px 0 0 ${accent}` }}>
             <span className="icon-badge" aria-hidden="true">
               <DownloadIcon />
             </span>
@@ -251,7 +253,7 @@ export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
         id={`scenarios-panel-${uid}`}
         role="tabpanel"
         aria-labelledby={`tab-${uid}-scenarios`}
-        className="tabpanel"
+        className="tabpanel tabpanel-surface"
         hidden={activeTab !== 'scenarios'}
       >
         {setup.scenarios.length === 0 ? (
@@ -263,7 +265,11 @@ export default function SetupTabs({ setup, activeTab, onTabChange }: Props) {
               you&apos;d ask — and what a well-configured setup gives back.
             </p>
             {setup.scenarios.map((scenario) => (
-              <div key={scenario.id} className="scenario-example">
+              <div
+                key={scenario.id}
+                className="scenario-example"
+                style={{ boxShadow: `inset 3px 0 0 ${accent}` }}
+              >
                 <p className="q">&ldquo;{scenario.userInput}&rdquo;</p>
                 <p className="a">&rarr; {scenario.expectedBehavior}</p>
               </div>

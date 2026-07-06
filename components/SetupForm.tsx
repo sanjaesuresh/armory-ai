@@ -203,12 +203,9 @@ export default function SetupForm({ slug, variables, onAnswersChange, activeGrou
         <div key={group.name ?? '__ungrouped__'}>
           {/* Only show group headers when rendering all groups (no activeGroup filter) */}
           {activeGroup == null && group.name && (
-            <p
-              className="eyebrow"
-              style={{ marginBottom: '12px', marginTop: '8px' }}
-            >
-              {group.name}
-            </p>
+            <div className="form-group-head" style={{ marginTop: '8px' }}>
+              <p className="eyebrow">{group.name}</p>
+            </div>
           )}
           <div>
             {group.variables.map((v) => {

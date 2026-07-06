@@ -246,8 +246,10 @@ export default function CustomizeView({
       {/* 3-column wizard layout */}
       <div className="cust-layout">
 
-        {/* Left: step rail */}
-        <StepRail steps={steps} currentIndex={currentStep} onNavigate={goToStep} />
+        {/* Left: step rail — raised surface card with iris active accent */}
+        <div className="step-rail-card">
+          <StepRail steps={steps} currentIndex={currentStep} onNavigate={goToStep} />
+        </div>
 
         {/* Center: form card */}
         <div className="form-card" data-testid="customize-left">
@@ -444,8 +446,8 @@ export default function CustomizeView({
           </div>
         </div>
 
-        {/* Right: live preview */}
-        <div data-testid="customize-right">
+        {/* Right: live preview — elevated so the column reads as the result */}
+        <div data-testid="customize-right" className="preview-elevated">
           <PreviewPanel
             setup={setup}
             answers={answers}

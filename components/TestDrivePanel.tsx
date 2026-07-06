@@ -373,7 +373,7 @@ export default function TestDrivePanel({
       {/* ── Run bar ────────────────────────────────────────────────────────── */}
       {setup.scenarios.length > 0 && (
         <>
-          <div className="credit-bar">
+          <div className="credit-bar credit-bar-raised">
             <div className="left">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ color: 'var(--good)', flexShrink: 0 }}>
                 <path d="m5 12.5 4.5 4.5L19 7.5" />

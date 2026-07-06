@@ -5,6 +5,7 @@ import { formatStars } from '@/lib/catalog/format-stars';
 import { GITHUB_STARS_AS_OF } from '@/lib/catalog/source-tags';
 import PlugIcon from './icons/PlugIcon';
 import KindBadge from './KindBadge';
+import RankBadge from './RankBadge';
 
 interface SetupCardProps {
   setup: Setup;
@@ -13,6 +14,17 @@ interface SetupCardProps {
    * Empty/undefined renders nothing — never a fabricated rating or count.
    */
   whyLabels?: string[];
+  /**
+   * 'full' (default) — the standard card layout, DOM unchanged.
+   * 'compact' — narrower shelf card: smaller padding/heading, desc clamped to
+   *   one line, tags hidden, accent edge, optional rank badge.
+   */
+  variant?: 'full' | 'compact';
+  /**
+   * When provided (compact variant only), renders a RankBadge at top-right.
+   * Never used in full variant — it would change the full-variant DOM.
+   */
+  rank?: number;
 }
 
 /* Small shield icon for the curated badge — inline SVG (no sprite dependency). */
@@ -33,18 +45,22 @@ const ShieldBadgeIcon = () => (
   </svg>
 );
 
-export default function SetupCard({ setup, whyLabels }: SetupCardProps) {
+export default function SetupCard({ setup, whyLabels, variant = 'full', rank }: SetupCardProps) {
   const tint = getCategoryTint(setup.category);
   const icon = getSetupIcon(setup.role, setup.category);
+  const isCompact = variant === 'compact';
 
   const upvoteLabel = `${setup.upvotes} ${setup.upvotes === 1 ? 'upvote' : 'upvotes'}`;
 
   return (
     <Link
       href={`/setup/${setup.slug}`}
-      className={`setup-card ${tint}`}
+      className={`setup-card ${tint}${isCompact ? ' is-compact' : ''}`}
       data-testid={`setup-card-${setup.slug}`}
     >
+      {/* Compact variant: rank badge (absolutely positioned in top-right via CSS) */}
+      {isCompact && rank != null && <RankBadge rank={rank} />}
+
       <div
         style={{
           display: 'flex',
