@@ -6,10 +6,10 @@
  * aria-label on the wrapper provides the accessible alternative reading
  * "N of M completed" (per the Task 8 spec).
  *
- * Contrast notes:
- *   --ink-soft (#4f483c) on --paper (#fff) inside ring: 7.5:1 — WCAG AAA
- *   --good (#27713f) fill arc: decorative, not text-carrying
- *   ring-label text: --ink-soft on canvas background ≥ 4.5:1 — WCAG AA
+ * Contrast notes (on dark grey canvas):
+ *   --ink-soft (#b6b6b8) on canvas: ~6:1 — WCAG AA
+ *   --good (#3ddc80) fill arc: decorative, not text-carrying
+ *   ring-label text: --ink-soft on canvas ≥ 4.5:1 — WCAG AA
  */
 
 interface Props {

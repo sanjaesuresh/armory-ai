@@ -72,10 +72,11 @@ describe('Nav', () => {
     expect(link).toHaveAttribute('href', '/learn');
   });
 
-  it('renders "How it works" link to /#how', () => {
+  // "How it works" link removed in Phase 6: the /#how landing section was removed in Phase 5
+  // (skills-first relayout) — there is no scroll target. Confirmed by landing.spec.ts comment.
+  it('does NOT render a "How it works" link', () => {
     render(<Nav />);
-    const link = screen.getByRole('link', { name: 'How it works' });
-    expect(link).toHaveAttribute('href', '/#how');
+    expect(screen.queryByRole('link', { name: 'How it works' })).toBeNull();
   });
 
   it('renders "Get started" CTA link(s) to /start', () => {

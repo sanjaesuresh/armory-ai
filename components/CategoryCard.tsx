@@ -19,7 +19,6 @@ import {
   getCategoryLabel,
   getCategoryAccent,
   getCategoryBlurb,
-  getSetupIcon,
 } from '@/lib/catalog/categoryUtils';
 
 interface CategoryCardProps {
@@ -46,8 +45,6 @@ export default function CategoryCard({
   // getCategoryAccent returns e.g. 'var(--accent-butter)' — set as CSS var
   const accent = getCategoryAccent(category);
   const blurb = getCategoryBlurb(category);
-  // Fall back to category key icon (getSetupIcon tries ROLES first, then CATEGORY_ICON)
-  const icon = getSetupIcon(category, category);
 
   const className = `category-card${active ? ' is-active' : ''}`;
   const countLabel = `${count} ${count === 1 ? 'setup' : 'setups'}`;
@@ -56,9 +53,9 @@ export default function CategoryCard({
 
   const inner = (
     <>
-      {/* Icon chip: tint background + category emoji */}
+      {/* Category chip: tint background + accent dot (no emoji — §10) */}
       <span className={`cat-chip ${tint}`} aria-hidden="true">
-        {icon}
+        <span style={{ display: 'inline-block', width: 10, height: 10, borderRadius: '50%', background: accent }} />
       </span>
       <strong>{label}</strong>
       <span className="cat-count">{countLabel}</span>

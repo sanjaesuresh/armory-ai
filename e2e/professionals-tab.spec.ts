@@ -33,30 +33,32 @@ test('/professionals includes the marketing-manager list-table row', async ({
   await expect(page.getByTestId('row-marketing-manager')).toBeVisible();
 });
 
-test('the Most Popular shelf renders on professionals with the core seed', async ({
+test('the featured lead renders on professionals with the core seed', async ({
   page,
 }) => {
   await page.goto('/professionals');
-  // popularShelf includes every item not already on the approved shelf.
-  // With marketing-manager (featured=null → approved set is empty), it
-  // qualifies and popular.length > 0, so the section renders.
+  // Phase 3: the featured lead replaces the old named shelves. shelf-popular
+  // wraps the runner-up cards in the "Most equipped this week" section.
+  // With 71+ seeded items the specific cards shown depend on upvotes/popularity;
+  // the assertion is that the section and heading are present.
   await expect(page.getByTestId('shelf-popular')).toBeVisible();
+  // The "Most equipped this week" heading replaced the old "Most Popular" heading.
   await expect(
-    page.getByRole('heading', { name: 'Most Popular' }),
+    page.getByRole('heading', { name: 'Most equipped this week' }),
   ).toBeVisible();
-  // The core seed item is the card shown in the shelf.
-  await expect(
-    page.getByTestId('shelf-popular').getByTestId('setup-card-marketing-manager'),
-  ).toBeVisible();
+  // marketing-manager is always visible in the index list (row testid).
+  await expect(page.getByTestId('row-marketing-manager')).toBeVisible();
 });
 
-test('the Armory Approved shelf does not render without any featured items', async ({
+test('a hero renders from the popular fallback when no items have a featured rank', async ({
   page,
 }) => {
   await page.goto('/professionals');
-  // marketing-manager.featured is null → approvedShelf returns [] → section
-  // is not mounted at all.
-  await expect(page.getByTestId('shelf-approved')).toHaveCount(0);
+  // Phase 3 fix: when no item has featured != null, FeaturedLead promotes
+  // popular[0] to the hero slot so shelf-approved ALWAYS renders when any
+  // data exists. The old assertion (count === 0) was correct before the fix
+  // but wrong now that the hero slot has an unconditional popular fallback.
+  await expect(page.getByTestId('shelf-approved')).toBeVisible();
 });
 
 test('category chips are rendered on the professionals page', async ({
@@ -101,12 +103,14 @@ test('/catalog redirects to /professionals preserving query params', async ({
 // ── Gated: require a seeded item with featured != null ────────────────────────
 // Ungate after applying the Phase 8 seed.sql to the Supabase instance.
 
-test.skip('the Armory Approved shelf renders when at least one item has a featured rank', async ({
+test.skip('the featured hero renders when at least one item has a featured rank', async ({
   page,
 }) => {
   await page.goto('/professionals');
+  // Phase 3: shelf-approved wraps the hero card in the featured lead section.
   await expect(page.getByTestId('shelf-approved')).toBeVisible();
+  // The featured lead heading replaced the old "Armory Approved" shelf heading.
   await expect(
-    page.getByRole('heading', { name: 'Armory Approved' }),
+    page.getByRole('heading', { name: 'Most equipped this week' }),
   ).toBeVisible();
 });

@@ -37,18 +37,14 @@ test('a non-technical user completes the loop', async ({ page, context }) => {
   // ── 4. Detail page: assert, then navigate to customize ──────────────────
   await expect(page.locator('h1')).toContainText('Marketing Manager');
 
-  // Detail page shows spec plates and tabs — not the form
+  // Phase 4: detail page uses inspector layout (no tabs, sidebar spec def-list).
+  // Tablist removed; spec definition list is in the sidebar.
   await expect(
     page.getByRole('list', { name: 'Setup specifications' }),
   ).toBeVisible();
-  await expect(
-    page.getByRole('tablist', { name: 'Setup details' }),
-  ).toBeVisible();
 
-  // Click "Use this setup" to reach the customize page
-  const useSetupLink = page
-    .locator('.detail-ctas')
-    .getByRole('link', { name: 'Use this setup' });
+  // Click "Equip this setup" (renamed from "Use this setup" in Phase 4).
+  const useSetupLink = page.getByRole('link', { name: /Equip this setup/ }).first();
   await expect(useSetupLink).toBeVisible();
   await useSetupLink.click();
   await expect(page).toHaveURL('/setup/marketing-manager/customize');

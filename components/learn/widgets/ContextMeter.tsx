@@ -23,9 +23,9 @@ interface Segment {
 
 /** Segment definitions. pct chosen so that instr(10)+3×msg(15)+file(70)=125 → overflow. */
 const DEFS = {
-  instructions: { label: 'System instructions', pct: 10, color: '#7b70d8', size: '~800 tokens',    droppable: false },
-  message:      { label: 'A message',            pct: 15, color: '#4a8fc2', size: '~1,200 tokens', droppable: true  },
-  file:         { label: 'A big file',           pct: 70, color: '#c8843c', size: '~56,000 tokens', droppable: false },
+  instructions: { label: 'System instructions', pct: 10, color: 'var(--accent-lilac)', size: '~800 tokens',    droppable: false },
+  message:      { label: 'A message',            pct: 15, color: 'var(--accent-sky)',   size: '~1,200 tokens', droppable: true  },
+  file:         { label: 'A big file',           pct: 70, color: 'var(--accent-peach)', size: '~56,000 tokens', droppable: false },
 } as const;
 
 type ItemKind = keyof typeof DEFS;

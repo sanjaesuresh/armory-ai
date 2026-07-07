@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Setup } from '@/lib/setup/types';
-import { getCategoryTint, getSetupIcon } from '@/lib/catalog/categoryUtils';
+import { getCategoryTint, getCategoryAccent } from '@/lib/catalog/categoryUtils';
 import { formatStars } from '@/lib/catalog/format-stars';
 import { GITHUB_STARS_AS_OF } from '@/lib/catalog/source-tags';
 import PlugIcon from './icons/PlugIcon';
@@ -47,7 +47,7 @@ const ShieldBadgeIcon = () => (
 
 export default function SetupCard({ setup, whyLabels, variant = 'full', rank }: SetupCardProps) {
   const tint = getCategoryTint(setup.category);
-  const icon = getSetupIcon(setup.role, setup.category);
+  const accent = getCategoryAccent(setup.category);
   const isCompact = variant === 'compact';
 
   const upvoteLabel = `${setup.upvotes} ${setup.upvotes === 1 ? 'upvote' : 'upvotes'}`;
@@ -68,12 +68,9 @@ export default function SetupCard({ setup, whyLabels, variant = 'full', rank }: 
           alignItems: 'flex-start',
         }}
       >
-        <span
-          className="icon-badge"
-          aria-hidden="true"
-          style={{ fontSize: '1.25rem' }}
-        >
-          {icon}
+        {/* Category dot — replaces emoji (§10: no emoji "happy" tells) */}
+        <span className="icon-badge" aria-hidden="true">
+          <span style={{ display: 'inline-block', width: 10, height: 10, borderRadius: '50%', background: accent }} />
         </span>
 
         {/* Badge group — kind badge (registry items) + source badge + optional tier badge */}
@@ -136,7 +133,6 @@ export default function SetupCard({ setup, whyLabels, variant = 'full', rank }: 
             <span
               key={tag}
               className="tag"
-              style={{ background: 'rgba(255,255,255,0.7)' }}
             >
               {tag}
             </span>

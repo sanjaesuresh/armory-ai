@@ -131,9 +131,14 @@ export default function Nav() {
     <header className={`nav${open ? ' open' : ''}`}>
       <div className="wrap nav-inner">
         <Link className="brand" href="/">
-          <LogoMark size={26} />
+          <LogoMark size={22} />
           Armory
         </Link>
+        {/* Decorative mode-tag — no semantic meaning, hidden from AT */}
+        <span className="nav-mode-tag" aria-hidden="true">
+          <span className="nav-slash">/</span>
+          <span className="nav-mode">arsenal</span>
+        </span>
 
         <nav
           className="nav-links"
@@ -161,9 +166,6 @@ export default function Nav() {
             aria-current={pathname?.startsWith('/learn') ? 'page' : undefined}
           >
             Learn AI
-          </Link>
-          <Link href="/#how" onClick={closeMenu}>
-            How it works
           </Link>
 
           {/* Mobile-only items — hidden on desktop, shown in the burger dropdown */}

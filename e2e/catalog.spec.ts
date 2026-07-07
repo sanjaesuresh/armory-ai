@@ -18,8 +18,10 @@ test('the professionals dashboard surfaces the marketing-manager setup', async (
   page,
 }) => {
   await page.goto('/professionals');
-  // marketing-manager appears on a shelf card (list rows use row-* test ids).
-  await expect(page.getByTestId('setup-card-marketing-manager')).toBeVisible();
+  // Phase 3: marketing-manager is surfaced via the index list row.
+  // Featured cards only appear for high-upvote items; the row testid is the
+  // canonical assertion for a setup being present on the browse screen.
+  await expect(page.getByTestId('row-marketing-manager')).toBeVisible();
 });
 
 test('with a role param, recommended setups appear with an honest why label', async ({
@@ -41,20 +43,23 @@ test('the no-role path shows no recommended section or why-labels', async ({
 }) => {
   await page.goto('/professionals');
 
-  await expect(page.getByTestId('setup-card-marketing-manager')).toBeVisible();
+  // marketing-manager is present via the index row (no featured card without upvotes)
+  await expect(page.getByTestId('row-marketing-manager')).toBeVisible();
   await expect(page.getByTestId('recommended-section')).toHaveCount(0);
   await expect(page.getByTestId('fallback-section')).toHaveCount(0);
   await expect(page.getByTestId('card-why-label')).toHaveCount(0);
 });
 
-test('a shelf card links to its detail page', async ({ page }) => {
+test('the list row links to the marketing-manager detail page', async ({ page }) => {
+  // Phase 3: the shelf-card concept is replaced by the index row + featured lead.
+  // marketing-manager (0 upvotes) is in the dense index, not the featured card slot.
+  // This test verifies the row link is correct; the featured card link test remains
+  // in catalog.spec.ts for the recommended-section path (where SetupCard is used).
   await page.goto('/professionals');
 
-  const card = page.getByTestId('setup-card-marketing-manager');
-  await expect(card).toBeVisible();
-  await expect(card.getByTestId('card-name')).toBeVisible();
-  await expect(card.getByTestId('card-tagline')).toBeVisible();
-  await expect(card).toHaveAttribute('href', '/setup/marketing-manager');
+  const row = page.getByTestId('row-marketing-manager');
+  await expect(row).toBeVisible();
+  await expect(row.getByRole('link')).toHaveAttribute('href', '/setup/marketing-manager');
 });
 
 test('the list row links to the setup detail page', async ({ page }) => {

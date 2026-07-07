@@ -1,96 +1,107 @@
+/**
+ * ListTable — the "All setups / tools" dense typographic index.
+ *
+ * Visual treatment: category dot · name link · one-line clause · quiet
+ * right-aligned mono meta (kind · Nf · ▲upvotes · source).
+ * Hairline row separators, hover highlight. Not a table — plain div rows.
+ *
+ * Test-contract:
+ *   - data-testid="row-{slug}" on each row div (mirrors the old <tr> testid).
+ *   - Each row contains exactly one <a> (the name link), so
+ *     within(row).getByRole('link') resolves without ambiguity.
+ *   - Source label strings match vitest assertions exactly:
+ *       source='ai-generated' → "AI-generated"
+ *       source='community'    → "Member post"
+ */
+
 import Link from 'next/link';
 import type { Setup } from '@/lib/setup/types';
 import { detailPathFor } from '@/lib/catalog/dashboard';
-import { getCategoryLabel } from '@/lib/catalog/categoryUtils';
-import KindBadge from '../KindBadge';
+import { getCategoryAccent, getCategoryLabel } from '@/lib/catalog/categoryUtils';
 
 interface ListTableProps {
   items: Setup[];
   variant: 'developers' | 'professionals';
 }
 
-/** Author attribution matching the mock: the Armory team for curated,
- *  "AI-generated" for pipeline-drafted items (author is always null there),
- *  the truncated author handle for community items. */
-function authorLabel(setup: Setup): string {
-  if (setup.source === 'curated') return 'Armory team';
-  if (setup.source === 'github') return 'GitHub';
-  if (setup.source === 'ai-generated') return 'AI-generated';
-  if (setup.author) {
-    const handle = setup.author.length > 12 ? `${setup.author.slice(0, 12)}…` : setup.author;
-    return `author ${handle}`;
+// ── Source label ────────────────────────────────────────────────────────────
+
+function sourceLabel(source: Setup['source']): { text: string; cls: string } {
+  switch (source) {
+    case 'curated':      return { text: 'reviewed',       cls: 'idx-src-cur' };
+    case 'ai-generated': return { text: 'AI-generated',   cls: 'idx-src-ai'  };
+    case 'community':    return { text: 'Member post',    cls: 'idx-src-com' };
+    case 'github':       return { text: 'community pick', cls: 'idx-src-com' };
+    default:             return { text: '',               cls: ''             };
   }
-  return 'Member post';
 }
 
-/** "Jul 2, 2026"-style short date from an ISO string; empty string when unset. */
-function formatUpdated(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return '';
-  return d.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
+// ── Kind label ──────────────────────────────────────────────────────────────
+
+function kindLabel(kind: Setup['kind']): string {
+  const MAP: Record<string, string> = {
+    setup: 'Setup', agent: 'Agent', skill: 'Skill', harness: 'Harness',
+  };
+  return MAP[kind] ?? kind;
 }
 
-/**
- * The full catalog / registry as a semantic table. The developers variant adds
- * a Kind column; both link the item name via detailPathFor (setup → /setup,
- * registry kinds → /dev). Category / Author / Updated collapse below 640px
- * (see .reg-hide-sm), keeping the name, kind, and upvotes readable at 390px.
- */
+// ── Main export ─────────────────────────────────────────────────────────────
+
 export default function ListTable({ items, variant }: ListTableProps) {
-  const isDevelopers = variant === 'developers';
-  const noun = isDevelopers ? 'tools' : 'setups';
+  const showKind = variant === 'developers';
+  const noun = showKind ? 'tools' : 'setups';
 
   return (
-    <div className="reg-scroll">
-      <table className="reg-table">
-        <caption className="sr-only">All {noun}</caption>
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            {isDevelopers && <th scope="col">Kind</th>}
-            <th scope="col" className="reg-hide-sm">
-              Category
-            </th>
-            <th scope="col" className="reg-hide-sm">
-              Author
-            </th>
-            <th scope="col">Upvotes</th>
-            <th scope="col" className="reg-hide-sm">
-              Updated
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((setup) => {
-            const upvoteLabel = `${setup.upvotes} ${setup.upvotes === 1 ? 'upvote' : 'upvotes'}`;
-            return (
-              <tr key={setup.slug} data-testid={`row-${setup.slug}`}>
-                <td className="reg-name">
-                  <Link href={detailPathFor(setup)}>
-                    <strong>{setup.name}</strong>
-                    <span>{setup.tagline}</span>
-                  </Link>
-                </td>
-                {isDevelopers && (
-                  <td>
-                    <KindBadge kind={setup.kind} />
-                  </td>
-                )}
-                <td className="reg-hide-sm">{getCategoryLabel(setup.category)}</td>
-                <td className="reg-hide-sm">{authorLabel(setup)}</td>
-                <td className="reg-num">
-                  <span aria-label={upvoteLabel}>▲ {setup.upvotes}</span>
-                </td>
-                <td className="reg-updated reg-hide-sm">{formatUpdated(setup.updatedAt)}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+    <div className="idx-table" role="list" aria-label={`All ${noun}`}>
+      {items.map((setup) => {
+        const dot = getCategoryAccent(setup.category);
+        const catLabel = getCategoryLabel(setup.category);
+        const href = detailPathFor(setup);
+        const { text: src, cls: srcCls } = sourceLabel(setup.source);
+        const fieldCount = setup.variables?.length ?? 0;
+        const upvoteLabel = `${setup.upvotes} ${setup.upvotes === 1 ? 'upvote' : 'upvotes'}`;
+
+        return (
+          <div
+            key={setup.slug}
+            className="idx-row"
+            data-testid={`row-${setup.slug}`}
+            role="listitem"
+          >
+            {/* Category dot */}
+            <span
+              className="idx-dot"
+              style={{ background: dot }}
+              aria-label={catLabel}
+              title={catLabel}
+            />
+
+            {/* Name — the only link in the row (required by test contract) */}
+            <Link href={href} className="idx-name-link">
+              {setup.name}
+            </Link>
+
+            {/* Tagline / one-line clause */}
+            <span className="idx-clause">{setup.tagline}</span>
+
+            {/* Quiet right-aligned meta */}
+            <span className="idx-rt">
+              <span className="idx-kd">
+                {showKind ? kindLabel(setup.kind) : 'Setup'}
+                {fieldCount > 0 ? ` · ${fieldCount}f` : ''}
+              </span>
+              <span className="idx-up" aria-label={upvoteLabel}>
+                ▲{setup.upvotes}
+              </span>
+              {src && (
+                <span className={`idx-src ${srcCls}`}>
+                  {src}
+                </span>
+              )}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }

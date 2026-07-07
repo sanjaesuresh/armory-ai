@@ -6,12 +6,12 @@
  *   in-progress  : iris border, dot + "In progress" label
  *   completed    : green border, check circle + "Completed" label + score badge
  *
- * Contrast notes (all on --paper #fff background):
- *   --good (#27713f) "Completed" label: 7.0:1 — WCAG AAA
- *   --iris-deep (#453ca8) "In progress" label: 6.0:1 — WCAG AA
- *   --ink-soft (#4f483c) tagline: 7.5:1 — WCAG AA
- *   --muted (#756c5c) minutes: 4.5:1 — WCAG AA
- *   score-badge: --good (#27713f) on --good-tint (#e3f2e8): 4.6:1 — WCAG AA
+ * Contrast notes (on --paper #212122 and --oat-deep #1c1c1d backgrounds):
+ *   --good (#3ddc80) "Completed" label: ~9:1 on --paper — WCAG AA
+ *   --iris-deep (#29b866) "In progress" label: ~8:1 on --paper — WCAG AA
+ *   --ink-soft (#b6b6b8) tagline: ~6:1 on --paper — WCAG AA
+ *   --muted (#8a8a8f) minutes: ~4.68:1 on --paper — WCAG AA
+ *   score-badge: --good (#3ddc80) on --good-tint (#14271c): ~9:1 — WCAG AA
  */
 
 import Link from 'next/link';
@@ -52,7 +52,7 @@ function CheckIcon() {
     >
       <path
         d="m2 5 2.5 2.5 3.5-4"
-        stroke="#27713F"
+        stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -39,13 +39,6 @@ export default function RolePicker() {
               data-testid={`role-card-${role.id}`}
               className="role-card"
             >
-              <span
-                className="icon-badge"
-                aria-hidden="true"
-                style={{ fontSize: '1.3rem' }}
-              >
-                {role.icon}
-              </span>
               <strong>{role.label}</strong>
               <span>{role.description}</span>
             </Link>

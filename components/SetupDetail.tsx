@@ -1,11 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useRef, useCallback } from 'react';
+import { useRef } from 'react';
 import type { Setup } from '@/lib/setup/types';
-import SpecPlateRow from './SpecPlateRow';
-import SetupTabs, { type TabId } from './SetupTabs';
-import { getCategoryTint, getSetupIcon, getCategoryAccent } from '@/lib/catalog/categoryUtils';
+import { getCategoryAccent, getCategoryLabel } from '@/lib/catalog/categoryUtils';
 import UpvoteButton from './UpvoteButton';
 import ReportSetup from './ReportSetup';
 import TakedownControl from './admin/TakedownControl';
@@ -21,11 +19,11 @@ interface Props {
   isModerator?: boolean;
 }
 
-/* Arrow-left inline SVG (matches the mock's back-link icon) */
+/* Arrow-left icon — aria-hidden so the link's accessible name is just its text */
 const ArrowLeftIcon = () => (
   <svg
-    width="15"
-    height="15"
+    width="14"
+    height="14"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -38,11 +36,30 @@ const ArrowLeftIcon = () => (
   </svg>
 );
 
-/* Shield check icon for the trust cue */
+/* Check mark for the "What you'll get" checklist */
+const CheckIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M2 7.5l3 3 7-8"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+/* Shield icon for the trust cue */
 const ShieldIcon = () => (
   <svg
-    width="15"
-    height="15"
+    width="13"
+    height="13"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -56,37 +73,44 @@ const ShieldIcon = () => (
   </svg>
 );
 
-/*
- * Illustration SVG — ported from docs/mock/setup.html.
- * Receives a tint class for the container background.
+/**
+ * Renders the instruction template in a mono block with basic syntax highlighting:
+ * lines starting with # become comment-colored, {{variable}} tokens become violet.
+ * Display is capped at 700 chars to keep the section appropriately compact.
  */
-const DetailIllustration = () => (
-  <svg
-    viewBox="0 0 360 250"
-    fill="none"
-    role="img"
-    aria-label="Illustration of a checklist being completed"
-  >
-    <circle cx="300" cy="52" r="22" fill="rgba(255,255,255,.7)" />
-    <circle cx="52" cy="200" r="12" fill="rgba(255,255,255,.7)" />
-    {/* clipboard */}
-    <rect x="110" y="34" width="140" height="182" rx="12" fill="#fff" stroke="#272319" strokeWidth="3" />
-    <rect x="152" y="24" width="56" height="20" rx="8" fill="#F3EDE2" stroke="#272319" strokeWidth="3" />
-    <path d="M130 76h56M130 116h64M130 156h48" stroke="#D9D1C2" strokeWidth="5" strokeLinecap="round" />
-    {/* check circles */}
-    <circle cx="228" cy="74" r="9" fill="#E3F2E8" stroke="#2E7D4F" strokeWidth="2.4" />
-    <path d="m224 74 3 3 5.5-6" stroke="#2E7D4F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-    <circle cx="228" cy="114" r="9" fill="#E3F2E8" stroke="#2E7D4F" strokeWidth="2.4" />
-    <path d="m224 114 3 3 5.5-6" stroke="#2E7D4F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-    <circle cx="228" cy="154" r="9" fill="#fff" stroke="#756C5C" strokeWidth="2.4" />
-    {/* pencil */}
-    <path d="M256 190l44-44 14 14-44 44-18 4z" fill="#FBF1D3" stroke="#272319" strokeWidth="3" strokeLinejoin="round" />
-    <path d="M294 152l14 14" stroke="#272319" strokeWidth="3" />
-    <path d="M256 190l14 14" stroke="#272319" strokeWidth="3" />
-    {/* iris accent dashes */}
-    <path d="M84 60c6-2 12-2 18 0M76 84c8-3 16-3 24 0" stroke="#5B50C8" strokeWidth="2.6" strokeLinecap="round" />
-  </svg>
-);
+function TemplatePreview({ template }: { template: string }) {
+  const display =
+    template.length > 700 ? template.slice(0, 700) + '\n…' : template;
+  const parts = display.split(/({{[^}]*}})/g);
+
+  return (
+    <div
+      className="det-code"
+      role="region"
+      aria-label="Compiled template preview"
+    >
+      {parts.map((part, i) => {
+        if (part.startsWith('{{') && part.endsWith('}}')) {
+          return (
+            <span key={i} className="det-cv">
+              {part}
+            </span>
+          );
+        }
+        return part.split('\n').map((line, j) => (
+          <span key={`${i}-${j}`}>
+            {j > 0 && '\n'}
+            {line.trimStart().startsWith('#') ? (
+              <span className="det-cc">{line}</span>
+            ) : (
+              line
+            )}
+          </span>
+        ));
+      })}
+    </div>
+  );
+}
 
 export default function SetupDetail({
   setup,
@@ -94,31 +118,68 @@ export default function SetupDetail({
   initialUpvoted = false,
   isModerator = false,
 }: Props) {
-  const [activeTab, setActiveTab] = useState<TabId>('overview');
-  const tabsRef = useRef<HTMLDivElement>(null);
+  const scenariosRef = useRef<HTMLElement>(null);
 
-  const tint = getCategoryTint(setup.category);
-  const icon = getSetupIcon(setup.role, setup.category);
   const accent = getCategoryAccent(setup.category);
+  const catLabel = getCategoryLabel(setup.category);
+  const kindLabel =
+    setup.kind.charAt(0).toUpperCase() + setup.kind.slice(1);
 
-  const handlePreview = useCallback(() => {
-    setActiveTab('scenarios');
-    setTimeout(() => {
-      tabsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 30);
-  }, []);
+  /* Exports-to line matches the old SpecPlateRow logic for test continuity */
+  const exportsTo = setup.targets.includes('claude-app')
+    ? 'Claude Projects · ChatGPT soon'
+    : 'ChatGPT soon';
 
-  // Side-card understand-list: custom instructions + each knowledge file + export bundle
-  const sideItems = [
-    'Custom instructions',
-    ...setup.knowledgeFiles.map((kf) => kf.name),
-    'Export bundle for Claude Projects',
+  const fieldCount = setup.variables.length;
+  const kfCount = setup.knowledgeFiles.length;
+
+  /* Checklist items for "What you'll get" */
+  const checklistItems: { title: string; subtitle: string }[] = [
+    {
+      title: 'Custom instructions',
+      subtitle: 'Compiled from your answers, editable before you export.',
+    },
+    ...setup.knowledgeFiles.map((kf) => ({
+      title: kf.name,
+      subtitle: kf.purpose,
+    })),
+    {
+      title: 'Export bundle for Claude Projects',
+      subtitle: 'Copy-paste blocks with a guided walkthrough.',
+    },
   ];
+
+  /* Source chip variant */
+  const srcChipClass =
+    {
+      curated: 'det-chip--cur',
+      'ai-generated': 'det-chip--ai',
+      community: 'det-chip--com',
+      github: 'det-chip--ghb',
+    }[setup.source] ?? '';
+
+  const srcLabel =
+    {
+      curated: 'Curated · reviewed',
+      'ai-generated': 'AI-generated',
+      community: 'Member post',
+      github: 'Community pick',
+    }[setup.source] ?? setup.source;
+
+  /* data-testid for source badge (community / ai / github only; curated has none) */
+  const srcTestId =
+    setup.source === 'community'
+      ? 'detail-badge-community'
+      : setup.source === 'ai-generated'
+        ? 'detail-badge-ai'
+        : setup.source === 'github'
+          ? 'detail-badge-github'
+          : undefined;
 
   return (
     <main>
-      <div className="wrap">
-        {/* Back link — advanced setups live on the Developers tab, core on Professionals */}
+      <div className="wrap det-wrap">
+        {/* Back link */}
         <Link
           href={setup.tier === 'advanced' ? '/developers' : '/professionals'}
           className="back-link"
@@ -127,128 +188,111 @@ export default function SetupDetail({
           {setup.tier === 'advanced' ? 'All tools' : 'All setups'}
         </Link>
 
-        {/* Detail head — tinted hero zone: category tint as background, raised card */}
-        <div className={`detail-hero-zone ${tint}`}>
-        <div className="detail-head">
-          <div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                marginBottom: '10px',
-              }}
+        {/* Header: dot + category + kind/source chips + name + tagline */}
+        <header className="det-head">
+          <div className="det-kick">
+            <span
+              className="det-dot"
+              style={{ background: accent }}
+              aria-hidden="true"
+            />
+            <span className="det-cat">{catLabel}</span>
+            <span className="det-chip det-chip--kind">{kindLabel}</span>
+            <span
+              className={`det-chip ${srcChipClass}`}
+              data-testid={srcTestId}
             >
-              <span
-                className="icon-badge"
-                aria-hidden="true"
-                style={{ fontSize: '1.25rem', border: `1.5px solid ${accent}` }}
-              >
-                {icon}
-              </span>
-
-              {setup.source === 'curated' ? (
-                <span className="trust-cue">
-                  <ShieldIcon />
-                  Reviewed by the Armory team
-                </span>
-              ) : setup.source === 'community' ? (
-                <span className="badge badge-community" data-testid="detail-badge-community">
-                  Member post
-                </span>
-              ) : setup.source === 'ai-generated' ? (
-                <span className="badge badge-ai" data-testid="detail-badge-ai">
-                  AI-generated
-                </span>
-              ) : setup.source === 'github' ? (
-                <span className="badge badge-github" data-testid="detail-badge-github">
-                  Community pick
-                </span>
-              ) : null}
-
-              {/* Tier badge — orthogonal to source; an advanced community setup shows both */}
-              {setup.tier === 'advanced' && (
-                <span className="badge badge-advanced" data-testid="detail-badge-advanced">
-                  <PlugIcon size={11} />
-                  Advanced
-                </span>
-              )}
-            </div>
-
-            <h1 style={{ marginBottom: '8px' }}>{setup.name}</h1>
-
-            <p
-              className="muted"
-              style={{ maxWidth: '36em', fontSize: '1.05rem' }}
-            >
-              {setup.description}
-            </p>
-
-            {/* Tags — styled by .detail-head .tags in globals.css */}
-            <div className="tags">
-              {setup.tags.map((tag) => (
-                <span key={tag} className="tag">
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {/* Advanced-tier expectations block — honest minimum; no fabricated tool lists.
-                Full tool-requirements block comes with the deferred connector amendment. */}
+              {srcLabel}
+            </span>
             {setup.tier === 'advanced' && (
-              <div
-                className="advanced-expectations"
-                data-testid="advanced-expectations"
+              <span
+                className="badge badge-advanced"
+                data-testid="detail-badge-advanced"
               >
-                <p>
-                  This setup uses tools you&apos;ll connect yourself — we&apos;ll walk
-                  you through it.
-                </p>
+                <PlugIcon size={11} />
+                Advanced
+              </span>
+            )}
+          </div>
+
+          <h1>{setup.name}</h1>
+          <p className="det-lede">{setup.tagline || setup.description}</p>
+        </header>
+
+        {/* Two-column inspector body */}
+        <div className="det-body">
+          {/* ── Content column ── */}
+          <div>
+            {/* What it is */}
+            <section className="det-blk det-prose">
+              <h2>What it is</h2>
+              {setup.tagline && <p>{setup.tagline}</p>}
+              <p>{setup.description}</p>
+              {setup.tier === 'advanced' && (
+                <div
+                  className="advanced-expectations"
+                  data-testid="advanced-expectations"
+                >
+                  <p>
+                    This setup uses tools you&apos;ll connect yourself — we&apos;ll
+                    walk you through it.
+                  </p>
+                </div>
+              )}
+            </section>
+
+            {/* What you'll get — checklist */}
+            <section className="det-blk">
+              <h2>What you&apos;ll get</h2>
+              <div className="det-get">
+                {checklistItems.map((item) => (
+                  <div key={item.title} className="det-g">
+                    <CheckIcon />
+                    <div className="det-gt">
+                      {item.title}
+                      <span>{item.subtitle}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
+            </section>
+
+            {/* Try it on — scenario rows (omitted when empty) */}
+            {setup.scenarios.length > 0 && (
+              <section
+                className="det-blk det-scn"
+                ref={scenariosRef}
+                id="det-scenarios"
+              >
+                <h2>Try it on</h2>
+                {setup.scenarios.map((scenario) => (
+                  <div key={scenario.id} className="det-s">
+                    <div className="det-q">
+                      {scenario.title}
+                      <span className="det-qmono">scenario · built in</span>
+                    </div>
+                    <div className="det-a">{scenario.expectedBehavior}</div>
+                  </div>
+                ))}
+              </section>
             )}
 
-            <div className="detail-ctas">
-              <Link
-                href={`/setup/${setup.slug}/customize`}
-                className="btn btn-primary btn-lg"
-              >
-                Use this setup
-              </Link>
-              <button
-                type="button"
-                className="btn btn-outline btn-lg"
-                onClick={handlePreview}
-              >
-                Preview setup
-              </button>
-            </div>
+            {/* Compiled preview (omitted when no template) */}
+            {setup.instructionTemplate && (
+              <section className="det-blk">
+                <h2>Compiled preview</h2>
+                <TemplatePreview template={setup.instructionTemplate} />
+              </section>
+            )}
 
-            {/* Community meta: upvote count, author attribution */}
-            <div className="detail-meta" style={{ marginTop: '18px' }}>
-              <UpvoteButton
-                setupId={setup.id}
-                initialCount={setup.upvotes}
-                initialUpvoted={initialUpvoted}
-                userId={userId}
-              />
-              {setup.source === 'community' && setup.author && (
-                <span data-testid="detail-author">
-                  by{' '}
-                  {setup.author.length > 24
-                    ? `${setup.author.substring(0, 24)}…`
-                    : setup.author}
-                </span>
-              )}
-            </div>
-
-            {/* Report — shown for all setups (signed-out → inline AuthPrompt) */}
+            {/* Report + moderator takedown */}
             <div style={{ marginTop: '12px' }}>
               <ReportSetup setupId={setup.id} userId={userId} />
             </div>
 
-            {/* Moderator takedown — only when: moderator + community or ai-generated + approved */}
             {isModerator &&
-              (setup.source === 'community' || setup.source === 'ai-generated') &&
+              (setup.source === 'community' ||
+                setup.source === 'ai-generated') &&
               setup.reviewStatus === 'approved' && (
                 <div
                   style={{
@@ -262,47 +306,89 @@ export default function SetupDetail({
               )}
           </div>
 
-          {/* Illustration — raised panel within the tinted zone */}
-          <div className="detail-art detail-art--raised" aria-hidden="true">
-            <DetailIllustration />
-          </div>
-        </div>
-        </div>{/* /detail-hero-zone */}
+          {/* ── Sticky sidebar ── */}
+          <aside className="det-side">
+            {/* Primary actions */}
+            <div className="det-actions">
+              <Link
+                href={`/setup/${setup.slug}/customize`}
+                className="btn btn-iris"
+              >
+                Equip this setup →
+              </Link>
+              {setup.scenarios.length > 0 && (
+                <button
+                  type="button"
+                  className="btn btn-outline"
+                  onClick={() =>
+                    scenariosRef.current?.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'start',
+                    })
+                  }
+                >
+                  Test-drive first
+                </button>
+              )}
+            </div>
 
-        {/* Spec plates */}
-        <SpecPlateRow setup={setup} />
-
-        {/* Tabs + sticky side card */}
-        <div className="detail-cols" style={{ paddingBottom: '72px' }} ref={tabsRef}>
-          <div>
-            <SetupTabs
-              setup={setup}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
-          </div>
-
-          {/* Sticky side card */}
-          <aside className="card" style={{ position: 'sticky', top: '88px' }}>
-            <span className="eyebrow">What you&apos;ll get</span>
-            <ul className="understand-list" style={{ margin: '6px 0 18px' }}>
-              {sideItems.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <Link
-              href={`/setup/${setup.slug}/customize`}
-              className="btn btn-primary"
-              style={{ width: '100%' }}
+            {/* Spec definition list — hairline rows, no boxes */}
+            <div
+              role="list"
+              aria-label="Setup specifications"
+              className="det-spec"
             >
-              Use this setup
-            </Link>
-            <p
-              className="small muted center"
-              style={{ margin: '12px 0 0' }}
-            >
-              Free · no account needed
-            </p>
+              <div role="listitem" className="det-sr">
+                <span className="det-sk">Exports to</span>
+                <span className="det-sv">{exportsTo}</span>
+              </div>
+              {fieldCount > 0 && (
+                <div role="listitem" className="det-sr">
+                  <span className="det-sk">You answer</span>
+                  <span className="det-sv">
+                    {fieldCount} field{fieldCount === 1 ? '' : 's'}
+                  </span>
+                </div>
+              )}
+              {kfCount > 0 && (
+                <div role="listitem" className="det-sr">
+                  <span className="det-sk">Knowledge files</span>
+                  <span className="det-sv">{kfCount}</span>
+                </div>
+              )}
+              <div role="listitem" className="det-sr">
+                <span className="det-sk">Setup time</span>
+                <span className="det-sv">About 5 minutes</span>
+              </div>
+            </div>
+
+            {/* Trust cue — curated setups only */}
+            {setup.source === 'curated' && (
+              <div className="det-trust">
+                <ShieldIcon />
+                Reviewed by Armory before listing.
+              </div>
+            )}
+
+            {/* Community author attribution */}
+            {setup.source === 'community' && setup.author && (
+              <div className="det-trust" data-testid="detail-author">
+                by{' '}
+                {setup.author.length > 24
+                  ? `${setup.author.substring(0, 24)}…`
+                  : setup.author}
+              </div>
+            )}
+
+            {/* Upvote */}
+            <div className="det-vote">
+              <UpvoteButton
+                setupId={setup.id}
+                initialCount={setup.upvotes}
+                initialUpvoted={initialUpvoted}
+                userId={userId}
+              />
+            </div>
           </aside>
         </div>
       </div>

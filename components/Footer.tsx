@@ -21,7 +21,7 @@ export default function Footer() {
         {/* Site navigation */}
         <nav className="footer-links" aria-label="Site">
           <Link href="/professionals">Browse setups</Link>
-          <Link href="/#how">How it works</Link>
+          <Link href="/learn">Learn AI</Link>
         </nav>
 
         {/* Role landing pages */}

@@ -68,17 +68,16 @@ test('kind-filter chips are rendered on the developers page', async ({
 // The slug below matches the tdd-loop-harness item seeded in Task 11.
 const REGISTRY_SLUG = 'tdd-loop-harness';
 
-test.skip('both Armory Approved and Most Popular shelves render with seeded registry items', async ({
+test.skip('the featured lead renders with seeded registry items', async ({
   page,
 }) => {
   await page.goto('/developers');
+  // Phase 3: old named shelves replaced by the featured lead section.
+  // shelf-approved wraps the hero; shelf-popular wraps the runners.
   await expect(page.getByTestId('shelf-approved')).toBeVisible();
-  await expect(
-    page.getByRole('heading', { name: 'Armory Approved' }),
-  ).toBeVisible();
   await expect(page.getByTestId('shelf-popular')).toBeVisible();
   await expect(
-    page.getByRole('heading', { name: 'Most Popular' }),
+    page.getByRole('heading', { name: 'Most equipped this week' }),
   ).toBeVisible();
 });
 

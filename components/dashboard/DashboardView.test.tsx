@@ -44,8 +44,14 @@ function makeSetup(over: Partial<Setup>): Setup {
   };
 }
 
-describe('DashboardView — shelves', () => {
-  it('renders the "Armory Approved" and "Most Popular" shelf headings, with only featured items on the first shelf and no repeats across both', () => {
+describe('DashboardView — featured lead', () => {
+  it('renders the featured lead heading, with the top-featured item as hero and non-featured items as runners', () => {
+    // Phase 3 design change: the old "Armory Approved" / "Most Popular" named shelves
+    // are replaced by a single "Most equipped this week" editorial section.
+    //   shelf-approved  → wraps the #1 featured item (the hero card)
+    //   shelf-popular   → wraps the top-2 non-featured items (the runners)
+    // Only the single top-featured item (alpha, featured=1) appears as the hero;
+    // bravo (featured=2) is not surfaced — the editorial lead is singular.
     const items = [
       makeSetup({ slug: 'alpha', name: 'Alpha', featured: 1 }),
       makeSetup({ slug: 'bravo', name: 'Bravo', featured: 2 }),
@@ -54,21 +60,43 @@ describe('DashboardView — shelves', () => {
     ];
     render(<DashboardView items={items} variant="professionals" />);
 
-    // Both shelf headings present.
-    expect(screen.getByRole('heading', { name: 'Armory Approved' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Most Popular' })).toBeInTheDocument();
+    // The featured lead section heading.
+    expect(screen.getByRole('heading', { name: 'Most equipped this week' })).toBeInTheDocument();
 
     const approved = screen.getByTestId('shelf-approved');
     const popular = screen.getByTestId('shelf-popular');
 
-    // Only featured items on the Approved shelf.
+    // Hero slot: only the #1 featured item (alpha).
     expect(within(approved).getByTestId('setup-card-alpha')).toBeInTheDocument();
-    expect(within(approved).getByTestId('setup-card-bravo')).toBeInTheDocument();
     expect(within(approved).queryByTestId('setup-card-charlie')).toBeNull();
 
-    // Popular carries the non-featured items and never repeats an Approved item.
+    // Runners: top-2 non-featured items (charlie > delta by upvotes); alpha is excluded.
     expect(within(popular).getByTestId('setup-card-charlie')).toBeInTheDocument();
     expect(within(popular).queryByTestId('setup-card-alpha')).toBeNull();
+  });
+});
+
+describe('DashboardView — featured lead (empty-approved fallback)', () => {
+  it('promotes popular[0] to hero when no items have a featured rank', () => {
+    // Phase 3 fix: when approvedShelf returns [] (no featured items), FeaturedLead
+    // uses popular[0] as the hero so shelf-approved always renders when there is data.
+    const items = [
+      makeSetup({ slug: 'echo', name: 'Echo', featured: null, upvotes: 10 }),
+      makeSetup({ slug: 'foxtrot', name: 'Foxtrot', featured: null, upvotes: 5 }),
+      makeSetup({ slug: 'golf', name: 'Golf', featured: null, upvotes: 2 }),
+    ];
+    render(<DashboardView items={items} variant="professionals" />);
+
+    // shelf-approved must be present (popular fallback hero)
+    const approved = screen.getByTestId('shelf-approved');
+    // Echo has the most upvotes → popularShelf ranks it first → becomes hero
+    expect(within(approved).getByTestId('setup-card-echo')).toBeInTheDocument();
+
+    // shelf-popular has runners (foxtrot and golf, skipping echo)
+    const popular = screen.getByTestId('shelf-popular');
+    expect(within(popular).getByTestId('setup-card-foxtrot')).toBeInTheDocument();
+    // Echo must NOT appear in runners (it is the hero)
+    expect(within(popular).queryByTestId('setup-card-echo')).toBeNull();
   });
 });
 

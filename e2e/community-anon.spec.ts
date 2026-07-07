@@ -45,7 +45,10 @@ test('the anonymous catalog still works after community additions', async ({ pag
   // Account-free guarantee: browse works with no session — community features
   // must not break anonymous access.
   await page.goto('/professionals');
-  await expect(page.getByTestId('setup-card-marketing-manager')).toBeVisible();
+  // Phase 3 browse relayout: marketing-manager (0 upvotes) renders in the dense
+  // index as a row, not a featured card. The row testid is the canonical
+  // "setup is present on the browse screen" assertion (matches catalog.spec).
+  await expect(page.getByTestId('row-marketing-manager')).toBeVisible();
 
   // Navigate to a setup detail page — no crash, no redirect.
   await page.goto('/setup/marketing-manager');
