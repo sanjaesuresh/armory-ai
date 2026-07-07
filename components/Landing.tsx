@@ -1,13 +1,16 @@
 /**
- * Landing — Phase 5 skills-first editorial layout.
+ * Landing — redesigned homepage (Phase 10 refresh).
  *
  * Layout:
- *   1. Compact hero: eyebrow + headline + sub + CTAs + stats | role-jump panel (#roles)
- *   2. Category strip: filled-soft chips (dot + label), no outline
- *   3. "Popular this week": one featured flat row + dense index (~6 rows) + browse-all
+ *   1. Hero: plain-language pitch + two CTAs + stats | briefcase brand visual
+ *   2. HomePipeline: interactive 4-stage compiler demo (client component)
+ *   3. Role-jump nav (#roles) — 7 role links, preserved for e2e tests
+ *   4. "How it works" — 4-step explainer with StepIcon glyphs
+ *   5. Category strip — browse by category chips
+ *   6. "Popular this week" — featured row + compact index
  *
- * Data: async Server Component; fetches all approved setups, sorts by upvotes for
- * "popular this week". Graceful fallback when DB unavailable (hero + strip still render).
+ * Data: async Server Component; fetches all approved setups, sorts by upvotes.
+ * Graceful fallback when DB unavailable (hero + pipeline + how-it-works still render).
  *
  * §10 compliance: dots not spines, elevation not outlines, no identical card grid.
  */
@@ -22,9 +25,11 @@ import {
 } from '@/lib/catalog/categoryUtils';
 import { detailPathFor } from '@/lib/catalog/dashboard';
 import type { Setup } from '@/lib/setup/types';
+import HomePipeline from '@/components/HomePipeline';
+import HeroBriefcase from '@/components/HeroBriefcase';
+import StepIcon from '@/components/icons/StepIcon';
 
 // ── Role → category accent dot ───────────────────────────────────────────────
-// Maps each ROLES entry to its primary category accent color.
 const ROLE_DOT: Record<string, string> = {
   'marketing-manager':    'var(--accent-butter)',
   'small-business-owner': 'var(--accent-sage)',
@@ -35,7 +40,36 @@ const ROLE_DOT: Record<string, string> = {
   'founder-generalist':   'var(--accent-butter)',
 };
 
-// ── Source label ─────────────────────────────────────────────────────────────
+// ── How it works steps ────────────────────────────────────────────────────────
+
+const HOW_STEPS: {
+  icon: 'browse' | 'customize' | 'test-drive' | 'export';
+  title: string;
+  body: string;
+}[] = [
+  {
+    icon: 'browse',
+    title: 'Pick a setup',
+    body: 'Browse setups built for real roles. See exactly what each one generates before you commit.',
+  },
+  {
+    icon: 'customize',
+    title: 'Answer plain-English questions',
+    body: 'Your brand name, your channels, your tone. A short form — not a configuration panel.',
+  },
+  {
+    icon: 'test-drive',
+    title: 'Test-drive it',
+    body: 'Run a realistic scenario and see what changes before you trust it.',
+  },
+  {
+    icon: 'export',
+    title: 'Export to Claude',
+    body: 'Copy the finished setup into your own Claude with a step-by-step walkthrough. You own it.',
+  },
+];
+
+// ── Source label ──────────────────────────────────────────────────────────────
 
 function sourceLabel(source: Setup['source']): string {
   switch (source) {
@@ -57,7 +91,7 @@ function srcClass(source: Setup['source']): string {
   }
 }
 
-// ── Featured flat row (largest treatment — the single highlighted entry) ─────
+// ── Featured flat row ─────────────────────────────────────────────────────────
 
 function FeaturedRow({ setup }: { setup: Setup }) {
   const dot = getCategoryAccent(setup.category);
@@ -93,7 +127,7 @@ function FeaturedRow({ setup }: { setup: Setup }) {
   );
 }
 
-// ── Index row (compact, reuses browse .idx-* classes) ────────────────────────
+// ── Index row ─────────────────────────────────────────────────────────────────
 
 function IndexRow({ setup }: { setup: Setup }) {
   const dot = getCategoryAccent(setup.category);
@@ -132,23 +166,17 @@ function IndexRow({ setup }: { setup: Setup }) {
   );
 }
 
-// ── Landing ──────────────────────────────────────────────────────────────────
+// ── Landing ───────────────────────────────────────────────────────────────────
 
 export default async function Landing() {
-  // Fetch + sort by popularity (upvotes) for "Popular this week".
-  // Graceful fallback: if DB unavailable, setups stays empty and the popular
-  // section is silently omitted (hero + category strip still render).
   let setups: Setup[] = [];
-  let total = 0;          // whole catalog count (for stats line)
-  let setupCount = 0;     // kind='setup' count (for popular section browse link)
+  let total = 0;
+  let setupCount = 0;
 
   try {
     const repo = createCatalogRepository();
     const all = await repo.getSetups();
     total = all.length;
-    // Landing targets professionals: filter to kind='setup' (excludes registry
-    // agents/skills/harnesses which live in the /developers tab). Sort
-    // descending by upvotes for "most equipped this week".
     const professionalSetups = all.filter((s) => s.kind === 'setup');
     setupCount = professionalSetups.length;
     setups = [...professionalSetups].sort((a, b) => b.upvotes - a.upvotes);
@@ -157,8 +185,8 @@ export default async function Landing() {
   }
 
   const featuredSetup = setups[0] ?? null;
-  const indexSetups = setups.slice(1, 7);
-  const hasCatalog = setups.length > 0;
+  const indexSetups   = setups.slice(1, 7);
+  const hasCatalog    = setups.length > 0;
 
   return (
     <main>
@@ -194,10 +222,26 @@ export default async function Landing() {
             </p>
           </div>
 
-          {/* Right: role jump panel — id="roles" for landing.spec.ts */}
-          <aside className="land-roles" id="roles" aria-label="Jump to your role">
-            <h4 className="land-roles-head">Jump to your role</h4>
-            <div className="land-rgrid">
+          {/* Right: briefcase brand visual — interactive animated component */}
+          <div className="land-hero-visual">
+            <HeroBriefcase />
+          </div>
+
+        </div>
+      </header>
+
+      {/* ── Interactive pipeline centerpiece ──────────────────────────────── */}
+      <HomePipeline />
+
+      {/* ── Role jump nav — id="roles" preserved for e2e tests ────────────── */}
+      {/* Each of the 7 ROLES is an <a href="/professionals?role=<id>"> link   */}
+      <nav className="land-roles-strip" id="roles" aria-label="Jump to your role">
+        <div className="wrap">
+          <div className="land-roles-strip-inner">
+            <span className="land-roles-strip-head" aria-hidden="true">
+              Jump to your role
+            </span>
+            <div className="land-chips">
               {ROLES.map((role) => (
                 <Link
                   key={role.id}
@@ -213,10 +257,33 @@ export default async function Landing() {
                 </Link>
               ))}
             </div>
-          </aside>
-
+          </div>
         </div>
-      </header>
+      </nav>
+
+      {/* ── How it works ──────────────────────────────────────────────────── */}
+      <section className="land-how" aria-labelledby="how-title">
+        <div className="wrap">
+          <p className="eyebrow">How it works</p>
+          <h2 id="how-title" className="land-how-title">Useful in the first ten minutes</h2>
+          <p className="land-how-sub">
+            A setup is a ready-made set of instructions you paste into Claude to
+            make it act like a specialist — no technical knowledge needed.
+          </p>
+          <div className="land-steps">
+            {HOW_STEPS.map((step, i) => (
+              <div key={step.icon} className="land-step">
+                <div className="land-step-icon-wrap" aria-hidden="true">
+                  <StepIcon name={step.icon} size={20} />
+                </div>
+                <div className="land-step-num" aria-hidden="true">{i + 1}</div>
+                <h3 className="land-step-title">{step.title}</h3>
+                <p className="land-step-body">{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── Category strip ────────────────────────────────────────────────── */}
       <nav className="land-catstrip" aria-label="Browse by category">
@@ -261,10 +328,8 @@ export default async function Landing() {
               </Link>
             </div>
 
-            {/* One featured flat row */}
             {featuredSetup && <FeaturedRow setup={featuredSetup} />}
 
-            {/* Compact index — reuses browse .idx-* classes for visual consistency */}
             {indexSetups.length > 0 && (
               <div
                 className="idx-table"

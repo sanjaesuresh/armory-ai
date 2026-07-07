@@ -10,16 +10,21 @@ import {
   sortList,
   type SortKey,
 } from '@/lib/catalog/dashboard';
+import { getChipTags } from '@/lib/catalog/functions';
 import {
   CATEGORY_BROWSE_ORDER,
   getCategoryAccent,
   getCategoryLabel,
 } from '@/lib/catalog/categoryUtils';
-import SetupCard from '../SetupCard';
 import EmptyState from '../EmptyState';
 import GoalChips from '../GoalChips';
 import ListTable from './ListTable';
-import FeaturedLead from './FeaturedLead';
+import SetupCard from '../SetupCard';
+import ApprovedHero from './ApprovedHero';
+import PopularShelf from './PopularShelf';
+import CategoryCards from './CategoryCards';
+import KindCards from './KindCards';
+import FunctionChips from './FunctionChips';
 
 type Variant = 'developers' | 'professionals';
 
@@ -112,16 +117,25 @@ export default function DashboardView({
   );
   const [source, setSource]   = useState<SourceFilterValue>('all');
   const [sortKey, setSortKey] = useState<SortKey>('popularity');
+  const [fnFilter, setFnFilter] = useState<string | null>(null);
 
   // ── Featured shelves (over the full, unfiltered set) ─────────────────────
 
   const approved = useMemo(() => approvedShelf(items, 1), [items]);
-  // Cap at 3 so FeaturedLead always has enough items: when approved is empty,
-  // popular[0] becomes the hero and popular[1..2] are the two runners.
-  const popular  = useMemo(
-    () => popularShelf(items, 3, new Set(approved.map((s) => s.id))),
+
+  // Cap at 7: hero can come from popular[0] when approved is empty,
+  // leaving up to 6 items for the PopularShelf.
+  const popular = useMemo(
+    () => popularShelf(items, 7, new Set(approved.map((s) => s.id))),
     [items, approved],
   );
+
+  // Hero: prefer approved[0]; fall back to popular[0].
+  const heroFromApproved = approved[0] != null;
+  const heroSetup = approved[0] ?? popular[0] ?? null;
+
+  // Popular shelf items: exclude the hero if it came from popular.
+  const popularItems = heroFromApproved ? popular : popular.slice(1);
 
   // ── Category counts (professionals) ─────────────────────────────────────
 
@@ -159,8 +173,17 @@ export default function DashboardView({
           source: source === 'all' ? undefined : (source as Setup['source']),
         }
       : { query, category: filter === 'All' ? undefined : filter };
-    return sortList(filterList(items, criteria), sortKey);
-  }, [items, isDevelopers, filter, source, search, sortKey]);
+
+    let base = filterList(items, criteria);
+
+    // Function-chip filter (developers only)
+    if (isDevelopers && fnFilter) {
+      const tags = getChipTags(fnFilter);
+      base = base.filter((s) => s.tags.some((t) => tags.has(t)));
+    }
+
+    return sortList(base, sortKey);
+  }, [items, isDevelopers, filter, source, search, sortKey, fnFilter]);
 
   const countLabel =
     list.length === 1
@@ -170,7 +193,10 @@ export default function DashboardView({
   function resetFilters() {
     setSearch('');
     setFilter(isDevelopers ? 'all' : 'All');
-    if (isDevelopers) setSource('all');
+    if (isDevelopers) {
+      setSource('all');
+      setFnFilter(null);
+    }
   }
 
   const totalCount = items.length;
@@ -303,9 +329,51 @@ export default function DashboardView({
             </Link>
           </div>
 
-          {/* Featured lead (replaces the old shelves) */}
-          {(approved.length > 0 || popular.length > 0) && (
-            <FeaturedLead approved={approved} popular={popular} />
+          {/* ── "Most equipped this week" editorial zone ────────────────── */}
+          {(heroSetup || popularItems.length > 0) && (
+            <>
+              <div className="featured-leadhead">
+                <h2>Most equipped this week</h2>
+                <span className="feat-meta-note">what people are actually equipping</span>
+              </div>
+
+              {/* Approved hero card */}
+              {heroSetup && (
+                <div data-testid="shelf-approved">
+                  <ApprovedHero
+                    setup={heroSetup}
+                    variant={variant}
+                    isApproved={heroFromApproved}
+                  />
+                </div>
+              )}
+
+              {/* Popular ranked shelf */}
+              {popularItems.length > 0 && (
+                <div data-testid="shelf-popular">
+                  <PopularShelf items={popularItems} variant={variant} />
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ── Category cards (professionals) ──────────────────────────── */}
+          {!isDevelopers && browseCategories.length > 0 && (
+            <CategoryCards
+              categories={browseCategories}
+              counts={categoryCounts}
+              activeFilter={filter}
+              onSelect={setFilter}
+            />
+          )}
+
+          {/* ── Kind cards (developers) ─────────────────────────────────── */}
+          {isDevelopers && (
+            <KindCards
+              counts={kindCounts}
+              activeFilter={filter}
+              onSelect={setFilter}
+            />
           )}
 
           {/* ── Index: search + sort + filter + rows ───────────────────── */}
@@ -353,6 +421,15 @@ export default function DashboardView({
                 {countLabel}
               </p>
             </div>
+
+            {/* Function chips (developers only — above source filter) */}
+            {isDevelopers && (
+              <FunctionChips
+                items={items}
+                activeChip={fnFilter}
+                onSelect={setFnFilter}
+              />
+            )}
 
             {/* Source filter (developers only — below search) */}
             {isDevelopers && (

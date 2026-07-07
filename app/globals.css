@@ -244,7 +244,7 @@ img, svg { vertical-align: middle; }
 .brand svg { flex: none; }
 /* Decorative mode-tag: brand slash + monospace context label. Not interactive. */
 .nav-mode-tag {
-  display: flex; align-items: baseline; gap: 6px;
+  display: flex; align-items: center; gap: 6px;
   font-family: var(--mono); font-size: 0.75rem;
   pointer-events: none; user-select: none; flex: none;
 }
@@ -2961,7 +2961,7 @@ pre.code {
 
 .land-hero-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1fr 1fr;
   gap: 52px;
   align-items: center;
 }
@@ -3214,4 +3214,1052 @@ pre.code {
 @media (max-width: 380px) {
   .land-feat-row { grid-template-columns: 14px 1fr; }
   .land-feat-right { display: none; }
+}
+
+/* ======================================================================
+   Landing — hero visual + pipeline + role strip + how-it-works (2026-07-07)
+   Extensions to the .land-* namespace. No other selectors touched.
+   ====================================================================== */
+
+/* ─── hero visual (briefcase image) ──────────────────────────── */
+.land-hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* unslop-ignore: brand hero image — constrained with explicit dimensions via next/image */
+.land-hero-img {
+  width: 100%;
+  height: auto;
+  max-width: 440px;
+  object-fit: contain;
+  /* Drop shadow helps the transparent PNG read on the dark canvas */
+  filter: drop-shadow(0 24px 48px rgba(0,0,0,.55));
+}
+
+@media (max-width: 860px) {
+  .land-hero-visual { margin-top: 8px; }
+  .land-hero-img { max-width: 320px; }
+}
+
+/* ─── pipeline section ────────────────────────────────────────── */
+.land-pipeline {
+  padding: 52px 0 44px;
+  border-top: 1px solid var(--hairline);
+}
+
+.land-pipeline-hd {
+  max-width: 56ch;
+  margin-bottom: 32px;
+}
+
+.land-pipeline-title {
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 10px;
+}
+
+.land-pipeline-sub {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─── stage row ──────────────────────────────────────────────── */
+.land-stages {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* ─── individual stage card ──────────────────────────────────── */
+/* unslop-ignore: four equal-width stage cards — intentional pipeline layout */
+.land-stage {
+  flex: 1;
+  min-width: 0;
+  background: var(--oat-deep);
+  border-radius: var(--r-lg);
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background var(--t-slow);
+}
+
+/* Active: lifts to --paper surface */
+.land-stage--on {
+  background: var(--paper);
+}
+
+/* ─── stage header ────────────────────────────────────────────── */
+.land-stage-hd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.land-stage-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--raise);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  transition: background var(--t-base), color var(--t-base);
+}
+
+.land-stage--on .land-stage-num {
+  background: var(--iris-tint);
+  color: var(--iris);
+}
+
+.land-stage-lbl {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--t-base);
+}
+
+.land-stage--on .land-stage-lbl {
+  color: var(--ink-soft);
+}
+
+.land-stage-icon {
+  flex: none;
+  color: var(--muted);
+  transition: color var(--t-base);
+}
+
+.land-stage--on .land-stage-icon {
+  color: var(--iris);
+}
+
+/* ─── connector arrow ─────────────────────────────────────────── */
+.land-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  color: var(--muted);
+  flex: none;
+  align-self: center;
+}
+
+/* ─── role chip buttons (stage 1) ────────────────────────────── */
+.land-role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.land-role-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 8px 9px;
+  border: none;
+  border-radius: var(--r-md);
+  background: var(--raise);
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.35;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.land-role-btn:hover {
+  background: var(--hairline-strong);
+  color: var(--ink);
+}
+
+/* var(--iris) on var(--iris-tint): ~7.8:1 — WCAG AAA */
+.land-role-btn[aria-pressed="true"] {
+  background: var(--iris-tint);
+  color: var(--iris);
+  box-shadow: inset 0 0 0 1px rgba(61, 220, 128, .3);
+}
+
+.land-role-btn:focus-visible {
+  outline: 2px solid var(--iris);
+  outline-offset: 2px;
+}
+
+.land-role-btn .land-rdot {
+  margin-top: 3px; /* align dot with first text baseline */
+}
+
+/* ─── stage 2 form controls ──────────────────────────────────── */
+.land-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.land-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* --muted on --paper: WCAG AA verified */
+.land-field-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.land-field-inp {
+  width: 100%;
+  background: var(--oat-deep);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  padding: 8px 10px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--t-fast);
+}
+
+.land-field-inp::placeholder { color: var(--muted); }
+.land-field-inp:focus {
+  border-color: var(--iris);
+  box-shadow: 0 0 0 2px rgba(61, 220, 128, .18);
+}
+
+.land-fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.land-tone-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.land-tone-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.land-tone-opt input[type="radio"] {
+  accent-color: var(--iris);
+  width: 14px;
+  height: 14px;
+  flex: none;
+  cursor: pointer;
+}
+
+.land-tone-lbl {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+.land-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.land-check input[type="checkbox"] {
+  accent-color: var(--iris);
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.land-check-lbl {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+/* ─── compiled config preview ────────────────────────────────── */
+.land-config {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  background: var(--oat-deep);
+  border-radius: var(--r-md);
+  padding: 12px;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-height: 96px;
+  flex: 1;
+}
+
+/* ─── copy button (stage 4) ──────────────────────────────────── */
+.land-copy-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.land-copy-hint {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* var(--oat) on var(--iris): >10:1 — WCAG AAA */
+.land-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 18px;
+  border-radius: var(--r-md);
+  border: none;
+  background: var(--iris);
+  color: var(--oat);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background var(--t-base);
+}
+
+.land-copy-btn:hover { background: var(--iris-deep); }
+.land-copy-btn:focus-visible {
+  outline: 2px solid var(--iris);
+  outline-offset: 3px;
+}
+
+/* var(--good) on var(--good-tint): verified ≥ 4.5:1 */
+.land-copy-btn--done {
+  background: var(--good-tint);
+  color: var(--good);
+}
+
+/* ─── role jump strip (id="roles") ───────────────────────────── */
+.land-roles-strip {
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  padding: 14px 0;
+}
+
+.land-roles-strip-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.land-roles-strip-head {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex: none;
+  white-space: nowrap;
+}
+
+/* ─── how it works ───────────────────────────────────────────── */
+.land-how {
+  padding: 52px 0 44px;
+  border-top: 1px solid var(--hairline);
+}
+
+.land-how-title {
+  font-size: clamp(1.3rem, 2.4vw, 1.65rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 10px;
+}
+
+.land-how-sub {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 52ch;
+  margin: 0 0 28px;
+}
+
+.land-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.land-step {
+  background: var(--paper);
+  border-radius: var(--r-lg);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+/* var(--iris) on var(--iris-tint): ~7.8:1 — WCAG AAA */
+.land-step-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  background: var(--iris-tint);
+  color: var(--iris);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  flex: none;
+}
+
+.land-step-num {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.land-step-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+.land-step-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ─── pipeline + how-it-works responsive ─────────────────────── */
+@media (max-width: 960px) {
+  .land-steps { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 760px) {
+  /* Pipeline: stack stages vertically */
+  .land-stages {
+    flex-direction: column;
+  }
+  .land-connector {
+    padding: 2px 0;
+    align-self: flex-start;
+    margin-left: 10px;
+  }
+  .land-connector svg {
+    transform: rotate(90deg);
+  }
+  /* Role grid: 3 chips across on tablet */
+  .land-role-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  /* Role strip: tighten */
+  .land-roles-strip-head { display: none; }
+  /* How-it-works: 2 columns */
+  .land-steps { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .land-pipeline { padding: 32px 0 28px; }
+  .land-how { padding: 32px 0 28px; }
+  .land-role-grid { grid-template-columns: repeat(2, 1fr); }
+  .land-steps { grid-template-columns: 1fr; }
+}
+
+/* ======================================================================
+   Landing — HeroBriefcase living circuit hero (2026-07-07, rev 2)
+   The body is raster; the LIGHT is vector SVG so it can flow + bloom.
+   GPU-friendly: only transform / opacity / filter animate. The neon filter
+   is static (stdDeviation never animates). All motion gated behind
+   prefers-reduced-motion (block at the end) → static charged glow.
+   ====================================================================== */
+
+/* unslop-ignore: brand interactive hero button — aria-label set in component */
+.land-bc-btn {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  width: 100%;
+  max-width: 430px;
+  aspect-ratio: 680 / 620;
+  margin: 0 auto;
+  overflow: visible;
+  --fspd: 2.6s;
+}
+
+/* layer 0: ambient moving glow */
+.land-bc-glow {
+  position: absolute;
+  inset: -18% -14%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(61, 220, 128, 0.3),
+    rgba(61, 220, 128, 0.05) 55%,
+    transparent 72%
+  );
+  filter: blur(16px);
+  pointer-events: none;
+  animation: bcAmb 8s ease-in-out infinite alternate;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* the floating unit: body + circuits + FX bob together (fixes light drift) */
+.land-bc-stack {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  animation: bcFloat 6s ease-in-out infinite;
+}
+
+/* layer 1: briefcase body — baked electricity shows; SVG pulse rides it */
+.land-bc-body {
+  z-index: 1;
+  object-fit: contain;
+  filter: saturate(0.92) brightness(0.96);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.land-bc-btn:hover .land-bc-glow { opacity: 1; transform: scale(1.1); }
+.land-bc-btn:hover .land-bc-body { filter: saturate(0.72) brightness(1.03); }
+
+/* layer 3: vector circuit overlay */
+.land-bc-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* travelling pulse that rides the baked seam line */
+.land-bc-flow {
+  fill: none;
+  stroke: #c6ffdd;
+  stroke-width: 3;
+  stroke-linecap: round;
+  filter: url(#hbNeon);
+  stroke-dasharray: 30 520;
+  animation: bcFlow 3s linear infinite;
+}
+.land-bc-f2 { animation-delay: -1.5s; }
+
+/* corner accents overlaying the baked diagonal dashes */
+.land-bc-accent {
+  fill: none;
+  stroke: #c6ffdd;
+  stroke-width: 5;
+  stroke-linecap: round;
+  filter: url(#hbNeon);
+  opacity: 0.8;
+  animation: bcBreathe 3.4s ease-in-out infinite alternate;
+}
+.land-bc-a2 { animation-delay: -1.6s; }
+
+.land-bc-spark {
+  fill: #c6ffdd;
+  filter: url(#hbNeon);
+  animation: bcBreathe 3s ease-in-out infinite alternate;
+}
+.land-bc-n2 { animation-delay: -1s; }
+.land-bc-n3 { animation-delay: -2s; }
+
+.land-bc-emblem {
+  fill: none;
+  stroke: #aaffc8;
+  stroke-width: 13.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url(#hbNeonStrong);
+  animation: bcEmblem 2.8s ease-in-out infinite alternate;
+}
+
+/* ─── keyframes ─────────────────────────────────────────────────────────── */
+@keyframes bcAmb {
+  0%   { transform: translate(-3%, 2%) scale(1);     opacity: 0.7; }
+  100% { transform: translate(3%, -2%) scale(1.08);  opacity: 1; }
+}
+@keyframes bcFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+@keyframes bcFlow { to { stroke-dashoffset: -550; } }
+@keyframes bcBreathe { 0% { opacity: 0.4; } 100% { opacity: 1; } }
+@keyframes bcEmblem { 0% { opacity: 0.7; } 100% { opacity: 1; } }
+
+/* ─── responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 860px) { .land-bc-btn { max-width: 320px; } }
+@media (max-width: 480px) { .land-bc-btn { max-width: 270px; } }
+
+/* ─── reduced motion: no loops, static glow ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .land-bc-stack,
+  .land-bc-fx,
+  .land-bc-glow,
+  .land-bc-body,
+  .land-bc-accent,
+  .land-bc-spark,
+  .land-bc-emblem { animation: none !important; transition: none !important; }
+  .land-bc-flow { display: none; }              /* hide travelling pulse; baked seam shows */
+  .land-bc-body { filter: saturate(0.92) brightness(0.98); }
+  .land-bc-glow { opacity: 0.9; }
+}
+
+/* ======================================================================
+   Dashboard v2 — filled browse layout (2026-07-07)
+   ApprovedHero, PopularShelf, CategoryCards / KindCards, FunctionChips.
+   All classes prefixed .approved-hero-*, .pop-*, .cat-*, .kind-*, .fn-*.
+   Token reference: --paper, --oat, --oat-deep, --ink, --ink-soft, --muted,
+   --iris, --iris-tint, --iris-deep, --accent-*, --hairline, --r-*, --t-base.
+   ====================================================================== */
+
+/* ── ApprovedHero ─────────────────────────────────────────────────────────── */
+
+/* unslop-ignore: single prominent hero card, earned affordance */
+.approved-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--paper);
+  border-radius: var(--r-lg);
+  padding: 22px 24px 20px;
+  color: var(--ink);
+  text-decoration: none;
+  /* Subtle inset highlight + deeper drop — richer than a flat card */
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 14px 36px -16px rgba(0,0,0,.95);
+  transition: box-shadow var(--t-base), transform var(--t-base);
+  margin-bottom: 20px;
+}
+.approved-hero:hover {
+  text-decoration: none;
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 20px 48px -16px rgba(0,0,0,1);
+}
+.approved-hero:focus-visible {
+  outline: 2px solid var(--iris);
+  outline-offset: 2px;
+}
+/* prefers-reduced-motion: disable transform only; shadow transition is fine */
+@media (prefers-reduced-motion: reduce) {
+  .approved-hero { transition: box-shadow var(--t-base); }
+  .approved-hero:hover { transform: none; }
+}
+
+.approved-hero-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+/* Icon badge: category/kind accent stroke on a dark sunken square */
+.approved-hero-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-md);
+  background: var(--oat-deep);
+  border: 1px solid currentColor; /* inherits the accent color from style= */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  opacity: 0.9;
+}
+
+.approved-hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* Category label in accent color */
+.approved-hero-cat {
+  font-size: 11px;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* "Armory Approved" or "#1 this week" pill */
+.approved-hero-stamp {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 9px;
+  border-radius: 999px;
+}
+/* --accent-sage (#a7c957) on --sage (#1b1f19): ~9.7:1 — WCAG AA */
+.approved-hero-stamp--approved {
+  background: var(--sage);
+  color: var(--accent-sage);
+}
+/* --ink-soft (#b6b6b8) on --oat-deep (#1c1c1d): ~6.8:1 — WCAG AA */
+.approved-hero-stamp--popular {
+  background: var(--oat-deep);
+  color: var(--ink-soft);
+}
+
+.approved-hero-name {
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.approved-hero-tagline {
+  font-size: 0.93rem;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 52em;
+}
+
+.approved-hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.approved-hero-stat {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+.approved-hero-stat strong { color: var(--ink-soft); }
+
+.approved-hero-src {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+/* Source badge colour aliases — same contrast ratios as .badge-* above */
+.hero-src-cur { background: var(--sage);   color: var(--accent-sage); }
+.hero-src-ai  { background: var(--butter); color: var(--accent-butter); }
+.hero-src-com { background: var(--lilac);  color: var(--accent-lilac); }
+
+.approved-hero-cta {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--iris-deep);
+  /* --iris-deep (#29b866) on --paper (#212122): ~5.2:1 — WCAG AA */
+}
+
+/* ── PopularShelf ─────────────────────────────────────────────────────────── */
+
+.pop-shelf {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 0;
+}
+
+.pop-shelf-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 18px 0 12px;
+}
+
+.pop-shelf-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.pop-shelf-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Horizontal scroll track */
+.pop-shelf-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
+}
+
+/* Individual ranked card */
+.pop-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 0 0 180px;
+  background: var(--oat-deep);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background var(--t-base), transform var(--t-base);
+  position: relative;
+}
+.pop-card:hover {
+  background: var(--paper);
+  text-decoration: none;
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+.pop-card:focus-visible {
+  outline: 2px solid var(--iris);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pop-card { transition: background var(--t-base); }
+  .pop-card:hover { transform: none; }
+}
+
+.pop-card-rank {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.pop-card-icon {
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.pop-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: block;
+  /* Clamp to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pop-card-tagline {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+  /* Clamp to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pop-card-votes {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+/* ── CategoryCards / KindCards ────────────────────────────────────────────── */
+
+.cat-section,
+.kind-section {
+  padding: 20px 0 24px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.cat-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.cat-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* Responsive grid: 4 → 3 → 2 cols */
+.cat-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* Developers "by kind" — always 4 cards (fixed kinds) */
+.kind-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* Shared tile style */
+.cat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--oat-deep);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition:
+    background var(--t-base),
+    border-color var(--t-base),
+    transform var(--t-base);
+}
+.cat-card:hover {
+  background: var(--paper);
+  border-color: var(--hairline-strong);
+  transform: translateY(-1px);
+}
+.cat-card:focus-visible {
+  outline: 2px solid var(--iris);
+  outline-offset: 2px;
+}
+/* Active: accent border from CSS custom property --cat-accent */
+.cat-card[aria-pressed="true"],
+.cat-card--active {
+  background: var(--paper);
+  border-color: var(--cat-accent, var(--iris));
+  box-shadow: 0 0 0 1px var(--cat-accent, var(--iris));
+}
+/* Empty-count tiles (developers, no items yet): dimmed */
+.cat-card--empty {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cat-card { transition: background var(--t-base), border-color var(--t-base); }
+  .cat-card:hover { transform: none; }
+}
+
+/* Icon wrapper — inherits accent color from parent button */
+.cat-card-icon {
+  margin-bottom: 6px;
+  color: var(--cat-accent, var(--ink-soft));
+}
+
+.cat-card-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: block;
+}
+
+/* --muted (#8a8a8f) on --oat-deep (#1c1c1d): 4.68:1 — WCAG AA */
+.cat-card-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.cat-card-blurb {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin: 2px 0 0;
+  line-height: 1.4;
+}
+
+/* ── FunctionChips ────────────────────────────────────────────────────────── */
+
+/* Extends .filter-row; the fn-chips class is additive */
+.fn-chips {
+  align-items: center;
+}
+
+/* Count badge inside each function chip */
+.fn-chip-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  /* Inverted from chip body for clear contrast */
+  background: var(--oat);
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+/* When chip is active (aria-pressed), invert the count badge too */
+.chip[aria-pressed="true"] .fn-chip-count {
+  background: var(--oat-deep);
+  color: var(--ink);
+}
+
+/* ── Dashboard v2 responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 1020px) {
+  .cat-card-grid { grid-template-columns: repeat(3, 1fr); }
+  .kind-card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 720px) {
+  .cat-card-grid { grid-template-columns: repeat(2, 1fr); }
+  .kind-card-grid { grid-template-columns: repeat(2, 1fr); }
+  .pop-card { flex: 0 0 160px; }
+}
+
+@media (max-width: 480px) {
+  .cat-card-grid { grid-template-columns: 1fr 1fr; }
+  .kind-card-grid { grid-template-columns: 1fr 1fr; }
+  .approved-hero { padding: 16px 18px 14px; }
 }
