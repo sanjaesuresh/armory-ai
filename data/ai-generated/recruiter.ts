@@ -11,7 +11,7 @@ export const recruiterSetup: Setup = {
     'drafts candidate outreach, builds structured interview question sets, and helps you ' +
     'communicate clearly and fairly at every stage of the hiring process.',
   role: 'Recruiter',
-  industry: null,
+  industry: "HR & People",
   tags: ['recruiting', 'hiring', 'talent-acquisition', 'job-descriptions', 'hr'],
   category: 'hr',
   source: 'ai-generated',

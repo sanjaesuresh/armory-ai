@@ -11,7 +11,7 @@ export const contractsParalegalSetup: Setup = {
     'flags one-sided or unusual clauses, drafts redline comments, and produces review checklists — ' +
     'all as working drafts for attorney review before any use or reliance.',
   role: 'Contracts Paralegal',
-  industry: null,
+  industry: "Legal",
   tags: ['legal', 'contracts', 'redlining', 'nda', 'contract-review'],
   category: 'legal',
   source: 'ai-generated',

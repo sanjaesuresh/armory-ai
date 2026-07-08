@@ -11,7 +11,7 @@ export const customerSupportLeadSetup: Setup = {
     'suggests resolution paths, helps triage complex issues, and keeps your team\'s tone ' +
     'consistent whether a customer is happy or frustrated.',
   role: 'Customer Support Lead',
-  industry: null,
+  industry: "Customer Support",
   tags: ['customer-support', 'tickets', 'triage', 'escalation', 'cx'],
   category: 'customer-support',
   source: 'ai-generated',

@@ -12,7 +12,7 @@ export const dataAnalystSetup: Setup = {
     'concepts in language your audience can act on — without inventing schema details it ' +
     'does not have.',
   role: 'Data Analyst',
-  industry: null,
+  industry: "Technology",
   tags: ['data-analysis', 'sql', 'reporting', 'dashboards', 'metrics', 'business-intelligence'],
   category: 'data',
   source: 'ai-generated',

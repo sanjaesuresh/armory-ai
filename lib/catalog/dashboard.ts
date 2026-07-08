@@ -11,19 +11,32 @@ import { isRegistryKind } from '@/lib/setup/types';
 // ─── Predicates ───────────────────────────────────────────────────────────────
 
 /**
+ * Professional community picks are github-sourced link-out cards tagged with an
+ * industry. They belong on the Professionals tab (not Developers) even though
+ * they use a registry kind, so both predicates special-case them.
+ */
+function isProfessionalCommunityPick(setup: Setup): boolean {
+  return setup.source === 'github' && setup.industry != null;
+}
+
+/**
  * True when the item belongs on the Developers tab:
  *   - any registry kind (agent, skill, harness), or
- *   - kind=setup with tier=advanced.
+ *   - kind=setup with tier=advanced,
+ *   - EXCEPT professional community picks (github + industry), which go to Professionals.
  */
 export function isDeveloperItem(setup: Setup): boolean {
+  if (isProfessionalCommunityPick(setup)) return false;
   return isRegistryKind(setup.kind) || (setup.kind === 'setup' && setup.tier === 'advanced');
 }
 
 /**
  * True when the item belongs on the Professionals tab:
- *   - kind=setup with tier=core.
+ *   - kind=setup with tier=core, or
+ *   - a github-sourced community pick tagged with an industry.
  */
 export function isProfessionalItem(setup: Setup): boolean {
+  if (isProfessionalCommunityPick(setup)) return true;
   return setup.kind === 'setup' && setup.tier === 'core';
 }
 

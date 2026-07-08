@@ -11,7 +11,7 @@ export const salesAccountExecutiveSetup: Setup = {
     'emails and follow-up sequences, coaches you through discovery and objection handling, ' +
     'drafts proposal outlines, and helps you review pipeline health at every stage.',
   role: 'Sales Account Executive',
-  industry: null,
+  industry: "Sales",
   tags: ['sales', 'outreach', 'account-management', 'deal-coaching', 'crm', 'prospecting'],
   category: 'sales',
   source: 'ai-generated',

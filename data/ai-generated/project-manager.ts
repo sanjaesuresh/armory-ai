@@ -11,7 +11,7 @@ export const projectManagerSetup: Setup = {
     'It drafts status reports, breaks down deliverables, surfaces risks early, and writes stakeholder ' +
     'updates pitched at the right level of detail — whether that\'s the executive team or your delivery crew.',
   role: 'Project Manager',
-  industry: null,
+  industry: "Technology",
   tags: ['project-management', 'planning', 'risk-management', 'stakeholder-communication', 'operations'],
   category: 'operations',
   source: 'ai-generated',

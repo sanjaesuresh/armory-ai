@@ -12,7 +12,7 @@ export const contentWriterSetup: Setup = {
     'and consistent voice. It flags weak sentences, missing sources, and structural problems ' +
     'rather than patching them silently.',
   role: 'Content Writer',
-  industry: null,
+  industry: "Media & Creative",
   tags: ['writing', 'editing', 'long-form', 'style-guide', 'content-strategy', 'proofreading'],
   category: 'writing',
   source: 'ai-generated',

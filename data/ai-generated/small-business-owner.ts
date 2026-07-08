@@ -11,7 +11,7 @@ export const smallBusinessOwnerSetup: Setup = {
     'and what you\'re working on right now. It gives direct, actionable guidance you can act on this week — ' +
     'not generic strategy. Always flags when a decision needs a lawyer or accountant.',
   role: 'Small Business Owner',
-  industry: null,
+  industry: "Small Business",
   tags: ['small-business', 'operations', 'growth', 'customer-service', 'marketing'],
   category: 'general',
   source: 'ai-generated',

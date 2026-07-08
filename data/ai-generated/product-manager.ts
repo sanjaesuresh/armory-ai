@@ -11,7 +11,7 @@ export const productManagerSetup: Setup = {
     'with acceptance criteria, scores and ranks backlog items, drafts stakeholder updates, ' +
     'and surfaces trade-offs — all scoped to your product stage and team.',
   role: 'Product Manager',
-  industry: null,
+  industry: "Technology",
   tags: ['product-management', 'roadmap', 'user-stories', 'prioritization', 'stakeholder-alignment', 'sprint-planning'],
   category: 'product',
   source: 'ai-generated',

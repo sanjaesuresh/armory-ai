@@ -11,7 +11,7 @@ export const uxDesignerSetup: Setup = {
     'established heuristics, writes usability test scripts, proposes information architecture, ' +
     'and drafts design rationale — all calibrated to your platform and accessibility standard.',
   role: 'UX Designer',
-  industry: null,
+  industry: "Technology",
   tags: ['ux-design', 'user-research', 'usability', 'accessibility', 'wireframes', 'design-systems'],
   category: 'design',
   source: 'ai-generated',

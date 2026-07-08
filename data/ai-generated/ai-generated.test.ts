@@ -34,8 +34,8 @@ const ALL_CURATED = [
 const WHOLE_SEED_CATALOG = [...ALL_CURATED, ...githubPicks, ...toolkitItems, ...aiGeneratedSetups];
 
 describe('AI-generated data integrity', () => {
-  it('contains exactly 15 setups', () => {
-    expect(aiGeneratedSetups.length).toBe(15);
+  it('contains exactly 47 setups', () => {
+    expect(aiGeneratedSetups.length).toBe(47);
   });
 
   it('every ai-generated item passes validateSetup (no validation errors)', () => {

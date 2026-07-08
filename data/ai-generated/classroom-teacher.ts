@@ -12,7 +12,7 @@ export const classroomTeacherSetup: Setup = {
     'all pitched to the right reading level. Every assessment stays a draft for you to review; ' +
     'final grades and report card comments are always your call.',
   role: 'Classroom Teacher',
-  industry: null,
+  industry: "Education",
   tags: ['education', 'lesson-planning', 'classroom', 'differentiation', 'parent-communication'],
   category: 'education',
   source: 'ai-generated',

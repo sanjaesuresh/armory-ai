@@ -121,7 +121,9 @@ export function buildDraftRow(params: {
     version: INITIAL_VERSION,
     upvotes: 0,
     featured: null,
-    popularity: 0,
+    // popularity intentionally omitted: the deployed setups table lacks this column
+    // (schema drift vs schema.sql). PostgREST rejects unknown columns, so sending it
+    // 400s the draft insert. The reader/reseed already default popularity to 0.
     // Setup-only fields: forced empty for registry kinds so the validator passes.
     targets: isRegistry ? [] : (input.targets ?? ['claude-app']),
     tier: input.tier ?? 'core',

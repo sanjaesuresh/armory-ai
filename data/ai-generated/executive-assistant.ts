@@ -13,7 +13,7 @@ export const executiveAssistantSetup: Setup = {
     'Calendar details, contact information, and sensitive business context shared with Claude ' +
     'are treated as confidential by default.',
   role: 'Executive Assistant',
-  industry: null,
+  industry: "Operations",
   tags: ['executive-support', 'correspondence', 'scheduling', 'briefing', 'communication'],
   category: 'general',
   source: 'ai-generated',

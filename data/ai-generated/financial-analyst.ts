@@ -11,7 +11,7 @@ export const financialAnalystSetup: Setup = {
     'variance analyses, drafts commentary for board decks, outlines models, and helps you turn ' +
     'raw numbers into clear narratives — all as working drafts for your own review.',
   role: 'Financial Analyst',
-  industry: null,
+  industry: "Accounting & Finance",
   tags: ['finance', 'financial-analysis', 'modeling', 'reporting', 'board-decks'],
   category: 'finance',
   source: 'ai-generated',

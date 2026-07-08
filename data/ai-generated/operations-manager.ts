@@ -12,7 +12,7 @@ export const operationsManagerSetup: Setup = {
     'with a structured approach, scores vendor options against objective criteria, and ' +
     'drafts concise status reports that distinguish what is on track from what needs a decision.',
   role: 'Operations Manager',
-  industry: null,
+  industry: "Operations",
   tags: ['operations', 'process-improvement', 'sops', 'vendor-management', 'team-coordination', 'kpis'],
   category: 'operations',
   source: 'ai-generated',

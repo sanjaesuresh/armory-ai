@@ -18,8 +18,19 @@ import { commitMessageSkillSetup } from '../data/curated/commit-message-skill';
 import { prDescriptionSkillSetup } from '../data/curated/pr-description-skill';
 import { tddLoopHarnessSetup } from '../data/curated/tdd-loop-harness';
 import { docsWritingHarnessSetup } from '../data/curated/docs-writing-harness';
+import { claudeCodeToolkitSetup } from '../data/curated/claude-code-toolkit-setup';
+import { devExtraAgents } from '../data/curated/dev-extra-agents';
+import { devExtraSkills } from '../data/curated/dev-extra-skills';
+import { devExtraHarnesses } from '../data/curated/dev-extra-harnesses';
 import { githubPicks } from '../data/community-picks/github-picks';
+import { githubPicks2 } from '../data/community-picks/github-picks-2';
+import { githubPicks3 } from '../data/community-picks/github-picks-3';
+import { githubPicks4 } from '../data/community-picks/github-picks-4';
+import { professionalPicks } from '../data/community-picks/professional-picks';
+import { externalToolkits } from '../data/community-picks/external-toolkits';
 import { toolkitItems } from '../data/member-posts/toolkit.generated';
+import { aiGeneratedSetups } from '../data/ai-generated';
+import { proSkills } from '../data/pro-skills';
 import type { Setup } from '../lib/setup/types';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
@@ -35,10 +46,26 @@ const CURATED_SETUPS: Setup[] = [
   prDescriptionSkillSetup,
   tddLoopHarnessSetup,
   docsWritingHarnessSetup,
+  // Claude Code Toolkit — the flagship developer setup (kind='setup', advanced)
+  claudeCodeToolkitSetup,
+  // first-party developer registry items (agents, skills, harnesses)
+  ...devExtraAgents,
+  ...devExtraSkills,
+  ...devExtraHarnesses,
 ];
 
-// All seed rows: curated first, then github community picks, then toolkit member-post items.
-const ALL_SETUPS: Setup[] = [...CURATED_SETUPS, ...githubPicks, ...toolkitItems];
+// All github community picks: original set plus the 2026-07 expansion batches.
+const ALL_GITHUB_PICKS: Setup[] = [...githubPicks, ...githubPicks2, ...githubPicks3, ...githubPicks4, ...professionalPicks, ...externalToolkits];
+
+// All seed rows: curated first, then github community picks, then toolkit
+// member-post items, then ai-generated Professionals setups.
+const ALL_SETUPS: Setup[] = [
+  ...CURATED_SETUPS,
+  ...ALL_GITHUB_PICKS,
+  ...toolkitItems,
+  ...aiGeneratedSetups,
+  ...proSkills,
+];
 
 // ─── SQL helpers ─────────────────────────────────────────────────────────────
 
@@ -142,7 +169,7 @@ if (nonApproved.length > 0) {
 }
 
 const inserts = ALL_SETUPS.map(toInsert).join('\n\n');
-const banner = `-- Armory: seed data generated from data/curated/, data/community-picks/, and data/member-posts/
+const banner = `-- Armory: seed data generated from data/curated/, data/community-picks/, data/member-posts/, and data/ai-generated/
 -- Generated: ${new Date().toISOString()}
 -- DO NOT EDIT by hand — run \`npm run seed\` to regenerate.
 -- Apply in Supabase: Database → SQL Editor → paste and run.
@@ -152,5 +179,5 @@ const output = `${banner}\n${inserts}\n`;
 const outPath = path.resolve(__dirname, '../supabase/seed.sql');
 fs.writeFileSync(outPath, output, 'utf8');
 console.log(
-  `Wrote ${CURATED_SETUPS.length} curated + ${githubPicks.length} github picks + ${toolkitItems.length} toolkit items = ${ALL_SETUPS.length} total setup(s) to ${outPath}`,
+  `Wrote ${CURATED_SETUPS.length} curated + ${ALL_GITHUB_PICKS.length} github picks + ${toolkitItems.length} toolkit items + ${aiGeneratedSetups.length} ai-generated + ${proSkills.length} pro-skills = ${ALL_SETUPS.length} total setup(s) to ${outPath}`,
 );

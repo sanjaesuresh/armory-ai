@@ -16,6 +16,7 @@ import { commitMessageSkillSetup } from './commit-message-skill';
 import { prDescriptionSkillSetup } from './pr-description-skill';
 import { tddLoopHarnessSetup } from './tdd-loop-harness';
 import { docsWritingHarnessSetup } from './docs-writing-harness';
+import { claudeCodeToolkitSetup } from './claude-code-toolkit-setup';
 
 const ALL_CURATED = [
   marketingManagerSetup,
@@ -25,6 +26,7 @@ const ALL_CURATED = [
   prDescriptionSkillSetup,
   tddLoopHarnessSetup,
   docsWritingHarnessSetup,
+  claudeCodeToolkitSetup,
 ];
 
 describe('Curated data integrity', () => {

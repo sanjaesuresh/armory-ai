@@ -12,7 +12,7 @@ export const marketResearcherSetup: Setup = {
     'and delivers findings in the format your audience needs — whether that\'s an executive ' +
     'summary or a detailed research report.',
   role: 'Market Researcher',
-  industry: null,
+  industry: "Marketing",
   tags: ['research', 'market-analysis', 'consumer-insights', 'competitive-intelligence', 'data-synthesis'],
   category: 'research',
   source: 'ai-generated',
