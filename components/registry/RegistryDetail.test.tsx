@@ -45,6 +45,13 @@ vi.mock('./ArtifactFileViewer', () => ({
   ),
 }));
 
+// RepoBrowser makes async fetch calls on mount; mock it to keep RegistryDetail tests synchronous
+// and prevent a "multiple links" collision with the existing "View on GitHub" link in RegistryDetail.
+vi.mock('./RepoBrowser', () => ({
+  default: ({ repoUrl }: { repoUrl: string | null }) =>
+    repoUrl ? <div data-testid="repo-browser" data-url={repoUrl} /> : null,
+}));
+
 // ── Test fixture ──────────────────────────────────────────────────────────────
 
 function makeSetup(overrides: Partial<Setup> = {}): Setup {

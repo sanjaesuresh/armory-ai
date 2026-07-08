@@ -71,36 +71,16 @@ describe('ArtifactFileViewer', () => {
       expect(screen.getByText(/Tests first\./)).toBeInTheDocument();
     });
 
-    it('primary file starts collapsed: expand button has aria-expanded="false"', () => {
+    it('primary file opens by default (details has the open attribute)', () => {
       render(<ArtifactFileViewer files={[primaryFile]} slug="my-setup" />);
-      const expandBtn = screen.getByRole('button', { name: /expand/i });
-      expect(expandBtn).toHaveAttribute('aria-expanded', 'false');
+      expect(screen.getByTestId('file-row-CLAUDE.md')).toHaveAttribute('open');
     });
 
-    it('clicking expand reveals full content (aria-expanded becomes true)', async () => {
-      const user = userEvent.setup();
+    it('renders no separate expand/collapse button (header is the toggle)', () => {
       render(<ArtifactFileViewer files={[primaryFile]} slug="my-setup" />);
-      const expandBtn = screen.getByRole('button', { name: /expand/i });
-      await user.click(expandBtn);
-      expect(expandBtn).toHaveAttribute('aria-expanded', 'true');
-    });
-
-    it('expand button label becomes "Collapse" when expanded', async () => {
-      const user = userEvent.setup();
-      render(<ArtifactFileViewer files={[primaryFile]} slug="my-setup" />);
-      await user.click(screen.getByRole('button', { name: /expand/i }));
-      expect(screen.getByRole('button', { name: /collapse/i })).toBeInTheDocument();
-    });
-
-    it('clicking collapse returns to collapsed state', async () => {
-      const user = userEvent.setup();
-      render(<ArtifactFileViewer files={[primaryFile]} slug="my-setup" />);
-      await user.click(screen.getByRole('button', { name: /expand/i }));
-      await user.click(screen.getByRole('button', { name: /collapse/i }));
-      expect(screen.getByRole('button', { name: /expand/i })).toHaveAttribute(
-        'aria-expanded',
-        'false',
-      );
+      expect(
+        screen.queryByRole('button', { name: /expand|collapse/i }),
+      ).not.toBeInTheDocument();
     });
   });
 

@@ -1203,8 +1203,8 @@ pre.code {
 .badge-curated    { background: var(--sage);   color: var(--accent-sage); }
 /* --accent-butter (#e6b34a) on --butter (#211c12) → ~9.54:1 — WCAG AA pass */
 .badge-ai         { background: var(--butter); color: var(--accent-butter); }
-/* --accent-blush (#ec6f5c) on --blush (#241612) → ~5.85:1 — WCAG AA pass */ /* unslop-ignore: blush chosen for product/design, orthogonal to other badge tints */
-.badge-github     { background: var(--blush);  color: var(--accent-blush); }
+/* community pick — lilac/violet (off red per design pref); source badges are mutually exclusive so no clash with .badge-community */
+.badge-github     { background: var(--lilac);  color: var(--accent-lilac); }
 /* --accent-sky (#5cb0ec) on --sky (#101c26) → ~7.76:1 — WCAG AA pass */
 /* unslop-ignore: sky tint chosen for technical/tier distinction, orthogonal to source badges */
 .badge-advanced   { background: var(--sky);    color: var(--accent-sky); }
@@ -4315,6 +4315,276 @@ pre.code {
   color: var(--ink);
 }
 
+/* ======================================================================
+   DevRegistry — "For developers" homepage section (2026-07-08)
+   All classes prefixed .dev-* — no collision with existing selectors.
+   §10 compliance: dots not spines, elevation not outlines, no card grid.
+   ====================================================================== */
+
+/* ─── section wrapper ────────────────────────────────────────────── */
+/* hairline top + faint green radial glow top-right to mark the section */
+.dev-section {
+  padding: 52px 0 44px;
+  border-top: 1px solid var(--hairline);
+  background:
+    radial-gradient(120% 90% at 82% 0%, rgba(61,220,128,.05), transparent 60%),
+    var(--oat);
+}
+
+/* ─── two-column header ──────────────────────────────────────────── */
+/* 1.15fr / .85fr — right col bottom-aligns to match the stat row baseline */
+.dev-header {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 32px;
+}
+
+/* ─── left col ───────────────────────────────────────────────────── */
+/* --iris (#3ddc80) on --oat (#171717): >14:1 — WCAG AAA pass */
+.dev-eyebrow { color: var(--iris); }
+
+.dev-h2 {
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+  letter-spacing: -0.03em;
+  margin: 0 0 12px;
+}
+
+/* "the best of GitHub" accent span — brand green inline */
+.dev-h2-accent { color: var(--iris); }
+
+.dev-sub {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 54ch;
+  margin: 0;
+}
+
+/* ─── right col stat row ─────────────────────────────────────────── */
+.dev-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.dev-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dev-stat-num {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+/* --ink-soft (#b6b6b8) on --oat (#171717): ~7:1 — WCAG AA pass */
+.dev-stat-lbl {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  font-family: var(--mono);
+  letter-spacing: 0.03em;
+}
+
+/* ─── segmented tab control ──────────────────────────────────────── */
+/* pill container on --oat-deep, border, 4px padding, rounded 12px */
+.dev-tabs {
+  display: inline-flex;
+  background: var(--oat-deep);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 2px;
+  margin-bottom: 14px;
+}
+
+.dev-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 9px;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.dev-tab:focus-visible {
+  outline: 2px solid var(--iris);
+  outline-offset: 2px;
+}
+
+/* active tab: iris background + dark text — var(--oat) (#171717) on --iris (#3ddc80): >14:1 AAA */
+.dev-tab--active {
+  background: var(--iris);
+  color: #08130c; /* very dark green — ~18:1 on --iris; avoids rendering --oat as near-black */
+}
+/* don't let hover override the active state */
+.dev-tab--active:hover { background: var(--iris-deep); color: #08130c; }
+.dev-tab:not(.dev-tab--active):hover { background: var(--raise); color: var(--ink); }
+
+/* count badge inside each tab */
+/* --muted (#8a8a8f) on --oat-deep (#1c1c1d): ~4.5:1 — WCAG AA borderline, boosted to --ink-soft for safety */
+.dev-tab-count {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  opacity: 0.8;
+}
+.dev-tab--active .dev-tab-count { color: #08130c; opacity: 0.65; }
+
+/* ─── row list container ─────────────────────────────────────────── */
+/* --paper raised card, rounded 16px */
+.dev-list {
+  background: var(--paper);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 10px 28px -20px rgba(0,0,0,.85);
+}
+
+/* ─── individual row ─────────────────────────────────────────────── */
+/* grid: accent-dot / name+tagline / stars / view-arrow */
+.dev-row {
+  display: grid;
+  grid-template-columns: 10px 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--hairline);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background var(--t-fast);
+}
+.dev-row:last-child { border-bottom: 0; }
+.dev-row:hover { background: var(--raise); text-decoration: none; color: var(--ink); }
+.dev-row:focus-visible { outline: 2px solid var(--iris); outline-offset: -2px; }
+
+/* accent dot — per-kind color set inline */
+.dev-row-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+  align-self: center;
+}
+
+/* body: name + source pill on top; tagline below */
+.dev-row-body { min-width: 0; }
+
+.dev-row-name-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dev-row-name {
+  font-weight: 700;
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+}
+
+/* "community pick" source pill — lilac/violet (off red per design pref); --accent-lilac on --lilac ≥ AA */
+.dev-row-src {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--lilac);
+  color: var(--accent-lilac);
+  white-space: nowrap;
+  flex-none: 0;
+}
+
+/* --ink-soft (#b6b6b8) on --paper (#212122): ~6.3:1 — WCAG AA pass */
+.dev-row-tagline {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 2px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* star count: gold star + formatted number */
+/* --accent-butter (#e6b34a) on --paper (#212122): ~9.54:1 — WCAG AA pass */
+.dev-row-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-butter);
+  white-space: nowrap;
+  flex: none;
+}
+
+.dev-row-star-icon {
+  display: inline-flex;
+  color: var(--accent-butter);
+}
+
+/* green "View →" affordance — aria-hidden, the row Link is the interactive element */
+/* --iris-deep (#29b866) on --paper (#212122): ~4.6:1 — WCAG AA pass */
+.dev-row-view {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--iris-deep);
+  white-space: nowrap;
+  flex: none;
+}
+
+/* ─── footer CTA row ─────────────────────────────────────────────── */
+.dev-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dev-footer-ctas {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* --muted (#8a8a8f) on --oat (#171717): ~4.5:1 — WCAG AA pass for small text */
+.dev-footer-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0;
+  font-family: var(--mono);
+}
+
+/* ─── responsive ─────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  /* stack header columns on tablet */
+  .dev-header { grid-template-columns: 1fr; gap: 24px; }
+  /* stat row stays inline */
+  .dev-stats { gap: 20px; }
+}
+
+@media (max-width: 560px) {
+  /* on narrow viewports, drop the view arrow and tagline from the grid to save space */
+  .dev-row { grid-template-columns: 10px 1fr auto; gap: 10px; }
+  .dev-row-view { display: none; }
+  .dev-row-tagline { display: none; }
+  .dev-section { padding: 36px 0 28px; }
+}
+
 /* ── Dashboard v2 responsive ──────────────────────────────────────────────── */
 
 @media (max-width: 1020px) {
@@ -4333,3 +4603,87 @@ pre.code {
   .kind-card-grid { grid-template-columns: 1fr 1fr; }
   .approved-hero { padding: 16px 18px 14px; }
 }
+
+/* ── RepoBrowser: repo tree + section header (Phase 10 additive) ───────────── */
+
+/* tree container: mono font, paper surface, same inset as file-row */
+.tree {
+  background: var(--paper);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  margin-bottom: 10px;
+}
+
+/* every row in the tree: dir or file */
+.tnode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  color: var(--ink);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  user-select: none;
+}
+
+/* the button inside a dir node resets button chrome and fills the row */
+.tnode-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.tnode-btn:focus-visible { outline: 2px solid var(--iris); outline-offset: -2px; border-radius: 2px; }
+
+.tnode:hover { background: var(--raise); }
+.tnode.file { color: var(--ink-soft); }
+
+/* chevron rotates to indicate open state */
+.tnode .tchev {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
+  transition: transform var(--t-fast);
+  flex: none;
+}
+.tnode.open .tchev { transform: rotate(90deg); }
+
+/* folder icon: accent-sky; file icon: muted */
+.tnode .ticon {
+  width: 15px;
+  height: 15px;
+  flex: none;
+}
+.tnode.dir .ticon { color: var(--accent-sky); }
+.tnode.file .ticon { color: var(--muted); }
+
+/* filename label */
+.tnode .tname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* size / count metadata: right-aligned, smaller, muted */
+.tnode .tmeta { margin-left: auto; font-size: 0.7rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+
+/* nested children: controlled via React state (display toggled by .show class) */
+.tchildren { display: none; }
+.tchildren.show { display: block; }
+
+/* "View on GitHub" link in the repo section header */
+.repo-tree-link {
+  color: var(--iris);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+.repo-tree-link:hover { text-decoration: underline; }
+.repo-tree-link:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; border-radius: 2px; }

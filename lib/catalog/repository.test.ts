@@ -215,6 +215,7 @@ describe('rowToSetup', () => {
       kind: 'agent',
       artifact_files: [{ name: 'main.md', content: '# Hello', isPrimary: true }],
       repo_url: 'https://github.com/example/agent',
+      github_stars: 1234,
       capabilities: [{ command: '/help', description: 'Get help' }],
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -222,6 +223,7 @@ describe('rowToSetup', () => {
     expect(setup.kind).toBe('agent');
     expect(setup.artifactFiles).toEqual([{ name: 'main.md', content: '# Hello', isPrimary: true }]);
     expect(setup.repoUrl).toBe('https://github.com/example/agent');
+    expect(setup.githubStars).toBe(1234);
     expect(setup.capabilities).toEqual([{ command: '/help', description: 'Get help' }]);
   });
 
@@ -232,6 +234,7 @@ describe('rowToSetup', () => {
     expect(setup.kind).toBe('setup');
     expect(setup.artifactFiles).toEqual([]);
     expect(setup.repoUrl).toBeNull();
+    expect(setup.githubStars).toBeNull();
     expect(setup.capabilities).toEqual([]);
   });
 

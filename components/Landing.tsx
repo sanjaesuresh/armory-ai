@@ -23,11 +23,13 @@ import {
   getCategoryLabel,
   CATEGORY_BROWSE_ORDER,
 } from '@/lib/catalog/categoryUtils';
-import { detailPathFor } from '@/lib/catalog/dashboard';
+import { isDeveloperItem, detailPathFor } from '@/lib/catalog/dashboard';
+import { isRegistryKind } from '@/lib/setup/types';
 import type { Setup } from '@/lib/setup/types';
 import HomePipeline from '@/components/HomePipeline';
 import HeroBriefcase from '@/components/HeroBriefcase';
 import StepIcon from '@/components/icons/StepIcon';
+import DevRegistry, { type DevRegistryGroup } from '@/components/DevRegistry';
 
 // ── Role → category accent dot ───────────────────────────────────────────────
 const ROLE_DOT: Record<string, string> = {
@@ -172,6 +174,9 @@ export default async function Landing() {
   let setups: Setup[] = [];
   let total = 0;
   let setupCount = 0;
+  // devGroups is populated below; empty array means section is omitted
+  let devGroups: DevRegistryGroup[] = [];
+  let devTotal = 0;
 
   try {
     const repo = createCatalogRepository();
@@ -180,8 +185,39 @@ export default async function Landing() {
     const professionalSetups = all.filter((s) => s.kind === 'setup');
     setupCount = professionalSetups.length;
     setups = [...professionalSetups].sort((a, b) => b.upvotes - a.upvotes);
+
+    // build the developer registry groups: registry-kind + github source only
+    const devItems = all.filter(
+      (s) => isDeveloperItem(s) && isRegistryKind(s.kind) && s.source === 'github',
+    );
+    devTotal = devItems.length;
+
+    // for each registry kind, sort by stars desc and take top 4
+    const kindLabels: Record<string, string> = {
+      agent: 'Agents',
+      skill: 'Skills',
+      harness: 'Harnesses',
+    };
+    for (const kind of ['agent', 'skill', 'harness'] as const) {
+      const group = devItems.filter((s) => s.kind === kind);
+      if (group.length === 0) continue;
+      const sorted = [...group].sort((a, b) => (b.githubStars ?? 0) - (a.githubStars ?? 0));
+      devGroups.push({
+        kind,
+        label: kindLabels[kind],
+        count: group.length,
+        // serializable rows — no Setup object crosses the server→client boundary
+        rows: sorted.slice(0, 4).map((s) => ({
+          slug: s.slug,
+          name: s.name,
+          tagline: s.tagline,
+          stars: s.githubStars ?? null,
+          href: detailPathFor(s),
+        })),
+      });
+    }
   } catch {
-    // DB unavailable — popular section omitted
+    // DB unavailable — popular + developer sections omitted
   }
 
   // derive categories that have at least one professional setup; fall back to the
@@ -293,6 +329,11 @@ export default async function Landing() {
           </div>
         </div>
       </section>
+
+      {/* ── Developer registry section — only when github items are available ── */}
+      {devGroups.length > 0 && (
+        <DevRegistry groups={devGroups} total={devTotal} />
+      )}
 
       {/* ── Category strip ────────────────────────────────────────────────── */}
       <nav className="land-catstrip" aria-label="Browse by category">

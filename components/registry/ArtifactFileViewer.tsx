@@ -3,10 +3,10 @@
 /**
  * ArtifactFileViewer — raw-source file display for registry items.
  *
- * Primary file: `.fileview` block, collapsed to a fixed preview height,
- * with an Expand/Collapse toggle. Keyboard-operable with visible focus rings.
- *
- * Non-primary files: individually expandable `<details>` rows.
+ * Every file is an expandable `<details>` row: click the header to open/close —
+ * no separate expand button. The primary file (README/OVERVIEW) opens by default
+ * so it's visible immediately; the rest start collapsed. Keyboard-operable with
+ * visible focus rings (native <summary>).
  *
  * Each file has a Copy button (clipboard write, transient "Copied" confirmation).
  * Footer: a Download button — single file downloads directly; multiple files
@@ -196,61 +196,16 @@ function CopyButton({ content, fileName, clipboardWriteFn }: CopyButtonProps) {
   );
 }
 
-// ── PrimaryFileView ───────────────────────────────────────────────────────────
+// ── FileRow ───────────────────────────────────────────────────────────────────
 
-interface PrimaryFileViewProps {
+interface FileRowProps {
   file: ArtifactFile;
+  /** Primary file opens by default so the README/OVERVIEW is visible on load. */
+  defaultOpen?: boolean;
   clipboardWriteFn?: (text: string) => Promise<void>;
 }
 
-function PrimaryFileView({ file, clipboardWriteFn }: PrimaryFileViewProps) {
-  const [expanded, setExpanded] = useState(false);
-  const bodyId = `primary-file-body-${file.name.replace(/[^a-z0-9]/gi, '-')}`;
-
-  return (
-    <div className="fileview">
-      <div className="file-head">
-        <span className="fname">
-          <FileIcon />
-          {file.name}
-          <span className="fmeta">· primary</span>
-        </span>
-        <div className="file-actions">
-          <CopyButton
-            content={file.content}
-            fileName={file.name}
-            clipboardWriteFn={clipboardWriteFn}
-          />
-          <button
-            type="button"
-            className="copy-btn"
-            aria-expanded={expanded}
-            aria-controls={bodyId}
-            onClick={() => setExpanded((e) => !e)}
-          >
-            {expanded ? 'Collapse' : 'Expand'}
-          </button>
-        </div>
-      </div>
-      <div
-        id={bodyId}
-        className={`file-body${expanded ? ' expanded' : ''}`}
-      >
-        <pre className="code">{file.content}</pre>
-        {!expanded && <span className="file-fade" aria-hidden="true" />}
-      </div>
-    </div>
-  );
-}
-
-// ── SecondaryFileRow ──────────────────────────────────────────────────────────
-
-interface SecondaryFileRowProps {
-  file: ArtifactFile;
-  clipboardWriteFn?: (text: string) => Promise<void>;
-}
-
-function SecondaryFileRow({ file, clipboardWriteFn }: SecondaryFileRowProps) {
+function FileRow({ file, defaultOpen = false, clipboardWriteFn }: FileRowProps) {
   const sizeLabel = formatSize(new TextEncoder().encode(file.content).byteLength);
   const extLabel = fileExtensionLabel(file.name);
 
@@ -258,16 +213,21 @@ function SecondaryFileRow({ file, clipboardWriteFn }: SecondaryFileRowProps) {
     <details
       className="file-row"
       data-testid={`file-row-${file.name}`}
+      // native <details> toggles on summary click — no separate expand button
+      open={defaultOpen}
     >
       <summary>
         <span className="fname">
           <FileIcon />
           {file.name}
         </span>
-        <span className="fmeta">{extLabel} · {sizeLabel}</span>
+        <span className="fmeta">
+          {file.isPrimary ? 'primary · ' : ''}{extLabel} · {sizeLabel}
+        </span>
         <ChevronIcon />
       </summary>
-      <div className="file-body">
+      {/* expanded → pre.code scrolls to full height instead of the clipped preview */}
+      <div className="file-body expanded">
         <div
           style={{
             display: 'flex',
@@ -342,14 +302,14 @@ export default function ArtifactFileViewer({ files, slug, clipboardWriteFn }: Pr
         </button>
       </div>
 
-      {/* Primary file */}
+      {/* Primary file — open by default */}
       {primary && (
-        <PrimaryFileView file={primary} clipboardWriteFn={clipboardWriteFn} />
+        <FileRow file={primary} defaultOpen clipboardWriteFn={clipboardWriteFn} />
       )}
 
-      {/* Non-primary files */}
+      {/* Non-primary files — start collapsed, expand on click */}
       {secondary.map((file) => (
-        <SecondaryFileRow
+        <FileRow
           key={file.name}
           file={file}
           clipboardWriteFn={clipboardWriteFn}

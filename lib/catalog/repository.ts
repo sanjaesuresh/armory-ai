@@ -89,6 +89,8 @@ export interface SetupRow {
   artifact_files?: unknown;
   /** GitHub HTTPS URL for the registry item's source repo, or null. */
   repo_url?: string | null;
+  /** GitHub stars snapshot for source='github' items; null otherwise. Refreshed nightly. */
+  github_stars?: number | null;
   /** JSONB array of CLI/slash-command capabilities. Absent on legacy rows → defaults to []. */
   capabilities?: unknown;
 }
@@ -126,6 +128,8 @@ export function rowToSetup(row: SetupRow): Setup {
     // Registry-only fields: absent on legacy (pre-migration) rows — default to safe empty values.
     artifactFiles: (row.artifact_files as Setup['artifactFiles']) ?? [],
     repoUrl: row.repo_url ?? null,
+    // github_stars is returned by select('*') but was previously dropped here → star badges/sorting saw undefined.
+    githubStars: row.github_stars ?? null,
     capabilities: (row.capabilities as Setup['capabilities']) ?? [],
   };
 }

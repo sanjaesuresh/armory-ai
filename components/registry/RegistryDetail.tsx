@@ -22,6 +22,7 @@ import UpvoteButton from '@/components/UpvoteButton';
 import ReportSetup from '@/components/ReportSetup';
 import TakedownControl from '@/components/admin/TakedownControl';
 import ArtifactFileViewer from './ArtifactFileViewer';
+import RepoBrowser from './RepoBrowser';
 import { formatStars } from '@/lib/catalog/format-stars';
 import { GITHUB_STARS_AS_OF } from '@/lib/catalog/source-tags';
 
@@ -259,6 +260,9 @@ export default function RegistryDetail({
         {setup.artifactFiles.length > 0 && (
           <ArtifactFileViewer files={setup.artifactFiles} slug={setup.slug} />
         )}
+
+        {/* GitHub repo browser — lazily loads tree + README; renders nothing if repoUrl is null */}
+        <RepoBrowser repoUrl={setup.repoUrl} />
 
         {/* Moderator takedown */}
         {showTakedown && (
