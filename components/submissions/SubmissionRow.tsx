@@ -119,7 +119,7 @@ export default function SubmissionRow({
         )}
         {reviewStatus === 'pending' && (
           <span>
-            Being reviewed — we check every setup before it goes live.
+            Being reviewed, we check every setup before it goes live.
           </span>
         )}
         {reviewStatus === 'rejected' && (

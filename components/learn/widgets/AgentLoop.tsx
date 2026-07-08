@@ -32,7 +32,7 @@ const HOPS = [
   {
     station: 1,
     narration:
-      'Claude decides to read the file first — it cannot edit what it has not seen.',
+      'Claude decides to read the file first, it cannot edit what it has not seen.',
   },
   {
     station: 2,
@@ -45,7 +45,7 @@ const HOPS = [
   {
     station: 1,
     narration:
-      'Claude decides to edit the file — it knows exactly where the typo is.',
+      'Claude decides to edit the file, it knows exactly where the typo is.',
   },
   {
     station: 2,
@@ -116,7 +116,7 @@ export default function AgentLoop() {
     <section className="lblock wgt-agent-loop" aria-labelledby="al-heading">
       <h2 id="al-heading">The agent loop</h2>
       <p>
-        Claude Code doesn't just reply — it loops: decide what to do, run a
+        Claude Code doesn't just reply, it loops: decide what to do, run a
         tool, observe the result, then decide again. The loop repeats until the
         task is done.
       </p>
@@ -229,7 +229,7 @@ export default function AgentLoop() {
           className="btn btn-outline btn-sm"
           onClick={handleStep}
           disabled={isDone || autoRunning}
-          aria-label="Step manually — advance one hop"
+          aria-label="Step manually, advance one hop"
         >
           Step
         </button>

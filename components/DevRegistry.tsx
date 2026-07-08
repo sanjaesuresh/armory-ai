@@ -108,13 +108,13 @@ export default function DevRegistry({ groups, total }: DevRegistryProps) {
           <div className="dev-header-left">
             <p className="eyebrow dev-eyebrow">For developers</p>
             <h2 id="dev-section-title" className="dev-h2">
-              Drop-in tools for Claude Code —{' '}
+              Drop-in tools for Claude Code, {' '}
               <span className="dev-h2-accent">the best of GitHub</span>
               , curated.
             </h2>
             <p className="dev-sub">
               Agents, skills, and harnesses the community actually stars. We
-              surface the most popular ones so you can compare and grab them —
+              surface the most popular ones so you can compare and grab them, 
               no trawling GitHub for the good repos.
             </p>
           </div>
@@ -189,7 +189,7 @@ export default function DevRegistry({ groups, total }: DevRegistryProps) {
                 <div className="dev-row-body">
                   <div className="dev-row-name-line">
                     <span className="dev-row-name">{row.name}</span>
-                    <span className="dev-row-src">community pick</span>
+                    <span className="dev-row-src">community</span>
                   </div>
                   <p className="dev-row-tagline">{row.tagline}</p>
                 </div>

@@ -144,7 +144,7 @@ export default async function MySetupsPage() {
             </svg>
             <h3>Nothing saved yet</h3>
             <p>
-              Customize a setup and save it — it will appear here so you can
+              Customize a setup and save it, it will appear here so you can
               pick up or adjust it later.
             </p>
             <Link className="btn btn-primary btn-sm" href="/professionals">

@@ -10,7 +10,7 @@ export const bookkeeperSetup: Setup = {
     'Configure Claude as a bookkeeper for your business. It guides transaction ' +
     'categorization decisions, walks through bank and credit card reconciliation ' +
     'step by step, structures month-end close checklists, and drafts client-friendly ' +
-    'financial summaries — all grounded in your accounting software and reporting rhythm.',
+    'financial summaries, all grounded in your accounting software and reporting rhythm.',
   role: 'Bookkeeper',
   industry: 'Accounting & Finance',
   tags: ['bookkeeping', 'accounting', 'reconciliation', 'month-end', 'transactions', 'financial-reporting'],
@@ -42,11 +42,11 @@ Outputs will be shared directly with clients. Use plain language, avoid jargon, 
 {{/if}}
 
 Rules:
-1. Never invent account balances, transaction amounts, or vendor names — ask when you need that information.
+1. Never invent account balances, transaction amounts, or vendor names, ask when you need that information.
 2. When a categorization decision is ambiguous, present two or three options with the reasoning for each rather than silently picking one.
 3. Always flag transactions that may have tax implications and note that the client should confirm treatment with their tax preparer or CPA before considering it settled.
 4. Format journal entries, reconciliation summaries, and reports so they paste cleanly into {{accountingSoftware}} without reformatting.
-5. Separate bookkeeping guidance (what to record and how) from tax advice (what deductions or treatments to take) — you handle the former.
+5. Separate bookkeeping guidance (what to record and how) from tax advice (what deductions or treatments to take), you handle the former.
 6. Never give definitive tax or legal advice. Provide general information only and always recommend consulting a licensed CPA or tax professional for specific guidance.`,
 
   variables: [
@@ -103,7 +103,7 @@ Rules:
     {
       name: 'Month-end close reference card',
       purpose:
-        'A structured checklist Claude uses when walking through a month-end close — covering ' +
+        'A structured checklist Claude uses when walking through a month-end close, covering ' +
         'reconciliation steps, required journal entries, and a final sign-off review. Update ' +
         'each section to match your chart of accounts and workflow.',
       kind: 'starter',
@@ -169,8 +169,8 @@ Update each section to match your chart of accounts, software settings, and clie
 
 ## Close sign-off
 Before marking the period closed:
-- [ ] P&L reviewed against prior period — large variances explained
-- [ ] Balance sheet reviewed — no unexpected negative balances
+- [ ] P&L reviewed against prior period, large variances explained
+- [ ] Balance sheet reviewed, no unexpected negative balances
 - [ ] Bank feeds current and no unreviewed transactions outstanding
 - [ ] Backup or export saved per firm policy
 `,
@@ -186,7 +186,7 @@ Before marking the period closed:
       guidance:
         'Export the chart of accounts from your accounting software as a CSV or paste it as ' +
         'a plain text list. Include the account number, account name, and account type (asset, ' +
-        'liability, equity, income, expense). You do not need every sub-account — the top-level ' +
+        'liability, equity, income, expense). You do not need every sub-account, the top-level ' +
         'accounts are enough for most categorization guidance.',
       required: false,
     },

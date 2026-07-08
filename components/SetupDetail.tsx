@@ -324,7 +324,7 @@ export default function SetupDetail({
       curated: 'Curated · reviewed',
       'ai-generated': 'AI-generated',
       community: 'Member post',
-      github: 'Community pick',
+      github: 'Community',
     }[setup.source] ?? setup.source;
 
   /* data-testid for source badge (community / ai / github only; curated has none) */
@@ -395,7 +395,7 @@ export default function SetupDetail({
                   data-testid="advanced-expectations"
                 >
                   <p>
-                    This setup uses tools you&apos;ll connect yourself — we&apos;ll
+                    This setup uses tools you&apos;ll connect yourself, we&apos;ll
                     walk you through it.
                   </p>
                 </div>

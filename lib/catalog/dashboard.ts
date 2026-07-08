@@ -130,6 +130,10 @@ export function sortList(items: Setup[], key: SortKey): Setup[] {
       case 'popularity': {
         const popDiff = (b.popularity ?? 0) - (a.popularity ?? 0);
         if (popDiff !== 0) return popDiff;
+        // github stars are the only broadly-varying popularity signal pre-launch
+        // (upvotes/popularity are all 0), so they drive the visible ordering.
+        const starDiff = (b.githubStars ?? 0) - (a.githubStars ?? 0);
+        if (starDiff !== 0) return starDiff;
         const upvotesDiff = b.upvotes - a.upvotes;
         if (upvotesDiff !== 0) return upvotesDiff;
         return a.name.localeCompare(b.name);

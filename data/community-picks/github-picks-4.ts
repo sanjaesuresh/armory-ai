@@ -14,7 +14,7 @@ export const githubPicks4: Setup[] = [
     description:
       'The reference MCP server implementations maintained by the MCP steering group. ' +
       'Includes Filesystem, Git, Memory (knowledge graph), Sequential Thinking, Fetch, ' +
-      'Time, and Everything servers — each an educational reference implementation showing ' +
+      'Time, and Everything servers, each an educational reference implementation showing ' +
       'how to build an MCP server, not a production-ready solution. Install any server in ' +
       'seconds via npx or uvx.',
     role: 'general',
@@ -42,16 +42,16 @@ export const githubPicks4: Setup[] = [
         isPrimary: true,
         content: `## What it does
 
-The MCP Reference Servers repository hosts the small set of reference implementations maintained by the MCP steering group. Each server is designed as an educational example for developers building their own MCP servers — the README explicitly notes they are not production-ready solutions.
+The MCP Reference Servers repository hosts the small set of reference implementations maintained by the MCP steering group. Each server is designed as an educational example for developers building their own MCP servers, the README explicitly notes they are not production-ready solutions.
 
 Active reference servers:
-- **Memory** — knowledge graph-based persistent memory using a local JSONL store
-- **Filesystem** — secure file read/write with configurable access controls on a scoped directory
-- **Git** — read, search, and manipulate git repositories via MCP tools
-- **Sequential Thinking** — dynamic problem-solving through chained thought sequences
-- **Fetch** — retrieve and convert web content for LLM consumption
-- **Time** — time and timezone conversion tools
-- **Everything** — reference/test server demonstrating prompts, resources, and tools in one package
+- **Memory**, knowledge graph-based persistent memory using a local JSONL store
+- **Filesystem**, secure file read/write with configurable access controls on a scoped directory
+- **Git**, read, search, and manipulate git repositories via MCP tools
+- **Sequential Thinking**, dynamic problem-solving through chained thought sequences
+- **Fetch**, retrieve and convert web content for LLM consumption
+- **Time**, time and timezone conversion tools
+- **Everything**, reference/test server demonstrating prompts, resources, and tools in one package
 
 Many formerly included servers (GitHub, Slack, PostgreSQL, Puppeteer, Google Drive, etc.) have been archived to a separate repo as of 2025.
 
@@ -75,7 +75,7 @@ filesystem: command npx, args [-y, @modelcontextprotocol/server-filesystem, /pat
 
 ## When to use
 
-Use these servers as working references when building your own MCP server — study how they handle tool registration, error handling, and stdio transport. For production use, look for maintained forks or purpose-built alternatives. The Memory server is genuinely useful for cross-session context; the Filesystem and Git servers are solid for local development.
+Use these servers as working references when building your own MCP server, study how they handle tool registration, error handling, and stdio transport. For production use, look for maintained forks or purpose-built alternatives. The Memory server is genuinely useful for cross-session context; the Filesystem and Git servers are solid for local development.
 `,
       },
     ],
@@ -110,12 +110,12 @@ Use these servers as working references when building your own MCP server — st
     id: 'github-context7-v1',
     slug: 'github-context7',
     name: 'Context7 MCP',
-    tagline: 'Pulls version-specific library docs into Claude\'s context on demand — no more stale API answers.',
+    tagline: 'Pulls version-specific library docs into Claude\'s context on demand, no more stale API answers.',
     description:
       'An MCP server by Upstash that fetches current, version-pinned library documentation ' +
       'into the agent\'s context when needed. Eliminates the stale-training-data problem ' +
       'for fast-moving libraries: Claude answers with the real API as it exists today. ' +
-      'Ships two integration modes — MCP (native tool calls) and CLI+Skills (ctx7 CLI ' +
+      'Ships two integration modes, MCP (native tool calls) and CLI+Skills (ctx7 CLI ' +
       'commands, more token-efficient). Works with Claude Code, Cursor, and others.',
     role: 'general',
     industry: null,
@@ -145,8 +145,8 @@ Use these servers as working references when building your own MCP server — st
 Context7 resolves library documentation at request time against a live index of versioned package docs. When you append "use context7" to a prompt, or ask about a library in a session where a Context7 rule is configured, the tool fetches current docs and injects them before Claude composes its answer. The result is answers grounded in the real, current API rather than training-cutoff knowledge.
 
 Two integration modes:
-- **MCP mode** — registers a Context7 MCP server; Claude calls \`resolve-library-id\` and \`query-docs\` natively as tool calls
-- **CLI+Skills mode** — installs the \`ctx7\` CLI and a skill that guides Claude to call \`ctx7 library\` and \`ctx7 docs\` commands; more token-efficient than MCP for coding agents
+- **MCP mode**, registers a Context7 MCP server; Claude calls \`resolve-library-id\` and \`query-docs\` natively as tool calls
+- **CLI+Skills mode**, installs the \`ctx7\` CLI and a skill that guides Claude to call \`ctx7 library\` and \`ctx7 docs\` commands; more token-efficient than MCP for coding agents
 
 ## Install
 
@@ -163,19 +163,19 @@ A free API key (higher rate limits) is available at context7.com/dashboard. Pass
 
 ## MCP tools (MCP mode)
 
-resolve-library-id — resolves a library name to a Context7-compatible ID (e.g. /vercel/next.js)
+resolve-library-id, resolves a library name to a Context7-compatible ID (e.g. /vercel/next.js)
 
-query-docs — fetches documentation for a library ID filtered to a specific query
+query-docs, fetches documentation for a library ID filtered to a specific query
 
 ## CLI commands (CLI+Skills mode)
 
-ctx7 library <name> <query> — search the index by name and return matching library IDs
+ctx7 library <name> <query>, search the index by name and return matching library IDs
 
-ctx7 docs <libraryId> <query> — retrieve documentation for a library
+ctx7 docs <libraryId> <query>, retrieve documentation for a library
 
 ## When to use
 
-Append "use context7" to any prompt asking about a library API or SDK — especially for fast-moving packages like Next.js, React, or Supabase where training data is quickly outdated. Add a CLAUDE.md rule to trigger it automatically without explicit prompting.
+Append "use context7" to any prompt asking about a library API or SDK, especially for fast-moving packages like Next.js, React, or Supabase where training data is quickly outdated. Add a CLAUDE.md rule to trigger it automatically without explicit prompting.
 `,
       },
     ],
@@ -188,7 +188,7 @@ Append "use context7" to any prompt asking about a library API or SDK — especi
       },
       {
         command: 'claude mcp add --transport http context7 https://mcp.context7.com/mcp',
-        description: 'Manually register the hosted Context7 MCP HTTP endpoint in Claude Code — no local install needed.',
+        description: 'Manually register the hosted Context7 MCP HTTP endpoint in Claude Code, no local install needed.',
       },
       {
         command: 'resolve-library-id',
@@ -210,10 +210,10 @@ Append "use context7" to any prompt asking about a library API or SDK — especi
     id: 'github-playwright-mcp-v1',
     slug: 'github-playwright-mcp',
     name: 'Playwright MCP',
-    tagline: 'Microsoft\'s official Playwright MCP server — 40+ browser-automation tools via accessibility-tree snapshots.',
+    tagline: 'Microsoft\'s official Playwright MCP server, 40+ browser-automation tools via accessibility-tree snapshots.',
     description:
       'The official Playwright MCP server from Microsoft, giving Claude Code 68 browser-automation ' +
-      'tools that operate on the page\'s accessibility tree — no vision model needed. Covers ' +
+      'tools that operate on the page\'s accessibility tree, no vision model needed. Covers ' +
       'navigation, clicks, form fill, keyboard input, screenshots, and network inspection. ' +
       'For high-throughput coding agents, Microsoft also offers a token-efficient Playwright CLI ' +
       'with Skills as an alternative to MCP.',
@@ -248,25 +248,25 @@ Microsoft notes that for coding agents focused on test-writing and codebase work
 
 ## Key tools
 
-browser_navigate — navigate to a URL
+browser_navigate, navigate to a URL
 
-browser_click — click an element by accessibility selector or snapshot reference
+browser_click, click an element by accessibility selector or snapshot reference
 
-browser_type — type text into an editable element
+browser_type, type text into an editable element
 
-browser_fill_form — fill multiple form fields in one call
+browser_fill_form, fill multiple form fields in one call
 
-browser_take_screenshot — capture the current page as an image
+browser_take_screenshot, capture the current page as an image
 
-browser_snapshot — return the current page's accessibility tree as structured data (use this for actions, not browser_take_screenshot)
+browser_snapshot, return the current page's accessibility tree as structured data (use this for actions, not browser_take_screenshot)
 
-browser_evaluate — run JavaScript in the page context
+browser_evaluate, run JavaScript in the page context
 
-browser_press_key — press a keyboard key or chord
+browser_press_key, press a keyboard key or chord
 
-browser_select_option — select an option from a dropdown
+browser_select_option, select an option from a dropdown
 
-browser_console_messages — return browser console output
+browser_console_messages, return browser console output
 
 ## Install
 
@@ -279,7 +279,7 @@ claude mcp add playwright -- npx @playwright/mcp@latest
 
 ## When to use
 
-Use Playwright MCP when you want Claude to drive a browser autonomously — testing UI flows, scraping structured data, or automating multi-step web tasks. Prefer CLI+Skills if you are mostly writing Playwright test code and want to conserve context window space.
+Use Playwright MCP when you want Claude to drive a browser autonomously, testing UI flows, scraping structured data, or automating multi-step web tasks. Prefer CLI+Skills if you are mostly writing Playwright test code and want to conserve context window space.
 `,
       },
     ],
@@ -304,7 +304,7 @@ Use Playwright MCP when you want Claude to drive a browser autonomously — test
       },
       {
         command: 'browser_snapshot',
-        description: 'MCP tool that returns the page\'s current accessibility tree as structured data — use this (not the screenshot) when selecting elements for subsequent actions.',
+        description: 'MCP tool that returns the page\'s current accessibility tree as structured data, use this (not the screenshot) when selecting elements for subsequent actions.',
       },
       {
         command: 'browser_take_screenshot',
@@ -323,7 +323,7 @@ Use Playwright MCP when you want Claude to drive a browser autonomously — test
       'The official Exa MCP server giving Claude Code access to Exa\'s semantic search ' +
       'and crawling API. Core tools: web_search_exa for general queries and web_fetch_exa ' +
       'for specific URLs; web_search_advanced_exa (off by default) adds domain/date filters ' +
-      'and category targeting. Available as a hosted HTTP endpoint — no local install needed.',
+      'and category targeting. Available as a hosted HTTP endpoint, no local install needed.',
     role: 'general',
     industry: null,
     tags: ['mcp', 'exa', 'search', 'research', 'web-crawl', 'claude-code'],
@@ -349,21 +349,21 @@ Use Playwright MCP when you want Claude to drive a browser autonomously — test
         isPrimary: true,
         content: `## What it does
 
-The Exa MCP server wraps Exa's semantic search and crawling API as MCP tools Claude Code can call mid-session. The primary interface is the hosted HTTP endpoint — no local install required. An Exa API key is optional for low-volume use; get one free at dashboard.exa.ai/api-keys for higher rate limits.
+The Exa MCP server wraps Exa's semantic search and crawling API as MCP tools Claude Code can call mid-session. The primary interface is the hosted HTTP endpoint, no local install required. An Exa API key is optional for low-volume use; get one free at dashboard.exa.ai/api-keys for higher rate limits.
 
 ## Active tools (enabled by default)
 
-web_search_exa — semantic web search returning clean, ready-to-use content for any topic
+web_search_exa, semantic web search returning clean, ready-to-use content for any topic
 
-web_fetch_exa — retrieve the full content of a specific URL
+web_fetch_exa, retrieve the full content of a specific URL
 
 ## Optional tools (enable via query parameter)
 
-web_search_advanced_exa — advanced web search with domain filters (includeDomains/excludeDomains), date ranges (startPublishedDate/endPublishedDate), category targeting (company, news, research paper, people, personal site, financial report), and result count tuning. Enable via: https://mcp.exa.ai/mcp?tools=web_search_advanced_exa
+web_search_advanced_exa, advanced web search with domain filters (includeDomains/excludeDomains), date ranges (startPublishedDate/endPublishedDate), category targeting (company, news, research paper, people, personal site, financial report), and result count tuning. Enable via: https://mcp.exa.ai/mcp?tools=web_search_advanced_exa
 
-Exa Agent tools (agent_create_run, agent_wait_for_run, agent_get_run_output, agent_cancel_run) — async multi-step research runs. Enable via: https://mcp.exa.ai/mcp?tools=agent_tools
+Exa Agent tools (agent_create_run, agent_wait_for_run, agent_get_run_output, agent_cancel_run), async multi-step research runs. Enable via: https://mcp.exa.ai/mcp?tools=agent_tools
 
-Note: older tools (company_research_exa, crawling_exa, people_search_exa, research_paper_search, get_code_context_exa) are deprecated — use web_search_exa or web_search_advanced_exa with the matching category instead.
+Note: older tools (company_research_exa, crawling_exa, people_search_exa, research_paper_search, get_code_context_exa) are deprecated, use web_search_exa or web_search_advanced_exa with the matching category instead.
 
 ## Install
 
@@ -377,7 +377,7 @@ add to mcpServers: command npx, args [-y, exa-mcp-server], env EXA_API_KEY
 
 ## When to use
 
-Add Exa MCP when you want Claude to search the live web, fetch specific pages, or do company/people/academic research during a session — without switching to a browser. Use web_search_advanced_exa with category: "research paper" for academic literature, category: "company" for business intelligence.
+Add Exa MCP when you want Claude to search the live web, fetch specific pages, or do company/people/academic research during a session, without switching to a browser. Use web_search_advanced_exa with category: "research paper" for academic literature, category: "company" for business intelligence.
 `,
       },
     ],
@@ -386,7 +386,7 @@ Add Exa MCP when you want Claude to search the live web, fetch specific pages, o
     capabilities: [
       {
         command: 'claude mcp add --transport http exa https://mcp.exa.ai/mcp',
-        description: 'Register the hosted Exa MCP HTTP endpoint in Claude Code — no local process or install needed.',
+        description: 'Register the hosted Exa MCP HTTP endpoint in Claude Code, no local process or install needed.',
       },
       {
         command: 'web_search_exa',
@@ -412,7 +412,7 @@ Add Exa MCP when you want Claude to search the live web, fetch specific pages, o
     description:
       'Smithery\'s official CLI for discovering and managing MCP servers and skills. ' +
       'Search a registry of thousands of servers, add one via URL, list and call individual tools, ' +
-      'and publish your own server or bundle. Also surfaces the Smithery Skills Registry — ' +
+      'and publish your own server or bundle. Also surfaces the Smithery Skills Registry, ' +
       'install skills for Claude Code with a single npx command. Requires Node.js 20+.',
     role: 'general',
     industry: null,
@@ -445,35 +445,35 @@ Install globally with npm (requires Node.js 20+): npm install -g smithery@latest
 
 ## MCP server commands
 
-smithery mcp search [term] — search the Smithery registry by keyword
+smithery mcp search [term], search the Smithery registry by keyword
 
-smithery mcp add <url> — connect to an MCP server by its URL
+smithery mcp add <url>, connect to an MCP server by its URL
 
-smithery mcp list — list all connected MCP server connections
+smithery mcp list, list all connected MCP server connections
 
-smithery mcp remove <ids> — remove one or more connections
+smithery mcp remove <ids>, remove one or more connections
 
-smithery mcp publish <url or bundle> -n <org/server> — publish an MCP server to the registry
+smithery mcp publish <url or bundle> -n <org/server>, publish an MCP server to the registry
 
 ## Tool commands (interact with tools from connected servers)
 
-smithery tool list [connection] — list all tools from your connected servers
+smithery tool list [connection], list all tools from your connected servers
 
-smithery tool find [query] — search tools by name or intent
+smithery tool find [query], search tools by name or intent
 
-smithery tool get <connection> <tool> — show full details for one tool
+smithery tool get <connection> <tool>, show full details for one tool
 
-smithery tool call <connection> <tool> [args] — call a tool with arguments
+smithery tool call <connection> <tool> [args], call a tool with arguments
 
 ## Skills commands
 
-npx skills add <skill> — install a skill from the Smithery Skills Registry (e.g. npx skills add smithery-ai/cli)
+npx skills add <skill>, install a skill from the Smithery Skills Registry (e.g. npx skills add smithery-ai/cli)
 
 ## Auth commands
 
-smithery auth login — authenticate with Smithery via OAuth
+smithery auth login, authenticate with Smithery via OAuth
 
-smithery auth token — mint a service token for automated use
+smithery auth token, mint a service token for automated use
 
 ## When to use
 
@@ -516,7 +516,7 @@ Use Smithery CLI when you want to discover and connect to MCP servers without ha
     id: 'github-claude-mem-v1',
     slug: 'github-claude-mem',
     name: 'claude-mem',
-    tagline: 'Persistent memory plugin — captures every tool call and injects relevant prior context into future sessions.',
+    tagline: 'Persistent memory plugin, captures every tool call and injects relevant prior context into future sessions.',
     description:
       'A Claude Code plugin that captures tool-call observations during sessions, compresses ' +
       'them into a SQLite + Chroma vector database, and injects relevant context automatically ' +
@@ -553,9 +553,9 @@ claude-mem is a persistent memory compression system for Claude Code. It hooks i
 A local worker service (managed by Bun) runs as an HTTP API alongside Claude Code, providing a web viewer UI for browsing stored memories and a search API the MCP tools query.
 
 The system uses a token-efficient 3-layer retrieval pattern:
-1. search — get a compact index of matching observations (50-100 tokens per result)
-2. timeline — get chronological context around interesting results
-3. get_observations — fetch full details only for the IDs you filtered to (~500-1000 tokens per result)
+1. search, get a compact index of matching observations (50-100 tokens per result)
+2. timeline, get chronological context around interesting results
+3. get_observations, fetch full details only for the IDs you filtered to (~500-1000 tokens per result)
 
 This approach achieves roughly 10x token savings compared to fetching full observations upfront.
 
@@ -571,19 +571,19 @@ Or from inside Claude Code:
 
 Restart Claude Code after installation. Requires Node.js 20+ and Bun (auto-installed if missing).
 
-Note: npm install -g claude-mem installs the SDK library only — always use npx claude-mem install to register the plugin hooks.
+Note: npm install -g claude-mem installs the SDK library only, always use npx claude-mem install to register the plugin hooks.
 
 ## MCP tools
 
-search — full-text search over the memory index with optional type/date/project filters; returns compact results with IDs
+search, full-text search over the memory index with optional type/date/project filters; returns compact results with IDs
 
-timeline — chronological context around a specific observation or query
+timeline, chronological context around a specific observation or query
 
-get_observations — fetch full observation details by a list of IDs (batch multiple IDs for efficiency)
+get_observations, fetch full observation details by a list of IDs (batch multiple IDs for efficiency)
 
 ## When to use
 
-Install claude-mem on any long-running project where sessions pick up where prior sessions left off — active codebases, recurring research tasks, or any project where re-explaining context at the start of each session is a significant friction point.
+Install claude-mem on any long-running project where sessions pick up where prior sessions left off, active codebases, recurring research tasks, or any project where re-explaining context at the start of each session is a significant friction point.
 `,
       },
     ],
@@ -604,7 +604,7 @@ Install claude-mem on any long-running project where sessions pick up where prio
       },
       {
         command: 'get_observations',
-        description: 'MCP tool: fetch full observation details by a list of IDs — always batch multiple IDs to avoid repeated round trips.',
+        description: 'MCP tool: fetch full observation details by a list of IDs, always batch multiple IDs to avoid repeated round trips.',
       },
     ],
   },
@@ -614,7 +614,7 @@ Install claude-mem on any long-running project where sessions pick up where prio
     id: 'github-claude-plugins-official-v1',
     slug: 'github-claude-plugins-official',
     name: 'Anthropic Official Plugin Directory',
-    tagline: 'Anthropic\'s curated directory of Claude Code plugins — internal Anthropic-built plugins plus vetted third-party partner submissions.',
+    tagline: 'Anthropic\'s curated directory of Claude Code plugins, internal Anthropic-built plugins plus vetted third-party partner submissions.',
     description:
       'The official Anthropic-maintained Claude Code plugin directory. ' +
       'Hosts two categories: internal plugins developed by Anthropic team members, and external ' +
@@ -648,20 +648,20 @@ Install claude-mem on any long-running project where sessions pick up where prio
 
 The claude-plugins-official repo is the Claude Code plugin marketplace directory maintained by Anthropic. It hosts two categories of plugins:
 
-- internal plugins — developed and maintained by Anthropic team members (see /plugins directory)
-- external plugins — third-party partner contributions that have passed Anthropic's quality and security review (see /external_plugins directory)
+- internal plugins, developed and maintained by Anthropic team members (see /plugins directory)
+- external plugins, third-party partner contributions that have passed Anthropic's quality and security review (see /external_plugins directory)
 
 Plugins follow a standard structure:
 
 plugin-name/
-  .claude-plugin/plugin.json   — plugin metadata (required)
-  .mcp.json                    — MCP server config (optional)
-  commands/                    — slash command definitions (optional)
-  agents/                      — agent definitions (optional)
-  skills/                      — skill definitions (optional)
+  .claude-plugin/plugin.json, plugin metadata (required)
+  .mcp.json, MCP server config (optional)
+  commands/, slash command definitions (optional)
+  agents/, agent definitions (optional)
+  skills/, skill definitions (optional)
   README.md
 
-Plugin names are immutable slugs — once published, the name field cannot change without a migration entry in the renames map, since existing installs reference it. Display names can change freely.
+Plugin names are immutable slugs, once published, the name field cannot change without a migration entry in the renames map, since existing installs reference it. Display names can change freely.
 
 Skill-bundle plugins (repos that ship SKILL.md files without a full plugin.json) can be included using strict: false with an explicit skills array pointing at subdirectory paths.
 
@@ -676,7 +676,7 @@ To submit an external plugin: use the plugin directory submission form at clau.d
 
 ## When to use
 
-Browse this directory when you want to extend Claude Code with vetted connectors or skills — or when you want a reference implementation of the Claude Code plugin structure to build your own plugin.
+Browse this directory when you want to extend Claude Code with vetted connectors or skills, or when you want a reference implementation of the Claude Code plugin structure to build your own plugin.
 `,
       },
     ],
@@ -703,11 +703,11 @@ Browse this directory when you want to extend Claude Code with vetted connectors
     id: 'github-mas-sequential-thinking-v1',
     slug: 'github-mas-sequential-thinking',
     name: 'MAS Sequential Thinking',
-    tagline: 'A 6-agent multi-agent sequential thinking MCP server — each agent examines a problem from a distinct cognitive angle.',
+    tagline: 'A 6-agent multi-agent sequential thinking MCP server, each agent examines a problem from a distinct cognitive angle.',
     description:
       'An advanced Sequential Thinking MCP server built on the Agno multi-agent framework. ' +
-      'Every request runs through six specialized agents in parallel — Factual, Emotional, ' +
-      'Critical, Optimistic, Creative, and Synthesis — then a Synthesis agent integrates ' +
+      'Every request runs through six specialized agents in parallel, Factual, Emotional, ' +
+      'Critical, Optimistic, Creative, and Synthesis, then a Synthesis agent integrates ' +
       'all perspectives. Requires Python 3.10+ and an LLM API key (DeepSeek default). ' +
       'Optional Exa API key enables web research for four of the six agents.',
     role: 'general',
@@ -735,19 +735,19 @@ Browse this directory when you want to extend Claude Code with vetted connectors
         isPrimary: true,
         content: `## What it does
 
-MAS Sequential Thinking replaces the standard single-chain sequential thinking MCP tool with a 6-agent panel built on the Agno framework. Every request runs the full_exploration strategy — a fixed, deterministic multi-step path — regardless of problem complexity:
+MAS Sequential Thinking replaces the standard single-chain sequential thinking MCP tool with a 6-agent panel built on the Agno framework. Every request runs the full_exploration strategy, a fixed, deterministic multi-step path, regardless of problem complexity:
 
 1. Initial Synthesis (Synthesis agent)
 2. Parallel specialist agents (Factual, Emotional, Critical, Optimistic, Creative)
 3. Final Synthesis (Synthesis agent integrates all perspectives)
 
 The six agents and their roles:
-- Factual — objective facts, data verification, web research (ExaTools optional)
-- Emotional — gut reactions and intuitive pattern recognition (30s quick-reaction mode)
-- Critical — risk assessment, devil's advocate, counterexample research (ExaTools optional)
-- Optimistic — benefits, opportunities, success story research (ExaTools optional)
-- Creative — lateral thinking, cross-industry innovation research (ExaTools optional)
-- Synthesis — integrates all perspectives into a coherent, actionable response
+- Factual, objective facts, data verification, web research (ExaTools optional)
+- Emotional, gut reactions and intuitive pattern recognition (30s quick-reaction mode)
+- Critical, risk assessment, devil's advocate, counterexample research (ExaTools optional)
+- Optimistic, benefits, opportunities, success story research (ExaTools optional)
+- Creative, lateral thinking, cross-industry innovation research (ExaTools optional)
+- Synthesis, integrates all perspectives into a coherent, actionable response
 
 The Synthesis agent uses an enhanced model; the five specialist agents use a standard model. Four of the six agents can perform web research via optional Exa integration.
 
@@ -767,7 +767,7 @@ EXA_API_KEY (optional, enables web research for 4 agents)
 
 The single MCP tool exposed is sequentialthinking. Parameters include thought (the current reasoning step), thoughtNumber (1-based index), totalThoughts, nextThoughtNeeded, and isRevision.
 
-The tool returns structuredContent.should_continue — keep calling sequentialthinking in a loop until this is false.
+The tool returns structuredContent.should_continue, keep calling sequentialthinking in a loop until this is false.
 
 ## When to use
 
@@ -801,8 +801,8 @@ Use for complex architectural decisions, ambiguous design trade-offs, or any pro
     tagline: 'Persistent browser control for Claude agents via the full Playwright API in a sandbox, with auto-connect to Chrome.',
     description:
       'A browser automation tool by sawyerhood that lets Claude Code control browsers via ' +
-      'sandboxed JavaScript scripts. Scripts run in a QuickJS WASM sandbox — no host ' +
-      'filesystem or network access — against persistent named pages that survive across ' +
+      'sandboxed JavaScript scripts. Scripts run in a QuickJS WASM sandbox, no host ' +
+      'filesystem or network access, against persistent named pages that survive across ' +
       'script calls. Supports auto-connect to a running Chrome instance or launches ' +
       'headless Chromium. Primary interface is CLI via stdin/stdout.',
     role: 'general',
@@ -830,7 +830,7 @@ Use for complex architectural decisions, ambiguous design trade-offs, or any pro
         isPrimary: true,
         content: `## What it does
 
-dev-browser is a browser automation CLI that Claude Code agents drive via stdin/stdout. Scripts run in a QuickJS WASM sandbox — meaning they have no access to the host filesystem or network — but expose the full Playwright Page API against persistent named pages. Named pages survive across script calls, so navigation state, cookies, and localStorage persist for the duration of the process.
+dev-browser is a browser automation CLI that Claude Code agents drive via stdin/stdout. Scripts run in a QuickJS WASM sandbox, meaning they have no access to the host filesystem or network, but expose the full Playwright Page API against persistent named pages. Named pages survive across script calls, so navigation state, cookies, and localStorage persist for the duration of the process.
 
 The tool can either launch headless Chromium or connect to your already-running Chrome instance (enable remote debugging at chrome://inspect/#remote-debugging, then use --connect).
 
@@ -843,33 +843,33 @@ dev-browser install   (installs Playwright + Chromium)
 
 ## Script API (runs in QuickJS sandbox)
 
-browser.getPage(nameOrId) — get or create a persistent named page (or connect to a Chrome tab by targetId)
+browser.getPage(nameOrId), get or create a persistent named page (or connect to a Chrome tab by targetId)
 
-browser.newPage() — create an anonymous page, cleaned up after the script ends
+browser.newPage(), create an anonymous page, cleaned up after the script ends
 
-browser.listPages() — list all tabs: [{id, url, title, name}]
+browser.listPages(), list all tabs: [{id, url, title, name}]
 
-browser.closePage(name) — close a named page
+browser.closePage(name), close a named page
 
 Pages are full Playwright Page objects: goto, click, fill, locator, evaluate, screenshot, and more.
 
-page.snapshotForAI({ track?, depth?, timeout? }) — AI-friendly page snapshot returning { full, incremental? }
+page.snapshotForAI({ track?, depth?, timeout? }), AI-friendly page snapshot returning { full, incremental? }
 
-page.cua.* — pixel/vision tier: screenshot(), click, doubleClick, drag, scroll, keypress, type at CSS coordinates
+page.cua.*, pixel/vision tier: screenshot(), click, doubleClick, drag, scroll, keypress, type at CSS coordinates
 
-page.domCua.* — DOM-id tier: getVisibleDom() returns pseudo-HTML with node_id=N; click, doubleClick, scroll by node id
+page.domCua.*, DOM-id tier: getVisibleDom() returns pseudo-HTML with node_id=N; click, doubleClick, scroll by node id
 
 File I/O is restricted to ~/.dev-browser/tmp/ via saveScreenshot, writeFile, and readFile helpers.
 
 ## Usage modes
 
-dev-browser --headless <<'EOF'  (script here)  EOF  — headless, pipe script via stdin
+dev-browser --headless <<'EOF'  (script here)  EOF, headless, pipe script via stdin
 
-dev-browser --connect <<'EOF'  (script here)  EOF  — connect to running Chrome
+dev-browser --connect <<'EOF'  (script here)  EOF, connect to running Chrome
 
 ## Claude Code integration
 
-Tell Claude to run dev-browser --help — the help output includes a full LLM usage guide. To skip permission prompts, add Bash(dev-browser *) to the allow list in .claude/settings.json.
+Tell Claude to run dev-browser --help, the help output includes a full LLM usage guide. To skip permission prompts, add Bash(dev-browser *) to the allow list in .claude/settings.json.
 
 Legacy plugin install: /plugin marketplace add sawyerhood/dev-browser, then /plugin install dev-browser@sawyerhood/dev-browser.
 `,
@@ -884,7 +884,7 @@ Legacy plugin install: /plugin marketplace add sawyerhood/dev-browser, then /plu
       },
       {
         command: 'dev-browser --headless',
-        description: 'Run a browser script via stdin in headless mode — no visible window, suitable for CI.',
+        description: 'Run a browser script via stdin in headless mode, no visible window, suitable for CI.',
       },
       {
         command: 'dev-browser --connect',
@@ -892,11 +892,11 @@ Legacy plugin install: /plugin marketplace add sawyerhood/dev-browser, then /plu
       },
       {
         command: 'browser.getPage(nameOrId)',
-        description: 'Script API call to get or create a persistent named page — named pages survive across script calls, preserving navigation state and cookies.',
+        description: 'Script API call to get or create a persistent named page, named pages survive across script calls, preserving navigation state and cookies.',
       },
       {
         command: 'page.snapshotForAI()',
-        description: 'Script API call that returns { full, incremental? } — an AI-friendly structured page snapshot for reasoning about page content.',
+        description: 'Script API call that returns { full, incremental? }, an AI-friendly structured page snapshot for reasoning about page content.',
       },
     ],
   },
@@ -943,19 +943,19 @@ claude-code-hooks is a collection of drop-in hook scripts for the Claude Code ho
 ## Implemented hooks
 
 PreToolUse:
-- block-dangerous-commands — blocks catastrophic shell commands: rm -rf ~ and variants, fork bombs, curl|sh pipes, disk-wiping dd. Configurable safety levels: critical (catastrophic only), high (recommended, adds force push to main, secrets exposure), strict (maximum).
-- protect-secrets — prevents reading, modifying, or exfiltrating sensitive files: .env, private keys, credential files.
-- git-safety — branch-aware git guardrails plus protection against destructive gh CLI operations.
+- block-dangerous-commands, blocks catastrophic shell commands: rm -rf ~ and variants, fork bombs, curl|sh pipes, disk-wiping dd. Configurable safety levels: critical (catastrophic only), high (recommended, adds force push to main, secrets exposure), strict (maximum).
+- protect-secrets, prevents reading, modifying, or exfiltrating sensitive files: .env, private keys, credential files.
+- git-safety, branch-aware git guardrails plus protection against destructive gh CLI operations.
 
 PostToolUse:
-- auto-stage — automatically git stages files after Claude writes or edits them.
-- format-code — auto-formats Python files with ruff and JS/TS/JSON/YAML/Markdown with Prettier after edits.
+- auto-stage, automatically git stages files after Claude writes or edits them.
+- format-code, auto-formats Python files with ruff and JS/TS/JSON/YAML/Markdown with Prettier after edits.
 
 Notification:
-- notify-permission — sends Slack webhook alerts when Claude Code is idle waiting for user input.
+- notify-permission, sends Slack webhook alerts when Claude Code is idle waiting for user input.
 
 Utils:
-- event-logger.py — logs all hook events to inspect payload structures; useful when building new hooks.
+- event-logger.py, logs all hook events to inspect payload structures; useful when building new hooks.
 
 ## Install
 
@@ -973,7 +973,7 @@ Each safety hook exposes a SAFETY_LEVEL constant at the top of the file. Set to 
 
 ## When to use
 
-Install block-dangerous-commands and protect-secrets on any project where Claude has Bash access — they are low-friction safety nets with zero false positives at the recommended "high" level. Combine with auto-stage to keep the working tree clean after Claude edits.
+Install block-dangerous-commands and protect-secrets on any project where Claude has Bash access, they are low-friction safety nets with zero false positives at the recommended "high" level. Combine with auto-stage to keep the working tree clean after Claude edits.
 `,
       },
     ],
@@ -982,7 +982,7 @@ Install block-dangerous-commands and protect-secrets on any project where Claude
     capabilities: [
       {
         command: 'block-dangerous-commands (PreToolUse)',
-        description: 'Blocks catastrophic Bash commands — rm -rf ~, fork bombs, curl|sh pipes — before Claude executes them. Configurable safety level: critical, high, or strict.',
+        description: 'Blocks catastrophic Bash commands, rm -rf ~, fork bombs, curl|sh pipes, before Claude executes them. Configurable safety level: critical, high, or strict.',
       },
       {
         command: 'protect-secrets (PreToolUse)',
@@ -1012,11 +1012,11 @@ Install block-dangerous-commands and protect-secrets on any project where Claude
     id: 'github-claude-hooks-ts-v1',
     slug: 'github-claude-hooks-ts',
     name: 'claude-hooks (TypeScript)',
-    tagline: 'TypeScript-based Claude Code hook system — full type safety, auto-completion, and npm-ecosystem access for hook logic.',
+    tagline: 'TypeScript-based Claude Code hook system, full type safety, auto-completion, and npm-ecosystem access for hook logic.',
     description:
       'A TypeScript scaffolding tool for Claude Code hooks by johnlindquist. Run npx claude-hooks ' +
       'to generate .claude/hooks/index.ts with typed PreToolUse, PostToolUse, Notification, ' +
-      'and Stop handlers — plus lib.ts type definitions and session.ts utilities. Write hook logic ' +
+      'and Stop handlers, plus lib.ts type definitions and session.ts utilities. Write hook logic ' +
       'in TypeScript with full IntelliSense; hooks execute via Bun at runtime.',
     role: 'general',
     industry: null,
@@ -1045,17 +1045,17 @@ Install block-dangerous-commands and protect-secrets on any project where Claude
 
 claude-hooks provides a TypeScript scaffolding system for Claude Code hooks by johnlindquist. Where the shell-script approach requires parsing raw JSON event payloads by hand, claude-hooks generates a complete typed development environment: strongly-typed payload interfaces for all four lifecycle events (PreToolUse, PostToolUse, Notification, Stop), auto-completion in any TypeScript editor, and access to the full npm ecosystem inside hook logic.
 
-Hooks execute via Bun at runtime (required — curl -fsSL https://bun.sh/install | bash). Node.js 18+ is needed to run the CLI itself.
+Hooks execute via Bun at runtime (required, curl -fsSL https://bun.sh/install | bash). Node.js 18+ is needed to run the CLI itself.
 
 ## Setup
 
 npx claude-hooks
 
 This generates:
-- .claude/settings.json — hook configuration wiring
-- .claude/hooks/index.ts — main handler file (edit this)
-- .claude/hooks/lib.ts — type definitions and utilities
-- .claude/hooks/session.ts — optional session tracking utilities
+- .claude/settings.json, hook configuration wiring
+- .claude/hooks/index.ts, main handler file (edit this)
+- .claude/hooks/lib.ts, type definitions and utilities
+- .claude/hooks/session.ts, optional session tracking utilities
 
 Session logs are saved to the system temp dir under claude-hooks-sessions/.
 
@@ -1070,7 +1070,7 @@ async function preToolUse(payload: PreToolUsePayload): Promise<HookResponse>
 async function postToolUse(payload: PostToolUsePayload): Promise<void>
 - payload.tool_name, payload.success, payload.tool_input, payload.tool_output
 
-The typed WriteToolInput gives auto-completion for payload.tool_input.file_path and .content — no manual JSON parsing.
+The typed WriteToolInput gives auto-completion for payload.tool_input.file_path and .content, no manual JSON parsing.
 
 ## When to use
 

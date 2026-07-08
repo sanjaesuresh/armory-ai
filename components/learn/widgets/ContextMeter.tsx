@@ -83,7 +83,7 @@ export default function ContextMeter() {
       <h2 id="cm-heading">Fill the context window</h2>
       <p>
         Add items below and watch the window fill. When it overflows, the oldest
-        messages are dropped — the model no longer sees them.
+        messages are dropped, the model no longer sees them.
       </p>
 
       {/* Bar */}
@@ -115,11 +115,11 @@ export default function ContextMeter() {
                   ? 'Your oldest message was dropped.'
                   : `Your ${droppedCount} oldest messages were dropped.`}
               </strong>{' '}
-              Claude can no longer see them — they fell off the context window to make room.
+              Claude can no longer see them, they fell off the context window to make room.
             </>
           ) : (
             <strong>
-              The context window is full — the newest content doesn&apos;t fully fit.
+              The context window is full, the newest content doesn&apos;t fully fit.
             </strong>
           )}
         </div>

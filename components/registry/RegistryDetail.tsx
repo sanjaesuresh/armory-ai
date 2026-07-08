@@ -158,7 +158,7 @@ export default function RegistryDetail({
               </span>
             ) : setup.source === 'github' ? (
               <span className="badge badge-github" data-testid="detail-badge-github">
-                Community pick
+                Community
               </span>
             ) : null}
 

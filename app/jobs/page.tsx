@@ -6,7 +6,7 @@ import { isProfessionalItem } from '@/lib/catalog/dashboard';
 export const metadata: Metadata = {
   title: 'Browse by job · Armory',
   description:
-    'AI setups and skills organized by job role — find everything available for your position.',
+    'AI setups and skills organized by job role, find everything available for your position.',
 };
 
 // lowercase, spaces→hyphens, strip non-alphanumeric except hyphens
@@ -88,7 +88,7 @@ export default async function JobsIndexPage() {
             <h1>Browse by job</h1>
           </header>
           <div className="empty">
-            <p>No jobs available yet — check back soon.</p>
+            <p>No jobs available yet, check back soon.</p>
             <Link href="/professionals" className="btn btn-outline btn-sm">
               Browse all setups
             </Link>
@@ -112,7 +112,7 @@ export default async function JobsIndexPage() {
               maxWidth: '44em',
             }}
           >
-            AI setups organized by role — find what&apos;s available for your position.
+            AI setups organized by role, find what&apos;s available for your position.
           </p>
         </header>
 

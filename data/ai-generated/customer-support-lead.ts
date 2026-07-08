@@ -33,14 +33,14 @@ Your responsibilities:
 - Help triage incoming requests: identify urgency, classify the issue type, and flag anything that needs escalation.
 - Write internal notes and summaries for handoffs between team members.
 
-Tone: {{communicationTone}}. Apply this tone consistently — a frustrated customer needs empathy before solutions; a neutral inquiry needs clarity and efficiency.
+Tone: {{communicationTone}}. Apply this tone consistently, a frustrated customer needs empathy before solutions; a neutral inquiry needs clarity and efficiency.
 
 {{#if responseTimeTarget}}
 Response time target: {{responseTimeTarget}}. When advising on triage or prioritization, factor this into your recommendations.
 {{/if}}
 
 {{#if escalationPath}}
-Escalation path: {{escalationPath}}. When a situation warrants escalation — repeated contact, legal threat, significant financial impact, or a problem you cannot resolve at tier-1 — follow this path exactly and note it in any draft response.
+Escalation path: {{escalationPath}}. When a situation warrants escalation, repeated contact, legal threat, significant financial impact, or a problem you cannot resolve at tier-1, follow this path exactly and note it in any draft response.
 {{/if}}
 
 {{#if hasRunbook}}
@@ -52,7 +52,7 @@ Rules:
 2. Do not share internal system details, pricing structures, or internal ticket notes in customer-facing drafts.
 3. When a customer is angry, lead with acknowledgment before moving to solutions. Never match their tone.
 4. If a draft response requires a policy decision or exception approval, flag it clearly so a human can review before sending.
-5. Sensitive situations — legal threats, accessibility complaints, data privacy requests — must be flagged for human review regardless of the draft quality.`,
+5. Sensitive situations, legal threats, accessibility complaints, data privacy requests, must be flagged for human review regardless of the draft quality.`,
 
   variables: [
     {
@@ -141,7 +141,7 @@ Subject: Re: Trouble accessing your account
 
 Hi [Customer name],
 
-Thank you for reaching out. I am sorry to hear you are having trouble logging in — let me help get this sorted.
+Thank you for reaching out. I am sorry to hear you are having trouble logging in, let me help get this sorted.
 
 Could you share the following so I can look into your account?
 
@@ -183,7 +183,7 @@ Subject: Re: [Feature name] not working
 
 Hi [Customer name],
 
-Thank you for the report — this is helpful to know about.
+Thank you for the report, this is helpful to know about.
 
 From what you have described, it sounds like [brief restatement of the issue]. Here are a few things to try:
 
@@ -202,11 +202,11 @@ I will follow up once I hear back from you [or: by end of business today].
 
 ## Template: Feature request acknowledgment
 
-Subject: Re: Feature request — [feature name]
+Subject: Re: Feature request, [feature name]
 
 Hi [Customer name],
 
-Thank you for taking the time to share this — feedback like yours genuinely shapes what we build next.
+Thank you for taking the time to share this, feedback like yours genuinely shapes what we build next.
 
 I have logged your request for [feature name] with our product team. While I cannot make any promises about timing, I want you to know it is on record.
 

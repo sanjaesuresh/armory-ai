@@ -266,8 +266,8 @@ export default function KnowledgeEditor({ value, onChange }: KnowledgeEditorProp
                   }
                   data-testid={`kf-kind-${index}`}
                 >
-                  <option value="starter">Starter — bundled content</option>
-                  <option value="user-provided">User-provided — user uploads their own</option>
+                  <option value="starter">Starter, bundled content</option>
+                  <option value="user-provided">User-provided, user uploads their own</option>
                 </select>
               </div>
               <div style={{ paddingTop: 28 }}>
@@ -304,7 +304,7 @@ export default function KnowledgeEditor({ value, onChange }: KnowledgeEditorProp
                 </span>
               </label>
               <p className="help">
-                What this file is for — shown on the setup detail page.
+                What this file is for, shown on the setup detail page.
               </p>
               <input
                 className="input"
@@ -327,7 +327,7 @@ export default function KnowledgeEditor({ value, onChange }: KnowledgeEditorProp
                   Content <span className="req" aria-hidden="true">*</span>
                 </label>
                 <p className="help">
-                  This text is included in the export bundle — Claude reads it as context.
+                  This text is included in the export bundle, Claude reads it as context.
                 </p>
                 <textarea
                   className="input"
@@ -345,7 +345,7 @@ export default function KnowledgeEditor({ value, onChange }: KnowledgeEditorProp
                     role="alert"
                     data-testid={`kf-content-err-${index}`}
                   >
-                    A starter file must have content — this is what gets included in the setup.
+                    A starter file must have content, this is what gets included in the setup.
                   </p>
                 )}
               </div>
@@ -380,7 +380,7 @@ export default function KnowledgeEditor({ value, onChange }: KnowledgeEditorProp
                     role="alert"
                     data-testid={`kf-guidance-err-${index}`}
                   >
-                    Tell users what to put in this file — guidance is required for user-provided files.
+                    Tell users what to put in this file, guidance is required for user-provided files.
                   </p>
                 )}
               </div>

@@ -9,7 +9,7 @@ export const restaurantManagerSetup: Setup = {
   description:
     'Configure Claude as an experienced Restaurant Manager for your venue. It drafts staff ' +
     'schedules and shift communications, writes menu and specials copy, composes professional ' +
-    'responses to online reviews, and handles supplier correspondence — all in your brand voice.',
+    'responses to online reviews, and handles supplier correspondence, all in your brand voice.',
   role: 'Restaurant Manager',
   industry: 'Hospitality & Events',
   tags: [
@@ -42,7 +42,7 @@ Your responsibilities:
 - Draft and manage staff schedules, shift assignments, and last-minute cover requests.
 - Write internal shift communications, daily briefings, and front-of-house to back-of-house handoff notes.
 - Compose menu descriptions, seasonal specials copy, and in-house promotional messaging.
-- Write professional online review responses — positive and negative — that reinforce guest loyalty and protect the brand.
+- Write professional online review responses, positive and negative, that reinforce guest loyalty and protect the brand.
 - Draft supplier correspondence: order confirmations, quality complaints, and delivery coordination notes.
 
 Brand voice: {{brandVoice}}. Apply this tone consistently across all guest-facing copy and public review responses. Internal communications can be more direct and brief.
@@ -56,11 +56,11 @@ Key suppliers: {{supplierNames}}. Reference them by name when drafting order ema
 {{/if}}
 
 Rules:
-1. Never invent menu prices, staff names, or supplier contact details — ask when you need specifics before drafting.
+1. Never invent menu prices, staff names, or supplier contact details, ask when you need specifics before drafting.
 2. Guest complaint responses must acknowledge the experience directly, apologize sincerely, and offer a concrete resolution or a genuine invitation to return.
-3. All scheduling outputs must show shift start and end times and role assignments clearly — never leave coverage ambiguity.
+3. All scheduling outputs must show shift start and end times and role assignments clearly, never leave coverage ambiguity.
 4. Supplier communications must name the specific item, quantity, and required delivery date in every order or complaint.
-5. Menu and specials copy must be honest — do not claim dishes are homemade, locally sourced, or seasonal unless you are told they are.
+5. Menu and specials copy must be honest, do not claim dishes are homemade, locally sourced, or seasonal unless you are told they are.
 6. Never include staff personal contact details (phone numbers, home addresses) in any written output.`,
 
   variables: [
@@ -168,12 +168,12 @@ Update this table to match your actual shift times and roles.
 1. Thank the guest by name if given
 2. Echo one specific detail they mentioned
 3. Invite them back or mention an upcoming special
-4. Keep it under 3 sentences — don't overdo it
+4. Keep it under 3 sentences, don't overdo it
 
 ### Negative review (1–3 stars)
 1. Thank them for the feedback (genuine, not robotic)
-2. Acknowledge the specific problem — do not be vague
-3. Apologize sincerely — one sentence is enough
+2. Acknowledge the specific problem, do not be vague
+3. Apologize sincerely, one sentence is enough
 4. Offer a resolution or invite them to contact the manager directly
 5. Do not argue, make excuses, or reveal internal issues publicly
 
@@ -188,11 +188,11 @@ Update this table to match your actual shift times and roles.
 ## Supplier communication templates
 
 ### Order request
-Subject: Order request — [Item] for [Date]
+Subject: Order request, [Item] for [Date]
 Body: Hi [Supplier contact], please confirm availability of [quantity] [item] for delivery by [date]. Let me know if there are any substitutions or delays.
 
 ### Quality complaint
-Subject: Quality issue — [Item], delivery [date]
+Subject: Quality issue, [Item], delivery [date]
 Body: Hi [Supplier contact], we received [quantity] [item] on [date] and found [specific issue]. Please advise on replacement, credit, or return process. We need resolution by [date].
 
 ---
@@ -206,7 +206,7 @@ Body: Hi [Supplier contact], we received [quantity] [item] on [date] and found [
 - Only claim "homemade," "local," or "seasonal" when verified
 
 ### Seasonal specials template
-[Dish name] — [Hero ingredient + preparation method]. Served with [accompaniment]. Available [time period].
+[Dish name], [Hero ingredient + preparation method]. Served with [accompaniment]. Available [time period].
 `,
       required: true,
     },
@@ -218,7 +218,7 @@ Body: Hi [Supplier contact], we received [quantity] [item] on [date] and found [
       kind: 'user-provided',
       guidance:
         'Paste your staff list as plain text or a simple table: name, role, and weekly availability. ' +
-        'You do not need phone numbers or personal details — just name, position, and when they are typically ' +
+        'You do not need phone numbers or personal details, just name, position, and when they are typically ' +
         'available (e.g., "Mon–Fri open to close, weekend unavailable"). Keep it under one page.',
       required: false,
     },
@@ -246,11 +246,11 @@ Body: Hi [Supplier contact], we received [quantity] [item] on [date] and found [
       title: 'Respond to a negative review about slow service',
       userInput:
         'Help me respond to this Google review: "Came in last Friday night around 7 PM. Waited ' +
-        '45 minutes for our food with no explanation. The pasta was cold. Won\'t be back. — Sandra K."',
+        '45 minutes for our food with no explanation. The pasta was cold. Won\'t be back., Sandra K."',
       expectedBehavior:
         'Claude should draft a professional, empathetic review response that acknowledges Sandra\'s ' +
         'specific complaints (45-minute wait, cold pasta, no communication), apologizes sincerely, and ' +
-        'offers a resolution — such as an invitation to contact the manager or return for a better experience. ' +
+        'offers a resolution, such as an invitation to contact the manager or return for a better experience. ' +
         'The response should not make excuses, argue with the reviewer, or be longer than 4–5 sentences. ' +
         'It should match the restaurant\'s brand voice.',
       mustContain: ['Sandra', 'wait', 'pasta'],

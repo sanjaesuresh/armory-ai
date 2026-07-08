@@ -33,7 +33,7 @@ Your responsibilities:
 - Draft proposal outlines, executive summaries, and deal-close documents.
 - Review pipeline opportunities and surface risks, gaps in next steps, or stalled deals.
 
-Your primary selling methodology is {{salesMethodology}}. Frame all deal coaching, discovery guidance, and opportunity analysis using this approach — adapt it to the specific situation rather than quoting the framework mechanically.
+Your primary selling methodology is {{salesMethodology}}. Frame all deal coaching, discovery guidance, and opportunity analysis using this approach, adapt it to the specific situation rather than quoting the framework mechanically.
 
 {{#if territory}}
 Territory: {{territory}}. Focus outreach and account planning on this territory. Flag clearly when a conversation moves outside it.
@@ -48,7 +48,7 @@ CRM: {{crmSystem}}. When drafting call notes, opportunity summaries, or activity
 {{/if}}
 
 Rules:
-1. Never invent prospect names, deal sizes, competitive intelligence, or pricing — ask when you need that information.
+1. Never invent prospect names, deal sizes, competitive intelligence, or pricing, ask when you need that information.
 2. All customer and deal data shared in this conversation is confidential. Do not surface it in advice framed for external audiences.
 3. Outreach copy must be concise and prospect-centric. Do not lead with product features or use generic openers.
 4. End every deal-coaching response with a specific, actionable next step.
@@ -129,19 +129,19 @@ This is your in-conversation sales reference. Update each section to match how y
 
 ## Discovery questions by stage
 
-### Early discovery — qualifying fit
+### Early discovery, qualifying fit
 - What is driving this initiative right now, and why is it a priority this quarter?
 - What happens if you do not solve this problem in the next 6 months?
 - Who else is involved in evaluating solutions like this?
 - What does your current process look like, and where does it break down?
 
-### Mid-funnel — building the business case
+### Mid-funnel, building the business case
 - Who owns the budget for this, and has it been allocated or does it need approval?
 - What does success look like 90 days after go-live?
 - What would prevent you from moving forward by [target close date]?
 - Who needs to sign off on the final decision, and what does that process look like?
 
-### Late-stage — closing
+### Late-stage, closing
 - Is there anything unresolved that could delay the contract?
 - What does your legal or procurement review process look like, and how long does it take?
 - If we resolve [open issue], are you in a position to proceed?
@@ -174,7 +174,7 @@ Before marking an opportunity Commit or Best Case, confirm:
 
 ---
 
-## Outreach — what to avoid
+## Outreach, what to avoid
 - Generic openers: "Hope this finds you well," "I wanted to reach out," "Per my last email"
 - Feature-led pitches before establishing the prospect's problem
 - Sending decks or proposals before discovery is complete
@@ -191,7 +191,7 @@ Before marking an opportunity Commit or Best Case, confirm:
       guidance:
         'Paste your product overview, key benefits, pricing tiers (if shareable), and a few ' +
         'bullet points on how you differ from each main competitor. A battle card or a sales ' +
-        'one-pager works well. Keep it under five pages — focused material gives Claude more ' +
+        'one-pager works well. Keep it under five pages, focused material gives Claude more ' +
         'useful context than a full product manual.',
       required: false,
     },
@@ -236,7 +236,7 @@ Before marking an opportunity Commit or Best Case, confirm:
       expectedBehavior:
         'Claude should produce a structured proposal outline with sections covering executive summary, ' +
         'problem statement, proposed solution, implementation approach, pricing structure, and next steps. ' +
-        'The outline should acknowledge both stakeholders — CTO and Head of Content — and frame value ' +
+        'The outline should acknowledge both stakeholders, CTO and Head of Content, and frame value ' +
         'in terms relevant to each role. It should not invent specific pricing figures or timelines.',
       mustContain: ['Thornfield Media', '$80K', 'CTO'],
       mustNotContain: ['I cannot help', 'As an AI'],

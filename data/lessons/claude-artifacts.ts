@@ -13,7 +13,7 @@ export const claudeArtifacts: Lesson = {
   track: 'claude-app',
   title: 'Claude Artifacts',
   tagline:
-    'Ask Claude for a standalone deliverable and it opens in a side panel — ask for changes and Claude updates it in place.',
+    'Ask Claude for a standalone deliverable and it opens in a side panel, ask for changes and Claude updates it in place.',
   minutes: 4,
   order: 3,
 
@@ -23,9 +23,9 @@ export const claudeArtifacts: Lesson = {
       type: 'prose',
       heading: 'An artifact is a deliverable, not just a reply',
       paragraphs: [
-        'When you ask Claude for something that stands on its own — a document, a piece of code, a web page — Claude can produce it as an artifact. An artifact appears in a side panel alongside the chat, not inside the message flow. This matters because you can edit it, ask Claude to revise it, and copy it without digging back through the conversation.',
-        'Artifacts are iterative. Once Claude creates one, you can ask follow-up requests — "make the intro shorter," "add a section on pricing," "change the button color to blue" — and Claude updates the same artifact rather than producing a new one. The side panel tracks the current version.',
-        'You can ask Claude to create an artifact explicitly by saying something like "write this as a document" or "put the code in an artifact." You can also just make a request naturally — Claude will use an artifact when the output is the kind of thing that benefits from being separate from the chat.',
+        'When you ask Claude for something that stands on its own, a document, a piece of code, a web page, Claude can produce it as an artifact. An artifact appears in a side panel alongside the chat, not inside the message flow. This matters because you can edit it, ask Claude to revise it, and copy it without digging back through the conversation.',
+        'Artifacts are iterative. Once Claude creates one, you can ask follow-up requests, "make the intro shorter," "add a section on pricing," "change the button color to blue", and Claude updates the same artifact rather than producing a new one. The side panel tracks the current version.',
+        'You can ask Claude to create an artifact explicitly by saying something like "write this as a document" or "put the code in an artifact." You can also just make a request naturally, Claude will use an artifact when the output is the kind of thing that benefits from being separate from the chat.',
       ],
     },
 
@@ -37,7 +37,7 @@ export const claudeArtifacts: Lesson = {
       cards: [
         {
           front: 'Document',
-          back: 'A standalone piece of prose — a report, plan, letter, or set of instructions. Example ask: "Write me a one-page project overview I can share with the team as a document."',
+          back: 'A standalone piece of prose, a report, plan, letter, or set of instructions. Example ask: "Write me a one-page project overview I can share with the team as a document."',
         },
         {
           front: 'Code',
@@ -45,7 +45,7 @@ export const claudeArtifacts: Lesson = {
         },
         {
           front: 'Web page',
-          back: 'HTML output with a live preview in the panel — useful for landing pages, forms, or UI mockups. Example ask: "Build a one-page site for my bakery with a header and contact form."',
+          back: 'HTML output with a live preview in the panel, useful for landing pages, forms, or UI mockups. Example ask: "Build a one-page site for my bakery with a header and contact form."',
         },
         {
           front: 'Diagram',
@@ -59,7 +59,7 @@ export const claudeArtifacts: Lesson = {
       type: 'callout',
       tone: 'tip',
       passage:
-        'You can ask for an artifact explicitly — "put this in a document" or "write this as code" — and you can ask for edits directly: "shorten the second paragraph" or "rename the function to processOrder." Claude updates the artifact in place rather than starting over.',
+        'You can ask for an artifact explicitly, "put this in a document" or "write this as code", and you can ask for edits directly: "shorten the second paragraph" or "rename the function to processOrder." Claude updates the artifact in place rather than starting over.',
     },
   ],
 
@@ -87,19 +87,19 @@ export const claudeArtifacts: Lesson = {
         ],
         correctIndex: 2,
         explanation:
-          'A Python script is code, so Claude produces a code artifact — the script appears in a side panel where you can copy it or keep refining it with follow-up requests.',
+          'A Python script is code, so Claude produces a code artifact, the script appears in a side panel where you can copy it or keep refining it with follow-up requests.',
       },
       {
         prompt:
           'Claude just created a document artifact for you. You want the introduction to be shorter. What should you do?',
         choices: [
           'Start a new chat and ask Claude to write a shorter version from scratch',
-          'Tell Claude "make the intro shorter" — it will update the existing artifact in place',
+          'Tell Claude "make the intro shorter", it will update the existing artifact in place',
           'Copy the artifact, edit it yourself, and paste it back into the chat',
         ],
         correctIndex: 1,
         explanation:
-          'Artifacts are iterative. Ask Claude for the change — "make the intro shorter" — and Claude updates the artifact in the side panel. You do not need to start over or copy-paste manually.',
+          'Artifacts are iterative. Ask Claude for the change, "make the intro shorter", and Claude updates the artifact in the side panel. You do not need to start over or copy-paste manually.',
       },
       {
         prompt: 'You want Claude to produce a flowchart of your team\'s approval process. What artifact type would this be?',

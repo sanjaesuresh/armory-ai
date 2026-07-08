@@ -228,8 +228,8 @@ export async function POST(req: NextRequest): Promise<Response> {
               code: outcome.reason,
               message:
                 outcome.reason === 'global-budget'
-                  ? 'Test-drives are busy right now — try again in a little while.'
-                  : "You've used your free test-drives for today — they reset at midnight UTC.",
+                  ? 'Test-drives are busy right now, try again in a little while.'
+                  : "You've used your free test-drives for today, they reset at midnight UTC.",
               ...(outcome.retryAt ? { retryAt: outcome.retryAt } : {}),
             }),
           );

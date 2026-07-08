@@ -38,7 +38,7 @@ Sign the email from {{senderName}}.
 {{/if}}
 
 Rules:
-1. Open with a specific observation tied to the prospect's stated pain — never a generic greeting like "Hope this finds you well."
+1. Open with a specific observation tied to the prospect's stated pain, never a generic greeting like "Hope this finds you well."
 2. Lead with the outcome {{productName}} delivers, not features; keep the body under 150 words.
 3. End with exactly one call to action: {{callToAction}}.
 4. Never invent prospect details, company names, or metrics not provided. All prospect information is confidential.`,
@@ -66,7 +66,7 @@ Rules:
         type: 'multiline',
         required: true,
         helpText:
-          'Describe the specific business pain this prospect is likely experiencing. Be concrete — the more specific, the sharper the email.',
+          'Describe the specific business pain this prospect is likely experiencing. Be concrete, the more specific, the sharper the email.',
         group: 'About the prospect',
       },
       {
@@ -103,7 +103,7 @@ Rules:
 - Best-fit prospect profile (role, industry, company size):
 
 ## Common prospect pains you address
-List 3–5 pains your product solves. Be specific — "reporting takes too long" is more useful than "inefficiency."
+List 3–5 pains your product solves. Be specific, "reporting takes too long" is more useful than "inefficiency."
 
 1.
 2.
@@ -201,7 +201,7 @@ Address messages to {{prospectName}}.
 {{/if}}
 
 Rules:
-1. Each touch must have a distinct angle — vary between insight sharing, social proof, direct ask, and breakup framing across the sequence.
+1. Each touch must have a distinct angle, vary between insight sharing, social proof, direct ask, and breakup framing across the sequence.
 2. Keep each message under 80 words; subject lines under 8 words; label each with its suggested send day.
 3. Space touches across 2–3 week windows unless the last interaction implies urgency.
 4. Never fabricate prospect details, deal history, or competitive facts not provided. All deal information is confidential.`,
@@ -341,8 +341,8 @@ Describe 2–3 follow-up angles or hooks that have generated replies for your te
     name: 'Discovery Call Prep',
     tagline: 'A question plan and agenda for your next discovery call',
     description:
-      'Produces a structured discovery agenda — opening, discovery questions, value hypothesis, ' +
-      'next steps — tailored to the prospect company, role, and your sales methodology. ' +
+      'Produces a structured discovery agenda, opening, discovery questions, value hypothesis, ' +
+      'next steps, tailored to the prospect company, role, and your sales methodology. ' +
       'Run it 30 minutes before the call and walk in with a plan, not a blank page.',
     role: 'Sales Account Executive',
     industry: 'Sales',
@@ -372,7 +372,7 @@ Context you already have on this prospect: {{knownContext}}
 
 Rules:
 1. Structure the agenda in four phases: opening (rapport + agenda-setting), discovery questions, value hypothesis, next steps.
-2. Frame all discovery questions using {{salesMethodology}} — tie each question to a specific dimension of that framework; do not quote the framework name mechanically.
+2. Frame all discovery questions using {{salesMethodology}}, tie each question to a specific dimension of that framework; do not quote the framework name mechanically.
 3. Include 3–5 questions per phase; mark the two most critical with an asterisk.
 4. Never invent details about {{prospectCompany}} or {{prospectRole}} not provided. All prospect information is confidential.`,
 
@@ -513,7 +513,7 @@ Fill in what a qualified deal looks like for each dimension of your methodology.
     name: 'Objection Handler',
     tagline: 'Turn a stated objection into angles for advancing the deal',
     description:
-      'Takes a specific objection and deal stage, then produces multiple named response angles — ' +
+      'Takes a specific objection and deal stage, then produces multiple named response angles, ' +
       'each with a script the rep can say aloud and a concrete next step. ' +
       'Treats objections as diagnostic signals rather than obstacles to overcome.',
     role: 'Sales Account Executive',
@@ -542,9 +542,9 @@ Provide {{angleCount}} distinct response angles.
 {{/if}}
 
 Rules:
-1. Acknowledge the objection before pivoting — never dismiss or override it; show you heard it.
+1. Acknowledge the objection before pivoting, never dismiss or override it; show you heard it.
 2. For each angle, name the approach (e.g., "Reframe as cost of inaction"), give a short script the rep can say aloud, then end with one specific next step.
-3. Calibrate tone and urgency to the deal stage: {{dealStage}} — early objections need education; late-stage objections need decisiveness.
+3. Calibrate tone and urgency to the deal stage: {{dealStage}}, early objections need education; late-stage objections need decisiveness.
 4. Never invent deal specifics, pricing, or competitive intelligence not provided. All deal information is confidential.`,
 
     variables: [
@@ -646,7 +646,7 @@ List any response tactics your team does not use (e.g., "never discount to close
           'We are in early discovery. How do I handle this?',
         expectedBehavior:
           'Claude should acknowledge the objection, then provide 2–3 named response angles suited to ' +
-          'early discovery — where the goal is to earn the right to a deeper conversation, not close. ' +
+          'early discovery, where the goal is to earn the right to a deeper conversation, not close. ' +
           'Each angle should include a short spoken script and a specific next step. ' +
           'The response should not pressure the prospect or invent competitive claims.',
         mustContain: ['Orion Systems', 'already have a tool', 'early discovery'],
@@ -683,7 +683,7 @@ List any response tactics your team does not use (e.g., "never discount to close
     description:
       'Produces a section-by-section proposal outline that frames value separately for each named ' +
       'stakeholder and respects the deal context. Leaves pricing and timelines as placeholders so ' +
-      'you fill in the numbers — no invented figures.',
+      'you fill in the numbers, no invented figures.',
     role: 'Sales Account Executive',
     industry: 'Sales',
     tags: ['sales', 'proposal', 'deal-closing', 'stakeholders', 'documents'],
@@ -712,7 +712,7 @@ Deal size: {{dealSize}}.
 
 Rules:
 1. Include sections for: executive summary, problem statement, proposed solution, implementation plan, success metrics, pricing structure, and next steps.
-2. Frame value for each named stakeholder separately — different roles have different success criteria; make that visible in the outline.
+2. Frame value for each named stakeholder separately, different roles have different success criteria; make that visible in the outline.
 3. Mark pricing figures, timelines, and technical specs as [to be confirmed] rather than inventing them.
 4. Never invent prospect data, deal terms, or stakeholder titles not provided. All deal information is confidential.`,
 
@@ -817,7 +817,7 @@ How do you typically frame value for each role?
           'Claude should produce a section-by-section proposal outline for Meridian Capital. ' +
           'It must address the expense reporting automation problem and frame value separately for ' +
           'the CFO (cost and efficiency) and the Controller (accuracy and compliance). ' +
-          'Pricing and timelines should be marked as [to be confirmed] — no invented figures.',
+          'Pricing and timelines should be marked as [to be confirmed], no invented figures.',
         mustContain: ['Meridian Capital', 'expense reporting', 'CFO'],
         mustNotContain: ['I cannot help', 'As an AI'],
       },
@@ -881,7 +881,7 @@ Closing period under review: {{closingPeriod}}.
 Rules:
 1. Assess each deal across four dimensions: stakeholder access, business case strength, competitive position, and deal momentum.
 2. Flag any deal where the next step is vague, the close date lacks a champion commitment, or the economic buyer has never been engaged directly.
-3. Rank output by deal risk level — highest-risk deals get the most detailed coaching commentary.
+3. Rank output by deal risk level, highest-risk deals get the most detailed coaching commentary.
 4. Never invent deal data, contact names, close amounts, or competitive positions not provided. All pipeline information is confidential.`,
 
     variables: [
@@ -1020,7 +1020,7 @@ Minimum criteria a deal must meet to stay in active pipeline.
     name: 'LinkedIn Message Writer',
     tagline: 'A short, relevant LinkedIn outreach message that earns a reply',
     description:
-      'Writes a concise LinkedIn InMail or connection note — under 100 words — that opens with ' +
+      'Writes a concise LinkedIn InMail or connection note, under 100 words, that opens with ' +
       'something specific about the prospect rather than a generic introduction. ' +
       'Tailors the hook to the prospect\'s role and the reason for outreach.',
     role: 'Sales Account Executive',
@@ -1047,8 +1047,8 @@ Reason for reaching out: {{connectionReason}}
 Message goal: {{messageGoal}}
 
 Rules:
-1. Keep the message under 100 words — LinkedIn InMail has a narrow attention window.
-2. Open with something specific to {{prospectName}} or their role, drawn from the reason for outreach — not "I came across your profile" or any generic opener.
+1. Keep the message under 100 words, LinkedIn InMail has a narrow attention window.
+2. Open with something specific to {{prospectName}} or their role, drawn from the reason for outreach, not "I came across your profile" or any generic opener.
 3. Tie the reason for outreach to a plausible priority or challenge for a {{prospectRole}}.
 4. Never invent the prospect's work history, recent posts, or company details not provided. All prospect information is confidential.`,
 
@@ -1152,7 +1152,7 @@ What do you usually ask for in a first LinkedIn message?
           'asking to connect. I noticed they recently launched a new product line.',
         expectedBehavior:
           'Claude should write a sub-100-word LinkedIn message addressed to Priya Sharma at Cloudleap. ' +
-          'The opening must reference the new product line launch specifically — not a generic intro. ' +
+          'The opening must reference the new product line launch specifically, not a generic intro. ' +
           'The message should close with a connection request, not a hard pitch.',
         mustContain: ['Priya Sharma', 'Cloudleap', 'new product line'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -1186,7 +1186,7 @@ What do you usually ask for in a first LinkedIn message?
     name: 'Call Notes Summarizer',
     tagline: 'Turn raw call notes into clean CRM-ready records with next steps',
     description:
-      'Converts messy, stream-of-consciousness call notes into structured records — contact names, ' +
+      'Converts messy, stream-of-consciousness call notes into structured records, contact names, ' +
       'stated pains, key decisions, open questions, and next steps with owners and dates. ' +
       'Separates facts from inferences and flags anything missing.',
     role: 'Sales Account Executive',
@@ -1216,7 +1216,7 @@ Format the output to paste cleanly into {{crmSystem}} without extra editing.
 
 Rules:
 1. Extract and label each category separately: contact names and roles, stated pain points, key decisions made, open questions, and agreed next steps with owner and target date.
-2. Separate facts (what the prospect said or confirmed) from inferences (what you believe it signals) — label them clearly.
+2. Separate facts (what the prospect said or confirmed) from inferences (what you believe it signals), label them clearly.
 3. List next steps with an explicit owner and target date; if either was not discussed, write [not confirmed] rather than inventing one.
 4. Never add information not present in the raw notes. All call information is confidential.`,
 
@@ -1227,7 +1227,7 @@ Rules:
         type: 'multiline',
         required: true,
         helpText:
-          'Paste your unedited call notes — voice memo transcriptions, bullet fragments, shorthand all work.',
+          'Paste your unedited call notes, voice memo transcriptions, bullet fragments, shorthand all work.',
         group: 'Call data',
       },
       {
@@ -1237,7 +1237,7 @@ Rules:
         options: ['Discovery', 'Demo', 'Proposal', 'Negotiation', 'Closed-won', 'Closed-lost'],
         default: 'Discovery',
         required: true,
-        helpText: 'Claude adapts what it surfaces based on the stage — e.g., discovery notes focus on pain and fit; negotiation notes focus on terms and next steps.',
+        helpText: 'Claude adapts what it surfaces based on the stage, e.g., discovery notes focus on pain and fit; negotiation notes focus on terms and next steps.',
         group: 'Call context',
       },
       {
@@ -1385,7 +1385,7 @@ Account context: {{accountContext}}
 {{/if}}
 
 Rules:
-1. Open with a value summary — what the account has gained from their current setup — before introducing the upsell or renewal ask.
+1. Open with a value summary, what the account has gained from their current setup, before introducing the upsell or renewal ask.
 2. Connect the proposed expansion to a business outcome the account cares about, not product features.
 3. Anticipate and address the two most likely objections to expanding at renewal; give a response for each.
 4. Never invent usage data, ROI figures, or account history not provided. All account information is confidential.`,
@@ -1523,8 +1523,8 @@ List 3–5 signals that suggest an account is ready for a conversation about exp
     name: 'Competitive Battlecard',
     tagline: 'A sharp, buyer-language battlecard against a named competitor',
     description:
-      'Builds a structured battlecard — where you win, where they win, common objections and responses, ' +
-      'and a recommended talk track — framed entirely in buyer outcomes rather than feature comparisons. ' +
+      'Builds a structured battlecard, where you win, where they win, common objections and responses, ' +
+      'and a recommended talk track, framed entirely in buyer outcomes rather than feature comparisons. ' +
       'Keeps the landmines section honest so reps do not get caught underselling a real competitor strength.',
     role: 'Sales Account Executive',
     industry: 'Sales',
@@ -1556,7 +1556,7 @@ Known competitor weaknesses to factor in: {{knownWeaknesses}}
 
 Rules:
 1. Structure the battlecard as: head-to-head summary, where you win, where they win (landmines), common objections with responses, and a recommended talk track.
-2. Frame every comparison in buyer outcome language — not feature names or technical specs.
+2. Frame every comparison in buyer outcome language, not feature names or technical specs.
 3. Keep the landmines section honest; underplaying a real competitor strength loses credibility when prospects probe.
 4. Never invent competitive claims, pricing, customer references, or market share data not provided. All competitive information is confidential.`,
 
@@ -1583,7 +1583,7 @@ Rules:
         type: 'multiline',
         required: true,
         helpText:
-          'List the areas where your product genuinely wins. Use buyer language — e.g., "faster implementation" not "lower code complexity".',
+          'List the areas where your product genuinely wins. Use buyer language, e.g., "faster implementation" not "lower code complexity".',
         group: 'Competitive context',
       },
       {

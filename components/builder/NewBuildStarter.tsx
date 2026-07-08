@@ -74,7 +74,7 @@ const KIND_OPTIONS: KindOption[] = [
   {
     kind: 'skill',
     label: 'Skill',
-    description: 'A SKILL.md folder — instructions plus any supporting files.',
+    description: 'A SKILL.md folder, instructions plus any supporting files.',
     icon: <BookIcon />,
   },
   {

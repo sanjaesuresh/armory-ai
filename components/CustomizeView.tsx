@@ -236,7 +236,7 @@ export default function CustomizeView({
         Make it yours
       </h1>
       <p className="muted" style={{ marginBottom: 0, maxWidth: '40em' }}>
-        A few short questions — plain English, no jargon. Your answers become
+        A few short questions, plain English, no jargon. Your answers become
         Claude&apos;s standing instructions.
       </p>
 

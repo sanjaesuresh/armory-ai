@@ -28,7 +28,7 @@ export const operationsManagerSetup: Setup = {
 
   instructionTemplate: `You are a senior Operations Manager for {{company}}, a {{industry}} organization.
 
-Your team size: {{teamSize}} people. Tailor every recommendation to this scale — documentation detail, approval thresholds, and escalation paths that work for a team of 5 differ significantly from what works for a team of 50.
+Your team size: {{teamSize}} people. Tailor every recommendation to this scale, documentation detail, approval thresholds, and escalation paths that work for a team of 5 differ significantly from what works for a team of 50.
 
 Your primary focus areas: {{primaryFocus}}. When a request falls outside these areas, flag it and confirm scope before proceeding.
 
@@ -42,7 +42,7 @@ Your responsibilities:
 - Write or review SOPs using numbered steps, explicit ownership per step, and decision points marked clearly as if/then branches.
 - Draft vendor evaluation frameworks with objective scoring criteria that multiple stakeholders can apply independently.
 - Diagnose process bottlenecks using a structured four-step approach: observe, measure, identify root cause, recommend.
-- Prepare concise status reports that separate what is on track, what is at risk, and what requires a decision — never blend the three.
+- Prepare concise status reports that separate what is on track, what is at risk, and what requires a decision, never blend the three.
 
 Rules:
 1. Never assume headcount, budget authority, or approval limits. If these constraints are not provided, ask before making recommendations that depend on them.
@@ -122,30 +122,30 @@ Rules:
       name: 'SOP template and process improvement reference card',
       purpose:
         'Gives Claude a complete SOP structure, a process improvement diagnosis framework, ' +
-        'a vendor evaluation scorecard template, and a status report format — so every ' +
+        'a vendor evaluation scorecard template, and a status report format, so every ' +
         'output follows a consistent, actionable structure without you re-explaining it each time.',
       kind: 'starter',
       content: `# SOP template and process improvement reference card
 
 ## Standard SOP structure
-1. Title — Short, specific, verb-led (e.g., "Process a vendor invoice," not "Invoices").
-2. Purpose — One sentence: why this process exists and what problem it prevents.
-3. Scope — Who this applies to; what situations it covers and what it does not cover.
-4. Owner — The role (not person) responsible for keeping this SOP current.
-5. Frequency — When or how often this process runs (daily, per order, per new hire, etc.).
-6. Inputs — What information, tools, or materials are needed before starting step 1.
-7. Steps — Numbered, one action per step. For each step, state: who does it, what tool they use, what they verify.
-8. Decision points — If/then branches. Each branch leads to a named next step, not just "contact your manager."
-9. Outputs — What is produced or handed off when the final step is complete.
-10. Escalation path — Who to contact if a step fails or an exception falls outside the process.
-11. Revision history — Date, change summary, author.
+1. Title, Short, specific, verb-led (e.g., "Process a vendor invoice," not "Invoices").
+2. Purpose, One sentence: why this process exists and what problem it prevents.
+3. Scope, Who this applies to; what situations it covers and what it does not cover.
+4. Owner, The role (not person) responsible for keeping this SOP current.
+5. Frequency, When or how often this process runs (daily, per order, per new hire, etc.).
+6. Inputs, What information, tools, or materials are needed before starting step 1.
+7. Steps, Numbered, one action per step. For each step, state: who does it, what tool they use, what they verify.
+8. Decision points, If/then branches. Each branch leads to a named next step, not just "contact your manager."
+9. Outputs, What is produced or handed off when the final step is complete.
+10. Escalation path, Who to contact if a step fails or an exception falls outside the process.
+11. Revision history, Date, change summary, author.
 
 ## Process improvement diagnosis
-1. Observe — Walk the current process end to end with someone who runs it daily. Do not rely on documented steps alone.
-2. Measure — Record cycle time, error rate, handoff count, and wait time per step. Quantify before diagnosing.
-3. Root cause — For each bottleneck, identify whether it is a skill gap, a tool gap, an information gap, or a policy gap. One bottleneck rarely has multiple root causes.
-4. Recommend — State the specific change, the expected measurable improvement, and the effort to implement.
-5. Validate — Run a pilot with a small team or a subset of cases before rolling out broadly.
+1. Observe, Walk the current process end to end with someone who runs it daily. Do not rely on documented steps alone.
+2. Measure, Record cycle time, error rate, handoff count, and wait time per step. Quantify before diagnosing.
+3. Root cause, For each bottleneck, identify whether it is a skill gap, a tool gap, an information gap, or a policy gap. One bottleneck rarely has multiple root causes.
+4. Recommend, State the specific change, the expected measurable improvement, and the effort to implement.
+5. Validate, Run a pilot with a small team or a subset of cases before rolling out broadly.
 
 ## Vendor evaluation scorecard template
 Criterion               | Weight | Vendor A | Vendor B | Vendor C
@@ -167,7 +167,7 @@ Area                | Status              | Notes
 [Focus area 2]      | On track / At risk / Blocked | [One line]
 
 Decisions needed before [date]:
-- [Decision] — Owner: [role] — Consequence of delay: [one line]
+- [Decision], Owner: [role], Consequence of delay: [one line]
 
 Top risk this period:
 [One sentence naming the risk and the mitigation currently in place.]
@@ -179,13 +179,13 @@ Top risk this period:
       purpose:
         'Upload your current standard operating procedures, process maps, or workflow ' +
         'documentation here. Claude will use them as the baseline when writing new SOPs ' +
-        'or reviewing existing ones — surfacing gaps and outdated steps rather than ' +
+        'or reviewing existing ones, surfacing gaps and outdated steps rather than ' +
         'starting over from scratch.',
       kind: 'user-provided',
       guidance:
         'Paste your SOPs as plain text or upload a text or markdown export from your ' +
         'documentation tool. Include the process name, the steps, who owns each step, ' +
-        'and when the document was last updated. You do not need every process — even ' +
+        'and when the document was last updated. You do not need every process, even ' +
         'uploading your two or three most-used SOPs helps Claude stay consistent with ' +
         'your existing format and terminology.',
       required: false,
@@ -226,9 +226,9 @@ Top risk this period:
         'Claude should apply a structured diagnosis: first propose how to measure where ' +
         'time is actually spent at each step (receipt, AP review, manager approval, ' +
         'finance director approval, payment processing) rather than relying on anecdote. ' +
-        'It should identify the most common root causes for each step — missing information ' +
+        'It should identify the most common root causes for each step, missing information ' +
         'at receipt, approval queues and vacation coverage gaps, policy ambiguity about ' +
-        'authorization limits — and propose how to confirm or rule out each. It should ' +
+        'authorization limits, and propose how to confirm or rule out each. It should ' +
         'not recommend a fix before identifying the bottleneck. It should note that ' +
         'the vendor relationship risk is a symptom, not a root cause.',
       mustContain: ['invoice', 'approval', 'accounts payable', 'bottleneck'],
@@ -246,7 +246,7 @@ Top risk this period:
         'Claude should produce a reusable template with clearly labeled sections for each ' +
         'of the four areas. Each area should have a status indicator (on track / at risk / ' +
         'blocked), a one-line summary, and a space for key metrics or notable events. ' +
-        'There must be a distinct section for decisions pending — with columns for the ' +
+        'There must be a distinct section for decisions pending, with columns for the ' +
         'decision, the owner, and the consequence if it is delayed. The template should ' +
         'take no more than 30 minutes to fill in each week. Claude should note which ' +
         'sections to keep short and which benefit from more detail.',

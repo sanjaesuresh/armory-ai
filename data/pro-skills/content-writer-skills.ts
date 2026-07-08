@@ -41,7 +41,7 @@ Before writing the body, list the proposed subheadings and their order so the st
 {{/if}}
 
 Draft a complete blog post with:
-1. A hook opening — the first 1–2 sentences must earn the reader's attention
+1. A hook opening, the first 1–2 sentences must earn the reader's attention
 2. Context or problem setup explaining why this topic matters to the target reader
 3. Body sections separated by descriptive subheadings (use one every 200+ words)
 4. A clear conclusion with exactly one call to action
@@ -49,7 +49,7 @@ Draft a complete blog post with:
 Rules:
 1. Do not open with "In today's world," a dictionary definition, or the brand name.
 2. Use subheadings to break up any body section longer than 200 words.
-3. Flag any statistic or claim that needs a source with [CITE NEEDED] — do not invent figures.
+3. Flag any statistic or claim that needs a source with [CITE NEEDED], do not invent figures.
 4. Never fabricate quotes, statistics, studies, or named examples.`,
 
     variables: [
@@ -112,7 +112,7 @@ Rules:
         content: `# Blog Post Drafting Reference Card
 
 ## Opening hook formulas (pick one per post)
-- **Bold claim:** "Most editorial calendars fail within 60 days — and the fix is not more planning."
+- **Bold claim:** "Most editorial calendars fail within 60 days, and the fix is not more planning."
 - **Vivid scene:** "It was 11 p.m. when the client messaged asking for the 'final' version. Again."
 - **Provocative question:** "What if the biggest drag on your writing time isn't procrastination?"
 - **Surprising stat:** "Readers decide whether to keep reading in the first two sentences." [CITE NEEDED]
@@ -143,7 +143,7 @@ Hook > Position statement > Counter-argument acknowledged > Evidence for your po
 - [ ] Is every [CITE NEEDED] flag resolved before publishing?
 - [ ] Is there exactly one CTA in the conclusion?
 - [ ] Does the word count fall within the target range?
-- [ ] Read the post aloud once — if you stumble, the reader will too.
+- [ ] Read the post aloud once, if you stumble, the reader will too.
 `,
         required: true,
       },
@@ -159,7 +159,7 @@ Hook > Position statement > Counter-argument acknowledged > Evidence for your po
           'Tone: conversational. I want a hook that opens with a relatable scenario, ' +
           'three practical steps in the body, and a conclusion that encourages action.',
         expectedBehavior:
-          'Claude should produce a complete draft — hook, context setup, three numbered or ' +
+          'Claude should produce a complete draft, hook, context setup, three numbered or ' +
           'subheaded steps, and a conclusion with a single CTA. The hook should be a relatable ' +
           'scene or situation, not a definition or "In today\'s world." Each step should be ' +
           'concrete and actionable for the stated audience of freelance copywriters. Any statistic ' +
@@ -178,7 +178,7 @@ Hook > Position statement > Counter-argument acknowledged > Evidence for your po
           'Claude should produce a journalistic-toned draft with a direct, fact-led opening. ' +
           'The problem section should name specific failure points relevant to remote onboarding ' +
           '(not generic management issues). The solution section should offer concrete practices. ' +
-          'The post should use the problem/solution structure — hook, problem, why it matters, ' +
+          'The post should use the problem/solution structure, hook, problem, why it matters, ' +
           'solution, conclusion with CTA. Any statistics should carry [CITE NEEDED]. ' +
           'Word count should be in the 1,100–1,500 range.',
         mustContain: ['remote onboarding', 'HR', 'two weeks', 'tech companies'],
@@ -200,7 +200,7 @@ Hook > Position statement > Counter-argument acknowledged > Evidence for your po
     tagline: 'Generate multiple headline options with angles and a top recommendation',
     description:
       'Produces a set of headline options for a content piece, each labeled with the persuasion ' +
-      'angle it uses — benefit-led, question, how-to, data-driven, or curiosity gap. ' +
+      'angle it uses, benefit-led, question, how-to, data-driven, or curiosity gap. ' +
       'Ends with a starred recommendation and a one-sentence rationale so you can decide quickly.',
     role: 'Content Writer',
     industry: 'Media & Creative',
@@ -236,10 +236,10 @@ For each headline:
 - Write the headline in title case
 
 After the numbered list, add:
-★ Recommended: [headline number and text] — [one sentence explaining why this one is the strongest pick for the stated reader and content type]
+★ Recommended: [headline number and text], [one sentence explaining why this one is the strongest pick for the stated reader and content type]
 
 Rules:
-1. Every headline must be deliverable by the actual content — no clickbait that the body cannot support.
+1. Every headline must be deliverable by the actual content, no clickbait that the body cannot support.
 2. Avoid "Ultimate Guide," "Game-changer," "Revolutionary," and vague superlatives.
 3. Do not invent statistics or data points in a headline unless the user supplies real figures.
 4. Never fabricate expert names, case study results, or performance claims.`,
@@ -320,7 +320,7 @@ Promise a skill or process.
 ### Data-driven
 Lead with a specific, surprising number. Only use real, citable figures.
 - Formula: [Number] + [Surprising finding or claim]
-- Example: "3 in 5 Blog Posts Never Get a Second Reader — Here's Why"
+- Example: "3 in 5 Blog Posts Never Get a Second Reader, Here's Why"
 
 ### Curiosity gap
 Hint at something the reader does not know but wants to.
@@ -354,8 +354,8 @@ Contradict a common assumption.
         expectedBehavior:
           'Claude should produce 10 numbered headlines, each with a labeled angle. The headlines ' +
           'should cover a variety of angles (benefit-led, how-to, question, curiosity gap, etc.). ' +
-          'They should be specific to the stated topic — repurposing long-form into social, newsletter, ' +
-          'and video — not generic content marketing advice. The recommendation section should name ' +
+          'They should be specific to the stated topic, repurposing long-form into social, newsletter, ' +
+          'and video, not generic content marketing advice. The recommendation section should name ' +
           'a specific headline and give a one-sentence rationale. No fabricated statistics.',
         mustContain: ['repurpos', 'social', 'newsletter', 'content marketer'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -428,7 +428,7 @@ Produce a detailed content outline with:
 5. A conclusion section that names the core takeaway and the call-to-action type
 
 Rules:
-1. Each H2 must have a distinct purpose — do not cover the same idea in two sections.
+1. Each H2 must have a distinct purpose, do not cover the same idea in two sections.
 2. Estimated word counts must add up to within 10% of the stated target.
 3. Flag any section that will need external research or data with [RESEARCH NEEDED].
 4. Never fabricate supporting statistics or claim specific figures in the outline.`,
@@ -448,7 +448,7 @@ Rules:
         type: 'select',
         options: ['Blog post', 'White paper', 'eBook', 'Case study', 'Newsletter', 'Video script'],
         required: true,
-        helpText: 'The content type shapes the structure — a white paper needs an executive summary; a newsletter does not.',
+        helpText: 'The content type shapes the structure, a white paper needs an executive summary; a newsletter does not.',
         group: 'Content basics',
       },
       {
@@ -456,7 +456,7 @@ Rules:
         label: 'Target audience',
         type: 'text',
         required: true,
-        helpText: 'Who is this content for? Be specific — role, industry, and the main thing they want to learn or do.',
+        helpText: 'Who is this content for? Be specific, role, industry, and the main thing they want to learn or do.',
         group: 'Content basics',
       },
       {
@@ -499,7 +499,7 @@ Rules:
 6. [H2] Conclusion + CTA (~100 words)
 
 ### White paper (3,000–5,000 words)
-1. Executive summary (~300 words — written last, listed first)
+1. Executive summary (~300 words, written last, listed first)
 2. [H2] Problem context and scope (~500 words)
 3. [H2] Research or data overview (~600 words) [RESEARCH NEEDED]
 4. [H2] Analysis / main argument (~800 words)
@@ -515,7 +515,7 @@ Rules:
 1. Client overview (~100 words)
 2. The challenge (~200 words)
 3. The solution (~250 words)
-4. Results (~200 words) [RESEARCH NEEDED — confirm figures with client]
+4. Results (~200 words) [RESEARCH NEEDED, confirm figures with client]
 5. Key takeaway + CTA (~100 words)
 
 ## Section-purpose prompt (ask this for every H2)
@@ -559,7 +559,7 @@ If you cannot answer in one sentence, the section is too vague or too broad.
         expectedBehavior:
           'Claude should produce a blog post outline with a working headline, descriptive H2 and H3 ' +
           'headings, and per-section word count estimates that total 800–1,500 words. ' +
-          'The sections should map to the first 7 days of client onboarding — not generic freelancing advice. ' +
+          'The sections should map to the first 7 days of client onboarding, not generic freelancing advice. ' +
           'The purpose statement should name what the reader learns. No fabricated data.',
         mustContain: ['freelancer', 'onboard', '7 days', 'client'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -607,14 +607,14 @@ Primary keyword: {{primaryKeyword}}
 Search intent: {{searchIntent}}
 
 Write the following for this page:
-1. **Title tag** — 50–60 characters, includes the primary keyword near the start, matches the search intent, ends with the brand name if one is provided
-2. **Meta description** — 145–160 characters, includes the primary keyword, states a clear benefit, ends with a soft call to action
-3. **Intent alignment note** — one sentence explaining how both meta elements are aligned to the stated search intent
+1. **Title tag**, 50–60 characters, includes the primary keyword near the start, matches the search intent, ends with the brand name if one is provided
+2. **Meta description**, 145–160 characters, includes the primary keyword, states a clear benefit, ends with a soft call to action
+3. **Intent alignment note**, one sentence explaining how both meta elements are aligned to the stated search intent
 
 After each element, show the exact character count in parentheses: (Title tag: XX chars) / (Meta description: XXX chars).
 
 Rules:
-1. Stay within the character limits — count every character including spaces and punctuation.
+1. Stay within the character limits, count every character including spaces and punctuation.
 2. Do not use ALL CAPS, excessive exclamation marks, or keyword stuffing.
 3. Never promise in the meta description something the page cannot deliver.
 4. Never fabricate brand names, product claims, or search ranking positions.`,
@@ -667,7 +667,7 @@ Rules:
         kind: 'starter',
         content: `# SEO Metadata Reference Card
 
-## Character limits (hard limits — every character counts, including spaces)
+## Character limits (hard limits, every character counts, including spaces)
 | Element | Minimum | Target | Maximum |
 |---------|---------|--------|---------|
 | Title tag | 40 chars | 50–60 chars | 60 chars |
@@ -676,18 +676,18 @@ Rules:
 Note: Google truncates titles at ~60 chars and descriptions at ~160 chars in standard SERPs.
 
 ## Title tag formulas by intent
-- **Informational:** [Primary keyword] — [What the reader learns] | [Brand]
+- **Informational:** [Primary keyword], [What the reader learns] | [Brand]
   - "Content Repurposing Guide: Turn One Post Into 10 | ContentBase"
-- **Transactional:** [Primary keyword] — [Offer or differentiator] | [Brand]
-  - "Buy Ergonomic Office Chairs — Free Delivery Over $100 | SitWell"
+- **Transactional:** [Primary keyword], [Offer or differentiator] | [Brand]
+  - "Buy Ergonomic Office Chairs, Free Delivery Over $100 | SitWell"
 - **Commercial investigation:** [Primary keyword] vs. [Alternatives] | [Brand]
   - "Best Project Management Software for Freelancers 2026 | TaskFlow"
-- **Navigational:** [Brand] — [Primary keyword or page label]
-  - "Armory — Import Your Existing Claude Setup"
+- **Navigational:** [Brand], [Primary keyword or page label]
+  - "Armory, Import Your Existing Claude Setup"
 
 ## Meta description structure
 [Primary keyword or synonym] + [core benefit] + [secondary detail] + [soft CTA]
-- Informational: "Learn how to repurpose a single blog post into 10 pieces of content — without starting from scratch. Step-by-step guide inside."
+- Informational: "Learn how to repurpose a single blog post into 10 pieces of content, without starting from scratch. Step-by-step guide inside."
 - Transactional: "Shop ergonomic office chairs with lumbar support and free next-day delivery. Find your fit with our 30-day trial."
 
 ## Common meta-writing mistakes
@@ -713,7 +713,7 @@ Note: Google truncates titles at ~60 chars and descriptions at ~160 chars in sta
           'Claude should produce a title tag (50–60 chars) containing the primary keyword near ' +
           'the start and a meta description (145–160 chars) with the keyword, a clear benefit, ' +
           'and a soft informational CTA (e.g., "Read the step-by-step guide"). Both should ' +
-          'match informational intent — no transactional language like "buy now." ' +
+          'match informational intent, no transactional language like "buy now." ' +
           'Exact character counts must be shown. No fabricated brand names.',
         mustContain: ['email list', 'informational', 'title tag', 'meta description'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -749,8 +749,8 @@ Note: Google truncates titles at ~60 chars and descriptions at ~160 chars in sta
     name: 'Newsletter Draft',
     tagline: 'Draft a complete newsletter issue with subject line, hook, body, and sign-off',
     description:
-      'Produces a full newsletter issue — subject line, preview text, opening hook, body, ' +
-      'and sign-off — for a single focused topic. Each section follows the conventions that ' +
+      'Produces a full newsletter issue, subject line, preview text, opening hook, body, ' +
+      'and sign-off, for a single focused topic. Each section follows the conventions that ' +
       'work for mobile readers: short paragraphs, one topic, one CTA.',
     role: 'Content Writer',
     industry: 'Media & Creative',
@@ -777,18 +777,18 @@ Issue theme: {{issueTheme}}
 Tone: {{newsletterTone}}
 
 {{#if hasCTA}}
-End the newsletter with a clear call to action — a link, question, or next step the reader can take immediately.
+End the newsletter with a clear call to action, a link, question, or next step the reader can take immediately.
 {{/if}}
 
 Structure the draft as follows:
 1. **Subject line** (≤50 characters, must not open with the publication name or the word "Newsletter")
-2. **Preview text** (≤90 characters, complements — does not repeat — the subject line)
+2. **Preview text** (≤90 characters, complements, does not repeat, the subject line)
 3. **Opening hook** (1–2 sentences that earn the reader's attention without summarizing the whole issue)
 4. **Body** (cover the issue theme; one core topic only; paragraphs of ≤4 lines for mobile readability)
 5. **Sign-off** (brief, in the publication's established voice)
 
 Rules:
-1. One subject line, one core topic — do not pack multiple stories into a single issue draft.
+1. One subject line, one core topic, do not pack multiple stories into a single issue draft.
 2. Keep every paragraph to 4 lines or fewer; readers scan newsletters on phones.
 3. Do not invent statistics, named sources, quotes, or external data.
 4. Never fabricate subscriber counts, open rates, or publication claims.`,
@@ -860,7 +860,7 @@ Rules:
 Avoid: starting with the publication name, using ALL CAPS, or making a promise the issue cannot keep.
 
 ## Preview text rules (≤90 chars)
-- Complement the subject line — do not repeat it.
+- Complement the subject line, do not repeat it.
 - Tease the next detail or add a second hook.
 - Write it as a continuation, not a summary.
 - Example: Subject: "The one thing most writers skip" → Preview: "It takes under two minutes and it fixes most structural problems."
@@ -874,14 +874,14 @@ Avoid: starting with the publication name, using ALL CAPS, or making a promise t
 Avoid: "Welcome to another issue of…" / "This week we're covering…" / "I hope you're having a great week."
 
 ## Body formatting rules
-- Max 4 lines per paragraph — newsletters are read on phones.
-- One topic per issue — do not stack multiple unrelated stories.
+- Max 4 lines per paragraph, newsletters are read on phones.
+- One topic per issue, do not stack multiple unrelated stories.
 - Short sentences: aim for ≤25 words. Vary length for rhythm.
 - Bold sparingly: highlight key terms or takeaways, not decoration.
 
 ## Sign-off patterns
 - Warm close: "Until next week, [Name]"
-- Editorial sign-off: "As always — [Name]"
+- Editorial sign-off: "As always, [Name]"
 - CTA close: "Hit reply if this resonated. I read every response."
 
 ## Pre-send checklist
@@ -976,16 +976,16 @@ Include a pull quote. Write it as a placeholder: "[QUOTE PLACEHOLDER: client fir
 {{/if}}
 
 Structure the case study as follows:
-1. **Client overview** — 2–3 sentences: who they are, their industry, and their scale or context
-2. **The challenge** — the specific problem and its business impact before the solution
-3. **The solution** — what was done, in plain language (avoid jargon; explain each step)
-4. **Results** — outcomes with numbers where provided; flag unconfirmed figures as [CLIENT TO CONFIRM]
-5. **Key takeaway** — one sentence: the core lesson another reader can apply
+1. **Client overview**, 2–3 sentences: who they are, their industry, and their scale or context
+2. **The challenge**, the specific problem and its business impact before the solution
+3. **The solution**, what was done, in plain language (avoid jargon; explain each step)
+4. **Results**, outcomes with numbers where provided; flag unconfirmed figures as [CLIENT TO CONFIRM]
+5. **Key takeaway**, one sentence: the core lesson another reader can apply
 
 Rules:
 1. Do not invent client details, revenue figures, or outcome metrics beyond what is in the inputs.
 2. Flag any result that was not explicitly provided with [CLIENT TO CONFIRM] before the figure.
-3. Pull quotes must be clearly labeled as placeholders — never attribute words to a named person unless the user provides the actual quote.
+3. Pull quotes must be clearly labeled as placeholders, never attribute words to a named person unless the user provides the actual quote.
 4. Never fabricate statistics, testimonials, or business metrics.`,
 
     variables: [
@@ -1018,7 +1018,7 @@ Rules:
         label: 'Outcomes and results',
         type: 'multiline',
         required: true,
-        helpText: 'What changed? Include numbers where you have them — e.g. "reduced processing time by 40%." Flag anything that still needs client confirmation.',
+        helpText: 'What changed? Include numbers where you have them, e.g. "reduced processing time by 40%." Flag anything that still needs client confirmation.',
         group: 'Case study basics',
       },
       {
@@ -1045,7 +1045,7 @@ Rules:
 
 ### 1. Client overview (~100 words)
 Who they are, what they do, their industry, and their scale.
-Write for a reader who does not know this client — do not assume familiarity.
+Write for a reader who does not know this client, do not assume familiarity.
 
 ### 2. The challenge (~200 words)
 - What specific problem did they face?
@@ -1059,13 +1059,13 @@ Avoid: generic statements like "they needed to be more efficient." Be specific.
 - Who was involved?
 - How long did it take?
 
-Write for a business reader, not a technical one — explain any jargon in plain terms.
+Write for a business reader, not a technical one, explain any jargon in plain terms.
 
 ### 4. Results (~200 words)
 - Lead with the most impressive or most important outcome.
 - Use numbers wherever available: percentages, time saved, revenue gained.
 - Flag any unconfirmed figure with [CLIENT TO CONFIRM].
-- Do not round aggressively — "reduced by 40%" is more credible than "almost halved."
+- Do not round aggressively, "reduced by 40%" is more credible than "almost halved."
 
 ### 5. Key takeaway (~100 words)
 One sentence the reader can apply to their own situation.
@@ -1074,7 +1074,7 @@ Optional: a short next step or CTA.
 ## Pull quote guidelines
 - Use a real quote from a client interview, not a fabricated one.
 - Place after the results section for maximum impact.
-- Format: "[Quote text]" — [First name], [Job title], [Company]
+- Format: "[Quote text]", [First name], [Job title], [Company]
 - Use the QUOTE PLACEHOLDER format until the real quote is approved.
 
 ## Pre-publication checklist
@@ -1140,7 +1140,7 @@ Optional: a short next step or CTA.
     tagline: 'Write benefit-first product descriptions tailored to the buyer and desired length',
     description:
       'Converts product features and specifications into a description written for the actual ' +
-      'buyer — leading with the benefit they get, not the feature list. ' +
+      'buyer, leading with the benefit they get, not the feature list. ' +
       'Respects the requested length and writing style, and never invents specifications.',
     role: 'Content Writer',
     industry: 'Media & Creative',
@@ -1169,7 +1169,7 @@ Description length: {{descriptionLength}}
 Writing style: {{writingStyle}}
 
 Write a product description that:
-1. Opens with the primary benefit the buyer gets — not the product category or the product name
+1. Opens with the primary benefit the buyer gets, not the product category or the product name
 2. Covers the features from the inputs, translating technical specifications into buyer benefits where possible
 3. Stays within the specified length and applies the writing style consistently throughout
 4. Ends with a brief buying prompt or a statement of confidence (not a hard CTA like "Buy now")
@@ -1202,7 +1202,7 @@ Rules:
         label: 'Key features and specifications',
         type: 'multiline',
         required: true,
-        helpText: 'List the features, materials, dimensions, or specs you want covered. Only what you list will be used — nothing will be invented.',
+        helpText: 'List the features, materials, dimensions, or specs you want covered. Only what you list will be used, nothing will be invented.',
         group: 'Product basics',
       },
       {
@@ -1244,7 +1244,7 @@ Always ask: "So what does this mean for the buyer?"
 |---------|----------------|
 | 304 stainless steel | Stays rust-free after years of daily use |
 | 10,000 mAh battery | Powers a full workday away from any outlet |
-| Machine washable | Throw it in the wash — no dry-cleaning bills |
+| Machine washable | Throw it in the wash, no dry-cleaning bills |
 | 4K resolution | Every detail sharp enough to read across the room |
 | Adjustable lumbar support | Your lower back stays comfortable through a full 8-hour day |
 
@@ -1256,10 +1256,10 @@ Always ask: "So what does this mean for the buyer?"
 ## Writing style examples
 
 ### Benefit-led
-"Sleep through the night without the 3 a.m. check-your-phone reflex. The [Product] tracks your schedule and sends a single morning summary — no noise during working hours, no interruptions on weekends."
+"Sleep through the night without the 3 a.m. check-your-phone reflex. The [Product] tracks your schedule and sends a single morning summary, no noise during working hours, no interruptions on weekends."
 
 ### Feature-led
-"[Product] — 10,000 mAh battery, USB-C 65W fast charge, dual-port output. Charges a laptop from 0–80% in 45 minutes. Weighs 198 g."
+"[Product], 10,000 mAh battery, USB-C 65W fast charge, dual-port output. Charges a laptop from 0–80% in 45 minutes. Weighs 198 g."
 
 ### Storytelling
 "You're halfway through the trail when your phone battery drops to 3%. [Product] clips to your pack strap. By the time you reach the summit, you're back to 90%."
@@ -1289,8 +1289,8 @@ Always ask: "So what does this mean for the buyer?"
           'fits desks up to 30 inches wide, holds up to 22 lbs, no assembly required, ' +
           'matte black finish.',
         expectedBehavior:
-          'Claude should open with the primary benefit for the target buyer — relief from sitting ' +
-          'all day and lower back pain — not with the product name or category. The description ' +
+          'Claude should open with the primary benefit for the target buyer, relief from sitting ' +
+          'all day and lower back pain, not with the product name or category. The description ' +
           'should cover all five listed features with benefit translations (e.g., "no assembly ' +
           'required" → "set up in under 60 seconds"). It should stay within 100–200 words and use ' +
           'benefit-led style throughout. No invented specs or competitor comparisons.',
@@ -1328,7 +1328,7 @@ Always ask: "So what does this mean for the buyer?"
     name: 'Repurpose to Social',
     tagline: 'Extract the sharpest insight from long-form content and rewrite it for social',
     description:
-      'Takes a long-form piece — blog post, article, newsletter, or video transcript — and ' +
+      'Takes a long-form piece, blog post, article, newsletter, or video transcript, and ' +
       'produces one platform-native post for each selected social channel. ' +
       'Each post leads with the core insight rather than announcing the original content.',
     role: 'Content Writer',
@@ -1359,7 +1359,7 @@ Add platform-appropriate hashtags at the end of each post: 3–5 for LinkedIn, 1
 
 When given a piece of long-form content, extract the single most shareable insight and write one post per platform. For each post:
 - Label the platform clearly
-- Lead with the core insight — never open with "We just published…" or "New post:"
+- Lead with the core insight, never open with "We just published…" or "New post:"
 - Stay within the platform's standard length:
   - LinkedIn: ≤300 words
   - Instagram: ≤150 words
@@ -1427,18 +1427,18 @@ Rules:
 ## Platform norms for repurposed content
 
 ### LinkedIn (≤300 words)
-- Hook: first line must stand alone before "see more" — make it a bold claim or a question.
+- Hook: first line must stand alone before "see more", make it a bold claim or a question.
 - Structure: hook → core insight → 1–2 supporting points → takeaway or question to drive comments.
 - Hashtags: 3–5, placed at the very end.
-- Avoid: "We just published a blog post about…" — lead with the idea, not the announcement.
+- Avoid: "We just published a blog post about…", lead with the idea, not the announcement.
 
 ### Instagram (≤150 words in caption)
-- Hook: first 125 characters appear before "more" — earn the tap.
+- Hook: first 125 characters appear before "more", earn the tap.
 - Structure: hook → expanded insight → question to drive comments → hashtags in a separate block.
 - Hashtags: 10–15 niche-relevant tags in a line break after the caption.
 - Works well: a single sharp quote, a short numbered list, or a relatable observation.
 
-### X / Twitter (≤280 characters — count carefully)
+### X / Twitter (≤280 characters, count carefully)
 - Write the whole post first, then cut to 280 characters.
 - Lead with the insight, not context. No em-dashes.
 - Hashtags: 1–2 inline; use only if they add context.
@@ -1455,7 +1455,7 @@ Rules:
 - Works well: a single take, a reaction, or a short point that invites a reply.
 
 ## Repurposing rules
-- One insight per post — do not compress the whole article.
+- One insight per post, do not compress the whole article.
 - Never start with "We just published," "New post," or "Check out our latest."
 - Different hook for each platform even when the insight is the same.
 - Pull direct quotes only if they appeared in the source content.
@@ -1474,9 +1474,9 @@ Rules:
           'Source content: "Async communication does not mean slow communication. ' +
           'Teams that document decisions well move faster than those that rely on real-time meetings, ' +
           'because nobody has to wait for the next available slot to get an answer. ' +
-          'The bottleneck is rarely the async format — it is the absence of clear decisions in writing."',
+          'The bottleneck is rarely the async format, it is the absence of clear decisions in writing."',
         expectedBehavior:
-          'Claude should produce two distinct posts — one for LinkedIn (≤300 words) and one for X ' +
+          'Claude should produce two distinct posts, one for LinkedIn (≤300 words) and one for X ' +
           '(≤280 characters). Each must open with a different hook and lead with the core insight ' +
           'from the source (async ≠ slow; documented decisions enable speed). Neither should open ' +
           'with "We just published" or a variation. Hashtags should be platform-appropriate. ' +
@@ -1496,7 +1496,7 @@ Rules:
         expectedBehavior:
           'Claude should produce one Instagram caption (≤150 words, no hashtags) and one Threads post ' +
           '(≤500 characters, no hashtags). Both should match the warm, editorial tone of the source. ' +
-          'Each must open differently — the Instagram post and the Threads post cannot have the same ' +
+          'Each must open differently, the Instagram post and the Threads post cannot have the same ' +
           'opening line. No invented writing advice beyond what appears in the source excerpt.',
         mustContain: ['The Craft Letter', 'first sentence', 'Instagram', 'Threads'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -1514,7 +1514,7 @@ Rules:
     id: 'pro-skill-content-writer-editing-proofreading-pass-v1',
     slug: 'content-writer-editing-proofreading-pass',
     name: 'Editing & Proofreading Pass',
-    tagline: 'Review and improve a draft at the depth you choose — proofread, line edit, or structural',
+    tagline: 'Review and improve a draft at the depth you choose, proofread, line edit, or structural',
     description:
       'Applies a structured editorial pass at one of three depths: proofread only, line edit, or ' +
       'structural edit. Names every change made and why, so the author retains full control ' +
@@ -1547,16 +1547,16 @@ Content type being edited: {{contentType}}
 
 Apply the editing depth strictly:
 - **Proofread only:** Fix spelling, grammar, and punctuation errors. Do not change sentence structure, word choice, or content.
-- **Line edit:** Improve clarity and flow — tighten redundant phrases, improve transitions, fix sentence rhythm. Keep all content; do not cut sections.
+- **Line edit:** Improve clarity and flow, tighten redundant phrases, improve transitions, fix sentence rhythm. Keep all content; do not cut sections.
 - **Structural edit:** Reorganize sections if needed for logical flow. Before making any structural change, state what you are moving and why, then show the result.
 
 After completing the pass:
 - List the categories of changes made (one line per change type, not per individual word)
 - Note the word count before and after
-- Flag any factual claim that looks unsupported with [VERIFY] — do not remove it
+- Flag any factual claim that looks unsupported with [VERIFY], do not remove it
 
 Rules:
-1. Do not cut content silently — name what was removed and the reason.
+1. Do not cut content silently, name what was removed and the reason.
 2. Preserve the author's voice, distinctive phrases, and intentional stylistic choices.
 3. Never expand the scope beyond the stated editing depth without asking first.
 4. Never fabricate replacement facts, statistics, or quotes.`,
@@ -1636,7 +1636,7 @@ Do NOT: rewrite sentences, change word choice, reorganize, or cut content.
 ### Line edit
 Fix everything in proofread, PLUS:
 - Redundant phrases (e.g., "past history" → "history"; "very unique" → "unique")
-- Unclear pronoun references ("This shows that…" — what does "this" refer to?)
+- Unclear pronoun references ("This shows that…", what does "this" refer to?)
 - Weak transition words replaced with stronger connectives
 - Sentences over 30 words split or tightened
 - Passive voice converted to active where clearer
@@ -1687,7 +1687,7 @@ ALWAYS name what you are moving and why before making the change.
           'tasks. Many people find that this is very helpful for them in terms of getting things done ' +
           'without interruptions from colleagues or other distractions that come up during the day."',
         expectedBehavior:
-          'Claude should return a tightened version of the paragraph — removing redundant phrases ' +
+          'Claude should return a tightened version of the paragraph, removing redundant phrases ' +
           '("a lot of," "very successful," "on a daily basis," "popular and well-known"), converting ' +
           'passive-voice constructions, and cutting the repetitive "time blocking is where" definition. ' +
           'It should note the categories of changes made (e.g., redundancy removal, passive-to-active) ' +
@@ -1700,7 +1700,7 @@ ALWAYS name what you are moving and why before making the change.
         id: 'content-writer-editing-proofreading-pass-scenario-2',
         title: 'Proofread a short newsletter email for errors only',
         userInput:
-          'Proofread only — fix errors, do not change anything else. Style guide: no specific guide. ' +
+          'Proofread only, fix errors, do not change anything else. Style guide: no specific guide. ' +
           'Content type: newsletter. Target audience: small business owners. ' +
           'Here is the draft: "This week we\'re looking at why you\'re email open rates might be falling. ' +
           'There\'s three main culprits: a subject line that doesnt create curiosity, a sender name ' +
@@ -1732,7 +1732,7 @@ ALWAYS name what you are moving and why before making the change.
     description:
       'Generates a structured content brief from your goal, audience, keyword, and content type. ' +
       'The output covers purpose, key points, points to avoid, word count, internal links, and ' +
-      'success criteria — everything a writer needs to start without re-asking questions.',
+      'success criteria, everything a writer needs to start without re-asking questions.',
     role: 'Content Writer',
     industry: 'Media & Creative',
     tags: ['content-brief', 'editorial-planning', 'content-strategy', 'seo', 'writing'],
@@ -1762,17 +1762,17 @@ Include a "Competitor gap" section in the brief: a short note on what competing 
 {{/if}}
 
 Write a complete content brief with these sections:
-1. **Purpose** — one sentence: what the reader should know, feel, or do after reading
-2. **Target reader** — role, industry, pain point, and assumed prior knowledge level
-3. **Primary keyword / topic and semantic variants** — the main keyword plus 3–5 related terms or angles to weave in
-4. **Key points to cover** — bulleted list in priority order (most important first)
-5. **Points to avoid** — topics, claims, or angles to exclude
-6. **Recommended word count and format** — with a one-sentence rationale
-7. **Internal links to consider** — types of related pages to link to (not fabricated URLs)
-8. **Success criteria** — how to know if this piece achieved its goal
+1. **Purpose**, one sentence: what the reader should know, feel, or do after reading
+2. **Target reader**, role, industry, pain point, and assumed prior knowledge level
+3. **Primary keyword / topic and semantic variants**, the main keyword plus 3–5 related terms or angles to weave in
+4. **Key points to cover**, bulleted list in priority order (most important first)
+5. **Points to avoid**, topics, claims, or angles to exclude
+6. **Recommended word count and format**, with a one-sentence rationale
+7. **Internal links to consider**, types of related pages to link to (not fabricated URLs)
+8. **Success criteria**, how to know if this piece achieved its goal
 
 Rules:
-1. Key points must be specific to the stated goal and audience — no generic filler like "explain the basics."
+1. Key points must be specific to the stated goal and audience, no generic filler like "explain the basics."
 2. Do not invent search volume data, competitor domain authority, or content performance benchmarks.
 3. Flag any section where the user needs to supply information before a writer can start (mark with [OWNER TO FILL]).
 4. Never fabricate brand facts, competitor names, or product claims.`,
@@ -1800,7 +1800,7 @@ Rules:
         label: 'Target audience',
         type: 'text',
         required: true,
-        helpText: 'Who will read this? Be specific — role, industry, experience level, and the pain point that brought them here.',
+        helpText: 'Who will read this? Be specific, role, industry, experience level, and the pain point that brought them here.',
         group: 'Brief basics',
       },
       {
@@ -1849,7 +1849,7 @@ One sentence: [What the reader should know / feel / do after reading.]
 - Variant 3: ___
 
 ### 4. Key points to cover (in priority order)
-1. [Most important — the reader cannot finish this piece without understanding this]
+1. [Most important, the reader cannot finish this piece without understanding this]
 2. ___
 3. ___
 4. ___
@@ -1865,8 +1865,8 @@ One sentence: [What the reader should know / feel / do after reading.]
 - Format: [Standard article / Listicle / How-to / Q&A / Data-led]
 
 ### 7. Internal links to consider
-- Link to: [type of related page] — anchor text suggestion: ___
-- Link to: ___ — anchor text: ___
+- Link to: [type of related page], anchor text suggestion: ___
+- Link to: ___, anchor text: ___
 
 ### 8. Success criteria
 - Primary: [How will you know this piece worked?]
@@ -1877,7 +1877,7 @@ One sentence: [What the reader should know / feel / do after reading.]
 ## Writing specific key points (not generic ones)
 
 Generic (bad): "Explain what project management software is."
-Specific (good): "Explain how project management software reduces the number of status-update meetings a team needs — because that is the specific pain point our reader has."
+Specific (good): "Explain how project management software reduces the number of status-update meetings a team needs, because that is the specific pain point our reader has."
 
 The test: can a writer start this section without re-reading the rest of the brief? If yes, the key point is specific enough.
 
@@ -1905,7 +1905,7 @@ Vague criteria to avoid: "perform well," "get good results," "be shared widely."
           'Primary keyword: "how to give design feedback." Include a competitor gap section.',
         expectedBehavior:
           'Claude should produce a complete content brief with all eight sections. Key points must ' +
-          'be specific to the engineering/product manager audience giving design feedback — not generic ' +
+          'be specific to the engineering/product manager audience giving design feedback, not generic ' +
           'management advice. The competitor gap section should note what common articles on design ' +
           'feedback cover (e.g., visual vs. verbal feedback, timing) and what angle this piece should ' +
           'take differently. Success criteria should be measurable. No fabricated search volume data.',
@@ -1924,7 +1924,7 @@ Vague criteria to avoid: "perform well," "get good results," "be shared widely."
         expectedBehavior:
           'Claude should produce a complete brief with all eight sections. The eBook format should ' +
           'result in a higher word count recommendation (5,000+ words) with a rationale. Key points ' +
-          'should be specific to B2B marketers with small lists — not general email marketing advice. ' +
+          'should be specific to B2B marketers with small lists, not general email marketing advice. ' +
           'Success criteria should reflect the lead-generation goal. No fabricated benchmark data.',
         mustContain: ['eBook', 'B2B', 'email list', '5,000 subscribers'],
         mustNotContain: ['I cannot help', 'As an AI'],

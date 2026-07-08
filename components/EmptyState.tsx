@@ -53,7 +53,7 @@ export default function EmptyState({
       {EMPTY_SVG}
       <h3>{message}</h3>
       <p>
-        Try a different search, or clear the filters — more setups are on the
+        Try a different search, or clear the filters, more setups are on the
         way.
       </p>
       {clearHref && (

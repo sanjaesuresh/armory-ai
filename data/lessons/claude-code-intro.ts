@@ -13,7 +13,7 @@ export const claudeCodeIntro: Lesson = {
   slug: 'claude-code-intro',
   track: 'claude-code',
   title: 'From chat to agent',
-  tagline: 'Claude Code is an agent: it reads files, runs commands, and checks its own work — then keeps going until the task is done.',
+  tagline: 'Claude Code is an agent: it reads files, runs commands, and checks its own work, then keeps going until the task is done.',
   minutes: 6,
   order: 1,
 
@@ -24,8 +24,8 @@ export const claudeCodeIntro: Lesson = {
       heading: 'A chat AI answers. An agent acts.',
       paragraphs: [
         'When you type a question into Claude.ai or ChatGPT, the model reads your message and writes a reply. That is the whole loop: one turn, one response, done. The model never touches your files, runs a command, or checks whether its answer was actually correct.',
-        'Claude Code is different. It is an agent — a model that can use tools. A tool is a specific action the model can invoke: read a file, write a file, run a shell command, search the web, call an API. When Claude Code needs to understand your codebase, it reads the relevant files. When it makes an edit, it writes the change directly to disk. When it wants to confirm the change worked, it runs your test suite.',
-        'The key difference is not raw intelligence — it is the ability to take real actions and see real results, without you copy-pasting anything.',
+        'Claude Code is different. It is an agent, a model that can use tools. A tool is a specific action the model can invoke: read a file, write a file, run a shell command, search the web, call an API. When Claude Code needs to understand your codebase, it reads the relevant files. When it makes an edit, it writes the change directly to disk. When it wants to confirm the change worked, it runs your test suite.',
+        'The key difference is not raw intelligence, it is the ability to take real actions and see real results, without you copy-pasting anything.',
       ],
     },
 
@@ -40,8 +40,8 @@ export const claudeCodeIntro: Lesson = {
       type: 'prose',
       heading: 'The loop, in plain English',
       paragraphs: [
-        'The widget above shows the loop in its simplest form: two trips around the cycle — one to read the file, one to write the edit. For a straightforward change, that is enough. For tasks that need verification — like fixing a bug — the loop continues further. After writing the edit, the model calls a tool to run the tests. The test output comes back as context. If the tests pass, the model responds to you with a summary. If they fail, the loop continues: read the failure output, decide what is still wrong, write another edit, run the tests again.',
-        'Each tool result feeds back into the model\'s context. That is why the loop beats copy-pasting output from a chat: the model sees the actual file content, the actual test output, and the actual error messages — not a paraphrased version you typed by hand. Nothing is lost in translation.',
+        'The widget above shows the loop in its simplest form: two trips around the cycle, one to read the file, one to write the edit. For a straightforward change, that is enough. For tasks that need verification, like fixing a bug, the loop continues further. After writing the edit, the model calls a tool to run the tests. The test output comes back as context. If the tests pass, the model responds to you with a summary. If they fail, the loop continues: read the failure output, decide what is still wrong, write another edit, run the tests again.',
+        'Each tool result feeds back into the model\'s context. That is why the loop beats copy-pasting output from a chat: the model sees the actual file content, the actual test output, and the actual error messages, not a paraphrased version you typed by hand. Nothing is lost in translation.',
         'The loop stops when the model decides the task is done, when it hits a permission boundary (an action it is not allowed to take), or when it asks you for input because it needs a decision only you can make.',
       ],
     },
@@ -52,30 +52,30 @@ export const claudeCodeIntro: Lesson = {
       {
         prompt: 'What is a "tool call" in an agent loop?',
         choices: [
-          'A specific action the model can invoke — like reading a file, running a command, or writing an edit',
+          'A specific action the model can invoke, like reading a file, running a command, or writing an edit',
           'A special prompt you type to make the AI use its full capabilities',
           'A paid API feature that unlocks Claude\'s reasoning mode',
         ],
         correctIndex: 0,
         explanation:
-          'A tool call is a specific, named action the model can request during a session — reading a file, executing a command, writing code to disk, calling an API. The model decides when to call which tool; you do not invoke them manually.',
+          'A tool call is a specific, named action the model can request during a session, reading a file, executing a command, writing code to disk, calling an API. The model decides when to call which tool; you do not invoke them manually.',
       },
       {
         prompt: 'Why does tool output feed back into the model\'s context?',
         choices: [
           'To fill the context window so the model has more to work with',
-          'So the model can read the actual result — not a paraphrased version — and decide the next step',
+          'So the model can read the actual result, not a paraphrased version, and decide the next step',
           'Because the model cannot make decisions without seeing its own previous replies',
         ],
         correctIndex: 1,
         explanation:
-          'When a tool runs, its output — the real file contents, the actual test results, the exact error message — comes back as context. The model reads it and decides what to do next. This is why the agent loop beats copy-pasting from a chat window: nothing is lost in translation between what happened and what the model sees.',
+          'When a tool runs, its output, the real file contents, the actual test results, the exact error message, comes back as context. The model reads it and decides what to do next. This is why the agent loop beats copy-pasting from a chat window: nothing is lost in translation between what happened and what the model sees.',
       },
       {
         prompt: 'How does Claude Code differ from using Claude in a regular chat?',
         choices: [
           'Claude Code uses a smarter model trained specifically for software',
-          'Claude Code can take real actions — read files, run commands, write edits — rather than just composing a text reply',
+          'Claude Code can take real actions, read files, run commands, write edits, rather than just composing a text reply',
           'Claude Code only responds to code-related questions',
         ],
         correctIndex: 1,

@@ -54,7 +54,7 @@ Ask (or confirm) the following before doing anything else:
 - What is the exact error message or unexpected behaviour?
 - Which environment does it occur in (dev, staging, production)?
 - Is the failure deterministic or intermittent?
-- When did it first appear — after a specific commit, deploy, or config change?
+- When did it first appear, after a specific commit, deploy, or config change?
 
 ### Step 2: Reproduce minimally
 - Identify the smallest input or sequence of steps that reliably triggers the bug.
@@ -90,11 +90,11 @@ Once the root cause is confirmed:
 
 ## Commands
 
-- \`/debug <error message or symptom>\` — Start a guided debugging session.
-- \`/trace <code snippet or stack trace>\` — Walk through a stack trace or code path step-by-step.
-- \`/explain-error <error message>\` — Explain what an error means and its most common causes.
-- \`/hypothesis <description>\` — Evaluate a specific hypothesis against the available evidence.
-- \`/regression-test <bug description>\` — Draft a test that would catch this bug in the future.
+- \`/debug <error message or symptom>\`, Start a guided debugging session.
+- \`/trace <code snippet or stack trace>\`, Walk through a stack trace or code path step-by-step.
+- \`/explain-error <error message>\`, Explain what an error means and its most common causes.
+- \`/hypothesis <description>\`, Evaluate a specific hypothesis against the available evidence.
+- \`/regression-test <bug description>\`, Draft a test that would catch this bug in the future.
 `,
     },
   ],

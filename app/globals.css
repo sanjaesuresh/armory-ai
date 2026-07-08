@@ -189,7 +189,7 @@ img, svg { vertical-align: middle; }
 
 /* ---- utility ---------------------------------------------- */
 
-.wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
 .muted { color: var(--muted); }
 .small { font-size: 0.85rem; }
 .center { text-align: center; }
@@ -279,7 +279,7 @@ img, svg { vertical-align: middle; }
 }
 .account-dropdown {
   position: absolute; top: calc(100% + 8px); right: 0;
-  min-width: 196px; z-index: 50;
+  min-width: 196px; max-width: calc(100vw - 24px); z-index: 50;
   background: var(--paper); border: 1px solid var(--hairline);
   border-radius: var(--r-md); box-shadow: var(--shadow-2);
   padding: 6px; display: flex; flex-direction: column; gap: 2px;
@@ -2507,6 +2507,14 @@ pre.code {
   flex: none;
 }
 
+/* ---- Mobile filter drawer -----------------------------------------
+   Below 720px the facet rail collapses behind a "Filters" button and
+   opens as a bottom sheet. On desktop the trigger + sheet chrome are
+   hidden and .browse-rail stays the sticky sidebar. */
+.filters-toggle { display: none; }
+.browse-rail-drawerhead { display: none; }
+.browse-scrim { display: none; }
+
 /* ---- Browse main area --------------------------------------------- */
 
 .browse-main {
@@ -2750,6 +2758,8 @@ pre.code {
 .idx-src-cur { color: var(--good); }
 .idx-src-ai  { color: var(--violet); }
 .idx-src-com { color: var(--warn); }
+/* github owner username shown next to the source label in the list row */
+.idx-user { font-family: var(--mono); font-size: 11px; color: var(--muted); }
 
 /* Controls row above the index (search + count) */
 .idx-controls {
@@ -2774,41 +2784,129 @@ pre.code {
 
 @media (max-width: 720px) {
   .browse-shell { grid-template-columns: 1fr; }
+
+  /* the facet rail becomes a bottom sheet, off-screen until opened */
   .browse-rail {
-    position: static;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
     height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--hairline);
+    max-height: 82vh;
+    z-index: 60;
+    border: none;
+    border-top: 1px solid var(--hairline-strong);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    padding: 0 14px 20px;
+    background: var(--oat-deep);
+    box-shadow: var(--shadow-3);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform var(--t-slow), visibility var(--t-slow);
+  }
+  .browse-rail.is-open {
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  /* sheet header: title + Done, sticky at the top of the sheet */
+  .browse-rail-drawerhead {
     display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding: 10px 12px;
-    overflow-y: visible;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--oat-deep);
+    padding: 14px 2px 10px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--hairline);
+    font-weight: 600;
+    z-index: 1;
   }
-  .browse-rail-label { display: none; }
-  .browse-rail-sep { display: none; }
+  .browse-rail-done {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--iris);
+    background: none;
+    border: 0;
+    padding: 6px 8px;
+    min-height: 32px;
+    cursor: pointer;
+  }
+
+  /* keep the labelled sections readable inside the sheet */
+  .browse-rail-label { display: block; }
+  .browse-rail-sep { display: block; }
   .rail-filter-item {
-    width: auto;
+    font-size: 14px;
+    padding: 9px 8px;
+  }
+
+  /* scrim + trigger appear only at this width */
+  .browse-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(0, 0, 0, 0.45);
+  }
+  .filters-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex: none;
+    min-height: 40px;
+    padding: 0 14px;
     border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-md);
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .filters-toggle-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
     border-radius: 999px;
-    padding: 5px 12px;
-    font-size: 12px;
+    background: var(--iris);
+    color: #08120b;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1;
   }
-  .rail-filter-item[aria-pressed="true"] {
-    background: var(--ink);
-    color: var(--oat);
-    border-color: var(--ink);
-  }
+
+  /* relocated sort/source/function controls inside the sheet */
+  .browse-rail .filter-row { margin-bottom: 4px; padding: 0 2px; }
+  .browse-rail .drawer-sort { padding: 0 2px 2px; }
+  .browse-rail .dash-sort { display: flex; width: 100%; gap: 10px; }
+  .browse-rail .dash-sort select { flex: 1; min-height: 40px; }
+
   .browse-main { padding: 0 16px 48px; }
   .featured-lead { grid-template-columns: 1fr; }
   .feat-runners { flex-direction: row; }
 }
 
 @media (max-width: 480px) {
-  .idx-row { grid-template-columns: 15px 1fr auto; }
+  .idx-row { grid-template-columns: 15px minmax(0, 1fr) auto; }
   .idx-clause { display: none; }
   .feat-runners { display: none; }
   .idx-controls .search-bar { min-width: 0; }
+  /* trim the dense meta so the right cell can't force horizontal overflow:
+     keep the two cross-variant signals (upvotes + source), drop kind + owner */
+  .idx-rt { gap: 10px; }
+  .idx-kd { display: none; }
+  .idx-user { display: none; }
+  .idx-name-link { overflow-wrap: anywhere; }
 }
 
 /* ======================================================================
@@ -4442,6 +4540,14 @@ pre.code {
   opacity: 0.8;
 }
 .dev-tab--active .dev-tab-count { color: #08130c; opacity: 0.65; }
+
+/* narrow screens: tighten the segmented control so all four tabs fit;
+   overflow-x is a safety net if labels ever grow past the viewport */
+@media (max-width: 480px) {
+  .dev-tabs { display: flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .dev-tabs::-webkit-scrollbar { display: none; }
+  .dev-tab { padding: 8px 10px; font-size: 12.5px; white-space: nowrap; flex: none; }
+}
 
 /* ─── row list container ─────────────────────────────────────────── */
 /* --paper raised card, rounded 16px */

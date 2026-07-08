@@ -77,7 +77,7 @@ export default function SkillTrigger() {
       <p>
         Each skill has a description. Claude Code reads the request and checks
         whether it matches any skill's description. Pick a request to see which
-        skill activates — and what gets loaded into context.
+        skill activates, and what gets loaded into context.
       </p>
 
       {/* Request picker */}
@@ -121,7 +121,7 @@ export default function SkillTrigger() {
         >
           {matchedSkill
             ? `Matched: the ${matchedSkill.title} skill handles this kind of request.`
-            : 'No skill matched this request — Claude handles it with no extra context.'}
+            : 'No skill matched this request, Claude handles it with no extra context.'}
         </p>
       )}
 

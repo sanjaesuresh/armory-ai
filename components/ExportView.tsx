@@ -23,7 +23,7 @@ interface Props {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function buildBundleMd(blocks: ExportBlock[], slug: string): string {
-  const header = `# Armory Bundle — ${slug}\n\n`;
+  const header = `# Armory Bundle, ${slug}\n\n`;
   const sections = blocks
     .map((b) => `## ${b.label}\n\n${b.content}`)
     .join('\n\n---\n\n');
@@ -254,7 +254,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
       </h1>
       <p className="muted" style={{ maxWidth: '42em', margin: '0 0 0 0' }}>
         Your <strong style={{ color: 'var(--ink)' }}>{setup.name}</strong> setup is ready. Copy
-        each block into {targetLabel(target)} — the walkthrough shows exactly where everything
+        each block into {targetLabel(target)}, the walkthrough shows exactly where everything
         goes.
       </p>
 
@@ -379,7 +379,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
               {planChoice === 'pro' && (
                 <div>
                   <p className="muted small" style={{ marginBottom: '14px' }}>
-                    Great — your setup becomes a permanent Claude Project. The walkthrough takes
+                    Great, your setup becomes a permanent Claude Project. The walkthrough takes
                     about two minutes.
                   </p>
                   <Link href="/install" className="btn btn-primary btn-lg">
@@ -409,7 +409,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
                       after the instructions.
                     </li>
                     <li>
-                      Send your first request in that same conversation — your setup is live for the
+                      Send your first request in that same conversation, your setup is live for the
                       whole chat.
                     </li>
                   </ol>
@@ -424,7 +424,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
               <p className="muted small" style={{ marginBottom: '14px' }}>
                 Copy the <strong style={{ color: 'var(--ink)' }}>Project memory</strong> block
                 into your project&apos;s <strong style={{ color: 'var(--ink)' }}>CLAUDE.md</strong>,
-                add any knowledge files to the project directory, then start a conversation — Claude
+                add any knowledge files to the project directory, then start a conversation, Claude
                 Code picks it all up automatically.
               </p>
               <Link
@@ -468,8 +468,8 @@ export default function ExportView({ setup, signedIn = false }: Props) {
               <div>
                 <p className="muted small" style={{ marginBottom: '14px' }}>
                   {chatGptBranch === 'custom-gpt'
-                    ? 'Great — your setup becomes a reusable Custom GPT. The walkthrough takes about two minutes.'
-                    : "No problem — you'll paste everything into ChatGPT's Custom Instructions, with any knowledge included inline."}
+                    ? 'Great, your setup becomes a reusable Custom GPT. The walkthrough takes about two minutes.'
+                    : "No problem, you'll paste everything into ChatGPT's Custom Instructions, with any knowledge included inline."}
                 </p>
                 <Link
                   href="/install"
@@ -503,7 +503,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
                     Claude Projects <span className="rec">Recommended</span>
                   </strong>
                   <p>
-                    A permanent home for your setup — instructions and files stay attached to every
+                    A permanent home for your setup, instructions and files stay attached to every
                     conversation.
                   </p>
                 </label>
@@ -518,7 +518,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
                   />
                   <strong>ChatGPT</strong>
                   <p>
-                    The same setup in ChatGPT&apos;s format — a reusable Custom GPT, or pasted into
+                    The same setup in ChatGPT&apos;s format, a reusable Custom GPT, or pasted into
                     Custom Instructions.
                   </p>
                 </label>
@@ -533,7 +533,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
                   />
                   <strong>Claude Code</strong>
                   <p>
-                    Paste the instructions into your project&apos;s CLAUDE.md memory file — active
+                    Paste the instructions into your project&apos;s CLAUDE.md memory file, active
                     in every Claude Code conversation inside that project.
                   </p>
                 </label>
@@ -547,7 +547,7 @@ export default function ExportView({ setup, signedIn = false }: Props) {
                   Claude Projects <span className="rec">Recommended</span>
                 </strong>
                 <p>
-                  A permanent home for your setup — instructions and files stay attached to every
+                  A permanent home for your setup, instructions and files stay attached to every
                   conversation.
                 </p>
               </label>

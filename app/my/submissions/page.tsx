@@ -101,7 +101,7 @@ export default async function MySubmissionsPage({ searchParams }: Props) {
             </svg>
             <h3>You haven&apos;t built any setups yet</h3>
             <p>
-              Build a setup and submit it — it will appear here once you submit for review.
+              Build a setup and submit it, it will appear here once you submit for review.
             </p>
             <Link className="btn btn-primary btn-sm" href="/build">
               Build a setup
@@ -141,7 +141,7 @@ export default async function MySubmissionsPage({ searchParams }: Props) {
               fontSize: '0.9rem',
             }}
           >
-            Your setup was submitted — we review every setup before it goes live.
+            Your setup was submitted, we review every setup before it goes live.
           </div>
         )}
 

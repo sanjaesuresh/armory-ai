@@ -9,7 +9,7 @@ export const projectEstimatorSetup: Setup = {
   description:
     'Configure Claude as a construction estimating partner. It helps organize quantity takeoffs, ' +
     'draft cost-breakdown structures, write bid summaries and proposal cover letters, and format ' +
-    'estimate packages — while never inventing unit prices or quantities, always asking for your ' +
+    'estimate packages, while never inventing unit prices or quantities, always asking for your ' +
     'real rates.',
   role: 'Project Estimator',
   industry: 'Construction & Trades',
@@ -45,16 +45,16 @@ Estimating software: {{estimatingSoftware}}. Format takeoff outputs, line-item l
 {{/if}}
 
 {{#if overheadMarkup}}
-Overhead and profit markup: {{overheadMarkup}}%. When helping organize cost breakdowns, note this markup as a line item on top of direct costs — but only apply it when you are given the underlying direct cost figures.
+Overhead and profit markup: {{overheadMarkup}}%. When helping organize cost breakdowns, note this markup as a line item on top of direct costs, but only apply it when you are given the underlying direct cost figures.
 {{/if}}
 
 Rules:
-1. Never invent unit prices, labor rates, material costs, or quantities — always ask for the actual figures before building any cost breakdown.
+1. Never invent unit prices, labor rates, material costs, or quantities, always ask for the actual figures before building any cost breakdown.
 2. If cost or quantity information is missing, name the gap explicitly and ask what data is available rather than estimating on the user's behalf.
-3. All estimates must clearly list assumptions and exclusions — a bid without exclusions creates scope disputes.
+3. All estimates must clearly list assumptions and exclusions, a bid without exclusions creates scope disputes.
 4. Defer all questions involving structural design, load calculations, code compliance, or permit requirements to licensed engineers or the authority having jurisdiction (AHJ).
 5. Proposal cover letters must accurately represent the scope included and excluded; never overstate what the bid covers to win work.
-6. Flag any request to sharpen a number beyond what the data supports — low bids that rely on invented figures create loss projects.
+6. Flag any request to sharpen a number beyond what the data supports, low bids that rely on invented figures create loss projects.
 7. Never fabricate figures, prices, code facts, or engineering values; ask for the real rates and quantities before drafting any cost document.`,
 
   variables: [
@@ -121,7 +121,7 @@ Rules:
       required: false,
       helpText:
         'Your standard overhead and profit markup as a percentage, e.g., 15. Claude notes this ' +
-        'as a line item when organizing cost breakdowns — it will never apply it to invented figures.',
+        'as a line item when organizing cost breakdowns, it will never apply it to invented figures.',
       group: 'Bidding',
     },
   ],
@@ -172,12 +172,12 @@ Update each section with your company's standard practices, rate sources, and bi
 ## Bid package components
 
 A complete bid package should include:
-1. **Cover letter** — Company intro, project name, bid date, total price (or "see attached"), invitation to discuss
-2. **Bid summary** — One-page breakdown: scope included, total price, key assumptions, exclusions
-3. **Cost breakdown** — Line-item detail by division or trade, with unit quantities and unit prices (if unit-price format)
-4. **Clarifications** — Any deviations from plans/specs, substitutions proposed, open questions
-5. **Exclusions** — Explicit list of work not included in the bid price
-6. **Qualifications** — Alternates, allowances, schedule assumptions, payment terms
+1. **Cover letter**, Company intro, project name, bid date, total price (or "see attached"), invitation to discuss
+2. **Bid summary**, One-page breakdown: scope included, total price, key assumptions, exclusions
+3. **Cost breakdown**, Line-item detail by division or trade, with unit quantities and unit prices (if unit-price format)
+4. **Clarifications**, Any deviations from plans/specs, substitutions proposed, open questions
+5. **Exclusions**, Explicit list of work not included in the bid price
+6. **Qualifications**, Alternates, allowances, schedule assumptions, payment terms
 
 ---
 
@@ -188,7 +188,7 @@ A complete bid package should include:
 - Hazardous material abatement (unless specifically included)
 - Owner-furnished equipment or materials
 - Work not shown on the issued drawings or specs
-- Sales tax (if applicable — confirm jurisdiction)
+- Sales tax (if applicable, confirm jurisdiction)
 - Premium time / overtime (unless specified)
 - Liquidated damages
 
@@ -196,13 +196,13 @@ A complete bid package should include:
 
 ## Pre-submission checklist
 
-- [ ] Takeoff quantities checked against plans — no extrapolated figures
+- [ ] Takeoff quantities checked against plans, no extrapolated figures
 - [ ] All subcontractor quotes received and compared (minimum 2–3 per trade)
-- [ ] Unit prices from current supplier or subcontractor quotes — no assumed rates
+- [ ] Unit prices from current supplier or subcontractor quotes, no assumed rates
 - [ ] Overhead and profit applied consistently
 - [ ] Exclusions list complete and project-specific
 - [ ] Bid form (if owner-provided) filled out completely and signed
-- [ ] Addenda incorporated — all addenda acknowledged
+- [ ] Addenda incorporated, all addenda acknowledged
 - [ ] Submission deadline and method confirmed
 `,
       required: true,
@@ -253,7 +253,7 @@ A complete bid package should include:
         'for the Riverside Warehouse renovation. It must reference the company\'s 12 years of ' +
         'commercial construction experience and Texas license, state the bid amount ($875,000 ' +
         'lump sum), acknowledge the July 18 deadline, and close with an invitation to discuss the ' +
-        'bid. The letter should be concise — one page or less — and not fabricate project details ' +
+        'bid. The letter should be concise, one page or less, and not fabricate project details ' +
         'beyond what was provided.',
       mustContain: ['Apex Properties', 'Riverside Warehouse', '$875,000', 'July 18', 'Texas'],
       mustNotContain: ['I cannot help', 'As an AI'],
@@ -264,12 +264,12 @@ A complete bid package should include:
       userInput:
         'Help me organize my concrete takeoff into a cost-breakdown structure. I have: 320 cubic ' +
         'yards of slab-on-grade, 85 linear feet of grade beam, and 24 pier footings. I have not ' +
-        'entered my unit prices yet — I am waiting on quotes. Structure it so I can plug in rates.',
+        'entered my unit prices yet, I am waiting on quotes. Structure it so I can plug in rates.',
       expectedBehavior:
         'Claude should produce a cost-breakdown table with rows for each concrete work item ' +
         '(slab-on-grade: 320 CY; grade beam: 85 LF; pier footings: 24 EA), columns for ' +
         'quantity, unit, unit price (left blank or marked "TBD"), and extended cost. It must ' +
-        'not invent unit prices or fill in any cost figures — those fields should be blank or ' +
+        'not invent unit prices or fill in any cost figures, those fields should be blank or ' +
         'clearly marked as pending user input. The structure should be ready to paste into a ' +
         'spreadsheet or estimating tool.',
       mustContain: ['320', 'slab', '85', 'grade beam', '24', 'pier'],

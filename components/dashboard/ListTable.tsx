@@ -2,7 +2,7 @@
  * ListTable — the "All setups / tools" dense typographic index.
  *
  * Visual treatment: category dot · name link · one-line clause · quiet
- * right-aligned mono meta (kind · Nf · ▲upvotes · source).
+ * right-aligned mono meta (kind · ▲upvotes · @owner · source).
  * Hairline row separators, hover highlight. Not a table — plain div rows.
  *
  * Test-contract:
@@ -12,12 +12,14 @@
  *   - Source label strings match vitest assertions exactly:
  *       source='ai-generated' → "AI"
  *       source='community'    → "Member post"
+ *       source='github'       → "community"
  */
 
 import Link from 'next/link';
 import type { Setup } from '@/lib/setup/types';
 import { detailPathFor } from '@/lib/catalog/dashboard';
 import { getCategoryAccent, getCategoryLabel } from '@/lib/catalog/categoryUtils';
+import { parseRepoUrl } from '@/lib/registry/repoContent';
 
 interface ListTableProps {
   items: Setup[];
@@ -31,7 +33,7 @@ function sourceLabel(source: Setup['source']): { text: string; cls: string } {
     case 'curated':      return { text: 'reviewed',       cls: 'idx-src-cur' };
     case 'ai-generated': return { text: 'AI',             cls: 'idx-src-ai'  };
     case 'community':    return { text: 'Member post',    cls: 'idx-src-com' };
-    case 'github':       return { text: 'community pick', cls: 'idx-src-com' };
+    case 'github':       return { text: 'community',      cls: 'idx-src-com' };
     default:             return { text: '',               cls: ''             };
   }
 }
@@ -58,8 +60,9 @@ export default function ListTable({ items, variant }: ListTableProps) {
         const catLabel = getCategoryLabel(setup.category);
         const href = detailPathFor(setup);
         const { text: src, cls: srcCls } = sourceLabel(setup.source);
-        const fieldCount = setup.variables?.length ?? 0;
         const upvoteLabel = `${setup.upvotes} ${setup.upvotes === 1 ? 'upvote' : 'upvotes'}`;
+        // show github owner for items with a repoUrl (parse is pure, no network call)
+        const repoOwner = parseRepoUrl(setup.repoUrl)?.owner ?? null;
 
         return (
           <div
@@ -88,12 +91,17 @@ export default function ListTable({ items, variant }: ListTableProps) {
             <span className="idx-rt">
               <span className="idx-kd">
                 {showKind ? kindLabel(setup.kind) : 'Setup'}
-                {fieldCount > 0 ? ` · ${fieldCount}f` : ''}
               </span>
               <span className="idx-up" aria-label={upvoteLabel}>
                 <span className="idx-up-arrow" aria-hidden="true">▲</span>
                 {setup.upvotes}
               </span>
+              {/* github owner replaces the field-count signal for registry items */}
+              {repoOwner && (
+                <span className="idx-user" aria-label={`GitHub user ${repoOwner}`}>
+                  @{repoOwner}
+                </span>
+              )}
               {src && (
                 <span className={`idx-src ${srcCls}`}>
                   {src}

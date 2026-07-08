@@ -356,6 +356,15 @@ describe('sortList', () => {
     expect(result.map((s) => s.id)).toEqual(['2', '1']);
   });
 
+  it('popularity: breaks popularity tie by github stars descending', () => {
+    // pre-launch signal: popularity/upvotes all 0, stars vary → stars order the list
+    const a = makeSetup({ id: '1', slug: 'a', name: 'A', popularity: 0, upvotes: 0, githubStars: 100 });
+    const b = makeSetup({ id: '2', slug: 'b', name: 'B', popularity: 0, upvotes: 0, githubStars: 9000 });
+    const c = makeSetup({ id: '3', slug: 'c', name: 'C', popularity: 0, upvotes: 0, githubStars: 500 });
+    const result = sortList([a, b, c], 'popularity');
+    expect(result.map((s) => s.id)).toEqual(['2', '3', '1']);
+  });
+
   it('upvotes: sorts by upvotes descending', () => {
     const a = makeSetup({ id: '1', slug: 'a', name: 'A', upvotes: 5 });
     const b = makeSetup({ id: '2', slug: 'b', name: 'B', upvotes: 20 });

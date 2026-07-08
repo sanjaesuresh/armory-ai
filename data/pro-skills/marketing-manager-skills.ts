@@ -10,8 +10,8 @@ export const marketingManagerSkills: Setup[] = [
     tagline: 'Turn goals, audience notes, and a budget into a structured campaign brief',
     description:
       'Generates a complete campaign brief from your stated goals, target audience, timeline, and budget. ' +
-      'The output follows a standard brief format — objective, audience, key messages, channels, success ' +
-      'metrics, and budget allocation — so stakeholders and agency partners can act on it immediately.',
+      'The output follows a standard brief format, objective, audience, key messages, channels, success ' +
+      'metrics, and budget allocation, so stakeholders and agency partners can act on it immediately.',
     role: 'Marketing Manager',
     industry: 'Marketing',
     tags: ['campaign-planning', 'brief', 'strategy', 'stakeholder-alignment', 'budget'],
@@ -50,7 +50,7 @@ Write a complete campaign brief with the following sections:
 7. Timeline milestones
 
 Rules:
-1. Do not invent audience data or market statistics — use only what is provided; flag gaps.
+1. Do not invent audience data or market statistics, use only what is provided; flag gaps.
 2. Keep messaging recommendations grounded in the stated objective; do not suggest channels that contradict the budget.
 3. If the objective is vague, ask one clarifying question before writing the brief.
 4. Never fabricate brand facts, product claims, or benchmark metrics.`,
@@ -77,7 +77,7 @@ Rules:
         label: 'Target audience',
         type: 'multiline',
         required: true,
-        helpText: 'Describe who you are trying to reach — role, industry, age range, pain points, or whatever you know.',
+        helpText: 'Describe who you are trying to reach, role, industry, age range, pain points, or whatever you know.',
         group: 'Campaign basics',
       },
       {
@@ -284,7 +284,7 @@ Rules:
 
 ## LinkedIn
 - Optimal length: 150–300 words (longer posts get "see more" truncated after ~210 chars)
-- Hook: first line must stand alone — it's what appears before "see more"
+- Hook: first line must stand alone, it's what appears before "see more"
 - Hashtags: 3–5 relevant tags at the very end
 - Tone: professional, insight-driven, first-person story performs well
 - Avoid: excessive exclamation marks, sales-heavy copy, generic motivational quotes
@@ -298,7 +298,7 @@ Rules:
 ## X (Twitter)
 - Hard limit: 280 characters per post (count carefully)
 - Hashtags: 1–2 max, inline within the text
-- Tone: direct, witty, or bold — no em-dashes, minimal punctuation
+- Tone: direct, witty, or bold, no em-dashes, minimal punctuation
 - Threads: lead with the strongest tweet; number each if multi-part
 
 ## Facebook
@@ -310,7 +310,7 @@ Rules:
 ## Universal rules
 - Never open with "We are excited to announce…"
 - Lead with the reader benefit or a provocative question
-- One idea per post — do not pack multiple messages
+- One idea per post, do not pack multiple messages
 `,
         required: true,
       },
@@ -396,7 +396,7 @@ When given a page URL or pasted content, audit it and return:
 7. Prioritized fix list (ranked: High / Medium / Low impact)
 
 Rules:
-1. Base all findings on the content provided — do not fabricate keyword volumes, rankings, or competitor data.
+1. Base all findings on the content provided, do not fabricate keyword volumes, rankings, or competitor data.
 2. Flag when you cannot assess something without access to the live page (e.g., page speed, structured data).
 3. Each fix in the prioritized list must name the specific element to change, not a generic recommendation.
 4. Never fabricate brand facts, search volumes, or ranking positions.`,
@@ -511,8 +511,8 @@ Rules:
           '"What is a press release," "Press release format," "Tips for writing." ' +
           'What key sections is my page missing compared to what a searcher expects?',
         expectedBehavior:
-          'Claude should list the sections a searcher on this query typically expects that are absent ' +
-          '— likely: a worked example or template, distribution channels, "when to send" guidance, and ' +
+          'Claude should list the sections a searcher on this query typically expects that are absent' +
+          ', likely: a worked example or template, distribution channels, "when to send" guidance, and ' +
           'common mistakes to avoid. Each missing section should be justified by what the query intent implies. ' +
           'No fabricated search volumes.',
         mustContain: ['press release', 'missing', 'section'],
@@ -534,7 +534,7 @@ Rules:
     tagline: 'Multiple ad-copy variants with distinct angles, ready to split-test',
     description:
       'Produces two to four distinct ad-copy variants for a campaign, each using a different ' +
-      'persuasion angle — benefit-led, fear-of-missing-out, social proof, or direct offer. ' +
+      'persuasion angle, benefit-led, fear-of-missing-out, social proof, or direct offer. ' +
       'Each variant stays within the character limits of the specified ad format.',
     role: 'Marketing Manager',
     industry: 'Marketing',
@@ -576,9 +576,9 @@ Character limits by format (apply strictly):
 - LinkedIn single-image ad: Introductory text 150 chars; Headline 70 chars; Description 100 chars
 
 Rules:
-1. Each variant must use a meaningfully different angle — do not write the same concept with synonyms.
+1. Each variant must use a meaningfully different angle, do not write the same concept with synonyms.
 2. Do not invent testimonials, star ratings, or specific performance claims unless provided.
-3. Stay within character limits — count carefully.
+3. Stay within character limits, count carefully.
 4. Never fabricate brand facts, product specifications, or conversion rates.`,
 
     variables: [
@@ -641,14 +641,14 @@ Rules:
         content: `# Ad Copy Reference Card
 
 ## Persuasion angles (use one per variant)
-- **Benefit-led** — lead with the primary outcome the customer gets. "Get your report in 10 minutes, not 10 days."
-- **FOMO** — scarcity or deadline. "Offer ends Friday. Don't miss your 40% discount."
-- **Problem-agitate-solve** — name the pain, make it vivid, offer relief. "Still chasing invoices? There's a better way."
-- **Social proof** — numbers, authority, or peer validation. "Trusted by 12,000 marketing teams."
-- **Direct offer** — price, feature, or promotion front and centre. "Start free. No credit card needed."
-- **Curiosity** — open a loop. "Most marketers skip this step. Here's what it costs them."
+- **Benefit-led**, lead with the primary outcome the customer gets. "Get your report in 10 minutes, not 10 days."
+- **FOMO**, scarcity or deadline. "Offer ends Friday. Don't miss your 40% discount."
+- **Problem-agitate-solve**, name the pain, make it vivid, offer relief. "Still chasing invoices? There's a better way."
+- **Social proof**, numbers, authority, or peer validation. "Trusted by 12,000 marketing teams."
+- **Direct offer**, price, feature, or promotion front and centre. "Start free. No credit card needed."
+- **Curiosity**, open a loop. "Most marketers skip this step. Here's what it costs them."
 
-## Platform character limits (hard limits — count every character including spaces)
+## Platform character limits (hard limits, count every character including spaces)
 
 ### Google Search Ads
 - Headline 1 / 2 / 3: 30 characters each
@@ -667,7 +667,7 @@ Rules:
 ## A/B testing hygiene
 - Test one variable at a time when possible (angle, headline, CTA).
 - Label variants clearly (A, B, C) and record which angle each tests.
-- Run until statistical significance — do not call a winner on < 100 conversions per variant.
+- Run until statistical significance, do not call a winner on < 100 conversions per variant.
 `,
         required: true,
       },
@@ -679,7 +679,7 @@ Rules:
         title: 'Write 2 Google Search ad variants for a SaaS tool',
         userInput:
           'Write 2 Google Search ad variants for our time-tracking software, Clockly. ' +
-          'It auto-tracks time in the background — no timers to start or stop. ' +
+          'It auto-tracks time in the background, no timers to start or stop. ' +
           'Target audience: freelancers who forget to log hours.',
         expectedBehavior:
           'Claude should produce Variant A and Variant B, each with 3 headlines (max 30 chars each) ' +
@@ -696,7 +696,7 @@ Rules:
           'Brand: LuxeHome. Product: premium bed linen sets, now 35% off. Audience: homeowners aged 30-50.',
         expectedBehavior:
           'Claude should produce three variants each with primary text (max 125 chars), headline (max 27 chars), ' +
-          'and a named persuasion angle. Angles should differ meaningfully — for example, FOMO (48-hour deadline), ' +
+          'and a named persuasion angle. Angles should differ meaningfully, for example, FOMO (48-hour deadline), ' +
           'benefit-led (sleep quality), and direct offer (35% off). No invented star ratings or fabricated reviews.',
         mustContain: ['LuxeHome', '35%', 'Variant A', 'Variant B', 'Variant C'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -716,7 +716,7 @@ Rules:
     name: 'Email Sequence Builder',
     tagline: 'Design a multi-step nurture or promo email sequence with subject lines and body copy',
     description:
-      'Builds a complete email sequence — from welcome or lead-nurture to promotional close — ' +
+      'Builds a complete email sequence, from welcome or lead-nurture to promotional close, ' +
       'with subject lines, preview text, and body copy for each email. Each step has a clear ' +
       'goal and a logical handoff to the next, so the sequence reads as a cohesive journey.',
     role: 'Marketing Manager',
@@ -750,14 +750,14 @@ Tone preference: {{tonePreference}}
 {{/if}}
 
 For each email in the sequence, output:
-- Email number and send timing (e.g., "Email 1 — Day 0: send immediately")
+- Email number and send timing (e.g., "Email 1, Day 0: send immediately")
 - Subject line (≤50 chars)
-- Preview text (≤90 chars, complements the subject line — do not repeat it)
+- Preview text (≤90 chars, complements the subject line, do not repeat it)
 - Body copy (include a clear single CTA per email)
 - Step goal (one sentence: what this email is trying to make the reader do or feel)
 
 Rules:
-1. Each email must have a single, clear CTA — do not stack multiple actions.
+1. Each email must have a single, clear CTA, do not stack multiple actions.
 2. Subject lines must not use ALL CAPS, excessive punctuation, or spam-trigger phrases.
 3. Do not fabricate open-rate benchmarks, case studies, or customer names.
 4. The sequence arc must be logical: each email builds on the previous one.
@@ -850,17 +850,17 @@ Rules:
 2. Highlight the key benefit (not all features)
 3. Social proof / FAQ
 4. Last-chance email (24 hours before deadline)
-5. Offer extended (optional — use sparingly)
+5. Offer extended (optional, use sparingly)
 
 ## Subject line formulas
 - Question: "Are you making this mistake?"
 - Curiosity gap: "The one thing our best customers do differently"
-- Benefit-led: "3 hours back in your week — here's how"
+- Benefit-led: "3 hours back in your week, here's how"
 - Direct: "Your 40% discount expires tomorrow"
 - Personalized: "Your free report is ready, [First Name]"
 
 ## CTA rules
-- One CTA per email — do not give readers two options
+- One CTA per email, do not give readers two options
 - Button label: verb + outcome ("Book your demo", not "Click here")
 - Place CTA above the fold AND at the end for longer emails
 
@@ -917,8 +917,8 @@ Rules:
     name: 'Buyer Persona Builder',
     tagline: 'Turn customer inputs into a detailed, actionable buyer persona document',
     description:
-      'Synthesizes the information you have about your customers — demographics, job role, goals, ' +
-      'pain points, buying triggers, and objections — into a structured persona document. ' +
+      'Synthesizes the information you have about your customers, demographics, job role, goals, ' +
+      'pain points, buying triggers, and objections, into a structured persona document. ' +
       'The output is ready to share with content, product, and sales teams.',
     role: 'Marketing Manager',
     industry: 'Marketing',
@@ -951,7 +951,7 @@ Build a detailed buyer persona document with the following sections:
 2. Demographics and role (age range, job title, industry, company size)
 3. Day-in-the-life snapshot (2–3 sentences on a typical workday)
 4. Primary goals (3–5 goals this person is trying to achieve at work or in life)
-5. Pain points and frustrations (3–5 specific, named problems — not generic)
+5. Pain points and frustrations (3–5 specific, named problems, not generic)
 6. Buying triggers (what event or situation makes them start looking for a solution)
 7. Evaluation criteria (what they look for when comparing options)
 8. Common objections (2–3 reasons they might not buy)
@@ -961,7 +961,7 @@ Build a detailed buyer persona document with the following sections:
 Rules:
 1. Clearly label any section where you are making an inference rather than using provided data.
 2. Do not invent demographic statistics or market-size figures.
-3. Keep pain points specific to the product category — avoid generic "too busy" filler.
+3. Keep pain points specific to the product category, avoid generic "too busy" filler.
 4. Never fabricate brand facts, survey data, or customer quotes.`,
 
     variables: [
@@ -1009,7 +1009,7 @@ Rules:
         content: `# Buyer Persona Template
 
 ## Persona overview
-**Name:** [First name — make it realistic]
+**Name:** [First name, make it realistic]
 **Archetype:** [One sentence: "The pragmatic ops lead who needs fewer tools, not more."]
 
 ## Demographics and role
@@ -1020,7 +1020,7 @@ Rules:
 - Seniority / decision authority: [Individual contributor / Manager / Director / VP / C-suite]
 
 ## Day-in-the-life snapshot
-[2–3 sentences on a typical workday — meetings attended, tools used, decisions made.]
+[2–3 sentences on a typical workday, meetings attended, tools used, decisions made.]
 
 ## Primary goals
 1. ___
@@ -1028,7 +1028,7 @@ Rules:
 3. ___
 
 ## Pain points and frustrations
-1. [Specific pain — name the tool, process, or situation causing it]
+1. [Specific pain, name the tool, process, or situation causing it]
 2. ___
 3. ___
 
@@ -1046,8 +1046,8 @@ Rules:
 3. ___
 
 ## Preferred channels
-- Discovery: [Where they first hear about new tools — LinkedIn, G2, peer recommendation, etc.]
-- Research: [Where they go deep — docs, YouTube, trials, analyst reports]
+- Discovery: [Where they first hear about new tools, LinkedIn, G2, peer recommendation, etc.]
+- Research: [Where they go deep, docs, YouTube, trials, analyst reports]
 - Community: [Slack groups, subreddits, industry forums]
 
 ## Messaging guidance
@@ -1106,7 +1106,7 @@ Rules:
     name: 'Competitor Teardown',
     tagline: 'Structure a competitor marketing teardown you can act on in a week',
     description:
-      'Takes observations about a competitor — messaging, pricing, channels, content, positioning — ' +
+      'Takes observations about a competitor, messaging, pricing, channels, content, positioning, ' +
       'and structures them into a teardown with clear takeaways for your own marketing. ' +
       'Separates what they are doing well from what you can exploit.',
     role: 'Marketing Manager',
@@ -1148,9 +1148,9 @@ Produce a structured competitor teardown with the following sections:
 8. Opportunities for us (3 specific actions we can take based on this analysis)
 
 Rules:
-1. Work only with the observations provided — do not invent metrics, rankings, or funding data.
+1. Work only with the observations provided, do not invent metrics, rankings, or funding data.
 2. Label any inference clearly (e.g., "Based on their ad creative, they appear to target…").
-3. Keep "Opportunities for us" specific and actionable — not generic marketing advice.
+3. Keep "Opportunities for us" specific and actionable, not generic marketing advice.
 4. Never fabricate brand facts, revenue figures, or market share data.`,
 
     variables: [
@@ -1159,7 +1159,7 @@ Rules:
         label: 'Your brand name',
         type: 'text',
         required: true,
-        helpText: 'Your brand — the one doing the analysis.',
+        helpText: 'Your brand, the one doing the analysis.',
         group: 'Brands',
       },
       {
@@ -1252,7 +1252,7 @@ One paragraph: What category do they say they own? Who is the implied customer? 
 3.
 
 ### 8. Opportunities for us (3 specific, dated actions)
-1. [Action] — Owner: ___ — By: ___
+1. [Action], Owner: ___, By: ___
 2.
 3.
 `,
@@ -1308,8 +1308,8 @@ One paragraph: What category do they say they own? Who is the implied customer? 
     name: 'Landing Page Copy',
     tagline: 'Conversion-focused landing page copy from offer details and audience notes',
     description:
-      'Writes a complete set of landing page copy sections — hero headline, subheading, value propositions, ' +
-      'features/benefits, social proof placeholders, objection-handling, and CTA — structured to guide ' +
+      'Writes a complete set of landing page copy sections, hero headline, subheading, value propositions, ' +
+      'features/benefits, social proof placeholders, objection-handling, and CTA, structured to guide ' +
       'a visitor from awareness to action.',
     role: 'Marketing Manager',
     industry: 'Marketing',
@@ -1340,18 +1340,18 @@ Main objection to overcome: {{mainObjection}}
 {{/if}}
 
 Write the following landing page copy sections in order:
-1. Hero headline (≤10 words, outcome-focused — do not start with the brand name)
+1. Hero headline (≤10 words, outcome-focused, do not start with the brand name)
 2. Hero subheading (1–2 sentences expanding the headline; mention who it's for)
 3. Three value proposition bullets (benefit + brief "so that" clause each)
 4. Features/benefits section (3 features; for each: feature name + "What it means for you:" 1 sentence)
-5. Social proof placeholders (write 2 testimonial templates with placeholders for name, title, company, and quote — label them as placeholders)
+5. Social proof placeholders (write 2 testimonial templates with placeholders for name, title, company, and quote, label them as placeholders)
 6. Objection-handling section (address the main objection provided; 2–3 sentences)
 7. CTA block (headline + supporting line + button text)
 
 Rules:
 1. Do not open the hero headline with the brand name, "Introducing," or "Welcome to."
 2. Write the hero headline for the visitor's desired outcome, not the product's features.
-3. Testimonials must be clearly marked as placeholders — do not write them as real quotes.
+3. Testimonials must be clearly marked as placeholders, do not write them as real quotes.
 4. Never fabricate brand facts, real customer names, or performance metrics.`,
 
     variables: [
@@ -1407,13 +1407,13 @@ Rules:
         content: `# Landing Page Copy Structure
 
 ## Section order (follow this sequence)
-1. **Hero** — captures attention and states the outcome. Above the fold.
-2. **Social proof bar** — logos or a stat (e.g., "Trusted by 5,000+ teams"). Optional but high-trust.
-3. **Value propositions** — 3 bullets: what the visitor gets and why it matters.
-4. **Features/benefits** — specific capabilities translated into visitor outcomes.
-5. **Social proof (testimonials)** — real words from real customers.
-6. **Objection handling / FAQ** — address the top 1–3 reasons people don't convert.
-7. **CTA block** — repeat the primary CTA; make the next step obvious.
+1. **Hero**, captures attention and states the outcome. Above the fold.
+2. **Social proof bar**, logos or a stat (e.g., "Trusted by 5,000+ teams"). Optional but high-trust.
+3. **Value propositions**, 3 bullets: what the visitor gets and why it matters.
+4. **Features/benefits**, specific capabilities translated into visitor outcomes.
+5. **Social proof (testimonials)**, real words from real customers.
+6. **Objection handling / FAQ**, address the top 1–3 reasons people don't convert.
+7. **CTA block**, repeat the primary CTA; make the next step obvious.
 
 ## Hero headline formulas
 - **Outcome formula:** "[Do X] without [the thing they hate]." → "Ship faster without the late-night firefights."
@@ -1422,12 +1422,12 @@ Rules:
 - **Audience-led:** "Built for [specific person] who [specific situation]."
 
 ## Value proposition bullet formula
-[Feature or benefit] — so you can [desired outcome].
-Example: "Auto-syncs with Slack — so your team always knows where a project stands."
+[Feature or benefit], so you can [desired outcome].
+Example: "Auto-syncs with Slack, so your team always knows where a project stands."
 
 ## Testimonial placeholder format
-> "[Quote placeholder — one sentence on the outcome they got, one sentence on how easy it was.]"
-> — [Full Name], [Job Title] at [Company Name]
+> "[Quote placeholder, one sentence on the outcome they got, one sentence on how easy it was.]"
+>, [Full Name], [Job Title] at [Company Name]
 
 ## CTA block formula
 Headline: "Ready to [achieve the outcome on the hero]?"
@@ -1436,8 +1436,8 @@ Button: "[Verb] [outcome]" → "Start tracking" / "Book my demo" / "Get instant 
 
 ## Copy rules
 - Lead with outcomes, not features (features live in section 4)
-- Active voice throughout — passive voice kills momentum
-- One idea per section — do not explain everything at once
+- Active voice throughout, passive voice kills momentum
+- One idea per section, do not explain everything at once
 - Avoid "powerful," "seamless," "robust," "comprehensive"
 `,
         required: true,
@@ -1450,7 +1450,7 @@ Button: "[Verb] [outcome]" → "Start tracking" / "Book my demo" / "Get instant 
         title: 'Write a full landing page for a SaaS time tracker',
         userInput:
           'Write landing page copy for Clockly, an automatic time-tracking tool for freelancers. ' +
-          'CTA: "Start free — no card needed." Target visitor: freelancers who forget to log hours. ' +
+          'CTA: "Start free, no card needed." Target visitor: freelancers who forget to log hours. ' +
           'Main objection: "I already have a timer app."',
         expectedBehavior:
           'Claude should produce all 7 sections in order: hero headline (≤10 words, outcome-focused), ' +
@@ -1523,19 +1523,19 @@ Company boilerplate: {{boilerplate}}
 
 Write a publication-ready press release with:
 1. FOR IMMEDIATE RELEASE header (or "EMBARGO UNTIL [date]" if appropriate)
-2. Headline (≤80 chars, newswire style — verb in present tense, no hype words)
+2. Headline (≤80 chars, newswire style, verb in present tense, no hype words)
 3. Subheadline (one sentence expanding on the headline)
-4. Dateline (CITY, Month Day, Year — )
+4. Dateline (CITY, Month Day, Year, )
 5. Lead paragraph (who, what, when, where, why in ≤60 words; the most newsworthy fact first)
 6. Second paragraph (context, background, significance)
 7. Quote block (one attributed quote from the spokesperson; 2–3 sentences; avoid generic praise)
 8. Supporting details paragraph (additional facts, features, or timeline)
-9. Boilerplate ("About [Company Name]") — use the provided boilerplate or write a placeholder
-10. Contact block (Media contact: Name | Email | Phone — use placeholders if not provided)
+9. Boilerplate ("About [Company Name]"), use the provided boilerplate or write a placeholder
+10. Contact block (Media contact: Name | Email | Phone, use placeholders if not provided)
 
 Rules:
 1. Do not use hype words: revolutionary, game-changing, best-in-class, groundbreaking, disruptive.
-2. Every fact must come from the announcement details provided — do not invent figures, dates, or context.
+2. Every fact must come from the announcement details provided, do not invent figures, dates, or context.
 3. The lead paragraph must start with the most newsworthy fact, not background context.
 4. Never fabricate brand facts, funding amounts, or customer counts.`,
 
@@ -1596,10 +1596,10 @@ Rules:
 \`\`\`
 FOR IMMEDIATE RELEASE
 
-[HEADLINE IN TITLE CASE — MAX 80 CHARS]
+[HEADLINE IN TITLE CASE, MAX 80 CHARS]
 [Subheadline: one sentence, sentence case]
 
-CITY, Month Day, Year — [Lead paragraph]
+CITY, Month Day, Year, [Lead paragraph]
 
 [Second paragraph: context]
 
@@ -1626,7 +1626,7 @@ Media Contact:
 - Under 80 characters
 
 ## Lead paragraph (who / what / when / where / why)
-- Most newsworthy fact first — do not bury the news in context
+- Most newsworthy fact first, do not bury the news in context
 - Include company name in full on first reference
 - Under 60 words
 
@@ -1647,8 +1647,8 @@ Media Contact:
 | Solutions | Name the actual product or feature |
 
 ## Date and dateline format
-CITY, Month Day, Year — (AP Style: spell out months when standing alone; abbreviate Jan., Feb., Aug., Sept., Oct., Nov., Dec. in dates)
-Example: SAN FRANCISCO, July 7, 2026 —
+CITY, Month Day, Year, (AP Style: spell out months when standing alone; abbreviate Jan., Feb., Aug., Sept., Oct., Nov., Dec. in dates)
+Example: SAN FRANCISCO, July 7, 2026, 
 
 ## End mark
 Use ### centered to indicate end of release.
@@ -1741,9 +1741,9 @@ Build a content calendar table with the following columns:
 | Week / Date | Channel | Content type | Working title | Intent (Awareness / Consideration / Conversion) | Notes |
 
 Rules:
-1. Distribute content across the channels provided — do not concentrate everything on one channel.
+1. Distribute content across the channels provided, do not concentrate everything on one channel.
 2. Balance intent stages: aim for roughly 50% awareness, 30% consideration, 20% conversion.
-3. Working titles must be specific enough that a writer can start without a brief — not "Blog post about X."
+3. Working titles must be specific enough that a writer can start without a brief, not "Blog post about X."
 4. Flag any weeks that align with industry events, holidays, or seasonal moments relevant to the niche.
 5. Never fabricate brand facts, search volumes, or publishing benchmarks.`,
 
@@ -1876,7 +1876,7 @@ A strong working title answers: who is this for + what will they learn/do?
         userInput:
           'Plan a 2-week content calendar for MarketEdge, a B2B content marketing platform. ' +
           'Channels: Blog and LinkedIn. Goal: build authority in the content marketing space. ' +
-          'No specific campaign — evergreen topics.',
+          'No specific campaign, evergreen topics.',
         expectedBehavior:
           'Claude should produce a 2-week table with blog and LinkedIn entries. Each blog post should have ' +
           'a specific working title (not "blog post about content marketing"). LinkedIn posts should include ' +

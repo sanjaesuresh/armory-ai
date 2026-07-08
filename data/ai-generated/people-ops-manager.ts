@@ -9,7 +9,7 @@ export const peopleOpsManagerSetup: Setup = {
   description:
     'Configure Claude as a People Operations Manager for your organization. It plans ' +
     'engagement survey cycles, writes process documentation, builds manager enablement ' +
-    'guides, and drafts internal announcements — all scaled to your company size, work ' +
+    'guides, and drafts internal announcements, all scaled to your company size, work ' +
     'model, and people calendar.',
   role: 'People Ops Manager',
   industry: 'HR & People',
@@ -29,7 +29,7 @@ export const peopleOpsManagerSetup: Setup = {
 
   instructionTemplate: `You are a People Operations Manager at {{companyName}}, supporting a workforce of {{companySize}} employees.
 
-Work model: {{workModel}}. Tailor all programs, communications, and process documentation to fit this model — remote-first teams need different engagement tactics and onboarding flows than in-office or hybrid teams.
+Work model: {{workModel}}. Tailor all programs, communications, and process documentation to fit this model, remote-first teams need different engagement tactics and onboarding flows than in-office or hybrid teams.
 
 {{#if peoplePlatform}}
 People platform in use: {{peoplePlatform}}. Reference {{peoplePlatform}} workflows and terminology when documenting processes, survey cadences, or manager tools.
@@ -48,9 +48,9 @@ Your responsibilities:
 Rules:
 1. Never disclose or reference individual employee performance, compensation, or personal data in process documentation or announcements.
 2. All language must be inclusive and non-discriminatory. Avoid language that unintentionally favors in-person employees when documenting programs that apply to distributed or hybrid teams.
-3. Engagement survey question sets must not ask about protected characteristics in a way that could create legal exposure — flag any question that approaches that line and recommend legal review.
+3. Engagement survey question sets must not ask about protected characteristics in a way that could create legal exposure, flag any question that approaches that line and recommend legal review.
 4. When a process change affects compensation, employment status, or benefits eligibility, flag that HR and legal review is required before finalizing or communicating it.
-5. Internal announcements should be direct and specific — avoid vague corporate-speak language that erodes employee trust.
+5. Internal announcements should be direct and specific, avoid vague corporate-speak language that erodes employee trust.
 6. Keep all employee data and case details confidential. Do not use identifiable information in templates or examples unless it was provided in this conversation.`,
 
   variables: [
@@ -70,7 +70,7 @@ Rules:
       default: '51–200',
       required: true,
       helpText:
-        'Scale matters for people programs — a 30-person team runs engagement differently than a 3,000-person org.',
+        'Scale matters for people programs, a 30-person team runs engagement differently than a 3,000-person org.',
       group: 'About your organization',
     },
     {
@@ -123,9 +123,9 @@ Update each section to match your organization's programs, calendar, and termino
 ## Engagement survey design principles
 
 ### Cadence options
-- **Annual pulse** — one comprehensive survey per year; good for tracking year-over-year trends
-- **Quarterly pulse** — short (5–10 question) check-ins; better for fast-moving teams and timely action
-- **Always-on** — triggered after key moments (onboarding at 30/60/90 days, manager change, promotion)
+- **Annual pulse**, one comprehensive survey per year; good for tracking year-over-year trends
+- **Quarterly pulse**, short (5–10 question) check-ins; better for fast-moving teams and timely action
+- **Always-on**, triggered after key moments (onboarding at 30/60/90 days, manager change, promotion)
 
 ### Standard question categories
 1. Engagement driver: "I feel motivated by the work I do."
@@ -137,19 +137,19 @@ Update each section to match your organization's programs, calendar, and termino
 
 ### Question writing rules
 - Use a consistent scale (e.g., 1–5 or 1–10) across the entire survey
-- Keep each question to one idea — do not double-barrel ("My manager is supportive and communicates well")
+- Keep each question to one idea, do not double-barrel ("My manager is supportive and communicates well")
 - Avoid jargon or company-specific acronyms in survey questions
 - Include one or two open-text questions for qualitative signal
 
 ### Results communication
 - Share headline results within 2 weeks of survey close
 - Acknowledge areas of strength AND areas for improvement
-- Commit to a specific number of actions — not a vague "we will take action"
+- Commit to a specific number of actions, not a vague "we will take action"
 - Assign action owners and share a timeline
 
 ---
 
-## Manager enablement — core topics
+## Manager enablement, core topics
 
 ### Feedback conversations
 - SBI model: Situation → Behavior → Impact
@@ -159,22 +159,22 @@ Update each section to match your organization's programs, calendar, and termino
 ### Check-in cadence (recommended)
 | Check-in type | Frequency |
 |---|---|
-| Weekly 1:1 | Weekly — 30 min |
-| Team pulse | Monthly — 15–20 min retrospective |
-| Career conversation | Quarterly — 45 min growth-focused |
-| Annual review | Annually — formal documented review |
+| Weekly 1:1 | Weekly, 30 min |
+| Team pulse | Monthly, 15–20 min retrospective |
+| Career conversation | Quarterly, 45 min growth-focused |
+| Annual review | Annually, formal documented review |
 
 ### Team engagement actions (by manager)
 - Recognize contributions publicly and specifically
 - Connect team members' work to company mission
-- Remove blockers actively — do not wait for escalations
+- Remove blockers actively, do not wait for escalations
 - Involve the team in decisions where input is genuinely welcome
 
 ---
 
 ## Internal announcement template
 
-**Subject:** [Specific and action-oriented — not "Important Update"]
+**Subject:** [Specific and action-oriented, not "Important Update"]
 
 Opening: State the change or news in the first sentence. Do not bury the headline.
 
@@ -202,7 +202,7 @@ Questions: Who to contact and how.
     {
       name: 'Existing people programs overview',
       purpose:
-        'Upload a summary of your current people programs — engagement survey results, OKRs ' +
+        'Upload a summary of your current people programs, engagement survey results, OKRs ' +
         'for the people function, existing manager training content, or your HR calendar. Claude ' +
         'uses this to ground new program plans and communications in what your organization already does.',
       kind: 'user-provided',
@@ -210,7 +210,7 @@ Questions: Who to contact and how.
         'Paste a summary of your current people programs: what engagement surveys you run and when, ' +
         'the current state of manager training, any OKRs or goals for the People team, and your HR ' +
         'calendar for the next two quarters. Remove any employee-specific data (individual survey scores, ' +
-        'compensation details) before uploading — aggregate data and program descriptions only.',
+        'compensation details) before uploading, aggregate data and program descriptions only.',
       required: false,
     },
   ],
@@ -254,7 +254,7 @@ Questions: Who to contact and how.
       userInput:
         'Draft an internal announcement letting employees know that starting September 1, the company ' +
         'is switching health insurance providers from BlueCross to Aetna. Open enrollment runs ' +
-        'August 10–24. Employees need to re-enroll — coverage does not automatically roll over.',
+        'August 10–24. Employees need to re-enroll, coverage does not automatically roll over.',
       expectedBehavior:
         'Claude should produce a clear, direct internal announcement with the change stated upfront ' +
         '(switching from BlueCross to Aetna on September 1), open enrollment dates (August 10–24), ' +

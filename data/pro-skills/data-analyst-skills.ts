@@ -39,7 +39,7 @@ Rules:
 1. Open every query with a header comment: purpose, date range, grain (one row = one ...), and key assumptions.
 2. Use named CTEs for each logical step. Never use SELECT *.
 3. Never invent table names, column names, or business logic not present in the schema context; ask before writing if schema details are missing.
-4. Never fabricate row counts, metric values, or query results — state all assumptions explicitly and flag nulls, gaps, or duplicates rather than silently excluding them.`,
+4. Never fabricate row counts, metric values, or query results, state all assumptions explicitly and flag nulls, gaps, or duplicates rather than silently excluding them.`,
 
     variables: [
       {
@@ -57,7 +57,7 @@ Rules:
         label: 'Schema context',
         type: 'multiline',
         required: true,
-        helpText: 'List the tables and columns you work with most. Include table name, column names, and data types. Even partial coverage is useful — Claude will ask when it needs more.',
+        helpText: 'List the tables and columns you work with most. Include table name, column names, and data types. Even partial coverage is useful, Claude will ask when it needs more.',
         group: 'Your environment',
       },
       {
@@ -76,8 +76,8 @@ Rules:
       {
         name: 'SQL query standards reference card',
         purpose:
-          'Gives Claude a compact checklist of query structure conventions — header comments, ' +
-          'CTE naming, grain documentation, and null handling — so every query it produces ' +
+          'Gives Claude a compact checklist of query structure conventions, header comments, ' +
+          'CTE naming, grain documentation, and null handling, so every query it produces ' +
           'follows the same readable, self-documenting pattern.',
         kind: 'starter',
         content: `# SQL query standards reference card
@@ -90,7 +90,7 @@ Rules:
 
 ## CTE naming conventions
 - Use plain-English names that describe WHAT the CTE produces: active_users, revenue_by_week, first_touch_events
-- One logical step per CTE — do not combine two transformations into one CTE
+- One logical step per CTE, do not combine two transformations into one CTE
 - Order CTEs from raw → filtered → aggregated → final
 
 ## Null handling rules
@@ -159,7 +159,7 @@ Add a final comment or a separate validation query that confirms:
     id: 'pro-skill-data-analyst-chart-viz-recommender-v1',
     slug: 'data-analyst-chart-viz-recommender',
     name: 'Chart & Viz Recommender',
-    tagline: 'Pick the right chart for your data — explained in plain English',
+    tagline: 'Pick the right chart for your data, explained in plain English',
     description:
       'Recommend the best chart type for a given dataset and question. Goes beyond naming ' +
       'a chart type: explains why it fits the data shape and audience, lists trade-offs ' +
@@ -186,12 +186,12 @@ Default visualization tool: {{vizTool}}.
 Primary audience for charts: {{chartAudience}}.
 
 {{#if vizTool}}
-When recommending a chart, include specific implementation notes for {{vizTool}} — chart type name, key settings, and any gotchas.
+When recommending a chart, include specific implementation notes for {{vizTool}}, chart type name, key settings, and any gotchas.
 {{/if}}
 
 Rules:
 1. Name the single best chart type first, then list up to two alternatives with their trade-offs.
-2. Explain why the recommended chart fits the specific data shape and audience — not just what the chart is.
+2. Explain why the recommended chart fits the specific data shape and audience, not just what the chart is.
 3. Call out any data prep required before the chart can be built (aggregation, pivoting, deduplication, date alignment).
 4. Never recommend a chart that implies a relationship or trend the data cannot support; state what the data must contain and flag when data is insufficient to draw a conclusion.`,
 
@@ -309,7 +309,7 @@ Rules:
     name: 'Dashboard Spec Writer',
     tagline: 'Translate a business goal into a complete dashboard specification',
     description:
-      'Produce a structured dashboard spec from a goal and audience — chart panels, metric definitions, ' +
+      'Produce a structured dashboard spec from a goal and audience, chart panels, metric definitions, ' +
       'grains, filters, alert thresholds, and data freshness requirements. Skips straight to implementation ' +
       'code only after the spec is agreed on.',
     role: 'Data Analyst',
@@ -328,7 +328,7 @@ Rules:
     targets: ['claude-app'],
     tier: 'core',
 
-    instructionTemplate: `You are a dashboard spec writer. Produce a complete, structured spec — not implementation code.
+    instructionTemplate: `You are a dashboard spec writer. Produce a complete, structured spec, not implementation code.
 
 Dashboard goal: {{dashboardGoal}}
 Key metric: {{keyMetric}}
@@ -384,8 +384,8 @@ Rules:
       {
         name: 'Dashboard spec reference card',
         purpose:
-          'Gives Claude a structured template for producing dashboard specs — panel list, ' +
-          'metric definitions, filter requirements, freshness rules — so outputs are ' +
+          'Gives Claude a structured template for producing dashboard specs, panel list, ' +
+          'metric definitions, filter requirements, freshness rules, so outputs are ' +
           'consistent and actionable for engineers who build the dashboard.',
         kind: 'starter',
         content: `# Dashboard spec reference card
@@ -408,7 +408,7 @@ For each metric, document:
 
 ### 3. Panel inventory
 For each panel:
-- Panel title (includes metric name + date range — never just "Overview")
+- Panel title (includes metric name + date range, never just "Overview")
 - Chart type and why it fits
 - Grain and date range
 - Filters that apply to this panel
@@ -435,7 +435,7 @@ List all filters available across the entire dashboard:
 - Primary metric is the largest, most prominent element
 - Every point-in-time number has a trend line or comparison period alongside it
 - Filters are consistent across all panels
-- "No data" and "loading" states are handled — not just the happy path
+- "No data" and "loading" states are handled, not just the happy path
 - Alert thresholds are documented on the dashboard, not just in someone's head
 `,
         required: true,
@@ -517,9 +517,9 @@ End every summary with a concrete recommendation or the single most important fo
 {{/if}}
 
 Rules:
-1. Lead with the insight (what happened, magnitude, direction, time period) — never lead with methodology or caveats.
+1. Lead with the insight (what happened, magnitude, direction, time period), never lead with methodology or caveats.
 2. Include the exact numbers: magnitude, direction, and date range must appear in every summary.
-3. State one clear "so what" — the decision or action the finding implies.
+3. State one clear "so what", the decision or action the finding implies.
 4. Never fabricate numbers or trends not present in the data provided. State assumptions explicitly and flag data gaps rather than filling them with guesses.`,
 
     variables: [
@@ -558,7 +558,7 @@ Rules:
       {
         name: 'Insight summary writing reference card',
         purpose:
-          'Gives Claude a set of narrative templates and quality checks for writing insight summaries — ' +
+          'Gives Claude a set of narrative templates and quality checks for writing insight summaries, ' +
           'so every output has the right structure, leads with the finding, and ends with a clear action.',
         kind: 'starter',
         content: `# Insight summary writing reference card
@@ -566,7 +566,7 @@ Rules:
 ## The four-sentence structure (use as a starting point)
 1. **What happened:** [Metric] [increased / decreased] by [magnitude] [percentage or absolute] between [start date] and [end date].
 2. **Why it matters:** This [confirms / contradicts / is consistent with] [prior trend / expectation / target].
-3. **Likely cause (if known):** [One hypothesis, stated as a hypothesis — not a fact — if data supports it].
+3. **Likely cause (if known):** [One hypothesis, stated as a hypothesis, not a fact, if data supports it].
 4. **So what / next step:** [The decision or action this finding implies, or the question the team must answer next].
 
 ## Audience calibration
@@ -578,7 +578,7 @@ Rules:
 - **Engineering:** Include technical detail when relevant (e.g., error rates, latency percentiles).
 
 ## Quality checklist before sharing a summary
-- [ ] The finding leads — methodology is mentioned only if it affects interpretation
+- [ ] The finding leads, methodology is mentioned only if it affects interpretation
 - [ ] Exact numbers are present: magnitude, direction, date range
 - [ ] The grain is clear (one number per user / per day / per cohort)
 - [ ] A "so what" or follow-up question is present
@@ -587,7 +587,7 @@ Rules:
 
 ## What NOT to do
 - Never lead with "I ran a query and found that..."
-- Never use "interesting" or "notable" — say what the finding means
+- Never use "interesting" or "notable", say what the finding means
 - Never present a hypothesis as a fact without flagging uncertainty
 - Never omit the time period for any number
 `,
@@ -604,9 +604,9 @@ Rules:
           'drop happened on June 8. Write a plain-English summary for our executive team.',
         expectedBehavior:
           'Claude should lead with the drop (magnitude, percentage, date range) in the first sentence. ' +
-          'It should note the June 8 spike in the drop without inventing a cause — framing it as a ' +
+          'It should note the June 8 spike in the drop without inventing a cause, framing it as a ' +
           '"likely event boundary" worth investigating. The summary should end with a concrete next step ' +
-          '(e.g., investigate what changed on June 8 — deploy, outage, marketing pause). ' +
+          '(e.g., investigate what changed on June 8, deploy, outage, marketing pause). ' +
           'It must not fabricate a root cause.',
         mustContain: ['42,000', '31,000', 'June 1', 'June 8', 'executive team'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -667,10 +667,10 @@ Primary test metric type: {{testMetricType}}.
 Business context for this experiment program: {{businessContext}}
 
 Rules:
-1. State statistical significance at {{confidenceThreshold}} confidence as the first conclusion — before discussing implications.
+1. State statistical significance at {{confidenceThreshold}} confidence as the first conclusion, before discussing implications.
 2. Distinguish statistical significance from practical significance: a small but significant lift may not justify shipping.
 3. List validity threats: segment imbalances, novelty effects, peeking, multiple comparison problems, and sample ratio mismatch.
-4. Never fabricate p-values, confidence intervals, or effect sizes — compute only from the numbers provided. State all assumptions explicitly.`,
+4. Never fabricate p-values, confidence intervals, or effect sizes, compute only from the numbers provided. State all assumptions explicitly.`,
 
     variables: [
       {
@@ -708,7 +708,7 @@ Rules:
         name: 'A/B test analysis reference card',
         purpose:
           'Gives Claude a compact checklist of statistical validity checks, significance criteria, ' +
-          'and ship/no-ship decision rules — so analysis outputs are consistent and don\'t skip ' +
+          'and ship/no-ship decision rules, so analysis outputs are consistent and don\'t skip ' +
           'the validity threats that most commonly invalidate A/B tests.',
         kind: 'starter',
         content: `# A/B test analysis reference card
@@ -720,7 +720,7 @@ Rules:
 - Assignment method: random assignment confirmed? (If not, the test is observational, not experimental)
 
 ## Statistical significance checklist
-1. **Sample ratio mismatch (SRM) check:** Control and variant sizes should match the planned split (e.g., 50/50) within ±1%. An SRM indicates a bucketing bug — do not interpret results until resolved.
+1. **Sample ratio mismatch (SRM) check:** Control and variant sizes should match the planned split (e.g., 50/50) within ±1%. An SRM indicates a bucketing bug, do not interpret results until resolved.
 2. **Minimum detectable effect (MDE):** Was the test run long enough to detect the target effect size? Stopping early inflates false positives.
 3. **Test statistic:** Use a two-proportion z-test for conversion/CTR; use a t-test or Mann-Whitney for continuous metrics (revenue, session length).
 4. **Two-tailed vs. one-tailed:** Default to two-tailed unless the team committed to one-tailed before the test started.
@@ -735,7 +735,7 @@ Rules:
 ## Ship / no-ship decision framework
 - Statistically significant AND practically meaningful (effect size > MDE) → candidate to ship
 - Statistically significant BUT effect too small to matter → probably do not ship; confirm with stakeholders
-- Not statistically significant → do not conclude "no effect" — the test may be underpowered
+- Not statistically significant → do not conclude "no effect", the test may be underpowered
 - Any validity threat unresolved → do not ship until threat is resolved or understood
 
 ## Key formulas (for reference)
@@ -759,7 +759,7 @@ Rules:
         expectedBehavior:
           'Claude should run a two-proportion z-test and correctly compute whether the 0.6 percentage ' +
           'point lift (6.2% to 6.8%) is statistically significant at 95% confidence with sample sizes of ~12,000. ' +
-          'It should check for sample ratio mismatch (12,400 vs 12,100 — slight imbalance, worth noting). ' +
+          'It should check for sample ratio mismatch (12,400 vs 12,100, slight imbalance, worth noting). ' +
           'It should distinguish statistical significance from the business value of a ~10% relative lift ' +
           'on the checkout conversion rate, and advise the team on the ship decision.',
         mustContain: ['12,400', '12,100', '6.2%', '6.8%', 'checkout button'],
@@ -826,7 +826,7 @@ Rules:
 1. Include in every definition: plain-English definition, formula (in words), grain, default date scope, inclusion/exclusion rules, and known limitations.
 2. Provide a worked example with concrete numbers showing exactly how the metric is calculated.
 3. List at least two common calculation mistakes or misinterpretations and how to avoid them.
-4. Never assume a standard definition exists — always make the formula and business rules explicit. If the definition could vary by business context, state the assumption and ask for confirmation.`,
+4. Never assume a standard definition exists, always make the formula and business rules explicit. If the definition could vary by business context, state the assumption and ask for confirmation.`,
 
     variables: [
       {
@@ -864,7 +864,7 @@ Rules:
         name: 'Metric definition template and reference card',
         purpose:
           'Gives Claude a consistent structure for metric definitions so every doc produced ' +
-          'covers the same required sections — preventing the common problem of teams discovering ' +
+          'covers the same required sections, preventing the common problem of teams discovering ' +
           'they define the same metric differently months after it was instrumented.',
         kind: 'starter',
         content: `# Metric definition template
@@ -879,7 +879,7 @@ Use this structure for every metric definition document.
 [One or two sentences: what does this number measure, and why does it matter to the business?]
 
 ### Formula
-[Describe the formula in words — not code. Example: "Divide the number of users who performed at least one qualifying event in the 30-day window by the total number of registered users as of the last day of that window."]
+[Describe the formula in words, not code. Example: "Divide the number of users who performed at least one qualifying event in the 30-day window by the total number of registered users as of the last day of that window."]
 
 ### Grain
 One row in the underlying data = one [user / order / session / event / day].
@@ -928,8 +928,8 @@ The metric is computed at the [user / account / day / week / month] level.
         expectedBehavior:
           'Claude should produce a full definition document following the standard structure: plain-English ' +
           'definition, formula (users with >= 1 app open event / total registered users or total distinct ' +
-          'user IDs — Claude should ask which denominator is intended), grain, default date scope (calendar ' +
-          'month or rolling 30 days — Claude should flag this ambiguity), inclusion/exclusion rules, a worked ' +
+          'user IDs, Claude should ask which denominator is intended), grain, default date scope (calendar ' +
+          'month or rolling 30 days, Claude should flag this ambiguity), inclusion/exclusion rules, a worked ' +
           'example with concrete numbers, and at least two common mistakes (e.g., confusing calendar MAU ' +
           'with rolling 30-day MAU, double-counting users who reinstall).',
         mustContain: ['Monthly Active Users', 'MAU', 'mobile app', 'opens the app at least once'],
@@ -996,7 +996,7 @@ Known quality issues described by the user:
 Rules:
 1. Triage every issue by severity: blocking (analysis is wrong without fixing), major (results are biased), minor (cosmetic).
 2. For each issue specify: detection method, fix logic in {{cleaningTool}}, and how to verify the fix worked.
-3. End the plan with a row-level audit — expected row count, primary key uniqueness check, and value range checks for key columns.
+3. End the plan with a row-level audit, expected row count, primary key uniqueness check, and value range checks for key columns.
 4. Never recommend silently dropping rows without flagging the volume lost and its potential effect on downstream results. State all assumptions explicitly.`,
 
     variables: [
@@ -1075,15 +1075,15 @@ Rules:
 - Categorical consistency: normalize free-text fields (US / USA / United States → United States)
 
 ### Value range checks
-- Numeric columns: min, max, mean, p5, p95 — do they match expected ranges?
+- Numeric columns: min, max, mean, p5, p95, do they match expected ranges?
 - Date columns: min and max dates within expected bounds?
 - Categorical columns: are all values in the expected set? Any unexpected "Other" or blank values?
 
 ## Verification audit (run after cleaning)
-1. Row count: clean count vs. raw count — document every row dropped and why
+1. Row count: clean count vs. raw count, document every row dropped and why
 2. Primary key: confirm uniqueness on the clean dataset
 3. Null check: confirm null counts are at or below the accepted threshold for each column
-4. Value range: spot-check p5/p95 for key numeric columns — compare to raw dataset
+4. Value range: spot-check p5/p95 for key numeric columns, compare to raw dataset
 5. Join test: if the clean dataset will be joined to another table, confirm join key overlap is > 95%
 `,
         required: true,
@@ -1100,8 +1100,8 @@ Rules:
           'formats (MM/DD/YYYY, YYYY-MM-DD, and some with timestamps), and the country column ' +
           'has duplicates like US, USA, and United States. Help me plan how to clean this.',
         expectedBehavior:
-          'Claude should triage the three issues: missing email (major — affects any email-based join), ' +
-          'inconsistent dates (blocking — analysis on date columns will fail), country naming (minor to major ' +
+          'Claude should triage the three issues: missing email (major, affects any email-based join), ' +
+          'inconsistent dates (blocking, analysis on date columns will fail), country naming (minor to major ' +
           'depending on downstream use). For each it should specify detection (e.g., regex to identify format), ' +
           'fix logic in the chosen cleaning tool, and a verification step. It should ask whether the 800 ' +
           'missing email rows should be excluded or retained with a null flag.',
@@ -1117,9 +1117,9 @@ Rules:
           'our users table, and timestamps that are in local time instead of UTC. ' +
           'We need this clean for a retention analysis.',
         expectedBehavior:
-          'Claude should triage: duplicate event IDs (blocking — retention calculation will double-count), ' +
-          'orphaned user_ids (major — retention denominators will be wrong), local time timestamps ' +
-          '(blocking — cohort assignment will be wrong across timezones). It should specify a deduplication ' +
+          'Claude should triage: duplicate event IDs (blocking, retention calculation will double-count), ' +
+          'orphaned user_ids (major, retention denominators will be wrong), local time timestamps ' +
+          '(blocking, cohort assignment will be wrong across timezones). It should specify a deduplication ' +
           'strategy (keep the first event within the 1-second window), a referential integrity check, and ' +
           'a timezone conversion approach. The plan must end with a row-count audit.',
         mustContain: ['2.3 million rows', 'duplicate event IDs', 'user_ids', 'UTC', 'retention analysis'],
@@ -1164,7 +1164,7 @@ Rules:
 Report purpose: {{reportPurpose}}
 
 Rules:
-1. Lead with the recommendation or key finding — place methodology and data details in a supporting section or appendix.
+1. Lead with the recommendation or key finding, place methodology and data details in a supporting section or appendix.
 2. Use no more than 3 key metrics per page or section; {{stakeholderAudience}} audiences lose focus with data overload.
 3. Frame every metric with comparison context: vs. prior period, vs. plan or target, or vs. industry benchmark when available.
 4. Never include a number without its source period and date range. State assumptions explicitly and flag data gaps rather than filling them in.`,
@@ -1205,7 +1205,7 @@ Rules:
         name: 'Stakeholder report structure reference card',
         purpose:
           'Gives Claude a set of proven report structures and framing principles for non-technical ' +
-          'audiences — so every report leads with the decision, not the data, and uses the right ' +
+          'audiences, so every report leads with the decision, not the data, and uses the right ' +
           'comparison context for each metric.',
         kind: 'starter',
         content: `# Stakeholder report structure reference card
@@ -1234,7 +1234,7 @@ Without context, numbers are meaningless. "$420,000 MRR" tells you nothing. "$42
 **Board of directors**
 - Show trend over 4+ quarters, not just the most recent period
 - Flag every deviation from plan, even positive ones
-- Include a "what could go wrong" section — boards expect risk awareness
+- Include a "what could go wrong" section, boards expect risk awareness
 
 **Investors**
 - Lead with retention and growth metrics (ARR, NRR, logo retention)
@@ -1307,7 +1307,7 @@ Without context, numbers are meaningless. "$420,000 MRR" tells you nothing. "$42
     tagline: 'Frame a cohort analysis approach before writing a single line of code',
     description:
       'Define the cohort unit, observation window, outcome metric, and expected output structure ' +
-      'for a cohort analysis — before any SQL or charts. Flags immature cohorts, normalization ' +
+      'for a cohort analysis, before any SQL or charts. Flags immature cohorts, normalization ' +
       'requirements, and the comparison logic upfront so the analysis is set up to answer the right question.',
     role: 'Data Analyst',
     industry: 'Technology',
@@ -1334,7 +1334,7 @@ Analysis goal: {{analysisGoal}}
 
 Rules:
 1. Define the cohort unit (one row = one user in one cohort), the observation window, and the qualifying event before describing any query or output.
-2. Flag immature cohorts — cohorts that have not had enough time to reach the full observation window must be excluded or labeled as incomplete.
+2. Flag immature cohorts, cohorts that have not had enough time to reach the full observation window must be excluded or labeled as incomplete.
 3. Describe the expected shape of the output (cohort × time period matrix) before suggesting any implementation steps.
 4. Never compare cohorts of different sizes without normalizing to rates. Never fabricate behavioral patterns or retention curves. State all assumptions explicitly.`,
 
@@ -1396,7 +1396,7 @@ Rules:
 
 3. **What is the observation window?**
    - The full window must have elapsed for a cohort to be mature
-   - Example: for 90-day retention, a cohort from 60 days ago is immature — exclude or label it
+   - Example: for 90-day retention, a cohort from 60 days ago is immature, exclude or label it
    - Rule: immature cohorts in the visualization must be visually distinct (greyed out, asterisked)
 
 4. **What is the output shape?**
@@ -1410,11 +1410,11 @@ Rules:
 - When revenue is the outcome, use revenue per user (total cohort revenue / cohort size)
 
 ## Common mistakes in cohort analysis
-1. **Comparing raw counts across cohorts of different sizes** — use rates
-2. **Including immature cohorts in trend conclusions** — flag and exclude them
-3. **Choosing the wrong qualifying event** — "last seen" is not the same as "performed qualifying action"
-4. **Ignoring multi-device or account-merging edge cases** — the same person in two cohorts inflates retention
-5. **Confusing calendar cohorts with rolling windows** — clarify which is intended before building
+1. **Comparing raw counts across cohorts of different sizes**, use rates
+2. **Including immature cohorts in trend conclusions**, flag and exclude them
+3. **Choosing the wrong qualifying event**, "last seen" is not the same as "performed qualifying action"
+4. **Ignoring multi-device or account-merging edge cases**, the same person in two cohorts inflates retention
+5. **Confusing calendar cohorts with rolling windows**, clarify which is intended before building
 
 ## Expected output shape (example)
 | Cohort | Size | Day 0 | Day 7 | Day 30 | Day 90 |
@@ -1457,7 +1457,7 @@ Rules:
           'It must flag that this is an observational comparison (customers self-select into plan types) and that ' +
           'selection bias is the key threat to validity. It should recommend normalizing by cohort size, ' +
           'checking cohort size balance between the two groups, and noting that annual plan customers are ' +
-          'committed for 12 months by definition — which inflates their "retention" vs monthly customers.',
+          'committed for 12 months by definition, which inflates their "retention" vs monthly customers.',
         mustContain: ['annual plan', '12-month retention', 'cumulative revenue', 'monthly plan'],
         mustNotContain: ['I cannot help', 'As an AI'],
       },
@@ -1503,7 +1503,7 @@ Detail level: {{detailLevel}}
 
 Rules:
 1. For each field include: column name, data type, description, nullability, and (at {{detailLevel}} detail) business rules and known issues.
-2. Flag foreign key relationships, enumerated value sets, and calculated or derived columns explicitly — never describe a derived column as a raw source field.
+2. Flag foreign key relationships, enumerated value sets, and calculated or derived columns explicitly, never describe a derived column as a raw source field.
 3. Note any fields whose meaning is ambiguous or context-dependent; ask for clarification rather than guessing.
 4. Never invent field names, data types, or business logic not provided in the input. State assumptions explicitly.`,
 
@@ -1573,7 +1573,7 @@ Rules:
 
 **Foreign key:** "References [table].[column]. Join on this key to get [description of related data]."
 
-**Derived / calculated column:** "Calculated as [formula in plain English]. Not a raw source field — do not use as a join key."
+**Derived / calculated column:** "Calculated as [formula in plain English]. Not a raw source field, do not use as a join key."
 
 **Enumerated values (enum / varchar with a fixed set):** List every valid value and its meaning.
 Example for status: 'pending' = order received but not yet processed; 'shipped' = order handed to carrier; 'delivered' = carrier confirmed delivery; 'cancelled' = order cancelled before shipment.
@@ -1587,7 +1587,7 @@ Example for status: 'pending' = order received but not yet processed; 'shipped' 
 - Omitting the timezone for timestamp columns
 - Listing only the column name without explaining what it means to a new user
 - Not documenting enum values (leaving readers to guess what 'status = 3' means)
-- Not flagging nullability — a nullable FK is a very different column from a non-nullable one
+- Not flagging nullability, a nullable FK is a very different column from a non-nullable one
 `,
         required: true,
       },
@@ -1622,7 +1622,7 @@ Example for status: 'pending' = order received but not yet processed; 'shipped' 
         expectedBehavior:
           'Claude should document all six fields. It must flag that user_id is nullable and explain ' +
           'the anonymous event use case. It should note that properties is a jsonb payload and that ' +
-          'its schema varies by event_name — recommending that a separate per-event schema reference ' +
+          'its schema varies by event_name, recommending that a separate per-event schema reference ' +
           'be created. It should document event_timestamp as UTC and warn against joining or filtering ' +
           'without timezone awareness. It should ask whether event_id is guaranteed unique.',
         mustContain: ['events table', 'event_id', 'event_name', 'event_timestamp', 'properties'],

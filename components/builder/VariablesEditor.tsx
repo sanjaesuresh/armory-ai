@@ -223,7 +223,7 @@ export default function VariablesEditor({ value, onChange }: VariablesEditorProp
             Variables
           </span>
           <p className="help" style={{ margin: '4px 0 0' }}>
-            Each variable becomes a form field the user fills in — its answer is
+            Each variable becomes a form field the user fills in, its answer is
             inserted into the template via the matching placeholder.
           </p>
         </div>
@@ -410,7 +410,7 @@ export default function VariablesEditor({ value, onChange }: VariablesEditorProp
                     role="alert"
                     data-testid={`var-key-err-${index}`}
                   >
-                    Duplicate key — each variable must have a unique key.
+                    Duplicate key, each variable must have a unique key.
                   </p>
                 )}
                 {isInvalidKey && (
@@ -492,7 +492,7 @@ export default function VariablesEditor({ value, onChange }: VariablesEditorProp
                     role="alert"
                     data-testid={`var-options-err-${index}`}
                   >
-                    No options defined — {v.type} variables require at least one option in the options list.
+                    No options defined, {v.type} variables require at least one option in the options list.
                   </p>
                 )}
               </div>

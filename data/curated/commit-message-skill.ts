@@ -59,9 +59,9 @@ If neither is provided, ask for the diff before proceeding.
 \`\`\`
 <type>(<optional scope>): <short summary>
 
-[optional body — explain WHY, not WHAT]
+[optional body, explain WHY, not WHAT]
 
-[optional footer — e.g. BREAKING CHANGE, closes #issue]
+[optional footer, e.g. BREAKING CHANGE, closes #issue]
 \`\`\`
 
 ### Type values
@@ -112,8 +112,8 @@ closes #412
 
 ## Commands (Claude Code)
 
-- \`/commit-msg\` — Draft a commit message from the current staged diff.
-- \`/commit-msg <description>\` — Draft a commit message from a prose description.
+- \`/commit-msg\`, Draft a commit message from the current staged diff.
+- \`/commit-msg <description>\`, Draft a commit message from a prose description.
 `,
     },
   ],

@@ -15,7 +15,7 @@ export const githubPicks3: Setup[] = [
       'A collection of over 165 Claude Code subagents organized into categories: core, languages ' +
       '(13), frameworks (13), infrastructure (13), data/AI, databases (7), quality (11), ' +
       'mobile, web3, marketing (30), and more. Agents auto-discover on startup from ' +
-      '~/.claude/agents/ or the project .claude/agents/ directory — no manual activation required.',
+      '~/.claude/agents/ or the project .claude/agents/ directory, no manual activation required.',
     role: 'general',
     industry: null,
     tags: ['subagents', 'sdlc', 'claude-code', 'mobile', 'incident-response', 'engineering'],
@@ -43,18 +43,18 @@ export const githubPicks3: Setup[] = [
 
 A collection of 165+ Claude Code subagents organized into 20+ categories covering the complete software development lifecycle. Categories include core development (architect, debugger, code-reviewer, refactorer), 13 language specialists (Python, Go, TypeScript, Rust, Java, Kotlin, Swift, and more), 13 framework experts (React, Next.js, Vue, Django, Rails, FastAPI, NestJS, Svelte, and more), 13 infrastructure agents (Terraform, Kubernetes, Ansible, GitOps, observability), 7 database specialists (PostgreSQL, MongoDB, Redis, Elasticsearch, Neo4j, Cassandra), 11 QA agents (Playwright, Cypress, Jest, k6, chaos engineering), 30 marketing specialists (SEO, GEO, email, content, PR), industry verticals (fintech, healthcare, govtech, edtech), and orchestrators (prd-writer, project-manager, tech-lead, incident-commander).
 
-Agents auto-discover from ~/.claude/agents/ (global) or .claude/agents/ (project-local) on Claude Code startup — no manual activation step needed.
+Agents auto-discover from ~/.claude/agents/ (global) or .claude/agents/ (project-local) on Claude Code startup, no manual activation step needed.
 
 ## Key agents
 
-- architect — system design, API architecture, database schemas
-- prd-writer — product requirements and user stories; recommended starting point for complex projects
-- project-manager — multi-agent orchestration and task breakdown
-- tech-lead — architecture decisions and code standards
-- incident-commander — crisis response and emergency coordination
-- terraform-expert — IaC, multi-cloud deployments, state management
-- security-auditor — OWASP, penetration testing, compliance
-- owasp-top10-expert — web application security review
+- architect, system design, API architecture, database schemas
+- prd-writer, product requirements and user stories; recommended starting point for complex projects
+- project-manager, multi-agent orchestration and task breakdown
+- tech-lead, architecture decisions and code standards
+- incident-commander, crisis response and emergency coordination
+- terraform-expert, IaC, multi-cloud deployments, state management
+- security-auditor, OWASP, penetration testing, compliance
+- owasp-top10-expert, web application security review
 
 ## Install
 
@@ -165,7 +165,7 @@ Agents in the cloned ~/.claude/claude-code-subagents/agents/ directory activate 
 
 ## When to use
 
-Pick the agent matching your specific tool — for example, invoke the stripe-expert for payment integration, owasp-top10-expert after implementing auth, or terraform-expert when writing infrastructure changes. Claude Code auto-routes based on context, or you can invoke explicitly ("use the pulumi-expert for this stack").`,
+Pick the agent matching your specific tool, for example, invoke the stripe-expert for payment integration, owasp-top10-expert after implementing auth, or terraform-expert when writing infrastructure changes. Claude Code auto-routes based on context, or you can invoke explicitly ("use the pulumi-expert for this stack").`,
       },
     ],
     repoUrl: 'https://github.com/0xfurai/claude-code-subagents',
@@ -207,7 +207,7 @@ Pick the agent matching your specific tool — for example, invoke the stripe-ex
     description:
       'An NPX-installable collection of 30+ TDD-focused Claude Code agents by vanzan01. A central ' +
       '/van command routes work through @task-orchestrator to the right specialist. All agents enforce ' +
-      'RED→GREEN→REFACTOR — tests are written before implementation. Context7 integration pulls real ' +
+      'RED→GREEN→REFACTOR, tests are written before implementation. Context7 integration pulls real ' +
       'library documentation instead of letting agents guess at APIs.',
     role: 'general',
     industry: null,
@@ -255,7 +255,7 @@ For selective install:
     npx claude-code-collective init --hooks-only    # hooks and behavioral system only
     npx claude-code-collective init --interactive   # guided setup
 
-Restart Claude Code after install — hooks require a fresh session to load.
+Restart Claude Code after install, hooks require a fresh session to load.
 
 Validate the install:
 
@@ -337,10 +337,10 @@ A Node.js CLI and companion web dashboard at aitmpl.com giving instant access to
 
 The CLI provides four additional tools beyond the template catalog:
 
-- Analytics — real-time monitoring of Claude Code sessions with live state detection and performance metrics
-- Conversation monitor — mobile-optimized interface for viewing Claude responses in real time, with optional Cloudflare Tunnel for remote access
-- Health check — diagnostics ensuring your Claude Code installation is optimized
-- Plugin dashboard — unified view of installed plugins, marketplaces, and permissions
+- Analytics, real-time monitoring of Claude Code sessions with live state detection and performance metrics
+- Conversation monitor, mobile-optimized interface for viewing Claude responses in real time, with optional Cloudflare Tunnel for remote access
+- Health check, diagnostics ensuring your Claude Code installation is optimized
+- Plugin dashboard, unified view of installed plugins, marketplaces, and permissions
 
 ## Install
 
@@ -403,9 +403,9 @@ Use when you want a curated starting point for Claude Code rather than assemblin
     tagline: 'Teaching repo implementing all 13 Claude Code hook events with single-file UV Python scripts, TTS alerts, 9 status line variants, and team builder/validator agents.',
     description:
       'A teaching repository by disler (IndyDevDan) that implements every one of Claude Code\'s 13 hook ' +
-      'events as standalone, single-file UV Python scripts. Covers all hook types — UserPromptSubmit, ' +
+      'events as standalone, single-file UV Python scripts. Covers all hook types, UserPromptSubmit, ' +
       'PreToolUse, PostToolUse, Stop, SubagentStart/Stop, SessionStart/End, PermissionRequest, ' +
-      'PreCompact, PostToolUseFailure, and Setup — plus 9 custom status line variants, 8 output styles, ' +
+      'PreCompact, PostToolUseFailure, and Setup, plus 9 custom status line variants, 8 output styles, ' +
       'team-based builder/validator agents, and a meta-agent that generates new agents.',
     role: 'general',
     industry: null,
@@ -436,18 +436,18 @@ A teaching repository implementing all 13 Claude Code hook events as standalone 
 
 Hook implementations:
 
-- user_prompt_submit.py — logs prompts, optionally validates for dangerous patterns, and injects project context before Claude sees the prompt
-- pre_tool_use.py — blocks dangerous commands (rm -rf, .env access) and logs all tool calls before execution
-- post_tool_use.py — logs results, converts JSONL transcripts to readable JSON
-- post_tool_use_failure.py — structured error logging with timestamps and full context
-- notification.py — optional TTS alerts when Claude needs input (ElevenLabs > OpenAI > pyttsx3 priority)
-- stop.py — AI-generated completion messages with TTS playback after Claude finishes
-- subagent_start/stop.py — subagent spawn/completion logging and optional TTS
-- session_start.py — loads git status, recent issues, and context files at session start
-- session_end.py — session logging and optional temp file cleanup
-- permission_request.py — audits permission dialogs; auto-approves read-only ops (Read, Glob, Grep, safe Bash)
-- pre_compact.py — backs up transcripts before compaction
-- setup.py — repository initialization and periodic maintenance hooks
+- user_prompt_submit.py, logs prompts, optionally validates for dangerous patterns, and injects project context before Claude sees the prompt
+- pre_tool_use.py, blocks dangerous commands (rm -rf, .env access) and logs all tool calls before execution
+- post_tool_use.py, logs results, converts JSONL transcripts to readable JSON
+- post_tool_use_failure.py, structured error logging with timestamps and full context
+- notification.py, optional TTS alerts when Claude needs input (ElevenLabs > OpenAI > pyttsx3 priority)
+- stop.py, AI-generated completion messages with TTS playback after Claude finishes
+- subagent_start/stop.py, subagent spawn/completion logging and optional TTS
+- session_start.py, loads git status, recent issues, and context files at session start
+- session_end.py, session logging and optional temp file cleanup
+- permission_request.py, audits permission dialogs; auto-approves read-only ops (Read, Glob, Grep, safe Bash)
+- pre_compact.py, backs up transcripts before compaction
+- setup.py, repository initialization and periodic maintenance hooks
 
 Also includes: 9 status line variants (git info, cost tracking, context window usage bar, token/cache stats, session duration, powerline style), 8 output styles (genui HTML, tables, YAML, bullet points, ultra-concise, TTS summary), team-based builder+validator agents for parallel code quality enforcement, and a meta-agent that generates new agent files from descriptions.
 
@@ -463,7 +463,7 @@ UserPromptSubmit options: --log-only (default), --validate (enable security filt
 
 ## When to use
 
-Use as a reference when building your own hooks — read the scripts, understand the exit code behavior (0 = success, 2 = block with stderr to Claude, other = non-blocking error), then copy the scripts you need. Good starting points: pre_tool_use.py for dangerous command blocking, user_prompt_submit.py for audit logging, and any status line variant for terminal context.`,
+Use as a reference when building your own hooks, read the scripts, understand the exit code behavior (0 = success, 2 = block with stderr to Claude, other = non-blocking error), then copy the scripts you need. Good starting points: pre_tool_use.py for dangerous command blocking, user_prompt_submit.py for audit logging, and any status line variant for terminal context.`,
       },
     ],
     repoUrl: 'https://github.com/disler/claude-code-hooks-mastery',
@@ -540,8 +540,8 @@ Use as a reference when building your own hooks — read the scripts, understand
 A Claude Code plugin implementing convergent spec-driven sprints. The /sprint command drives a self-iterating state machine: read specs.md → architect creates api-contract.md → implementation agents build in parallel → testing agents validate → architect removes completed work from specs and iterates. The picture starts noisy; each pass reduces noise until only working code remains. Most sprints converge in under 5 iterations; if they don't, the system pauses and asks what to do.
 
 Two persistent "second brain" files anchor agent memory across sprints:
-- .claude/project-goals.md — product vision and constraints (you maintain)
-- .claude/project-map.md — architecture, API surface, and file layout (architect maintains)
+- .claude/project-goals.md, product vision and constraints (you maintain)
+- .claude/project-map.md, architecture, API surface, and file layout (architect maintains)
 
 Agents read these instead of scanning the whole codebase, keeping context focused.
 
@@ -565,7 +565,7 @@ For local development:
 
 ## When to use
 
-Use /sprint:setup first to create project-goals.md and project-map.md, then /sprint:new to create specs.md. Keep specs small — multiple small sprints beat one large one. Commit before each sprint run so you have a rollback point. Good for: new features with clear acceptance criteria, iterative UI work with real browser validation, and full-stack features where backend and frontend need coordinated implementation.`,
+Use /sprint:setup first to create project-goals.md and project-map.md, then /sprint:new to create specs.md. Keep specs small, multiple small sprints beat one large one. Commit before each sprint run so you have a rollback point. Good for: new features with clear acceptance criteria, iterative UI work with real browser validation, and full-stack features where backend and frontend need coordinated implementation.`,
       },
     ],
     repoUrl: 'https://github.com/damienlaine/agentic-sprint',
@@ -637,15 +637,15 @@ Use /sprint:setup first to create project-goals.md and project-map.md, then /spr
         isPrimary: true,
         content: `## What it does
 
-GSD Core (formerly the "get-shit-done" repo, now maintained at github.com/open-gsd/gsd-core) is a context-engineering and spec-driven development framework. It solves context rot — the quality degradation that accumulates as an AI fills its context window — by running all heavy research, planning, and execution work in fresh-context subagents while keeping the main session lean. Structured artifacts (STATE.md, CONTEXT.md) survive session boundaries so work can resume without re-explaining scope.
+GSD Core (formerly the "get-shit-done" repo, now maintained at github.com/open-gsd/gsd-core) is a context-engineering and spec-driven development framework. It solves context rot, the quality degradation that accumulates as an AI fills its context window, by running all heavy research, planning, and execution work in fresh-context subagents while keeping the main session lean. Structured artifacts (STATE.md, CONTEXT.md) survive session boundaries so work can resume without re-explaining scope.
 
 Each milestone repeats the same five-step phase loop:
 
-1. Discuss — capture implementation decisions before anything is planned
-2. Plan — research, decompose, and verify the plan fits a fresh context window
-3. Execute — run plans in parallel waves; each executor starts with a clean 200K-token context
-4. Verify — walk through what was built; diagnose and fix before declaring done
-5. Ship — create the PR, archive the phase, repeat for the next milestone
+1. Discuss, capture implementation decisions before anything is planned
+2. Plan, research, decompose, and verify the plan fits a fresh context window
+3. Execute, run plans in parallel waves; each executor starts with a clean 200K-token context
+4. Verify, walk through what was built; diagnose and fix before declaring done
+5. Ship, create the PR, archive the phase, repeat for the next milestone
 
 ## Install
 
@@ -660,7 +660,7 @@ Start a new project:
 
 ## When to use
 
-Use GSD Core when you have a multi-milestone project where context drift across long sessions is a real problem. The five-phase loop works best when milestones are scoped to a few hundred lines of change — large enough to benefit from planning, small enough for a single execute wave. The STATE.md/CONTEXT.md artifacts make it practical to pause and resume across multiple sessions without losing implementation decisions.`,
+Use GSD Core when you have a multi-milestone project where context drift across long sessions is a real problem. The five-phase loop works best when milestones are scoped to a few hundred lines of change, large enough to benefit from planning, small enough for a single execute wave. The STATE.md/CONTEXT.md artifacts make it practical to pause and resume across multiple sessions without losing implementation decisions.`,
       },
     ],
     repoUrl: 'https://github.com/gsd-build/get-shit-done',
@@ -725,7 +725,7 @@ Use GSD Core when you have a multi-milestone project where context drift across 
         isPrimary: true,
         content: `## What it does
 
-Taskmaster (github.com/eyaltoledano/claude-task-master) is an AI task-management system that parses a PRD into structured tasks with dependency graphs and complexity scores, then feeds them one at a time to Claude Code through an MCP server. Claude Code calls next_task to get the next unblocked task with full context, implements it, marks it done, and repeats — always in dependency order.
+Taskmaster (github.com/eyaltoledano/claude-task-master) is an AI task-management system that parses a PRD into structured tasks with dependency graphs and complexity scores, then feeds them one at a time to Claude Code through an MCP server. Claude Code calls next_task to get the next unblocked task with full context, implements it, marks it done, and repeats, always in dependency order.
 
 Supports 36 MCP tools (configurable via TASK_MASTER_TOOLS env var), a CLI, and multiple AI providers for the main, research, and fallback models. Selectable tool loading reduces context window usage: "core" mode (7 tools) uses ~5K tokens vs "all" (36 tools) ~21K tokens.
 
@@ -824,7 +824,7 @@ Works well for projects driven from a written PRD where you want AI to respect t
 
 cc-sdd v3 is a spec-driven-development harness inspired by the Kiro IDE methodology. It installs 17 Agent Skills (loaded on demand) that cover a complete SDLC from discovery through autonomous implementation.
 
-Entry point: /kiro-discovery evaluates a task or idea and routes into one of five paths — extend an existing spec, implement directly with no spec, create one new spec, decompose into multiple specs, or mixed decomposition. It writes brief.md (always) and roadmap.md (for multi-spec work), so you can resume a workstream without re-explaining scope.
+Entry point: /kiro-discovery evaluates a task or idea and routes into one of five paths, extend an existing spec, implement directly with no spec, create one new spec, decompose into multiple specs, or mixed decomposition. It writes brief.md (always) and roadmap.md (for multi-spec work), so you can resume a workstream without re-explaining scope.
 
 Spec workflow: /kiro-spec-requirements → /kiro-spec-design (generates requirements.md and design.md with EARS-format acceptance criteria, Mermaid architecture diagrams, and a File Structure Plan) → /kiro-spec-tasks (produces tasks.md with Boundary and Depends annotations per task).
 
@@ -850,7 +850,7 @@ Then in your agent:
 
 ## When to use
 
-Use cc-sdd when spec boundaries are the hard problem — for example, a multi-developer feature where you need explicit interface contracts between modules before anyone writes code. The File Structure Plan and task Boundary annotations are what prevent one agent's implementation from stepping on another's. For smaller single-scope changes, /kiro-discovery will route directly to implementation, skipping the spec phase.`,
+Use cc-sdd when spec boundaries are the hard problem, for example, a multi-developer feature where you need explicit interface contracts between modules before anyone writes code. The File Structure Plan and task Boundary annotations are what prevent one agent's implementation from stepping on another's. For smaller single-scope changes, /kiro-discovery will route directly to implementation, skipping the spec phase.`,
       },
     ],
     repoUrl: 'https://github.com/gotalab/cc-sdd',
@@ -991,7 +991,7 @@ MetaSwarm is designed for team-scale AI development on production codebases wher
     id: 'github-git-workflow-v1',
     slug: 'github-git-workflow',
     name: 'AgenticDev (git-workflow)',
-    tagline: 'Modular spec-driven SDLC: prd-authoring → spec-authoring → sprint-planner → issue-executor (TDD) → change-integrator — end to end from idea to merged PR.',
+    tagline: 'Modular spec-driven SDLC: prd-authoring → spec-authoring → sprint-planner → issue-executor (TDD) → change-integrator, end to end from idea to merged PR.',
     description:
       'AgenticDev is a modular spec-driven development methodology by bodangren implemented as ' +
       'Claude Code skills. Four phases: Discovery & Planning (prd-authoring, spec-authoring), ' +
@@ -1023,22 +1023,22 @@ MetaSwarm is designed for team-scale AI development on production codebases wher
         isPrimary: true,
         content: `## What it does
 
-AgenticDev (github.com/bodangren/git-workflow) is a modular spec-driven development methodology implemented as Claude Code skills. The core principle is "think before you code" — every feature starts with a written spec that must be approved before sprint planning begins.
+AgenticDev (github.com/bodangren/git-workflow) is a modular spec-driven development methodology implemented as Claude Code skills. The core principle is "think before you code", every feature starts with a written spec that must be approved before sprint planning begins.
 
 12 skills in the catalog:
 
-- project-init — scaffolds docs/specs/ and docs/changes/ directory structure
-- project-migrate — AI-powered migration of existing brownfield projects into the AgenticDev structure
-- prd-authoring — generates Product Briefs, Research Plans, and full PRDs from initial ideas
-- spec-authoring — manages the Spec PR workflow (draft spec → PR → review → approval)
-- doc-indexer — scans project docs and produces a just-in-time frontmatter context map for agents
-- doc-validator — enforces documentation standards and catches files in wrong locations
-- sprint-planner — decomposes an approved spec (epic) into atomic GitHub Issues with a milestone
-- sprint-manager — orchestrates a full sprint by coordinating issue-executor sub-agents serially
-- issue-executor — the core workhorse: loads context, creates a TDD plan (Repro → Fix → Verify), opens a feature branch, implements, and manages the fix loop
-- change-integrator — post-merge cleanup: promotes spec to "approved," auto-summarizes learnings into RETROSPECTIVE.md, closes issues
-- agent-integrator — keeps AGENTS.md updated as new skills are added
-- frontend-design — specialized skill for UI/UX tasks and frontend component design
+- project-init, scaffolds docs/specs/ and docs/changes/ directory structure
+- project-migrate, AI-powered migration of existing brownfield projects into the AgenticDev structure
+- prd-authoring, generates Product Briefs, Research Plans, and full PRDs from initial ideas
+- spec-authoring, manages the Spec PR workflow (draft spec → PR → review → approval)
+- doc-indexer, scans project docs and produces a just-in-time frontmatter context map for agents
+- doc-validator, enforces documentation standards and catches files in wrong locations
+- sprint-planner, decomposes an approved spec (epic) into atomic GitHub Issues with a milestone
+- sprint-manager, orchestrates a full sprint by coordinating issue-executor sub-agents serially
+- issue-executor, the core workhorse: loads context, creates a TDD plan (Repro → Fix → Verify), opens a feature branch, implements, and manages the fix loop
+- change-integrator, post-merge cleanup: promotes spec to "approved," auto-summarizes learnings into RETROSPECTIVE.md, closes issues
+- agent-integrator, keeps AGENTS.md updated as new skills are added
+- frontend-design, specialized skill for UI/UX tasks and frontend component design
 
 ## Install
 
@@ -1051,7 +1051,7 @@ AgenticDev (github.com/bodangren/git-workflow) is a modular spec-driven developm
 
 ## When to use
 
-Works best when you want GitHub Issues as the coordination artifact — each issue maps to a TDD implementation cycle, and the milestone gives a clear progress view. The repro-first approach in issue-executor is particularly effective for bug fixes: write a script that reproduces the failure before touching the fix, then verify the script passes after. The RETROSPECTIVE.md accumulates learnings across sprints automatically.`,
+Works best when you want GitHub Issues as the coordination artifact, each issue maps to a TDD implementation cycle, and the milestone gives a clear progress view. The repro-first approach in issue-executor is particularly effective for bug fixes: write a script that reproduces the failure before touching the fix, then verify the script passes after. The RETROSPECTIVE.md accumulates learnings across sprints automatically.`,
       },
     ],
     repoUrl: 'https://github.com/bodangren/git-workflow',
@@ -1089,7 +1089,7 @@ Works best when you want GitHub Issues as the coordination artifact — each iss
     id: 'github-code-workflows-v1',
     slug: 'github-code-workflows',
     name: 'Claude Code Workflows',
-    tagline: 'Plugin marketplace with dev-workflows, dev-workflows-frontend, and dev-workflows-fullstack — each running specialized agents through requirements, design, implementation, and quality in fresh contexts.',
+    tagline: 'Plugin marketplace with dev-workflows, dev-workflows-frontend, and dev-workflows-fullstack, each running specialized agents through requirements, design, implementation, and quality in fresh contexts.',
     description:
       'Production Claude Code workflows by shinpr organized as three marketplace plugins: ' +
       'dev-workflows (backend/general), dev-workflows-frontend (React/TypeScript), and ' +
@@ -1121,7 +1121,7 @@ Works best when you want GitHub Issues as the coordination artifact — each iss
         isPrimary: true,
         content: `## What it does
 
-Production-grade Claude Code workflows organized as three marketplace plugins: dev-workflows (backend/general), dev-workflows-frontend (React/TypeScript), and dev-workflows-fullstack (both layers with design-sync between them). Each phase — requirements, design, implementation, QA — runs in a fresh agent context to prevent cross-phase context contamination.
+Production-grade Claude Code workflows organized as three marketplace plugins: dev-workflows (backend/general), dev-workflows-frontend (React/TypeScript), and dev-workflows-fullstack (both layers with design-sync between them). Each phase, requirements, design, implementation, QA, runs in a fresh agent context to prevent cross-phase context contamination.
 
 The requirement-analyzer classifies task size: small (1-2 files) → direct implementation; medium (3-5 files) → codebase-analyzer + technical-designer; large (6+ files) → prd-creator + codebase-analyzer + technical-designer. Larger work generates PRDs, Architecture Decision Records, Design Docs, and acceptance test scaffolds before any code is written.
 
@@ -1144,7 +1144,7 @@ All entry points use the recipe- prefix. Use tab completion (/recipe-) to see av
 
 ## When to use
 
-Use /recipe-implement for a new backend feature; /recipe-front-design then /recipe-front-build for React components; /recipe-fullstack-implement when the feature spans both layers. Use /recipe-diagnose for root cause analysis (loops between investigator and verifier until path coverage is sufficient). Use /recipe-reverse-engineer on undocumented legacy code to generate PRD and Design Docs before an AI can safely modify it. docs/plans/ is ephemeral — add it to .gitignore; docs/prd/, docs/design/, and docs/ui-spec/ should be committed.`,
+Use /recipe-implement for a new backend feature; /recipe-front-design then /recipe-front-build for React components; /recipe-fullstack-implement when the feature spans both layers. Use /recipe-diagnose for root cause analysis (loops between investigator and verifier until path coverage is sufficient). Use /recipe-reverse-engineer on undocumented legacy code to generate PRD and Design Docs before an AI can safely modify it. docs/plans/ is ephemeral, add it to .gitignore; docs/prd/, docs/design/, and docs/ui-spec/ should be committed.`,
       },
     ],
     repoUrl: 'https://github.com/shinpr/claude-code-workflows',
@@ -1172,7 +1172,7 @@ Use /recipe-implement for a new backend feature; /recipe-front-design then /reci
       },
       {
         command: '/recipe-task',
-        description: 'Executes a single scoped task (bug fix, small change) with quality checks and type verification — available in all three plugins.',
+        description: 'Executes a single scoped task (bug fix, small change) with quality checks and type verification, available in all three plugins.',
       },
     ],
   },
@@ -1218,19 +1218,19 @@ The official Anthropic GitHub Action that runs Claude Code inside CI. Triggered 
 
 Authentication backends: Anthropic direct API key, workload identity federation (no long-lived secrets), Amazon Bedrock, Google Vertex AI, and Microsoft Foundry.
 
-The action runs entirely on your own GitHub runner — Anthropic API calls go to your chosen provider, no code leaves your infrastructure.
+The action runs entirely on your own GitHub runner, Anthropic API calls go to your chosen provider, no code leaves your infrastructure.
 
 Use cases from the official Solutions Guide:
 
-- Automatic PR code review — full review on every PR open/update
-- Path-specific reviews — trigger only when critical files change
-- External contributor reviews — special handling for first-time contributors
-- Custom review checklists — enforce team-specific standards
-- Scheduled maintenance — automated repository health checks on cron
-- Issue triage and labeling — automatic categorization from issue body
-- Documentation sync — keep docs updated when source files change
-- Security-focused reviews — OWASP-aligned analysis on security-sensitive files
-- Structured outputs — validated JSON results exposed as GitHub Action outputs for downstream automation
+- Automatic PR code review, full review on every PR open/update
+- Path-specific reviews, trigger only when critical files change
+- External contributor reviews, special handling for first-time contributors
+- Custom review checklists, enforce team-specific standards
+- Scheduled maintenance, automated repository health checks on cron
+- Issue triage and labeling, automatic categorization from issue body
+- Documentation sync, keep docs updated when source files change
+- Security-focused reviews, OWASP-aligned analysis on security-sensitive files
+- Structured outputs, validated JSON results exposed as GitHub Action outputs for downstream automation
 
 ## Install
 
@@ -1246,7 +1246,7 @@ Manual workflow file: add .github/workflows/claude.yml with the action reference
 
 ## When to use
 
-Use the @claude mention mode for on-demand fixes and answers in existing PRs — it's the lowest-friction way to get Claude to make a targeted change. Use the automation mode (explicit prompt in workflow YAML) for scheduled tasks like dependency audits, documentation sync, or security scans. Use structured outputs when you need downstream steps to consume Claude's findings as machine-readable data.`,
+Use the @claude mention mode for on-demand fixes and answers in existing PRs, it's the lowest-friction way to get Claude to make a targeted change. Use the automation mode (explicit prompt in workflow YAML) for scheduled tasks like dependency audits, documentation sync, or security scans. Use structured outputs when you need downstream steps to consume Claude's findings as machine-readable data.`,
       },
     ],
     repoUrl: 'https://github.com/anthropics/claude-code-action',

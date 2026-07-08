@@ -8,7 +8,7 @@ export const volunteerCoordinatorSetup: Setup = {
   tagline: 'Recruit, onboard, schedule, and retain volunteers with less back-and-forth',
   description:
     'Configure Claude as a volunteer coordinator for your nonprofit. It drafts recruitment posts, ' +
-    'onboarding checklists, scheduling communications, and appreciation messages — all tailored to ' +
+    'onboarding checklists, scheduling communications, and appreciation messages, all tailored to ' +
     'your program and volunteer roles.',
   role: 'Volunteer Coordinator',
   industry: 'Nonprofit',
@@ -36,7 +36,7 @@ Shift frequency: {{shiftFrequency}}
 Your responsibilities:
 - Write volunteer recruitment posts for social media, newsletters, and community boards that attract motivated, mission-aligned volunteers.
 - Draft onboarding checklists, welcome emails, and orientation agendas that help new volunteers start confidently.
-- Create scheduling communications — shift reminders, availability requests, coverage asks, and schedule confirmations.
+- Create scheduling communications, shift reminders, availability requests, coverage asks, and schedule confirmations.
 - Write appreciation and recognition messages that make volunteers feel genuinely valued and motivated to return.
 - Draft any routine volunteer-facing communication: policy reminders, role updates, event briefings, and farewell messages.
 
@@ -45,10 +45,10 @@ Onboarding process: {{onboardingProcess}}. Reference this process when drafting 
 {{/if}}
 
 Rules:
-1. Never invent volunteer names, availability data, attendance records, or program statistics — use only what you are given.
+1. Never invent volunteer names, availability data, attendance records, or program statistics, use only what you are given.
 2. Volunteer communications must be welcoming and clear; avoid jargon and bureaucratic language that makes volunteers feel like employees.
-3. Scheduling requests must state the date, time, location, and role clearly in the first paragraph — do not bury logistics in prose.
-4. Appreciation messages must be specific; generic "thank you for your service" copy is not enough — reference the actual work done when you have that information.
+3. Scheduling requests must state the date, time, location, and role clearly in the first paragraph, do not bury logistics in prose.
+4. Appreciation messages must be specific; generic "thank you for your service" copy is not enough, reference the actual work done when you have that information.
 5. Recruitment copy must set accurate expectations about time commitment, role requirements, and the application or screening process.
 6. Flag any communication that could create a legal obligation (e.g., implying employment status) and recommend legal review before sending.
 7. Never fabricate figures, estimates, or facts; when uncertain, pause and ask for the information you need.`,
@@ -79,7 +79,7 @@ Rules:
       required: true,
       helpText:
         'List the roles volunteers fill in this program, one per line. Include a brief description ' +
-        'of what each role does. e.g., "Food sorter — sorts and packs donated food on Tuesday mornings".',
+        'of what each role does. e.g., "Food sorter, sorts and packs donated food on Tuesday mornings".',
       group: 'About your program',
     },
     {
@@ -165,7 +165,7 @@ Before the first shift, each new volunteer should complete:
 ## Scheduling communication templates
 
 ### Shift reminder (send 48 hours before)
-Subject: Reminder — your volunteer shift [Day, Date] at [Time]
+Subject: Reminder, your volunteer shift [Day, Date] at [Time]
 
 Hi [Name], just a reminder that your shift is coming up on [Day, Date] from [Time] to [Time] at [Location]. Please [parking/check-in instructions]. Reply to this email or call [contact] if anything changes.
 
@@ -178,10 +178,10 @@ Hi [Name], we have an opening for [Role] on [Date] from [Time] to [Time]. Would 
 
 ## Volunteer retention basics
 
-- Acknowledge each shift within a week — even a brief email thank-you matters.
+- Acknowledge each shift within a week, even a brief email thank-you matters.
 - Recognize milestones: 5th shift, 1-year anniversary, 100 hours served.
 - Provide impact updates: tell volunteers what their work accomplished.
-- Ask for feedback annually or after major events — and act on it visibly.
+- Ask for feedback annually or after major events, and act on it visibly.
 - Exit gracefully: when volunteers leave, send a genuine farewell and keep the door open for return.
 `,
       required: true,
@@ -193,7 +193,7 @@ Hi [Name], we have an opening for [Role] on [Date] from [Time] to [Time]. Would 
         'Claude uses this to personalize scheduling messages and identify coverage gaps.',
       kind: 'user-provided',
       guidance:
-        'Paste your volunteer roster (names, roles, usual availability — no sensitive personal data) ' +
+        'Paste your volunteer roster (names, roles, usual availability, no sensitive personal data) ' +
         'and upcoming shift schedule. A simple table or list works fine. If you have specific coverage ' +
         'gaps or upcoming events, note them here so Claude can draft targeted communications.',
       required: false,
@@ -229,7 +229,7 @@ Hi [Name], we have an opening for [Role] on [Date] from [Time] to [Time]. Would 
         'Claude should write a warm welcome email to Marcus that confirms his first shift (Wednesday, ' +
         '3:30pm at Eastside Community Center), reminds him to complete the online orientation module ' +
         'before arriving, and briefly explains what to expect on his first day. The tone should be ' +
-        'welcoming and practical — not bureaucratic. It should include a clear next step (complete ' +
+        'welcoming and practical, not bureaucratic. It should include a clear next step (complete ' +
         'orientation) and a contact for questions.',
       mustContain: ['Marcus', 'Wednesday', '3:30', 'Eastside Community Center', 'orientation'],
       mustNotContain: ['I cannot help', 'As an AI'],

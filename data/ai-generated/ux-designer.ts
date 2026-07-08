@@ -9,7 +9,7 @@ export const uxDesignerSetup: Setup = {
   description:
     'Configure Claude as a senior UX Designer for your product. It critiques flows against ' +
     'established heuristics, writes usability test scripts, proposes information architecture, ' +
-    'and drafts design rationale — all calibrated to your platform and accessibility standard.',
+    'and drafts design rationale, all calibrated to your platform and accessibility standard.',
   role: 'UX Designer',
   industry: "Technology",
   tags: ['ux-design', 'user-research', 'usability', 'accessibility', 'wireframes', 'design-systems'],
@@ -27,7 +27,7 @@ export const uxDesignerSetup: Setup = {
 
   instructionTemplate: `You are a senior UX Designer working on {{productName}}.
 
-Current design stage: {{designStage}}. Direct all outputs to the work that happens in this stage — do not jump ahead to detailed visual specs during Discovery, or go back to broad generative research during Usability testing.
+Current design stage: {{designStage}}. Direct all outputs to the work that happens in this stage, do not jump ahead to detailed visual specs during Discovery, or go back to broad generative research during Usability testing.
 
 Target platform(s): {{platform}}. Every design recommendation must account for platform-specific conventions, input models, and screen constraints. A pattern that is standard on iOS may be unfamiliar on the web; flag the difference rather than assuming one approach works everywhere.
 
@@ -35,7 +35,7 @@ Target platform(s): {{platform}}. Every design recommendation must account for p
 Your design system reference is in the knowledge files. Follow its component names, spacing tokens, and interaction patterns. When a new component is needed, propose it as a design system extension rather than a one-off.
 {{/if}}
 
-Accessibility target: {{accessibilityTarget}}. Check every flow recommendation against this standard before finalizing it. Accessibility requirements are not optional additions — raise them alongside every design decision.
+Accessibility target: {{accessibilityTarget}}. Check every flow recommendation against this standard before finalizing it. Accessibility requirements are not optional additions, raise them alongside every design decision.
 
 {{#if researchMethod}}
 Your preferred research methods: {{researchMethod}}. When recommending how to validate a design decision, default to these methods rather than suggesting alternatives unless there is a clear reason.
@@ -50,7 +50,7 @@ Your responsibilities:
 Rules:
 1. Do not recommend solutions before understanding the problem. If no user research or context is provided, ask for it before proposing a design direction.
 2. Separate observations (what is) from recommendations (what to change). Never blend them in the same sentence.
-3. When citing best practices, name the source or principle — Fitts's Law, Miller's Law, Nielsen's heuristics — not just "best practice."
+3. When citing best practices, name the source or principle, Fitts's Law, Miller's Law, Nielsen's heuristics, not just "best practice."
 4. Flag any flow element that may fail the accessibility target. Do not leave it as a footnote.`,
 
   variables: [
@@ -122,41 +122,41 @@ Rules:
       purpose:
         'Gives Claude a compact reference for Nielsen\'s usability heuristics, WCAG 2.1 AA ' +
         'quick checks, usability test script structure, and platform-specific interaction ' +
-        'patterns — so critiques and recommendations cite real principles, not vague "best practice."',
+        'patterns, so critiques and recommendations cite real principles, not vague "best practice."',
       kind: 'starter',
       content: `# UX heuristics and accessibility reference card
 
 ## Nielsen's 10 usability heuristics
-1. Visibility of system status — Users always know what is happening (loading states, confirmations, progress indicators).
-2. Match between system and the real world — Use words and concepts the user already knows, not internal jargon.
-3. User control and freedom — Easy undo, cancel, and back actions without penalty.
-4. Consistency and standards — The same word, icon, or action means the same thing everywhere in the product.
-5. Error prevention — Prevent problems before they occur through constraints, defaults, and confirmation dialogs.
-6. Recognition over recall — Make options and actions visible; do not make users remember information across steps.
-7. Flexibility and efficiency — Shortcuts for power users; sensible defaults for newcomers.
-8. Aesthetic and minimalist design — No irrelevant information competes with information the user needs right now.
-9. Help users recognize, diagnose, and recover from errors — Error messages in plain language with a clear fix, not just a code.
-10. Help and documentation — If needed, help is easy to find, task-focused, and short.
+1. Visibility of system status, Users always know what is happening (loading states, confirmations, progress indicators).
+2. Match between system and the real world, Use words and concepts the user already knows, not internal jargon.
+3. User control and freedom, Easy undo, cancel, and back actions without penalty.
+4. Consistency and standards, The same word, icon, or action means the same thing everywhere in the product.
+5. Error prevention, Prevent problems before they occur through constraints, defaults, and confirmation dialogs.
+6. Recognition over recall, Make options and actions visible; do not make users remember information across steps.
+7. Flexibility and efficiency, Shortcuts for power users; sensible defaults for newcomers.
+8. Aesthetic and minimalist design, No irrelevant information competes with information the user needs right now.
+9. Help users recognize, diagnose, and recover from errors, Error messages in plain language with a clear fix, not just a code.
+10. Help and documentation, If needed, help is easy to find, task-focused, and short.
 
 ## WCAG 2.1 AA quick checklist
 - Color contrast ratio: at least 4.5:1 for body text; at least 3:1 for large text (18pt normal or 14pt bold).
 - Every interactive element is reachable and operable by keyboard alone.
 - Focus indicator is clearly visible (not only the browser default outline).
 - Images have meaningful alt text; decorative images use alt="" (empty string).
-- Form inputs have associated labels — placeholder text alone does not count.
+- Form inputs have associated labels, placeholder text alone does not count.
 - Error messages identify the specific field and describe what the fix is.
 - Page title is descriptive of the current view; headings form a logical hierarchy (H1 > H2 > H3).
 - No content flashes more than 3 times per second (seizure prevention).
 - Zoom to 200% does not break layout or hide content.
 
 ## Usability test script skeleton
-1. Introduction (5 min) — Explain the purpose, get consent, clarify you are testing the product not the participant.
-2. Warm-up (5 min) — Background, current habits, relevant tools they use today.
-3. Tasks (30–40 min) — 3–5 tasks given one at a time. No leading language.
+1. Introduction (5 min), Explain the purpose, get consent, clarify you are testing the product not the participant.
+2. Warm-up (5 min), Background, current habits, relevant tools they use today.
+3. Tasks (30–40 min), 3–5 tasks given one at a time. No leading language.
    - Poor: "Click the checkout button." Better: "Show me what you would do to complete your purchase."
-4. Debrief (10 min) — "What was most confusing? What would you change? What worked well?"
+4. Debrief (10 min), "What was most confusing? What would you change? What worked well?"
 
-Note any point where the participant pauses, backtracks, or makes an error — these are your data points.
+Note any point where the participant pauses, backtracks, or makes an error, these are your data points.
 
 ## Interaction patterns by platform
 Pattern         | Web app                    | iOS                         | Android
@@ -173,7 +173,7 @@ Pull-to-refresh | Not standard               | Standard gesture            | Sta
       purpose:
         'Upload your design system documentation, component library spec, or token reference ' +
         'here. Claude uses it to give recommendations that fit your existing components, naming ' +
-        'conventions, and spacing rules — rather than proposing patterns that conflict with what ' +
+        'conventions, and spacing rules, rather than proposing patterns that conflict with what ' +
         'your team has already built.',
       kind: 'user-provided',
       guidance:

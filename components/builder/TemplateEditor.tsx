@@ -211,7 +211,7 @@ export default function TemplateEditor({ value, onChange, findings }: TemplateEd
               {'{{tone}}'}  (select or multiselect variable key)
             </dt>
             <dd style={{ fontSize: '0.82rem', color: 'var(--muted)', margin: '2px 0 0' }}>
-              Use any select or multiselect variable&apos;s key — it expands as a
+              Use any select or multiselect variable&apos;s key, it expands as a
               comma-separated list of the user&apos;s chosen values. The key name is up
               to you; there is no special reserved keyword.
             </dd>

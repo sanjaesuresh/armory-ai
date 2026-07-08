@@ -9,7 +9,7 @@ export const productManagerSetup: Setup = {
   description:
     'Configure Claude as a senior Product Manager for your product. It writes user stories ' +
     'with acceptance criteria, scores and ranks backlog items, drafts stakeholder updates, ' +
-    'and surfaces trade-offs — all scoped to your product stage and team.',
+    'and surfaces trade-offs, all scoped to your product stage and team.',
   role: 'Product Manager',
   industry: "Technology",
   tags: ['product-management', 'roadmap', 'user-stories', 'prioritization', 'stakeholder-alignment', 'sprint-planning'],
@@ -27,7 +27,7 @@ export const productManagerSetup: Setup = {
 
   instructionTemplate: `You are a senior Product Manager working on {{productName}}.
 
-Your product is currently in the {{productStage}} stage. Tailor every recommendation, prioritization decision, and communication to fit this stage — Discovery work looks very different from Maturity work.
+Your product is currently in the {{productStage}} stage. Tailor every recommendation, prioritization decision, and communication to fit this stage, Discovery work looks very different from Maturity work.
 
 {{#if hasPRD}}
 A PRD template is included in the knowledge files. Use it as the standard structure whenever you draft new feature requirements or a product brief.
@@ -46,7 +46,7 @@ Your responsibilities:
 - Prioritize backlog items with explicit reasoning tied to business outcomes.
 - Draft stakeholder updates that are concise, decision-focused, and free of jargon.
 - Facilitate trade-off discussions between scope, timeline, and resources.
-- Surface risks and blockers early — do not bury them inside prose.
+- Surface risks and blockers early, do not bury them inside prose.
 
 Rules:
 1. Never invent technical constraints, business metrics, or user research. If you are uncertain, say so and ask.
@@ -121,7 +121,7 @@ Rules:
       name: 'PRD and user story reference card',
       purpose:
         'Gives Claude a compact reference for PRD structure, user story format, acceptance ' +
-        'criteria patterns, and the prioritization frameworks your team uses — so every output ' +
+        'criteria patterns, and the prioritization frameworks your team uses, so every output ' +
         'follows the same structure without you repeating it each time.',
       kind: 'starter',
       content: `# PRD and user story reference card
@@ -130,17 +130,17 @@ Rules:
 As a [role], I want [feature] so that [benefit].
 
 ### Acceptance criteria checklist
-- Each criterion is testable (clear pass/fail — not "better" or "faster")
+- Each criterion is testable (clear pass/fail, not "better" or "faster")
 - Each criterion names a specific user action or a specific system state
 - Edge cases appear as separate criteria, not bundled into one
 
 ## PRD structure (one-pager format)
-1. Problem statement — What is broken or missing, and for which user?
-2. Success metrics — How will we know this worked? (2–3 measurable outcomes)
-3. Proposed solution — What we will build, not how (leave implementation to engineering)
-4. Out of scope — Explicitly what this work does not include
-5. Open questions — Decisions not yet made, with an owner and a target date
-6. Dependencies — Other teams or systems this work relies on
+1. Problem statement, What is broken or missing, and for which user?
+2. Success metrics, How will we know this worked? (2–3 measurable outcomes)
+3. Proposed solution, What we will build, not how (leave implementation to engineering)
+4. Out of scope, Explicitly what this work does not include
+5. Open questions, Decisions not yet made, with an owner and a target date
+6. Dependencies, Other teams or systems this work relies on
 
 ## Prioritization frameworks at a glance
 
@@ -173,7 +173,7 @@ Risks:
 - [What could slip and why]
 
 Decisions needed before [date]:
-- [Decision needed] — Owner: [name]
+- [Decision needed], Owner: [name]
 `,
       required: true,
     },
@@ -182,12 +182,12 @@ Decisions needed before [date]:
       purpose:
         'Upload your current roadmap, backlog snapshot, or product brief here. Claude will ' +
         'reference it when writing user stories, prioritizing items, or drafting stakeholder ' +
-        'updates — keeping outputs grounded in what is actually planned.',
+        'updates, keeping outputs grounded in what is actually planned.',
       kind: 'user-provided',
       guidance:
         'Paste your roadmap as plain text or upload a CSV export from your project tool ' +
         '(Jira, Linear, Notion, etc.). Include the feature or initiative name, its current ' +
-        'status, and any known deadlines. You do not need a polished document — even a ' +
+        'status, and any known deadlines. You do not need a polished document, even a ' +
         'rough bullet list of upcoming work is useful.',
       required: false,
     },
@@ -225,7 +225,7 @@ Decisions needed before [date]:
         'Claude should rank all six items, applying a named prioritization framework or ' +
         'clear criteria tied to the stated goal of improving activation rate. For each item, ' +
         'it should briefly justify the rank in one or two sentences. It should not simply ' +
-        'list the items in the order given — it must reorder them with explicit reasoning. ' +
+        'list the items in the order given, it must reorder them with explicit reasoning. ' +
         'Claude should flag any item where missing information changes the ranking.',
       mustContain: ['CSV export', 'activation', 'search', 'Slack'],
       mustNotContain: ['I cannot help', 'As an AI'],
@@ -238,7 +238,7 @@ Decisions needed before [date]:
         'The reason is that the payment provider API had breaking changes we did not anticipate. ' +
         'Write an update I can send to the executive team and separately to the sales team.',
       expectedBehavior:
-        'Claude should produce two distinct updates — one for the executive team (concise, ' +
+        'Claude should produce two distinct updates, one for the executive team (concise, ' +
         'impact-focused, with a revised date and a mitigation plan) and one for the sales team ' +
         '(practical, covering how to respond to customer questions about the delay). Both must ' +
         'name the specific reason for the slip and the new expected delivery date. Neither should ' +

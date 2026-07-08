@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useMemo, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { Setup, SetupKind, Category } from '@/lib/setup/types';
 import {
@@ -53,7 +53,7 @@ const COPY = {
     ctaClass: 'btn btn-outline btn-sm',
     listHeading: 'All setups',
     searchLabel: 'Search setups',
-    searchPlaceholder: 'Search setups — try "email" or "brand"',
+    searchPlaceholder: 'Search setups, try "email" or "brand"',
     nounOne: 'setup',
     nounMany: 'setups',
   },
@@ -64,7 +64,7 @@ const COPY = {
     ctaClass: 'btn btn-iris btn-sm',
     listHeading: 'All tools',
     searchLabel: 'Search the registry',
-    searchPlaceholder: 'Search tools — try "review" or "commit"',
+    searchPlaceholder: 'Search tools, try "review" or "commit"',
     nounOne: 'tool',
     nounMany: 'tools',
   },
@@ -80,14 +80,15 @@ const KIND_RAIL: Array<{ label: string; value: 'all' | SetupKind; dot: string }>
   { label: 'Setups',     value: 'setup',   dot: 'var(--accent-lilac)' },
 ];
 
-// ── Source filter chips (developers, below search) ───────────────────────────
+// ── Source filter chips (developers + professionals, below search) ───────────
 
 type SourceFilterValue = 'all' | 'github' | 'community' | 'curated' | 'ai-generated';
 const SOURCE_CHIPS: Array<{ label: string; value: SourceFilterValue }> = [
-  { label: 'All',           value: 'all' },
-  { label: 'Community pick', value: 'github' },
-  { label: 'Member post',   value: 'community' },
-  { label: 'Curated',       value: 'curated' },
+  { label: 'All',          value: 'all' },
+  { label: 'Community',    value: 'github' },
+  { label: 'Member post',  value: 'community' },
+  { label: 'Curated',      value: 'curated' },
+  { label: 'AI',           value: 'ai-generated' },
 ];
 
 const SORT_OPTIONS: Array<{ label: string; value: SortKey }> = [
@@ -95,6 +96,24 @@ const SORT_OPTIONS: Array<{ label: string; value: SortKey }> = [
   { label: 'Most upvoted',     value: 'upvotes' },
   { label: 'Recently updated', value: 'recency' },
 ];
+
+// tracks the same 720px breakpoint the CSS uses to swap the rail for a sheet,
+// so sort/source/function controls can render inline on desktop but move into
+// the drawer on mobile as a single DOM instance (no duplicate groups/ids).
+// SSR-safe: false on the server + first client render, then corrected on mount.
+function useIsMobile(query = '(max-width: 720px)'): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    // guard: jsdom (and any non-browser env) has no matchMedia — stay desktop
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
+    const mq = window.matchMedia(query);
+    const onChange = () => setIsMobile(mq.matches);
+    onChange();
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, [query]);
+  return isMobile;
+}
 
 // ── DashboardView ─────────────────────────────────────────────────────────────
 
@@ -110,6 +129,17 @@ export default function DashboardView({
   const isDevelopers = variant === 'developers';
   const searchId = useId();
   const sortId = useId();
+  const railId = useId();
+
+  // mobile filter drawer: the facet rail collapses behind a "Filters" button
+  // below 720px so results get the full screen. drawerOpen only ever flips true
+  // on mobile (the trigger is display:none on desktop), so the dialog/scrim
+  // semantics never apply to the desktop sidebar.
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const filtersBtnRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+  const isMobile = useIsMobile();
 
   const [search, setSearch]   = useState('');
   const [filter, setFilter]   = useState(
@@ -187,7 +217,12 @@ export default function DashboardView({
           kind:   filter === 'all' ? undefined : (filter as SetupKind),
           source: source === 'all' ? undefined : (source as Setup['source']),
         }
-      : { query, category: filter === 'All' ? undefined : filter };
+      : {
+          query,
+          category: filter === 'All' ? undefined : filter,
+          // source filter applies to professionals too when a chip is active
+          source: source === 'all' ? undefined : (source as Setup['source']),
+        };
 
     let base = filterList(items, criteria);
 
@@ -214,19 +249,118 @@ export default function DashboardView({
   // filtered list surfaces immediately instead of hiding below the fold
   const hasActiveFilter = isDevelopers
     ? filter !== 'all' || source !== 'all' || fnFilter !== null || search.trim() !== ''
-    : filter !== 'All' || indFilter !== null || search.trim() !== '';
+    : filter !== 'All' || source !== 'all' || indFilter !== null || search.trim() !== '';
 
   function resetFilters() {
     setSearch('');
     setFilter(isDevelopers ? 'all' : 'All');
+    setSource('all');
     setIndFilter(null);
     if (isDevelopers) {
-      setSource('all');
       setFnFilter(null);
     }
   }
 
   const totalCount = items.length;
+
+  // count of active facet filters, shown as a badge on the mobile Filters button
+  // (search is a separate control and is deliberately excluded)
+  const activeFilterCount =
+    (isDevelopers
+      ? (filter !== 'all' ? 1 : 0) + (fnFilter ? 1 : 0)
+      : (filter !== 'All' ? 1 : 0) + (indFilter ? 1 : 0)) +
+    (source !== 'all' ? 1 : 0);
+
+  // drawer plumbing: lock body scroll, move focus in, trap Tab, close on Escape,
+  // and return focus to the trigger on close. keyed on drawerOpen so it only
+  // engages while the sheet is open.
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const drawer = drawerRef.current;
+    const trigger = filtersBtnRef.current;
+    document.body.style.overflow = 'hidden';
+    // focus the first focusable control inside the sheet
+    const focusables = () =>
+      drawer
+        ? Array.from(
+            drawer.querySelectorAll<HTMLElement>(
+              'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+            ),
+          ).filter((el) => !el.hasAttribute('disabled'))
+        : [];
+    focusables()[0]?.focus();
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setDrawerOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const els = focusables();
+      if (els.length === 0) return;
+      const first = els[0];
+      const last = els[els.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+      trigger?.focus();
+    };
+  }, [drawerOpen]);
+
+  // if the viewport grows back to desktop while the sheet is open, close it so
+  // the controls return to their inline positions cleanly
+  useEffect(() => {
+    if (!isMobile) setDrawerOpen(false);
+  }, [isMobile]);
+
+  // filter controls that live inline on desktop but move into the drawer on
+  // mobile — rendered in exactly one place per breakpoint (single DOM instance)
+  const sortControl = (
+    <label className="dash-sort" htmlFor={sortId}>
+      <span>Sort</span>
+      <select
+        id={sortId}
+        value={sortKey}
+        onChange={(e) => setSortKey(e.target.value as SortKey)}
+      >
+        {SORT_OPTIONS.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+
+  const sourceChips = (
+    <div className="filter-row" role="group" aria-label="Filter by source">
+      {SOURCE_CHIPS.map((chip) => (
+        <button
+          key={chip.value}
+          type="button"
+          className="chip"
+          aria-pressed={source === chip.value}
+          onClick={() => setSource(chip.value)}
+        >
+          {chip.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  const functionChips = isDevelopers ? (
+    <FunctionChips items={items} activeChip={fnFilter} onSelect={setFnFilter} />
+  ) : null;
 
   return (
     <>
@@ -241,7 +375,7 @@ export default function DashboardView({
         >
           <h2 data-testid="recommended-heading" className="dash-strip-heading">
             {rolePicks.fallback
-              ? "Nothing tailored yet — here's what's popular"
+              ? "Nothing tailored yet, here's what's popular"
               : 'Recommended for you'}
           </h2>
           <div className="setup-grid">
@@ -259,8 +393,31 @@ export default function DashboardView({
       {/* ── Browse shell: left rail + main content ─────────────────────── */}
       <div className="browse-shell">
 
-        {/* ── Left rail ─────────────────────────────────────────────────── */}
-        <aside className="browse-rail" aria-label="Browse filters">
+        {/* scrim behind the mobile filter sheet (only rendered when open) */}
+        {drawerOpen && (
+          <div className="browse-scrim" onClick={closeDrawer} aria-hidden="true" />
+        )}
+
+        {/* ── Left rail (facet filters; a bottom sheet below 720px) ──────── */}
+        <aside
+          id={railId}
+          ref={drawerRef}
+          className={`browse-rail${drawerOpen ? ' is-open' : ''}`}
+          aria-label="Browse filters"
+          role={drawerOpen ? 'dialog' : undefined}
+          aria-modal={drawerOpen ? true : undefined}
+        >
+          {/* drawer header — visible only on mobile, inside the sheet */}
+          <div className="browse-rail-drawerhead">
+            <span>Filters</span>
+            <button
+              type="button"
+              className="browse-rail-done"
+              onClick={closeDrawer}
+            >
+              Done
+            </button>
+          </div>
 
           {/* Kind filter — developers only */}
           {isDevelopers && (
@@ -370,6 +527,26 @@ export default function DashboardView({
               )}
             </>
           )}
+
+          {/* Sort + function + source move into the sheet on mobile so the
+              inline controls don't clutter the results column */}
+          {isMobile && (
+            <>
+              <div className="browse-rail-sep" />
+              <p className="browse-rail-label">Sort</p>
+              <div className="drawer-sort">{sortControl}</div>
+              {functionChips && (
+                <>
+                  <div className="browse-rail-sep" />
+                  <p className="browse-rail-label">Function</p>
+                  {functionChips}
+                </>
+              )}
+              <div className="browse-rail-sep" />
+              <p className="browse-rail-label">Source</p>
+              {sourceChips}
+            </>
+          )}
         </aside>
 
         {/* ── Main content ──────────────────────────────────────────────── */}
@@ -437,22 +614,7 @@ export default function DashboardView({
             <div className="idx-head">
               <h2>{copy.listHeading}</h2>
               <span className="idx-count">{countLabel}</span>
-              <div className="idx-sort">
-                <label className="dash-sort" htmlFor={sortId}>
-                  <span>Sort</span>
-                  <select
-                    id={sortId}
-                    value={sortKey}
-                    onChange={(e) => setSortKey(e.target.value as SortKey)}
-                  >
-                    {SORT_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
+              {!isMobile && <div className="idx-sort">{sortControl}</div>}
             </div>
 
             {/* Search + live count row */}
@@ -468,6 +630,29 @@ export default function DashboardView({
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </label>
+
+              {/* mobile-only trigger for the facet drawer (CSS-hidden on desktop) */}
+              <button
+                type="button"
+                className="filters-toggle"
+                ref={filtersBtnRef}
+                aria-haspopup="dialog"
+                aria-expanded={drawerOpen}
+                aria-controls={railId}
+                onClick={() => setDrawerOpen(true)}
+              >
+                <FilterIcon />
+                Filters
+                {activeFilterCount > 0 && (
+                  <span className="filters-toggle-badge" aria-hidden="true">
+                    {activeFilterCount}
+                  </span>
+                )}
+                {activeFilterCount > 0 && (
+                  <span className="sr-only">, {activeFilterCount} active</span>
+                )}
+              </button>
+
               <p
                 className="result-count"
                 aria-live="polite"
@@ -477,31 +662,10 @@ export default function DashboardView({
               </p>
             </div>
 
-            {/* Function chips (developers only — above source filter) */}
-            {isDevelopers && (
-              <FunctionChips
-                items={items}
-                activeChip={fnFilter}
-                onSelect={setFnFilter}
-              />
-            )}
-
-            {/* Source filter (developers only — below search) */}
-            {isDevelopers && (
-              <div className="filter-row" role="group" aria-label="Filter by source">
-                {SOURCE_CHIPS.map((chip) => (
-                  <button
-                    key={chip.value}
-                    type="button"
-                    className="chip"
-                    aria-pressed={source === chip.value}
-                    onClick={() => setSource(chip.value)}
-                  >
-                    {chip.label}
-                  </button>
-                ))}
-              </div>
-            )}
+            {/* Function + source chips render inline on desktop; on mobile they
+                live in the filter drawer instead (see the aside above) */}
+            {!isMobile && functionChips}
+            {!isMobile && sourceChips}
 
             {list.length === 0 ? (
               <EmptyState
@@ -553,6 +717,24 @@ function SearchIcon() {
     >
       <circle cx="10.5" cy="10.5" r="6" />
       <path d="m15.3 15.3 4.7 4.7" />
+    </svg>
+  );
+}
+
+function FilterIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M3 5h18M6 12h12M10 19h4" />
     </svg>
   );
 }

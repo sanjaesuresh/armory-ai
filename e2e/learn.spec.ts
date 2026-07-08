@@ -83,10 +83,10 @@ test('a flip card on how-ai-chat-works flips to its definition on click', async 
 }) => {
   await page.goto('/learn/foundations/how-ai-chat-works');
 
-  // FlipCardsBlock renders buttons with aria-label "{term} — flip card"
+  // FlipCardsBlock renders buttons with aria-label "{term}, flip card"
   // and aria-pressed tracking the flipped state.
   const flipBtn = page
-    .getByRole('button', { name: /— flip card$/i })
+    .getByRole('button', { name: /, flip card$/i })
     .first();
   await expect(flipBtn).toBeVisible();
   await expect(flipBtn).toHaveAttribute('aria-pressed', 'false');

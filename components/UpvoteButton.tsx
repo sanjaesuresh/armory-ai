@@ -63,7 +63,7 @@ export default function UpvoteButton({
       // Revert optimistic update on any failure.
       setCount(prevCount);
       setUpvoted(prevUpvoted);
-      setError('Could not save your upvote — please try again.');
+      setError('Could not save your upvote, please try again.');
     } finally {
       setBusy(false);
     }
@@ -71,8 +71,8 @@ export default function UpvoteButton({
 
   const countLabel = `${count} ${count === 1 ? 'upvote' : 'upvotes'}`;
   const ariaLabel = upvoted
-    ? `Remove upvote — ${countLabel}`
-    : `Upvote — ${countLabel}`;
+    ? `Remove upvote, ${countLabel}`
+    : `Upvote, ${countLabel}`;
 
   return (
     <div className="upvote-wrap">

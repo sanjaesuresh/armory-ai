@@ -189,7 +189,7 @@ export default function MetadataEditor({ value, onChange, findings }: MetadataEd
           URL slug <span className="req" aria-hidden="true">*</span>
         </label>
         <p className="help">
-          Lowercase letters, digits, and hyphens only — no spaces. Example:{' '}
+          Lowercase letters, digits, and hyphens only, no spaces. Example:{' '}
           <code>cold-email-writer</code>.
         </p>
         <input

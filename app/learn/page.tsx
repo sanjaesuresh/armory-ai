@@ -16,7 +16,7 @@ import LearnHub from '@/components/learn/LearnHub';
 export const metadata: Metadata = {
   title: 'Learn AI',
   description:
-    'Interactive lessons on how AI tools actually work — context, instructions, projects, and agents. Free, no sign-in required.',
+    'Interactive lessons on how AI tools actually work, context, instructions, projects, and agents. Free, no sign-in required.',
 };
 
 export default function LearnPage() {
@@ -30,7 +30,7 @@ export default function LearnPage() {
               <span className="eyebrow">Learn AI</span>
               <h1>Understand what you&apos;re exporting</h1>
               <p className="sub">
-                Interactive lessons on how AI tools actually work — context,
+                Interactive lessons on how AI tools actually work, context,
                 instructions, projects, and agents. No jargon, no fluff. Each
                 lesson ends with a quiz.
               </p>

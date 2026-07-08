@@ -13,8 +13,8 @@ export const githubPicks: Setup[] = [
     tagline: 'Canonical agentic-skills framework: installable SKILL.md workflows for the full SDLC.',
     description:
       'A complete software development methodology by Jesse Vincent (Prime Radiant). ' +
-      'Installs 13+ composable skills — brainstorming, writing-plans, TDD, systematic-debugging, ' +
-      'code-review, and subagent-driven-development — that activate automatically at the right ' +
+      'Installs 13+ composable skills, brainstorming, writing-plans, TDD, systematic-debugging, ' +
+      'code-review, and subagent-driven-development, that activate automatically at the right ' +
       'phase so the agent stays on track through the full development lifecycle.',
     role: 'general',
     industry: null,
@@ -41,19 +41,19 @@ export const githubPicks: Setup[] = [
         isPrimary: true,
         content: `## What it does
 
-Superpowers is a complete software development methodology built on composable SKILL.md files. When you start a coding session the agent does not jump straight into writing code — it steps back, asks what you are really trying to build, teases out a spec, shows it to you in digestible sections, and only starts after you sign off. From there it runs a subagent-driven loop where fresh agents work through each task with two-stage review (spec compliance then code quality) and can run autonomously for hours without drifting from the plan.
+Superpowers is a complete software development methodology built on composable SKILL.md files. When you start a coding session the agent does not jump straight into writing code, it steps back, asks what you are really trying to build, teases out a spec, shows it to you in digestible sections, and only starts after you sign off. From there it runs a subagent-driven loop where fresh agents work through each task with two-stage review (spec compliance then code quality) and can run autonomously for hours without drifting from the plan.
 
-The skills activate automatically — you do not invoke them by name. The agent checks for relevant skills before any task.
+The skills activate automatically, you do not invoke them by name. The agent checks for relevant skills before any task.
 
 ## Key skills
 
-- **brainstorming** — Socratic design refinement; saves a design doc and feeds it into downstream skills.
-- **using-git-worktrees** — Creates an isolated branch and verifies a clean test baseline before touching code.
-- **writing-plans** — Breaks the approved design into bite-sized tasks (2–5 minutes each) with exact file paths and verification steps.
-- **subagent-driven-development** — Dispatches a fresh agent per task with spec-compliance then code-quality review; can run multi-hour autonomous sessions.
-- **test-driven-development** — Enforces RED-GREEN-REFACTOR: write the failing test, watch it fail, write minimal code, watch it pass, commit.
-- **systematic-debugging** — Four-phase root-cause process before any fix attempt.
-- **finishing-a-development-branch** — Verifies tests, presents merge/PR/keep/discard options, cleans the worktree.
+- **brainstorming**, Socratic design refinement; saves a design doc and feeds it into downstream skills.
+- **using-git-worktrees**, Creates an isolated branch and verifies a clean test baseline before touching code.
+- **writing-plans**, Breaks the approved design into bite-sized tasks (2–5 minutes each) with exact file paths and verification steps.
+- **subagent-driven-development**, Dispatches a fresh agent per task with spec-compliance then code-quality review; can run multi-hour autonomous sessions.
+- **test-driven-development**, Enforces RED-GREEN-REFACTOR: write the failing test, watch it fail, write minimal code, watch it pass, commit.
+- **systematic-debugging**, Four-phase root-cause process before any fix attempt.
+- **finishing-a-development-branch**, Verifies tests, presents merge/PR/keep/discard options, cleans the worktree.
 
 ## Install
 
@@ -94,7 +94,7 @@ Any project where you want the agent to plan before it codes, run true TDD, and 
       },
       {
         command: 'test-driven-development skill',
-        description: 'Enforces RED-GREEN-REFACTOR on every implementation task — write failing test first, then minimal code.',
+        description: 'Enforces RED-GREEN-REFACTOR on every implementation task, write failing test first, then minimal code.',
       },
       {
         command: 'systematic-debugging skill',
@@ -145,19 +145,19 @@ Any project where you want the agent to plan before it codes, run true TDD, and 
 
 A single CLAUDE.md file encoding four behavioral guardrails derived from Andrej Karpathy's public writing about LLM-coding failure modes. The four principles address the problems he identified directly:
 
-**Think Before Coding** — The model must state its assumptions explicitly, present multiple interpretations when ambiguous, push back if a simpler approach exists, and stop rather than guess when confused.
+**Think Before Coding**, The model must state its assumptions explicitly, present multiple interpretations when ambiguous, push back if a simpler approach exists, and stop rather than guess when confused.
 
-**Simplicity First** — Minimum code that solves the problem. No features beyond what was asked, no abstractions for single-use code, no speculative error handling, no "flexibility" that wasn't requested. If 200 lines could be 50, rewrite it.
+**Simplicity First**, Minimum code that solves the problem. No features beyond what was asked, no abstractions for single-use code, no speculative error handling, no "flexibility" that wasn't requested. If 200 lines could be 50, rewrite it.
 
-**Surgical Changes** — Touch only what the task requires. Do not improve adjacent code, comments, or formatting. Match existing style even if you'd do it differently. Every changed line must trace directly to the user's request.
+**Surgical Changes**, Touch only what the task requires. Do not improve adjacent code, comments, or formatting. Match existing style even if you'd do it differently. Every changed line must trace directly to the user's request.
 
-**Goal-Driven Execution** — Transform imperative instructions into verifiable goals. Instead of "add validation," write a test for invalid inputs then make it pass. For multi-step tasks, state a plan with a verification check for each step so the model can loop independently.
+**Goal-Driven Execution**, Transform imperative instructions into verifiable goals. Instead of "add validation," write a test for invalid inputs then make it pass. For multi-step tasks, state a plan with a verification check for each step so the model can loop independently.
 
 From Karpathy: "LLMs are exceptionally good at looping until they meet specific goals. Don't tell it what to do, give it success criteria and watch it go."
 
 ## Install
 
-**Plugin (recommended — works across all projects):**
+**Plugin (recommended, works across all projects):**
 
 \`\`\`
 /plugin marketplace add forrestchang/andrej-karpathy-skills
@@ -181,7 +181,7 @@ Also includes a Cursor rule at .cursor/rules/karpathy-guidelines.mdc for use in 
 
 ## When to use
 
-Any project where you find Claude over-complicating code, making silent assumptions, touching unrelated files, or producing changes that need constant correction. These guardrails bias toward caution over speed — appropriate for non-trivial work, not every single-line fix.`,
+Any project where you find Claude over-complicating code, making silent assumptions, touching unrelated files, or producing changes that need constant correction. These guardrails bias toward caution over speed, appropriate for non-trivial work, not every single-line fix.`,
       },
     ],
     repoUrl: 'https://github.com/multica-ai/andrej-karpathy-skills',
@@ -201,7 +201,7 @@ Any project where you find Claude over-complicating code, making silent assumpti
       },
       {
         command: 'Simplicity First principle',
-        description: 'Minimum code that solves the problem — no speculative features, abstractions, or over-engineering.',
+        description: 'Minimum code that solves the problem, no speculative features, abstractions, or over-engineering.',
       },
       {
         command: 'Surgical Changes principle',
@@ -252,7 +252,7 @@ Any project where you find Claude over-complicating code, making silent assumpti
 
 The official skills collection maintained by Anthropic. Skills are folders containing a SKILL.md with YAML frontmatter and instructions that Claude loads dynamically for specialized tasks. This repository serves two purposes: reference implementations showing proven skill patterns, and the actual document-processing skills that power Claude.ai's built-in document capabilities.
 
-**Document skills (source-available):** The skills/docx, skills/pdf, skills/pptx, and skills/xlsx folders contain the production implementations used by Claude.ai's document creation feature. These handle real format-specific operations — extracting structured content from PDFs, working with Word documents, building PowerPoint presentations, and reading Excel data. Source-available means you can read and learn from them but they are not Apache 2.0.
+**Document skills (source-available):** The skills/docx, skills/pdf, skills/pptx, and skills/xlsx folders contain the production implementations used by Claude.ai's document creation feature. These handle real format-specific operations, extracting structured content from PDFs, working with Word documents, building PowerPoint presentations, and reading Excel data. Source-available means you can read and learn from them but they are not Apache 2.0.
 
 **Example skills (open source, Apache 2.0):** Cover creative applications (art, music, design), technical tasks (web app testing, MCP server generation), and enterprise workflows (communications, branding). Intended as inspiration and starting points for your own skills.
 
@@ -271,7 +271,7 @@ Then browse and install:
 /plugin install example-skills@anthropic-agent-skills
 \`\`\`
 
-**Claude.ai:** Document skills are available to paid plans directly — no installation needed. To use skills from this repo or upload custom skills, follow the Claude.ai skills setup guide.
+**Claude.ai:** Document skills are available to paid plans directly, no installation needed. To use skills from this repo or upload custom skills, follow the Claude.ai skills setup guide.
 
 **Claude API:** Use Anthropic's pre-built skills or upload custom skills via the Skills API. See the Skills API Quickstart for the creating-a-skill flow.
 
@@ -299,7 +299,7 @@ Then browse and install:
       },
       {
         command: 'PDF skill',
-        description: 'Extract structured content from PDF files — sections, headings, tables, and body text.',
+        description: 'Extract structured content from PDF files, sections, headings, tables, and body text.',
       },
       {
         command: 'DOCX skill',
@@ -352,9 +352,9 @@ Planning With Files encodes the context-engineering pattern that made Manus AI w
 
 For every complex task the agent creates three files:
 
-- **task_plan.md** — Phases with checkboxes, dependencies, and acceptance criteria.
-- **findings.md** — Research, discoveries, and reusable knowledge accumulated during the task.
-- **progress.md** — Session log, test results, and error history so the same mistake is never repeated.
+- **task_plan.md**, Phases with checkboxes, dependencies, and acceptance criteria.
+- **findings.md**, Research, discoveries, and reusable knowledge accumulated during the task.
+- **progress.md**, Session log, test results, and error history so the same mistake is never repeated.
 
 Lifecycle hooks re-inject the active plan at the start of each turn (UserPromptSubmit), remind the agent to update progress after file writes (PostToolUse), and verify completion before the agent stops (Stop hook). If the session is interrupted or context is cleared, the agent reads the plan files from disk and recovers its state automatically.
 
@@ -379,7 +379,7 @@ npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g
 
 | Command | Description |
 |---------|-------------|
-| /planning-with-files:plan | Start a planning session — creates task_plan.md, findings.md, and progress.md |
+| /planning-with-files:plan | Start a planning session, creates task_plan.md, findings.md, and progress.md |
 | /planning-with-files:status | Show current planning progress at a glance |
 | /plan-attest | Lock task_plan.md with a SHA-256; hooks block injection on tampering |
 
@@ -393,7 +393,7 @@ Multi-step tasks (3+ steps), research tasks, building/creating projects, or any 
     capabilities: [
       {
         command: 'npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g',
-        description: 'Install the skill globally via npx — works across Claude Code, Cursor, Codex, Gemini CLI, and 18+ other platforms.',
+        description: 'Install the skill globally via npx, works across Claude Code, Cursor, Codex, Gemini CLI, and 18+ other platforms.',
       },
       {
         command: '/planning-with-files:plan',
@@ -401,7 +401,7 @@ Multi-step tasks (3+ steps), research tasks, building/creating projects, or any 
       },
       {
         command: '/planning-with-files:status',
-        description: 'Show current planning progress — phases complete, phases remaining, and active plan file.',
+        description: 'Show current planning progress, phases complete, phases remaining, and active plan file.',
       },
       {
         command: '/plan-attest',
@@ -426,7 +426,7 @@ Multi-step tasks (3+ steps), research tasks, building/creating projects, or any 
     tagline: 'Large multi-platform pack of skills, agents, and commands.',
     description:
       '355 production-ready Claude Code skills, 99 agents, 7 personas, and 109 slash commands ' +
-      'across 18 domains — engineering, DevOps, marketing, compliance, C-level advisory, ' +
+      'across 18 domains, engineering, DevOps, marketing, compliance, C-level advisory, ' +
       'academic research, and more. Works natively on Claude Code, Codex, Gemini CLI, Cursor, ' +
       'and 9 other platforms. Ships with 602 stdlib-only Python CLI tools.',
     role: 'general',
@@ -454,12 +454,12 @@ Multi-step tasks (3+ steps), research tasks, building/creating projects, or any 
         isPrimary: true,
         content: `## What it does
 
-355 production-ready skills across 18 domains, 99 subagents, 7 cross-domain personas, 109 slash commands, and 602 stdlib-only Python CLI tools — the most comprehensive open-source Claude Code skills library. Works natively on 13 platforms including Claude Code, OpenAI Codex, Gemini CLI, OpenClaw, Hermes Agent, Mistral Vibe, Cursor, Aider, Windsurf, Kilo Code, OpenCode, Augment, and Antigravity.
+355 production-ready skills across 18 domains, 99 subagents, 7 cross-domain personas, 109 slash commands, and 602 stdlib-only Python CLI tools, the most comprehensive open-source Claude Code skills library. Works natively on 13 platforms including Claude Code, OpenAI Codex, Gemini CLI, OpenClaw, Hermes Agent, Mistral Vibe, Cursor, Aider, Windsurf, Kilo Code, OpenCode, Augment, and Antigravity.
 
 **Domain highlights:**
 
-- **Engineering — Core (52 skills):** Architecture, frontend, backend, fullstack, QA, DevOps, SecOps, AI/ML, Playwright Pro, self-improving agent, security suite, a11y audit.
-- **Engineering — POWERFUL (81 skills):** Agent designer, RAG architect, MCP builder, zero-hallucination-coder, agent-harness, Kubernetes, Terraform, ship-gate, CI/CD builder.
+- **Engineering, Core (52 skills):** Architecture, frontend, backend, fullstack, QA, DevOps, SecOps, AI/ML, Playwright Pro, self-improving agent, security suite, a11y audit.
+- **Engineering, POWERFUL (81 skills):** Agent designer, RAG architect, MCP builder, zero-hallucination-coder, agent-harness, Kubernetes, Terraform, ship-gate, CI/CD builder.
 - **C-Level Advisory (68 skills):** Full C-suite (CEO/CTO/CFO/CMO/CRO/CPO/COO/CHRO/CISO/GC/CDO/CAIO/CCO/VPE) + 21 /cs:* slash commands.
 - **Marketing (48 skills):** Content, SEO + AEO (citation tracking across 5 LLMs), CRO, Growth, Intelligence, Sales.
 - **Academic Research (9 skills):** litreview, grants, patent, syllabus, notebooklm, deep-research.
@@ -496,7 +496,7 @@ cd claude-skills && ./scripts/gemini-install.sh
 
 ## When to use
 
-When you need specialized domain expertise — from ISO compliance to C-suite advisory to SEO/AEO — without building skills from scratch. Install only the domain folders you need; nothing is mandatory.`,
+When you need specialized domain expertise, from ISO compliance to C-suite advisory to SEO/AEO, without building skills from scratch. Install only the domain folders you need; nothing is mandatory.`,
       },
     ],
     repoUrl: 'https://github.com/alirezarezvani/claude-skills',
@@ -567,7 +567,7 @@ When you need specialized domain expertise — from ISO compliance to C-suite ad
         isPrimary: true,
         content: `## What it does
 
-An agentic plugin marketplace with 90 plugins, 199 agents, 161 skills, 106 commands, and 16 orchestrators — all from a single Markdown source that builds to five harnesses natively. Installing a plugin loads only its components into context, not the entire marketplace.
+An agentic plugin marketplace with 90 plugins, 199 agents, 161 skills, 106 commands, and 16 orchestrators, all from a single Markdown source that builds to five harnesses natively. Installing a plugin loads only its components into context, not the entire marketplace.
 
 **What each plugin contains:**
 
@@ -577,7 +577,7 @@ Each plugin is a directory with a plugin.json manifest, agents/, commands/, and 
 
 **Multi-harness support:** Claude Code is the source of truth. Codex and Cursor install from committed registries. Gemini and OpenCode install via clone + make generate. A \`make generate-all\` command builds all five harnesses from the single Markdown source.
 
-**Plugin eval framework:** Three-layer evaluation — static structural analysis (<2s), LLM Judge across 4 dimensions (~30s), and Monte Carlo reliability via 50–100 simulated runs (~2–5 min). Run \`uv run plugin-eval certify path/to/skill\` to certify a plugin.
+**Plugin eval framework:** Three-layer evaluation, static structural analysis (<2s), LLM Judge across 4 dimensions (~30s), and Monte Carlo reliability via 50–100 simulated runs (~2–5 min). Run \`uv run plugin-eval certify path/to/skill\` to certify a plugin.
 
 ## Install
 
@@ -740,7 +740,7 @@ When you want a large catalog of purpose-built specialists with smart model rout
       'Production subagents from contains.studio\'s internal engineering setup, covering ' +
       'their full development workflow: rapid-prototyper, frontend-developer, backend-architect, ' +
       'ai-engineer, devops-automator, test-writer-fixer, trend-researcher, sprint-prioritizer, ' +
-      'brand-guardian, whimsy-injector, and more — organized across engineering, design, product, ' +
+      'brand-guardian, whimsy-injector, and more, organized across engineering, design, product, ' +
       'marketing, and operations departments.',
     role: 'general',
     industry: null,
@@ -771,13 +771,13 @@ Production subagents from contains.studio shared directly from their internal en
 
 **Directory structure by department:**
 
-- **engineering/** — ai-engineer, backend-architect, devops-automator, frontend-developer, mobile-app-builder, rapid-prototyper, test-writer-fixer.
-- **product/** — feedback-synthesizer (transforms complaints into features), sprint-prioritizer (ship max value in 6 days), trend-researcher (identify viral opportunities).
-- **marketing/** — app-store-optimizer, content-creator, growth-hacker, instagram-curator, reddit-community-builder, tiktok-strategist, twitter-engager.
-- **design/** — brand-guardian, ui-designer, ux-researcher, visual-storyteller, whimsy-injector (adds delight to every interaction).
-- **project-management/** — experiment-tracker, project-shipper, studio-producer.
-- **studio-operations/** — analytics-reporter, finance-tracker, infrastructure-maintainer, legal-compliance-checker, support-responder.
-- **testing/** — api-tester, performance-benchmarker, test-results-analyzer, tool-evaluator, workflow-optimizer.
+- **engineering/**, ai-engineer, backend-architect, devops-automator, frontend-developer, mobile-app-builder, rapid-prototyper, test-writer-fixer.
+- **product/**, feedback-synthesizer (transforms complaints into features), sprint-prioritizer (ship max value in 6 days), trend-researcher (identify viral opportunities).
+- **marketing/**, app-store-optimizer, content-creator, growth-hacker, instagram-curator, reddit-community-builder, tiktok-strategist, twitter-engager.
+- **design/**, brand-guardian, ui-designer, ux-researcher, visual-storyteller, whimsy-injector (adds delight to every interaction).
+- **project-management/**, experiment-tracker, project-shipper, studio-producer.
+- **studio-operations/**, analytics-reporter, finance-tracker, infrastructure-maintainer, legal-compliance-checker, support-responder.
+- **testing/**, api-tester, performance-benchmarker, test-results-analyzer, tool-evaluator, workflow-optimizer.
 
 Four proactive agents trigger automatically in specific contexts: studio-coach (when complex multi-agent tasks begin), test-writer-fixer (after any code change), whimsy-injector (after UI/UX changes), and experiment-tracker (when feature flags are added).
 
@@ -792,7 +792,7 @@ Restart Claude Code to load the agents.
 
 ## When to use
 
-When you want a complete agency-style agent team organized by function — not just engineering specialists. The 6-day sprint philosophy is baked into every agent's system prompt: ship maximum value quickly, not perfectly.`,
+When you want a complete agency-style agent team organized by function, not just engineering specialists. The 6-day sprint philosophy is baked into every agent's system prompt: ship maximum value quickly, not perfectly.`,
       },
     ],
     repoUrl: 'https://github.com/contains-studio/agents',
@@ -800,7 +800,7 @@ When you want a complete agency-style agent team organized by function — not j
     capabilities: [
       {
         command: 'rapid-prototyper',
-        description: 'Build MVPs in days, not weeks — optimized for the 6-day sprint philosophy.',
+        description: 'Build MVPs in days, not weeks, optimized for the 6-day sprint philosophy.',
       },
       {
         command: 'test-writer-fixer',
@@ -812,7 +812,7 @@ When you want a complete agency-style agent team organized by function — not j
       },
       {
         command: 'trend-researcher',
-        description: 'Identifies viral opportunities worth building — surfaces what is trending that your team could ship.',
+        description: 'Identifies viral opportunities worth building, surfaces what is trending that your team could ship.',
       },
       {
         command: 'feedback-synthesizer',
@@ -866,7 +866,7 @@ When you want a complete agency-style agent team organized by function — not j
 - **Universal Experts (4):** backend-developer, frontend-developer, api-architect, tailwind-css-expert.
 - **Core Team (4):** code-archaeologist (explores unfamiliar codebases), code-reviewer (security-aware severity-tagged reports), performance-optimizer, documentation-specialist.
 
-**Auto-configuration workflow:** Run \`claude "use @agent-team-configurator and optimize my project"\` — the configurator inspects your package.json, composer.json, requirements.txt, go.mod, and Gemfile, then writes a timestamped CLAUDE.md section with a Task/Agent/Notes mapping table.
+**Auto-configuration workflow:** Run \`claude "use @agent-team-configurator and optimize my project"\`, the configurator inspects your package.json, composer.json, requirements.txt, go.mod, and Gemfile, then writes a timestamped CLAUDE.md section with a Task/Agent/Notes mapping table.
 
 ## Install
 
@@ -879,7 +879,7 @@ ln -sf "$(pwd)/awesome-claude-agents/agents/" ~/.claude/agents/awesome-claude-ag
 cp -r awesome-claude-agents/agents ~/.claude/agents/awesome-claude-agents
 \`\`\`
 
-Verify: run \`claude /agents\` — should show all 24 agents.
+Verify: run \`claude /agents\`, should show all 24 agents.
 
 ## When to use
 
@@ -907,7 +907,7 @@ Projects using specific frameworks where a specialist agent outperforms a genera
       },
       {
         command: 'Framework specialists (13)',
-        description: 'Dedicated experts for Laravel, Django, Rails, React/Next.js, and Vue/Nuxt — each with deep current framework knowledge.',
+        description: 'Dedicated experts for Laravel, Django, Rails, React/Next.js, and Vue/Nuxt, each with deep current framework knowledge.',
       },
     ],
   },
@@ -920,7 +920,7 @@ Projects using specific frameworks where a specialist agent outperforms a genera
     tagline: 'Full-stack development subagents for Claude Code.',
     description:
       '33 Claude Code subagents organized across Development, Infrastructure, Quality & Testing, ' +
-      'Data & AI, Security, Specialization, and Business — plus an agent-organizer master orchestrator. ' +
+      'Data & AI, Security, Specialization, and Business, plus an agent-organizer master orchestrator. ' +
       'Includes language specialists (Python, Go, TypeScript, React, Next.js), cloud/DevOps, ' +
       'database optimization, LLM/RAG engineering, and a security auditor.',
     role: 'general',
@@ -964,7 +964,7 @@ Projects using specific frameworks where a specialist agent outperforms a genera
 
 **Business (1 agent):** product-manager (roadmap planning, stakeholder alignment).
 
-**Meta-Orchestration:** agent-organizer — analyzes project requirements, detects technology stack, assembles an optimal 1–3 agent team, manages multi-phase collaboration with quality gates and validation checkpoints.
+**Meta-Orchestration:** agent-organizer, analyzes project requirements, detects technology stack, assembles an optimal 1–3 agent team, manages multi-phase collaboration with quality gates and validation checkpoints.
 
 Common orchestration patterns: \`architect → implement → test → review\` for features; \`debugger → specialist → validator\` for bugs; \`performance-engineer + database-optimizer → validation\` for optimization.
 
@@ -982,7 +982,7 @@ cd ~/.claude
 git clone https://github.com/lst97/claude-code-sub-agents.git
 \`\`\`
 
-Verify: "List all available subagents" in Claude Code — look for lst97/* entries.
+Verify: "List all available subagents" in Claude Code, look for lst97/* entries.
 
 ## When to use
 
@@ -1052,7 +1052,7 @@ Complex multi-step projects where you want intelligent agent routing (auto-deleg
         isPrimary: true,
         content: `## What it does
 
-50 Claude Code subagents for authorized penetration testing. Each agent carries deep domain knowledge in a specific area. Claude routes to the right specialist automatically based on your task description — no explicit invocation needed.
+50 Claude Code subagents for authorized penetration testing. Each agent carries deep domain knowledge in a specific area. Claude routes to the right specialist automatically based on your task description, no explicit invocation needed.
 
 **Offensive operations (38 agents):** engagement-planner, recon-advisor, osint-collector, web-hunter, api-security, ad-attacker, cloud-security, mobile-pentester, wireless-pentester, social-engineer, phishing-operator, c2-operator, payload-crafter, reverse-engineer, exploit-chainer, attack-planner, poc-validator, llm-redteam, ai-recon, container-breakout, opsec-anonymizer, lateral-movement, persistence-planner, evasion-specialist, data-exfiltrator, scada-attacker, iot-pentester, credential-tester, password-auditor, database-attacker, network-attacker, traffic-analyzer, business-logic-hunter, cicd-redteam, bug-bounty, ctf-solver, vulnerability-scanner, swarm-orchestrator.
 
@@ -1060,7 +1060,7 @@ Complex multi-step projects where you want intelligent agent routing (auto-deleg
 
 **Reporting (4 agents):** report-generator (CVSS scoring, remediation roadmaps), compliance-mapper (PCI/NIST/ISO/CIS), risk-scorer (CVSS 3.1/4.0 + EPSS + CISA KEV), engagement-planner.
 
-**Tier 1 vs Tier 2:** All agents provide advisory guidance (Tier 1). Select agents can also compose and execute commands directly (Tier 2) — recon-advisor, vuln-scanner, web-hunter, ad-attacker, exploit-chainer, poc-validator, database-attacker, network-attacker, ai-recon. Tier 2 requires a declared scope; the agent validates every target before executing any command.
+**Tier 1 vs Tier 2:** All agents provide advisory guidance (Tier 1). Select agents can also compose and execute commands directly (Tier 2), recon-advisor, vuln-scanner, web-hunter, ad-attacker, exploit-chainer, poc-validator, database-attacker, network-attacker, ai-recon. Tier 2 requires a declared scope; the agent validates every target before executing any command.
 
 ## Install
 
@@ -1144,7 +1144,7 @@ For authorized security testing only. Requires signed rules of engagement and de
         isPrimary: true,
         content: `## What it does
 
-12 Claude subagents representing distinct engineering roles, 15 automation hooks, and the P7/P9/P10 methodology — a discipline system borrowed from Chinese big-tech engineering culture that enforces closure, fact-driven reviews, and exhaustiveness.
+12 Claude subagents representing distinct engineering roles, 15 automation hooks, and the P7/P9/P10 methodology, a discipline system borrowed from Chinese big-tech engineering culture that enforces closure, fact-driven reviews, and exhaustiveness.
 
 **The 12 agents:**
 
@@ -1156,16 +1156,16 @@ For authorized security testing only. Requires signed rules of engagement and de
 | Migration Lead | migration-engineer | Framework/library major-version upgrades with changelog-based incremental execution. |
 | Designer | frontend-designer | Builds landing pages and dashboards that refuse generic AI-slop output. |
 | Code Reviewer | critic | Finds bugs, security holes, and edge cases with file path + line number on every finding. |
-| Pentester | vuln-verifier | Takes critic findings and writes actual PoC tests — proves the vulnerability is real, not theoretical. |
+| Pentester | vuln-verifier | Takes critic findings and writes actual PoC tests, proves the vulnerability is real, not theoretical. |
 | Debug Engineer | debugger | Reads logs, constructs hypotheses, verifies, fixes. Never guesses. |
-| DB Specialist | db-expert | Paranoid about data loss — reviews schemas, migrations, queries for locks and race conditions. |
+| DB Specialist | db-expert | Paranoid about data loss, reviews schemas, migrations, queries for locks and race conditions. |
 | Onboarder | onboarder | First-time codebase exploration producing a structured mental model. |
 | Tool Expert | tool-expert | Picks and chains MCP tools, troubleshoots tool failures. |
 | Researcher | web-researcher | Fetches official docs and API specs to prevent hallucination. |
 
 **15 hooks:** cost-tracker, commit-quality (blocks debugger statements and hardcoded secrets), mcp-health, config-protection, design-quality, check-console, audit-log, batch-format, suggest-compact, accumulator, log-error, test-runner, branch-protection (blocks force-push to main), large-file-warner, session-summary.
 
-**P7/P9/P10 modes:** P7 (single feature, senior engineer), P9 (3+ files, tech lead decomposition — coding forbidden, output is Task Prompts), P10 (CTO, strategy docs only).
+**P7/P9/P10 modes:** P7 (single feature, senior engineer), P9 (3+ files, tech lead decomposition, coding forbidden, output is Task Prompts), P10 (CTO, strategy docs only).
 
 ## Install
 
@@ -1174,7 +1174,7 @@ For authorized security testing only. Requires signed rules of engagement and de
 /plugin install devteam@my-claude-devteam
 \`\`\`
 
-Restart Claude Code — all 12 agents and 15 hooks register automatically.`,
+Restart Claude Code, all 12 agents and 15 hooks register automatically.`,
       },
     ],
     repoUrl: 'https://github.com/NYCU-Chung/my-claude-devteam',
@@ -1190,7 +1190,7 @@ Restart Claude Code — all 12 agents and 15 hooks register automatically.`,
       },
       {
         command: 'vuln-verifier agent',
-        description: 'Writes actual PoC tests to prove security findings are real — attack input AND baseline control input required.',
+        description: 'Writes actual PoC tests to prove security findings are real, attack input AND baseline control input required.',
       },
       {
         command: 'debugger agent',
@@ -1245,7 +1245,7 @@ Restart Claude Code — all 12 agents and 15 hooks register automatically.`,
         isPrimary: true,
         content: `## What it does
 
-gstack is Garry Tan's open-source software factory — the setup he uses to ship 3 production services and 40+ features in 60 days while running Y Combinator full time. 23+ slash-command skills organized as a sprint process: Think → Plan → Build → Review → Test → Ship → Reflect. Each skill feeds into the next.
+gstack is Garry Tan's open-source software factory, the setup he uses to ship 3 production services and 40+ features in 60 days while running Y Combinator full time. 23+ slash-command skills organized as a sprint process: Think → Plan → Build → Review → Test → Ship → Reflect. Each skill feeds into the next.
 
 **The sprint skills:**
 
@@ -1276,7 +1276,7 @@ Then follow prompts. Works on Claude Code, Codex, OpenCode, Cursor, Factory, Kir
 
 ## When to use
 
-When you want a structured sprint process — not just individual tools. The skills run in sprint order: each one feeds into the next, nothing falls through the cracks.`,
+When you want a structured sprint process, not just individual tools. The skills run in sprint order: each one feeds into the next, nothing falls through the cracks.`,
       },
     ],
     repoUrl: 'https://github.com/garrytan/gstack',
@@ -1284,7 +1284,7 @@ When you want a structured sprint process — not just individual tools. The ski
     capabilities: [
       {
         command: '/office-hours',
-        description: 'Six forcing questions that reframe your product before you write code — challenges premises and extracts the real user pain.',
+        description: 'Six forcing questions that reframe your product before you write code, challenges premises and extracts the real user pain.',
       },
       {
         command: '/review',
@@ -1300,7 +1300,7 @@ When you want a structured sprint process — not just individual tools. The ski
       },
       {
         command: '/ship',
-        description: 'Sync main, run tests, audit coverage, push, and open PR — bootstraps test frameworks if the project has none.',
+        description: 'Sync main, run tests, audit coverage, push, and open PR, bootstraps test frameworks if the project has none.',
       },
       {
         command: '/autoplan',
@@ -1344,13 +1344,13 @@ When you want a structured sprint process — not just individual tools. The ski
         isPrimary: true,
         content: `## What it does
 
-Ruflo (formerly claude-flow) is an agent meta-harness — the execution layer around Claude Code and Codex that adds 100+ specialized agents, coordinated swarms, self-learning memory, agent federation across machines, and enterprise security guardrails. After \`npx ruflo init\`, you use Claude Code normally — hooks automatically route tasks, learn from successful patterns, and coordinate agents in the background.
+Ruflo (formerly claude-flow) is an agent meta-harness, the execution layer around Claude Code and Codex that adds 100+ specialized agents, coordinated swarms, self-learning memory, agent federation across machines, and enterprise security guardrails. After \`npx ruflo init\`, you use Claude Code normally, hooks automatically route tasks, learn from successful patterns, and coordinate agents in the background.
 
 **Core capabilities:**
 
 - **100+ agents:** coders, testers, reviewers, architects, security auditors organized by domain.
 - **Swarm coordination:** Hierarchical, mesh, and adaptive topologies with consensus protocols (Raft, Byzantine, Gossip).
-- **HNSW vector memory:** AgentDB — persistent memory across sessions, measured ~1.9x faster at N=20k vs brute force. Agents recall past solutions via vector search.
+- **HNSW vector memory:** AgentDB, persistent memory across sessions, measured ~1.9x faster at N=20k vs brute force. Agents recall past solutions via vector search.
 - **Self-learning:** SONA neural patterns and ReasoningBank learn from every task; intelligent routing achieves 89% accuracy.
 - **Agent federation:** Zero-trust cross-machine collaboration. Agents on different machines or orgs discover each other via mTLS + ed25519, exchange work with PII stripped before transmission, and build behavioral trust scores over time.
 - **Background workers:** 12 auto-triggered workers (audit, optimize, testgaps, etc.) run without user intervention.
@@ -1361,7 +1361,7 @@ Ruflo (formerly claude-flow) is an agent meta-harness — the execution layer ar
 
 **Two paths:**
 
-**Path A — Claude Code plugins (slash commands only, no MCP):**
+**Path A, Claude Code plugins (slash commands only, no MCP):**
 
 \`\`\`
 /plugin marketplace add ruvnet/ruflo
@@ -1369,7 +1369,7 @@ Ruflo (formerly claude-flow) is an agent meta-harness — the execution layer ar
 /plugin install ruflo-swarm@ruflo
 \`\`\`
 
-**Path B — Full CLI install (MCP server, hooks, daemon, all 98 agents):**
+**Path B, Full CLI install (MCP server, hooks, daemon, all 98 agents):**
 
 \`\`\`bash
 npx ruflo@latest init wizard
@@ -1383,7 +1383,7 @@ claude mcp add ruflo -- npx ruflo@latest mcp start
 
 ## When to use
 
-Large parallel workloads where sequential execution is too slow — refactors across many files, documentation at scale, multi-hour autonomous sessions with cross-machine agent collaboration.`,
+Large parallel workloads where sequential execution is too slow, refactors across many files, documentation at scale, multi-hour autonomous sessions with cross-machine agent collaboration.`,
       },
     ],
     repoUrl: 'https://github.com/ruvnet/ruflo',
@@ -1403,7 +1403,7 @@ Large parallel workloads where sequential execution is too slow — refactors ac
       },
       {
         command: '/plugin install ruflo-sparc@ruflo',
-        description: 'Install the SPARC methodology plugin: Specification, Pseudocode, Architecture, Refinement, Completion — a five-phase structured agentic development workflow.',
+        description: 'Install the SPARC methodology plugin: Specification, Pseudocode, Architecture, Refinement, Completion, a five-phase structured agentic development workflow.',
       },
       {
         command: 'ruflo federation init',
@@ -1448,7 +1448,7 @@ Large parallel workloads where sequential execution is too slow — refactors ac
         isPrimary: true,
         content: `## What it does
 
-SuperClaude is a meta-programming configuration framework that extends Claude Code with 30 slash commands, 20 specialized AI agents, 7 behavioral modes, and 8 MCP server integrations — installed by a Python package that copies CLAUDE.md and command files into your project.
+SuperClaude is a meta-programming configuration framework that extends Claude Code with 30 slash commands, 20 specialized AI agents, 7 behavioral modes, and 8 MCP server integrations, installed by a Python package that copies CLAUDE.md and command files into your project.
 
 **30 /sc:* commands organized by phase:**
 
@@ -1476,7 +1476,7 @@ superclaude doctor                               # verify installation
 
 ## When to use
 
-When you want a structured framework with defined workflows for each development phase, autonomous web research, and team-style multi-expert analysis — without manually defining slash commands.`,
+When you want a structured framework with defined workflows for each development phase, autonomous web research, and team-style multi-expert analysis, without manually defining slash commands.`,
       },
     ],
     repoUrl: 'https://github.com/SuperClaude-Org/SuperClaude_Framework',
@@ -1518,7 +1518,7 @@ When you want a structured framework with defined workflows for each development
     description:
       'A spec-driven project management skill (agentskills.io standard) that turns ideas into PRDs, ' +
       'PRDs into GitHub issues, and issues into parallel agent workstreams. Enforces a no-vibe-coding ' +
-      'discipline: every line of code traces back to a specification. Triggers via natural language — ' +
+      'discipline: every line of code traces back to a specification. Triggers via natural language, ' +
       'no special syntax. Works with Claude Code, Factory, Codex, Amp, OpenCode, Cursor, and more.',
     role: 'general',
     industry: null,
@@ -1545,19 +1545,19 @@ When you want a structured framework with defined workflows for each development
         isPrimary: true,
         content: `## What it does
 
-CCPM (Claude Code Project Manager) is a spec-driven development skill built on the agentskills.io open standard. It enforces a five-phase discipline — Brainstorm → Document → Plan → Execute → Track — where every line of code traces back to a written specification. No vibe coding.
+CCPM (Claude Code Project Manager) is a spec-driven development skill built on the agentskills.io open standard. It enforces a five-phase discipline, Brainstorm → Document → Plan → Execute → Track, where every line of code traces back to a written specification. No vibe coding.
 
 **The workflow:**
 
-1. **Plan** — Guided brainstorming + PRD creation saved to .claude/prds/. Say "I want to build X" to start.
-2. **Structure** — PRD → technical epic at .claude/epics/ with architecture decisions, task breakdown (7–10 tasks per epic), and dependency/parallel markers.
-3. **Sync** — "sync the X epic to GitHub" creates an epic issue, sub-issues, and a dedicated git worktree.
-4. **Execute** — "start working on issue N" analyzes the issue for parallel work streams and launches multiple agents simultaneously in the same worktree. Each agent commits with Issue #N: description.
-5. **Track** — "standup" / "what's blocked" / "what's next" run instant bash scripts from .claude/epics/ — no LLM overhead.
+1. **Plan**, Guided brainstorming + PRD creation saved to .claude/prds/. Say "I want to build X" to start.
+2. **Structure**, PRD → technical epic at .claude/epics/ with architecture decisions, task breakdown (7–10 tasks per epic), and dependency/parallel markers.
+3. **Sync**, "sync the X epic to GitHub" creates an epic issue, sub-issues, and a dedicated git worktree.
+4. **Execute**, "start working on issue N" analyzes the issue for parallel work streams and launches multiple agents simultaneously in the same worktree. Each agent commits with Issue #N: description.
+5. **Track**, "standup" / "what's blocked" / "what's next" run instant bash scripts from .claude/epics/, no LLM overhead.
 
 **Why GitHub Issues:** Issues serve as the source of truth so multiple agents (or humans) can work simultaneously with real-time visible progress. No separate project management tool needed.
 
-**Parallel execution math:** A single "Implement user authentication" issue might spawn 5 parallel streams (database tables, service layer, API endpoints, UI components, tests). CCPM analyzes the issue and launches them simultaneously — 5x faster than serial execution.
+**Parallel execution math:** A single "Implement user authentication" issue might spawn 5 parallel streams (database tables, service layer, API endpoints, UI components, tests). CCPM analyzes the issue and launches them simultaneously, 5x faster than serial execution.
 
 **Benchmark:** 100% eval score on structured tests (vs 27.7% without CCPM).
 
@@ -1585,7 +1585,7 @@ When you want every code change traceable to a specification, parallel agent wor
     capabilities: [
       {
         command: '"I want to build X" (natural language trigger)',
-        description: 'Start guided brainstorming and PRD creation — CCPM detects PM intent and activates automatically.',
+        description: 'Start guided brainstorming and PRD creation, CCPM detects PM intent and activates automatically.',
       },
       {
         command: '"parse the X PRD" / "create an epic for X"',
@@ -1601,7 +1601,7 @@ When you want every code change traceable to a specification, parallel agent wor
       },
       {
         command: '"standup" / "what\'s blocked"',
-        description: 'Run instant bash scripts from .claude/epics/ to report progress — no LLM token cost.',
+        description: 'Run instant bash scripts from .claude/epics/ to report progress, no LLM token cost.',
       },
     ],
   },
@@ -1649,7 +1649,7 @@ Spec-Kit is GitHub's open-source Spec-Driven Development toolkit. It flips the s
 | Command | What it does |
 |---------|-------------|
 | /speckit.constitution | Create or update project governing principles that guide all subsequent development |
-| /speckit.specify | Define what you want to build — requirements and user stories. Focus on the what and why, not the tech stack. |
+| /speckit.specify | Define what you want to build, requirements and user stories. Focus on the what and why, not the tech stack. |
 | /speckit.clarify | Structured clarification of underspecified areas before planning (prevents rework downstream) |
 | /speckit.plan | Create a technical implementation plan with your chosen tech stack and architecture |
 | /speckit.tasks | Generate an actionable task list from the implementation plan with dependency ordering |
@@ -1697,7 +1697,7 @@ When you want every implementation decision traceable to a requirement, when you
       },
       {
         command: '/speckit.specify',
-        description: 'Define what you want to build using requirements and user stories — focus on the what and why, not the tech stack.',
+        description: 'Define what you want to build using requirements and user stories, focus on the what and why, not the tech stack.',
       },
       {
         command: '/speckit.plan',
@@ -1750,11 +1750,11 @@ When you want every implementation decision traceable to a requirement, when you
         isPrimary: true,
         content: `## What it does
 
-The Breakthrough Method for Agile AI-Driven Development. BMad agents act as expert collaborators who guide you through structured agile workflows — they bring out your best thinking rather than doing the thinking for you. Scale-adaptive intelligence automatically adjusts planning depth from a quick bug fix to an enterprise system.
+The Breakthrough Method for Agile AI-Driven Development. BMad agents act as expert collaborators who guide you through structured agile workflows, they bring out your best thinking rather than doing the thinking for you. Scale-adaptive intelligence automatically adjusts planning depth from a quick bug fix to an enterprise system.
 
 **Key capabilities:**
 
-- **12+ specialized agents:** PM, Architect, Developer, UX Researcher, QA Lead, Business Analyst, Security Analyst, and more — each with domain-specific knowledge and distinct communication styles.
+- **12+ specialized agents:** PM, Architect, Developer, UX Researcher, QA Lead, Business Analyst, Security Analyst, and more, each with domain-specific knowledge and distinct communication styles.
 - **34+ structured workflows:** Grounded in agile best practices across brainstorming, requirements, architecture, user stories, sprint planning, and implementation.
 - **Party Mode:** Bring multiple agent personas into one session to collaborate, debate, and reach decisions together.
 - **bmad-help skill:** Invoke at any time to get guidance on what to do next, what's optional, and what the current state of your project is.
@@ -1762,12 +1762,12 @@ The Breakthrough Method for Agile AI-Driven Development. BMad agents act as expe
 
 **Modules (extend BMad with specialist domains):**
 
-- BMad Builder (BMB) — create custom BMad agents and workflows.
-- Test Architect (TEA) — risk-based test strategy and automation.
-- Game Dev Studio (BMGD) — Unity, Unreal, Godot workflows.
-- Creative Intelligence Suite (CIS) — innovation, brainstorming, design thinking.
+- BMad Builder (BMB), create custom BMad agents and workflows.
+- Test Architect (TEA), risk-based test strategy and automation.
+- Game Dev Studio (BMGD), Unity, Unreal, Godot workflows.
+- Creative Intelligence Suite (CIS), innovation, brainstorming, design thinking.
 
-**Web bundles:** Package selected BMad skills as Google Gemini Gems or ChatGPT Custom GPTs for upfront planning work — brainstorming, product briefs, PRDs, PRFAQs, UX specs — on a flat-rate subscription before bringing artifacts into the IDE for metered implementation.
+**Web bundles:** Package selected BMad skills as Google Gemini Gems or ChatGPT Custom GPTs for upfront planning work, brainstorming, product briefs, PRDs, PRFAQs, UX specs, on a flat-rate subscription before bringing artifacts into the IDE for metered implementation.
 
 ## Install
 
@@ -1791,7 +1791,7 @@ Agile-style product development where you want the AI to act as domain-expert co
     capabilities: [
       {
         command: 'npx bmad-method install',
-        description: 'Install the BMad Method framework interactively — detects your project type and configures the right modules and tools.',
+        description: 'Install the BMad Method framework interactively, detects your project type and configures the right modules and tools.',
       },
       {
         command: 'bmad-help skill',
@@ -1803,7 +1803,7 @@ Agile-style product development where you want the AI to act as domain-expert co
       },
       {
         command: '12+ specialized agents',
-        description: 'PM, Architect, Developer, UX Researcher, QA Lead, Business Analyst — each with domain-specific knowledge and communication style.',
+        description: 'PM, Architect, Developer, UX Researcher, QA Lead, Business Analyst, each with domain-specific knowledge and communication style.',
       },
       {
         command: 'Web bundles (Gemini Gems / ChatGPT GPTs)',
@@ -1850,7 +1850,7 @@ Agile-style product development where you want the AI to act as domain-expert co
 
 Three production-tested Claude Code workflow systems from an AI-native startup. Each workflow ships slash commands for on-demand use and GitHub Actions for automated PR checks.
 
-**Code Review Workflow (code-review/):** Inspired by Anthropic's own Claude Code development process. Implements dual-loop architecture where AI agents handle the "blocking and tackling" of code review — syntax, completeness, style guide adherence, and bug detection. Frees the team to focus on strategic thinking and architectural alignment.
+**Code Review Workflow (code-review/):** Inspired by Anthropic's own Claude Code development process. Implements dual-loop architecture where AI agents handle the "blocking and tackling" of code review, syntax, completeness, style guide adherence, and bug detection. Frees the team to focus on strategic thinking and architectural alignment.
 
 **Security Review Workflow (security-review/):** Automated security review based on Anthropic's security-focused approach and OWASP Top 10 standards. Proactively identifies vulnerabilities, exposed secrets, and potential attack vectors. Returns severity-classified findings (critical/high/medium/low) with clear remediation guidance. Includes on-demand slash commands and automated PR security checks via GitHub Actions.
 
@@ -1876,7 +1876,7 @@ When you want AI-driven code, security, or design review wired into both your lo
     capabilities: [
       {
         command: 'Code Review workflow',
-        description: 'Dual-loop AI architecture for syntax, completeness, style adherence, and bug detection — with slash commands and GitHub Actions.',
+        description: 'Dual-loop AI architecture for syntax, completeness, style adherence, and bug detection, with slash commands and GitHub Actions.',
       },
       {
         command: 'Security Review workflow',
@@ -1929,7 +1929,7 @@ An npm package that installs a complete spec-driven development system into Clau
 
 **Spec workflow (new features):**
 
-\`/spec-create feature-name "Description"\` — runs the complete workflow in one command:
+\`/spec-create feature-name "Description"\`, runs the complete workflow in one command:
 1. Requirements → user stories and acceptance criteria
 2. Design → technical architecture
 3. Tasks → atomic agent-friendly task breakdown
@@ -1948,7 +1948,7 @@ Then execute tasks individually with \`/spec-execute 1 feature-name\` or the aut
 
 **Steering documents (persistent project context):** /spec-steering-setup creates product.md (vision, target users, key features), tech.md (stack, tools, constraints), and structure.md (file organization, naming conventions). Claude reads these at session start for consistent code generation without repeated explanations.
 
-**4 specialized agents:** spec-task-executor, spec-requirements-validator, spec-design-validator, spec-task-validator. All optional — everything works with built-in fallbacks.
+**4 specialized agents:** spec-task-executor, spec-requirements-validator, spec-design-validator, spec-task-validator. All optional, everything works with built-in fallbacks.
 
 **Real-time dashboard:**
 
@@ -2038,27 +2038,27 @@ claudekit is a smart guardrails and workflow automation kit for Claude Code. It 
 
 **Real-time hooks (the core value):**
 
-- **file-guard** — Blocks AI access to sensitive files (.env, AWS credentials, SSH keys, etc.) using 195+ patterns across 12 categories. Advanced bash command analysis detects risky constructs like \`find -name '*.env' | xargs cat\`.
-- **typecheck-changed** — Runs TypeScript type checking on changed files immediately after edits.
-- **lint-changed** — Runs Biome/ESLint on changed files before they accumulate.
-- **test-changed** — Runs relevant tests for changed files so failures surface immediately.
-- **check-any-changed** — Blocks \`any\` types in TypeScript files as Claude edits.
-- **commit-quality** — Pre-commit hook blocking debugger statements and hardcoded secrets.
-- **create-checkpoint** — Auto-saves a git checkpoint when Claude stops (enables easy rollback).
-- **codebase-map** — Injects a structured project map once per session so Claude navigates without file-by-file exploration.
+- **file-guard**, Blocks AI access to sensitive files (.env, AWS credentials, SSH keys, etc.) using 195+ patterns across 12 categories. Advanced bash command analysis detects risky constructs like \`find -name '*.env' | xargs cat\`.
+- **typecheck-changed**, Runs TypeScript type checking on changed files immediately after edits.
+- **lint-changed**, Runs Biome/ESLint on changed files before they accumulate.
+- **test-changed**, Runs relevant tests for changed files so failures surface immediately.
+- **check-any-changed**, Blocks \`any\` types in TypeScript files as Claude edits.
+- **commit-quality**, Pre-commit hook blocking debugger statements and hardcoded secrets.
+- **create-checkpoint**, Auto-saves a git checkpoint when Claude stops (enables easy rollback).
+- **codebase-map**, Injects a structured project map once per session so Claude navigates without file-by-file exploration.
 
 **Slash commands:**
 
-- /code-review — 6 parallel specialized agents (architecture, security, performance, testing, quality, documentation) with prioritized findings.
-- /git:commit — Smart commit following your project's conventions.
-- /git:status — Intelligent git analysis grouped by change type.
-- /git:checkout — Branch creation with conventional naming.
-- /git:ignore-init — AI-safe .gitignore patterns for 195+ sensitive file types.
-- /spec:create — Research codebase and generate comprehensive specifications.
-- /spec:execute — Implement specifications via iterative 6-phase workflow.
-- /checkpoint:create / /checkpoint:restore — Manual checkpoint management.
-- /validate-and-fix — Run all quality checks and fix issues.
-- /research — Deep parallel research with specialized subagents.
+- /code-review, 6 parallel specialized agents (architecture, security, performance, testing, quality, documentation) with prioritized findings.
+- /git:commit, Smart commit following your project's conventions.
+- /git:status, Intelligent git analysis grouped by change type.
+- /git:checkout, Branch creation with conventional naming.
+- /git:ignore-init, AI-safe .gitignore patterns for 195+ sensitive file types.
+- /spec:create, Research codebase and generate comprehensive specifications.
+- /spec:execute, Implement specifications via iterative 6-phase workflow.
+- /checkpoint:create / /checkpoint:restore, Manual checkpoint management.
+- /validate-and-fix, Run all quality checks and fix issues.
+- /research, Deep parallel research with specialized subagents.
 
 **30+ AI subagents** including code-review-expert (the 6-agent parallel reviewer), typescript-expert, react-expert, testing-expert, database-expert, security-expert, oracle (deep debugging), refactoring-expert, ai-sdk-expert, nestjs-expert, and more.
 
@@ -2091,11 +2091,11 @@ Hooks are configured in .claude/settings.json and .claudekit/config.json. Run \`
       },
       {
         command: 'file-guard hook',
-        description: 'Blocks AI access to sensitive files using 195+ patterns — detects risky bash constructs like find-pipe-xargs-cat before execution.',
+        description: 'Blocks AI access to sensitive files using 195+ patterns, detects risky bash constructs like find-pipe-xargs-cat before execution.',
       },
       {
         command: '/checkpoint:restore',
-        description: 'Restore the working tree to the last auto-saved git checkpoint — one-command undo for any Claude session.',
+        description: 'Restore the working tree to the last auto-saved git checkpoint, one-command undo for any Claude session.',
       },
       {
         command: '/spec:create',
@@ -2103,7 +2103,7 @@ Hooks are configured in .claude/settings.json and .claudekit/config.json. Run \`
       },
       {
         command: 'claudekit-hooks profile',
-        description: 'Profile all configured hooks for execution time and output size — identifies slow hooks and those approaching Claude\'s context limits.',
+        description: 'Profile all configured hooks for execution time and output size, identifies slow hooks and those approaching Claude\'s context limits.',
       },
     ],
   },

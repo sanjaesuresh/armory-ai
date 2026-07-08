@@ -21,7 +21,7 @@ import SignOutButton from '@/components/SignOutButton';
 import StoredFilesManager, { type StoredFileVM } from '@/components/StoredFilesManager';
 
 function formatBytes(bytes: number | null): string {
-  if (!bytes || bytes <= 0) return '—';
+  if (!bytes || bytes <= 0) return ', ';
   if (bytes < 1024) return `${bytes} B`;
   return `${(bytes / 1024).toFixed(1)} KB`;
 }
@@ -157,7 +157,7 @@ export default async function AccountPage({ searchParams }: Props) {
           <h1>Save your AI setups</h1>
           <p className="account-lede">
             Sign in to save customized setups, track your test-drive history, and
-            pick up where you left off on any device. No password needed — we send
+            pick up where you left off on any device. No password needed, we send
             a one-tap link to your email.
           </p>
 

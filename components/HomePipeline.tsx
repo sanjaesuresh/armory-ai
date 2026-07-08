@@ -267,7 +267,7 @@ export default function HomePipeline() {
             Pick a role. Answer a few questions. Done.
           </h2>
           <p className="land-pipeline-sub">
-            A live illustration — the real export includes the full compiled
+            A live illustration, the real export includes the full compiled
             setup you paste into Claude or ChatGPT.
           </p>
         </div>

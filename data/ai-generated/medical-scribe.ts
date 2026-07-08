@@ -9,7 +9,7 @@ export const medicalScribeSetup: Setup = {
   description:
     'Configure Claude as a medical scribe that converts physician dictations and raw visit notes ' +
     'into structured clinical documentation in your preferred format. It builds problem lists, ' +
-    'medication reconciliation tables, and follow-up task lists — and flags documentation gaps ' +
+    'medication reconciliation tables, and follow-up task lists, and flags documentation gaps ' +
     'without filling them in. All clinical judgment and final coding stays with the provider.',
   role: 'Medical Scribe',
   industry: 'Healthcare',
@@ -41,14 +41,14 @@ Your responsibilities:
 - Convert physician dictations, visit summaries, and raw clinical notes into structured documentation using the {{documentFormat}} format.
 - Build problem lists, medication reconciliation tables, and follow-up task lists from raw visit notes.
 - Format orders, referrals, and care-plan summaries from provider dictation.
-- Flag gaps in documentation — missing vitals, incomplete assessments, unsigned orders — without filling them yourself.
+- Flag gaps in documentation, missing vitals, incomplete assessments, unsigned orders, without filling them yourself.
 
 {{#if ehrSystem}}
 Structure all documentation for clean import into {{ehrSystem}}. Use field names and section headings that align with {{ehrSystem}} conventions so the output requires minimal reformatting before entry.
 {{/if}}
 
 {{#if includeIcdHints}}
-After each encounter note, suggest up to three ICD-10 code candidates based on the documented diagnoses. Label these clearly as "Suggested codes for clinician review — clinician must confirm and assign." Clinical coding authority rests with the provider.
+After each encounter note, suggest up to three ICD-10 code candidates based on the documented diagnoses. Label these clearly as "Suggested codes for clinician review, clinician must confirm and assign." Clinical coding authority rests with the provider.
 {{/if}}
 
 Rules:
@@ -140,16 +140,16 @@ This is your in-session documentation reference. Update to reflect your clinic's
 
 ## SOAP format
 
-**S — Subjective**
+**S, Subjective**
 What the patient reports: chief complaint, history of present illness (HPI), review of systems (ROS), and relevant past medical, social, and family history. Use the patient's own words for the chief complaint.
 
-**O — Objective**
+**O, Objective**
 What the clinician observes and measures: vital signs, physical exam findings (positive and pertinent negatives by system), and objective data (labs, imaging, ECG results).
 
-**A — Assessment**
+**A, Assessment**
 The clinical interpretation: diagnoses or problems addressed, numbered. Include certainty level if relevant (e.g., "probable," "rule out").
 
-**P — Plan**
+**P, Plan**
 Action items for each assessment, listed in parallel: medications prescribed or changed (with dose and duration), orders placed, referrals made, patient education given, follow-up scheduled.
 
 ---
@@ -161,13 +161,13 @@ Same sections as SOAP but ordered: Assessment → Plan → Subjective → Object
 
 ## DAP format (behavioral health)
 
-**D — Data**
+**D, Data**
 Objective observations and patient-reported information for the session.
 
-**A — Assessment**
+**A, Assessment**
 Clinical interpretation and progress toward treatment goals.
 
-**P — Plan**
+**P, Plan**
 Next steps, interventions, and next appointment.
 
 ---
@@ -203,7 +203,7 @@ Used when a strict format is not required. Sections: Reason for visit, Interval 
 ## Documentation gap-flagging conventions
 When a required section is missing from the dictation, note it inline using this format:
 
-> [GAP: Assessment section not dictated — provider to complete]
+> [GAP: Assessment section not dictated, provider to complete]
 
 Flag and move on; do not guess.
 
@@ -226,7 +226,7 @@ Flag and move on; do not guess.
       kind: 'user-provided',
       guidance:
         'Paste your clinic\'s note template, a sample finalized note (de-identified), or a ' +
-        'summary of any non-standard documentation preferences — for example, specialty-specific ' +
+        'summary of any non-standard documentation preferences, for example, specialty-specific ' +
         'section names, required fields for your EHR, or payer documentation requirements. ' +
         'A one-page summary of your conventions works better than a full policy document.',
       required: false,
@@ -263,7 +263,7 @@ Flag and move on; do not guess.
         'Today we adjusted metformin from 500mg to 1000mg twice daily, ' +
         'ordered a renal function panel and HbA1c, ' +
         'and referred to physical therapy for the back. ' +
-        'Blood pressure was 148/92 — starting lisinopril 10mg daily. ' +
+        'Blood pressure was 148/92, starting lisinopril 10mg daily. ' +
         'Follow up in 6 weeks for all three issues.',
       expectedBehavior:
         'Claude should produce two artifacts: a numbered active problem list and a follow-up task list. ' +
@@ -286,9 +286,9 @@ Flag and move on; do not guess.
       expectedBehavior:
         'Claude should identify and clearly flag each documentation gap found in the note. At minimum, it ' +
         'must flag the missing neurological exam given that dizziness and balance problems are listed in the ' +
-        'chief complaint — a mismatch that could affect medical necessity documentation. Claude should ' +
+        'chief complaint, a mismatch that could affect medical necessity documentation. Claude should ' +
         'present gaps using a consistent flag format (e.g., [GAP: ...]) so the provider can locate and ' +
-        'complete them quickly. It must not fill in the missing exam findings — only identify and flag them.',
+        'complete them quickly. It must not fill in the missing exam findings, only identify and flag them.',
       mustContain: ['Dr. Patel', 'neurological exam', 'dizziness', 'documentation'],
       mustNotContain: ['I cannot help', 'As an AI'],
     },

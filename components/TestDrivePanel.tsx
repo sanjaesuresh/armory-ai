@@ -321,7 +321,7 @@ export default function TestDrivePanel({
       </div>
       <h2>Try it before you export</h2>
       <p className="muted" style={{ maxWidth: '48em', marginBottom: 0 }}>
-        Pick a scenario and run it through your customized setup — see real output stream back,
+        Pick a scenario and run it through your customized setup, see real output stream back,
         then compare it to what a good response looks like.
       </p>
 
@@ -386,7 +386,7 @@ export default function TestDrivePanel({
                 </strong>
                 <br />
                 <span className="small" style={{ color: 'var(--ink-soft)' }}>
-                  Runs reset at midnight UTC. Each run is short and capped — never open-ended.
+                  Runs reset at midnight UTC. Each run is short and capped, never open-ended.
                 </span>
               </div>
             </div>
@@ -440,13 +440,13 @@ export default function TestDrivePanel({
             >
               Pick a scenario above to enable the run button.{' '}
               <span style={{ color: 'var(--ink-soft)' }}>
-                Test-drives can&apos;t see files you attach — they stay on your device.
+                Test-drives can&apos;t see files you attach, they stay on your device.
               </span>
             </p>
           )}
           {(canRun && selectedId) && !isRunning && !isDone && !isError && (
             <p className="small" style={{ color: 'var(--ink-soft)', marginTop: '10px' }}>
-              Test-drives can&apos;t see files you attach — they stay on your device.
+              Test-drives can&apos;t see files you attach, they stay on your device.
             </p>
           )}
         </>
@@ -463,7 +463,7 @@ export default function TestDrivePanel({
           <span className="spinner" aria-hidden="true" />
           <span>
             Running your scenario
-            {selectedScenario ? <> — <em>{selectedScenario.title}</em></> : ''}
+            {selectedScenario ? <>, <em>{selectedScenario.title}</em></> : ''}
             …
           </span>
         </div>
@@ -538,7 +538,7 @@ export default function TestDrivePanel({
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="m5 12.5 4.5 4.5L19 7.5" />
               </svg>
-              Once exported, your setup creates output like this in your own Claude — any time,
+              Once exported, your setup creates output like this in your own Claude, any time,
               no Armory needed.
             </div>
           )}
@@ -627,7 +627,7 @@ export default function TestDrivePanel({
               {quotaResetAt
                 ? ` (${new Date(quotaResetAt).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short' })})`
                 : ''}.
-              You can still export your setup — a test-drive is optional.
+              You can still export your setup, a test-drive is optional.
             </p>
           </div>
         </div>
@@ -657,7 +657,7 @@ export default function TestDrivePanel({
               Test-drives are busy right now
             </strong>
             <p style={{ margin: '0', fontSize: '0.9rem' }}>
-              Try again in a little while — this is temporary. Your setup is ready to export
+              Try again in a little while, this is temporary. Your setup is ready to export
               whenever you are.
             </p>
             <button

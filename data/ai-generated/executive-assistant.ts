@@ -46,10 +46,10 @@ Confidentiality is non-negotiable. Any calendar details, contact names, internal
 {{/if}}
 
 Rules:
-1. Never send, schedule, or confirm anything autonomously — you draft and flag; {{executiveName}} approves and acts.
-2. When drafting outbound messages, stay in the {{communicationStyle}} register throughout — no tonal shifts between paragraphs.
+1. Never send, schedule, or confirm anything autonomously, you draft and flag; {{executiveName}} approves and acts.
+2. When drafting outbound messages, stay in the {{communicationStyle}} register throughout, no tonal shifts between paragraphs.
 3. Flag anything urgent, sensitive, or requiring a personal judgment call rather than handling it yourself.
-4. When composing a message that mentions a third party, use only information the user provides — do not invent professional details, titles, or affiliations for real people.
+4. When composing a message that mentions a third party, use only information the user provides, do not invent professional details, titles, or affiliations for real people.
 5. When summarizing a long thread or document, include the key decisions made, open questions, and any action items with named owners.`,
 
   variables: [
@@ -59,7 +59,7 @@ Rules:
       type: 'text',
       required: true,
       helpText:
-        'The first name, last name, or full name of the person you support — exactly as it should appear in signatures and correspondence.',
+        'The first name, last name, or full name of the person you support, exactly as it should appear in signatures and correspondence.',
       group: 'About the executive',
     },
     {
@@ -68,7 +68,7 @@ Rules:
       type: 'text',
       required: true,
       helpText:
-        'Their official job title — e.g. "Chief Executive Officer," "Vice President of Sales," or "Managing Director."',
+        'Their official job title, e.g. "Chief Executive Officer," "Vice President of Sales," or "Managing Director."',
       group: 'About the executive',
     },
     {
@@ -113,7 +113,7 @@ Rules:
       content: `# Correspondence Templates
 
 ## Meeting request
-Subject: Meeting request — [Topic], [Proposed date/time]
+Subject: Meeting request, [Topic], [Proposed date/time]
 
 Dear [Recipient name],
 
@@ -131,7 +131,7 @@ Please let us know what works for you, or feel free to suggest an alternative ti
 ---
 
 ## Follow-up after a meeting
-Subject: Follow-up — [Meeting topic], [Date]
+Subject: Follow-up, [Meeting topic], [Date]
 
 [Recipient name],
 
@@ -161,7 +161,7 @@ Subject: Re: [Original subject]
 
 Thank you for reaching out. Unfortunately, [Executive name] has a prior commitment at that time and is unable to attend.
 
-[If rescheduling:] We would welcome the opportunity to reconnect — [assistant name] will follow up to find an alternative time.
+[If rescheduling:] We would welcome the opportunity to reconnect, [assistant name] will follow up to find an alternative time.
 
 [If declining:] We appreciate the invitation and hope to connect on another occasion.
 
@@ -173,7 +173,7 @@ Thank you for reaching out. Unfortunately, [Executive name] has a prior commitme
 **Meeting:** [Title]
 **Date/time:** [Date, time, location or video link]
 **Attendees:** [List]
-**Objective:** [One sentence — what needs to be decided or accomplished]
+**Objective:** [One sentence, what needs to be decided or accomplished]
 
 **Background:**
 [2–3 sentences of context the executive needs to know going in]
@@ -183,7 +183,7 @@ Thank you for reaching out. Unfortunately, [Executive name] has a prior commitme
 2. [Point 2]
 
 **Decisions needed from [Executive name]:**
-- [Decision 1 — options: A / B]
+- [Decision 1, options: A / B]
 
 **Potential sensitivities:**
 - [Anything to handle carefully]
@@ -199,7 +199,7 @@ Thank you for reaching out. Unfortunately, [Executive name] has a prior commitme
         'Describe the executive\'s scheduling preferences in plain text. Include: preferred meeting hours, ' +
         'days or times that are blocked, any standing meetings that cannot be moved, preferred buffer time ' +
         'between meetings, travel blackout windows, and any rules about back-to-back scheduling. ' +
-        'A bulleted list is fine. Do not include personal contact details — focus on scheduling rules only.',
+        'A bulleted list is fine. Do not include personal contact details, focus on scheduling rules only.',
       required: false,
     },
   ],

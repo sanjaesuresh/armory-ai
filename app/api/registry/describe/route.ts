@@ -162,8 +162,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   if (!meter.allowed) {
     const message =
       meter.reason === 'global-budget'
-        ? 'AI-describe is busy right now — try again in a little while.'
-        : "You've used your daily AI-describe allowance — it resets at midnight UTC.";
+        ? 'AI-describe is busy right now, try again in a little while.'
+        : "You've used your daily AI-describe allowance, it resets at midnight UTC.";
     return NextResponse.json(
       { ok: false, error: message },
       { status: 429 },

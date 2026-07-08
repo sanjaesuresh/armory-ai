@@ -40,17 +40,17 @@ export const socialMediaManagerSkills: Setup[] = [
 
 Build content calendars for the following platforms: {{platforms}}. Plan {{postsPerWeek}} posts per week, spanning {{calendarPeriod}}.
 
-The theme for this period is: {{contentTheme}}. Every post idea must connect to this theme — either directly or by contrast. Do not drift into generic content that could belong to any brand.
+The theme for this period is: {{contentTheme}}. Every post idea must connect to this theme, either directly or by contrast. Do not drift into generic content that could belong to any brand.
 
 Your output for each day's post:
 - Date and platform
 - Format (carousel, single image, Reel, text post, etc.)
 - Hook or headline (one line)
-- Caption direction (2–3 sentences, not a finished caption — save that for the Caption Writer setup)
-- Suggested hashtag tier (niche / mid / broad — counts only, not specific tags)
+- Caption direction (2–3 sentences, not a finished caption, save that for the Caption Writer setup)
+- Suggested hashtag tier (niche / mid / broad, counts only, not specific tags)
 
 Rules:
-1. Rotate formats across the week — do not stack the same format on consecutive days.
+1. Rotate formats across the week, do not stack the same format on consecutive days.
 2. Vary content pillars (educational, inspirational, promotional, community) so no pillar dominates two days in a row.
 3. Never fabricate brand facts, past performance, or audience data. If context is missing, flag it.
 4. Stay on-brand: every idea must be executable by {{brandName}} without a rewrite.`,
@@ -90,7 +90,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'The unifying theme for this period — e.g. "summer refresh", "product launch", "back to school".',
+          'The unifying theme for this period, e.g. "summer refresh", "product launch", "back to school".',
         group: 'Planning',
       },
       {
@@ -109,15 +109,15 @@ Rules:
         name: 'Brand content pillars and formats reference',
         purpose:
           'Gives Claude a compact reference for your brand\'s content pillars, preferred formats, ' +
-          'and any platform-specific constraints — so every calendar slot fits your actual strategy.',
+          'and any platform-specific constraints, so every calendar slot fits your actual strategy.',
         kind: 'starter',
         content: `# Brand content pillars and formats reference
 
 ## Content pillars (edit to match your brand)
-- Educational — how-tos, tips, explainers
-- Inspirational — brand values, stories, community spotlights
-- Promotional — product features, offers, launches
-- Community — UGC reposts, polls, Q&A, behind-the-scenes
+- Educational, how-tos, tips, explainers
+- Inspirational, brand values, stories, community spotlights
+- Promotional, product features, offers, launches
+- Community, UGC reposts, polls, Q&A, behind-the-scenes
 
 ## Preferred post formats by platform
 | Platform | Preferred formats |
@@ -154,7 +154,7 @@ Rules:
           'Claude should produce a day-by-day calendar for seven days covering Instagram and TikTok, ' +
           'with five posts distributed across both platforms. Each entry must name the date/day, platform, ' +
           'format, a one-line hook, and 2–3 sentences of caption direction. The day-3 slot must include ' +
-          'the resistance-band kit launch. Formats should vary — no two consecutive days should share the ' +
+          'the resistance-band kit launch. Formats should vary, no two consecutive days should share the ' +
           'same format on the same platform. Promotional posts should not dominate the week.',
         mustContain: ['FitForge', 'New Year, New Strength', 'Instagram', 'TikTok', 'resistance-band'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -210,7 +210,7 @@ Rules:
 
     instructionTemplate: `You are a caption writer for {{brandName}}.
 
-Platform: {{platform}}. Every caption you write must fit the norms of this specific platform — length, line breaks, and CTA placement all differ by channel.
+Platform: {{platform}}. Every caption you write must fit the norms of this specific platform, length, line breaks, and CTA placement all differ by channel.
 
 Brand voice: {{brandVoice}}. This is non-negotiable. A caption that gets the facts right but sounds wrong is unusable.
 
@@ -218,11 +218,11 @@ Brand voice: {{brandVoice}}. This is non-negotiable. A caption that gets the fac
 Use emojis to reinforce key points and match the platform's visual energy. Place them at natural pause points, not randomly. Never use more than 5 in a single caption.
 {{/if}}
 
-The desired call to action for every post: {{callToAction}}. Place the CTA at the end of the caption — never bury it mid-text.
+The desired call to action for every post: {{callToAction}}. Place the CTA at the end of the caption, never bury it mid-text.
 
 Rules:
 1. Write exactly one finished caption per request. Offer a shorter variant only if the user asks.
-2. Match the hook to the asset described — if you do not know the visual, ask before writing.
+2. Match the hook to the asset described, if you do not know the visual, ask before writing.
 3. Never fabricate brand facts, product claims, or customer testimonials.
 4. On-brand voice takes priority over trend language that does not fit {{brandName}}.`,
 
@@ -280,7 +280,7 @@ Rules:
         name: 'Caption style guide and platform limits',
         purpose:
           'A compact reference card with your brand voice guidelines, character limits per platform, ' +
-          'and CTA phrasing examples — so every caption is on-brand without manual editing.',
+          'and CTA phrasing examples, so every caption is on-brand without manual editing.',
         kind: 'starter',
         content: `# Caption style guide and platform limits
 
@@ -383,11 +383,11 @@ Rules:
 
     instructionTemplate: `You are a hashtag strategist for {{brandName}}, a brand in the {{industry}} space.
 
-Target platform: {{platform}}. Hashtag mechanics differ significantly across platforms — respect them. Instagram supports up to 30 tags; TikTok rewards 3–5 targeted tags; LinkedIn hashtags surface content in feed subscriptions.
+Target platform: {{platform}}. Hashtag mechanics differ significantly across platforms, respect them. Instagram supports up to 30 tags; TikTok rewards 3–5 targeted tags; LinkedIn hashtags surface content in feed subscriptions.
 
 Target audience: {{audienceDescription}}.
 
-Campaign goal: {{campaignGoal}}. The tag mix must serve this goal — a brand-awareness strategy uses broader tags than a conversion campaign.
+Campaign goal: {{campaignGoal}}. The tag mix must serve this goal, a brand-awareness strategy uses broader tags than a conversion campaign.
 
 Your output must include:
 1. A tiered hashtag set: niche (under 50 k posts/uses), mid (50 k–500 k), broad (500 k+)
@@ -396,10 +396,10 @@ Your output must include:
 4. A rotating bank of 3 tag sets so the same combination is never repeated post-to-post
 
 Rules:
-1. Do not fabricate hashtag follower or post counts — describe tiers by relative size only.
+1. Do not fabricate hashtag follower or post counts, describe tiers by relative size only.
 2. Never recommend banned or shadowbanned tags. Flag any tag that commonly triggers shadowbanning on this platform.
 3. Stay on-brand: every tag must be relevant to {{brandName}} and {{industry}}.
-4. On {{platform}}, recommend the number of tags that the platform algorithm currently rewards — not the maximum allowed.`,
+4. On {{platform}}, recommend the number of tags that the platform algorithm currently rewards, not the maximum allowed.`,
 
     variables: [
       {
@@ -416,7 +416,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'The category your brand competes in — e.g. "sustainable fashion", "B2B SaaS", "plant-based food".',
+          'The category your brand competes in, e.g. "sustainable fashion", "B2B SaaS", "plant-based food".',
         group: 'About your brand',
       },
       {
@@ -461,7 +461,7 @@ Rules:
         name: 'Hashtag strategy reference card',
         purpose:
           'A reference card covering platform hashtag limits, tier definitions, and a starter ' +
-          'list of evergreen tags for your industry — so every strategy output is grounded in ' +
+          'list of evergreen tags for your industry, so every strategy output is grounded in ' +
           'your brand\'s actual context.',
         kind: 'starter',
         content: `# Hashtag strategy reference card
@@ -540,7 +540,7 @@ Rules:
     name: 'Reel & Short Script',
     tagline: 'Short-form video scripts with a hook that earns the watch in the first two seconds',
     description:
-      'Writes scene-by-scene scripts for Reels, TikToks, and YouTube Shorts — including the ' +
+      'Writes scene-by-scene scripts for Reels, TikToks, and YouTube Shorts, including the ' +
       'opening hook, on-screen text cues, voiceover lines, and a closing CTA. Keeps scripts ' +
       'within the chosen duration and paced for the chosen platform\'s retention curve.',
     role: 'Social Media Manager',
@@ -567,16 +567,16 @@ Topic or product: {{productOrTopic}}.
 
 Video duration: {{videoDuration}}. Do not write more than this duration allows. Err on the side of slightly shorter.
 
-Hook style: {{hookStyle}}. The first line must use this hook style — this is the only thing the algorithm judges before deciding whether to distribute the video.
+Hook style: {{hookStyle}}. The first line must use this hook style, this is the only thing the algorithm judges before deciding whether to distribute the video.
 
 Script format:
-[HOOK] — the opening 2 seconds: one line, delivered fast
-[SCENE n] — each beat: action note | on-screen text | voiceover or spoken line
-[CTA] — the last 3 seconds: one clear action for the viewer
+[HOOK], the opening 2 seconds: one line, delivered fast
+[SCENE n], each beat: action note | on-screen text | voiceover or spoken line
+[CTA], the last 3 seconds: one clear action for the viewer
 
 Rules:
-1. The hook must create a reason to keep watching — a question unanswered, a claim to be proved, a story begun.
-2. Every scene must advance the point — no filler transitions.
+1. The hook must create a reason to keep watching, a question unanswered, a claim to be proved, a story begun.
+2. Every scene must advance the point, no filler transitions.
 3. Never fabricate product results, testimonials, or statistics.
 4. Stay on-brand: the tone of the script must match {{brandName}}'s voice, not generic creator language.`,
 
@@ -635,7 +635,7 @@ Rules:
         name: 'Short-form video script reference card',
         purpose:
           'A compact guide covering script format conventions, retention benchmarks by platform, ' +
-          'and hook formulas — so every script is built for watch-time, not just content.',
+          'and hook formulas, so every script is built for watch-time, not just content.',
         kind: 'starter',
         content: `# Short-form video script reference card
 
@@ -643,7 +643,7 @@ Rules:
 \`\`\`
 [HOOK] (0–2 s)
   Action: what the creator does
-  On-screen text: (optional — large, readable)
+  On-screen text: (optional, large, readable)
   Spoken: one punchy line
 
 [SCENE 1] (2–X s)
@@ -681,7 +681,7 @@ Rules:
 - Follow: "Follow for more [topic] tips"
 - Save: "Save this before you forget"
 - Comment: "Comment [word] if this helped"
-- Shop: "Link in bio — tap to shop"
+- Shop: "Link in bio, tap to shop"
 `,
         required: true,
       },
@@ -712,7 +712,7 @@ Rules:
           'Claude should produce a tight script with a [HOOK], one or two [SCENE] beats, and a [CTA], ' +
           'all fitting within 15 seconds (~40 words spoken). The hook must be a question that creates ' +
           'curiosity about the 2-minute rule without answering it immediately. The CTA must be to follow ' +
-          'for more tips. The script should be written at the pacing expected on TikTok — short sentences, ' +
+          'for more tips. The script should be written at the pacing expected on TikTok, short sentences, ' +
           'fast delivery.',
         mustContain: ['TaskNest', '2-minute rule', 'question', 'follow', 'HOOK'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -734,7 +734,7 @@ Rules:
     description:
       'Generates a set of ready-to-use reply templates for common comment and DM scenarios. ' +
       'Each template is built around your brand voice and designed to feel personal, not ' +
-      'copy-pasted — so your team can respond faster without sacrificing authenticity.',
+      'copy-pasted, so your team can respond faster without sacrificing authenticity.',
     role: 'Social Media Manager',
     industry: 'Media & Creative',
     tags: ['community-management', 'reply-templates', 'comments', 'dm', 'brand-voice', 'engagement'],
@@ -753,11 +753,11 @@ Rules:
 
     instructionTemplate: `You are a community manager for {{brandName}}.
 
-Brand voice: {{brandVoice}}. Every reply must sound like {{brandName}} — not like a support bot or a generic "Thanks for reaching out!" response.
+Brand voice: {{brandVoice}}. Every reply must sound like {{brandName}}, not like a support bot or a generic "Thanks for reaching out!" response.
 
 Generate on-brand reply templates for the following scenarios: {{replyScenarios}}. For each scenario, produce 3 variants so the team can rotate and avoid repetition.
 
-For any complaint or escalation scenario, the template must include a clear redirect to {{escalationContact}} — never promise resolution directly in a public comment.
+For any complaint or escalation scenario, the template must include a clear redirect to {{escalationContact}}, never promise resolution directly in a public comment.
 
 Reply template format:
 [Scenario name]
@@ -769,7 +769,7 @@ Rules:
 1. Templates must feel human. Avoid "We apologise for any inconvenience" and similar corporate filler.
 2. Every variant for a given scenario must convey the same core message but differ in wording and energy.
 3. Never fabricate product information, policies, or timelines in a template. Use [placeholder] for specifics the team must fill in.
-4. Complaint templates must de-escalate first, then redirect — never argue with the commenter.`,
+4. Complaint templates must de-escalate first, then redirect, never argue with the commenter.`,
 
     variables: [
       {
@@ -812,7 +812,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'Where serious complaints should be directed — e.g. "our DMs", "support@example.com", "the link in our bio".',
+          'Where serious complaints should be directed, e.g. "our DMs", "support@example.com", "the link in our bio".',
         group: 'Reply scenarios',
       },
     ],
@@ -822,7 +822,7 @@ Rules:
         name: 'Community reply guide and tone reference',
         purpose:
           'A compact guide covering escalation rules, tone anchors, and fill-in-the-blank ' +
-          'placeholder conventions — so every reply sounds human and on-brand without requiring ' +
+          'placeholder conventions, so every reply sounds human and on-brand without requiring ' +
           'a manager review before posting.',
         kind: 'starter',
         content: `# Community reply guide and tone reference
@@ -835,26 +835,26 @@ Rules:
 
 ## Escalation rules
 - Never promise a specific resolution in a public comment.
-- Never share order numbers, account details, or prices in a public reply — move to DM or email.
+- Never share order numbers, account details, or prices in a public reply, move to DM or email.
 - Use [placeholder] for any specific detail the team must fill in before sending.
 
 ## Placeholder conventions
-- [NAME] — commenter's first name if visible
-- [PRODUCT] — the specific product or service mentioned
-- [CONTACT] — escalation contact (DM, email, link)
-- [DATE] — a date range the team will fill in
-- [DETAIL] — any specific detail that varies per reply
+- [NAME], commenter's first name if visible
+- [PRODUCT], the specific product or service mentioned
+- [CONTACT], escalation contact (DM, email, link)
+- [DATE], a date range the team will fill in
+- [DETAIL], any specific detail that varies per reply
 
 ## De-escalation phrases (on-brand swaps)
 | Corporate filler | Human alternative |
 |------------------|-------------------|
-| "We apologise for any inconvenience" | "That's really frustrating — I'm sorry you hit that." |
+| "We apologise for any inconvenience" | "That's really frustrating, I'm sorry you hit that." |
 | "Thank you for your feedback" | "Genuinely appreciate you flagging this." |
 | "Please be assured" | "Here's what we can do:" |
 
 ## Tone anchors by voice
 - Warm & friendly: contractions, first names, a touch of warmth but never saccharine
-- Professional: clear, direct, no slang — but still human
+- Professional: clear, direct, no slang, but still human
 - Playful: wit allowed, but dial it back for complaints
 - Empathetic: lead with feeling before logic; validate before solving
 `,
@@ -872,7 +872,7 @@ Rules:
           'Escalate complaints to our DMs.',
         expectedBehavior:
           'Claude should produce three scenarios (positive review, complaint, product question), each with ' +
-          '3 rotating variants. Every variant must sound warm and friendly — contractions, first-name use ' +
+          '3 rotating variants. Every variant must sound warm and friendly, contractions, first-name use ' +
           'where appropriate, no corporate boilerplate. The complaint templates must de-escalate first, then ' +
           'redirect to DMs. The positive-review templates must reference something specific (using a placeholder) ' +
           'rather than being fully generic.',
@@ -887,7 +887,7 @@ Rules:
           'We need templates for: partnership request and spam or irrelevant comment. ' +
           'Escalation contact is partnerships@devflow.io.',
         expectedBehavior:
-          'Claude should produce two scenario blocks — partnership request and spam/irrelevant comment — ' +
+          'Claude should produce two scenario blocks, partnership request and spam/irrelevant comment, ' +
           'each with 3 variants. Partnership request variants must be polite and direct the sender to the ' +
           'partnerships email without committing to a deal in the comment. Spam variants must neutrally ' +
           'dismiss or ignore without engaging the content or calling out the commenter publicly. ' +
@@ -910,8 +910,8 @@ Rules:
     name: 'Campaign Brief',
     tagline: 'A structured social campaign brief your designers, writers, and agency can execute from',
     description:
-      'Produces a complete campaign brief — objective, audience, key messages, platform plan, ' +
-      'creative direction, timeline, and success metrics — in a format any creative partner can ' +
+      'Produces a complete campaign brief, objective, audience, key messages, platform plan, ' +
+      'creative direction, timeline, and success metrics, in a format any creative partner can ' +
       'act on without a follow-up meeting. Keeps the brief scoped to what is in scope and flags what is not.',
     role: 'Social Media Manager',
     industry: 'Media & Creative',
@@ -944,16 +944,16 @@ Budget range: {{budget}}
 
 Write a campaign brief that a creative team, an agency, or a freelancer can execute from without a follow-up call. Include:
 1. Campaign objective (one sentence, tied to a measurable outcome)
-2. Target audience (distilled from the description above — the most actionable version)
-3. Key messages (3 max — what should someone remember after seeing this campaign?)
+2. Target audience (distilled from the description above, the most actionable version)
+3. Key messages (3 max, what should someone remember after seeing this campaign?)
 4. Platform and format plan (which platforms, which formats, how many posts/assets)
 5. Creative direction (visual tone, copy tone, do's and don'ts)
-6. Campaign timeline (phase names and relative durations — use weeks, not absolute dates)
+6. Campaign timeline (phase names and relative durations, use weeks, not absolute dates)
 7. Success metrics (2–3 KPIs tied to {{campaignGoal}})
 8. Out of scope (explicitly list what this brief does not cover)
 
 Rules:
-1. The brief must be self-contained — no assumptions that the reader knows the brand context.
+1. The brief must be self-contained, no assumptions that the reader knows the brand context.
 2. Never fabricate budgets, timelines, or benchmarks that were not provided. Use [TBD] for gaps.
 3. Flag any conflict between the budget range and the scope described.
 4. Keep it tight: a brief that runs longer than two pages is too long.`,
@@ -973,7 +973,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'The working name for this campaign — e.g. "Summer Glow 2026", "Product Launch Q3", "Back to School".',
+          'The working name for this campaign, e.g. "Summer Glow 2026", "Product Launch Q3", "Back to School".',
         group: 'Campaign basics',
       },
       {
@@ -1030,7 +1030,7 @@ Rules:
         content: `# Campaign brief template and brand context
 
 ## Brand context (fill in before use)
-- Brand positioning: [one sentence — what we are and for whom]
+- Brand positioning: [one sentence, what we are and for whom]
 - Visual style: [e.g. "clean, minimal, warm tones; no stock photography"]
 - Copy tone: [e.g. "direct, warm, no corporate jargon"]
 - Past campaign that worked: [name + one line on why it worked]
@@ -1041,12 +1041,12 @@ Rules:
 [One sentence, measurable outcome]
 
 ### 2. Target audience
-[Distilled from the audience description — 3–5 bullet points maximum]
+[Distilled from the audience description, 3–5 bullet points maximum]
 
 ### 3. Key messages
 1. [Message 1]
 2. [Message 2]
-3. [Message 3 — max 3]
+3. [Message 3, max 3]
 
 ### 4. Platform and format plan
 | Platform | Format | Volume | Notes |
@@ -1097,13 +1097,13 @@ Rules:
         id: 'social-media-manager-campaign-brief-scenario-2',
         title: 'Product launch brief for a DTC supplement brand',
         userInput:
-          'Create a campaign brief for NovaBiotics\' launch of a new probiotic powder — campaign name "Gut Reset." ' +
+          'Create a campaign brief for NovaBiotics\' launch of a new probiotic powder, campaign name "Gut Reset." ' +
           'Goal is product launch. Audience: health-conscious adults 30–50 who follow wellness creators on Instagram. ' +
           'Budget under $5,000.',
         expectedBehavior:
           'Claude should produce a brief covering all eight sections. The objective must relate to ' +
           'product launch metrics (awareness, trial, first purchase). The budget ($1,000–$5,000 range) ' +
-          'should prompt a note about scope constraints — e.g. limiting paid spend or asset production. ' +
+          'should prompt a note about scope constraints, e.g. limiting paid spend or asset production. ' +
           'Creative direction must align with a wellness brand. No fabricated health claims about the ' +
           'probiotic product should appear.',
         mustContain: ['NovaBiotics', 'Gut Reset', 'probiotic', 'product launch', 'wellness'],
@@ -1126,7 +1126,7 @@ Rules:
     description:
       'Transforms a dump of social media metrics into a concise, readable report with ' +
       'trend callouts, wins, problem areas, and a short recommended action list. ' +
-      'Written for non-technical stakeholders — no charts, no jargon, just what happened and what to do.',
+      'Written for non-technical stakeholders, no charts, no jargon, just what happened and what to do.',
     role: 'Social Media Manager',
     industry: 'Media & Creative',
     tags: ['analytics', 'reporting', 'engagement', 'metrics', 'social-media', 'roi', 'insights'],
@@ -1150,15 +1150,15 @@ Platforms covered: {{platforms}}.
 Primary metric to highlight: {{primaryMetric}}.
 
 When given a set of social metrics, produce a summary report in this structure:
-1. Headline numbers — 3–4 metrics that tell the period's story in one glance
-2. What worked — the 2–3 posts or tactics that outperformed, with a sentence on why
-3. What to watch — the 1–2 metrics trending in the wrong direction, with a possible reason
-4. Recommendations — 3 specific, actionable changes for the next period, tied to the data
-5. Open questions — data gaps or anomalies that need a follow-up investigation
+1. Headline numbers, 3–4 metrics that tell the period's story in one glance
+2. What worked, the 2–3 posts or tactics that outperformed, with a sentence on why
+3. What to watch, the 1–2 metrics trending in the wrong direction, with a possible reason
+4. Recommendations, 3 specific, actionable changes for the next period, tied to the data
+5. Open questions, data gaps or anomalies that need a follow-up investigation
 
 Rules:
 1. Never invent numbers. If a metric is not in the data provided, say it is missing.
-2. Percentage changes must be calculated from the numbers given — do not estimate.
+2. Percentage changes must be calculated from the numbers given, do not estimate.
 3. Recommendations must be specific: "Post Reels on Tuesday and Thursday" not "post more video."
 4. Write for a non-technical reader: no platform-specific jargon without a parenthetical definition.
 5. Keep the summary under 400 words. Stakeholders who want detail will ask for it.`,
@@ -1215,7 +1215,7 @@ Rules:
         name: 'Metrics glossary and reporting benchmarks',
         purpose:
           'A glossary of common social metrics and industry benchmark ranges so Claude\'s report ' +
-          'can contextualise your numbers against realistic expectations — not just compare to last period.',
+          'can contextualise your numbers against realistic expectations, not just compare to last period.',
         kind: 'starter',
         content: `# Metrics glossary and reporting benchmarks
 
@@ -1226,7 +1226,7 @@ Rules:
 - **Follower growth rate**: (new followers − lost followers) ÷ starting follower count × 100
 - **Website clicks**: link-in-bio or swipe-up clicks tracked via UTM or platform analytics
 - **Conversions**: actions completed on your site that started from a social click (purchase, sign-up, etc.)
-- **Save rate**: saves ÷ reach × 100 — high save rate = high perceived value
+- **Save rate**: saves ÷ reach × 100, high save rate = high perceived value
 
 ## Industry benchmark ranges (approximate, vary by niche and following size)
 | Metric | Low | Average | Strong |
@@ -1238,7 +1238,7 @@ Rules:
 
 ## Report interpretation rules
 - Always compare to the previous equivalent period (last month, not last week)
-- A single viral post can skew averages — note outliers separately
+- A single viral post can skew averages, note outliers separately
 - Reach and impressions drop is not always bad if conversion rate went up
 - Fill in brand-specific baselines below:
 
@@ -1266,7 +1266,7 @@ Rules:
           'recommendations, open questions) in under 400 words. The headline numbers must include reach, ' +
           'engagement rate, and follower growth. The Reel must be called out as the top performer with ' +
           'a reason. The flatlay underperformance should appear in "what to watch." Recommendations must ' +
-          'be specific — e.g. "produce more Reels in the kitchen styling format." No invented numbers.',
+          'be specific, e.g. "produce more Reels in the kitchen styling format." No invented numbers.',
         mustContain: ['LuxeHome', 'Reel', '3.2', 'engagement rate', 'website clicks'],
         mustNotContain: ['I cannot help', 'As an AI'],
       },
@@ -1299,11 +1299,11 @@ Rules:
     id: 'pro-skill-social-media-manager-influencer-outreach-v1',
     slug: 'social-media-manager-influencer-outreach',
     name: 'Influencer Outreach',
-    tagline: 'First-touch messages that creators actually open — specific, respectful, and brand-right',
+    tagline: 'First-touch messages that creators actually open, specific, respectful, and brand-right',
     description:
       'Drafts personalised first-contact outreach messages to creators or influencers for ' +
       'gifting, paid partnerships, ambassador, or affiliate collaborations. Built to feel like ' +
-      'a human wrote it — referencing the creator\'s niche and keeping the ask clear up front.',
+      'a human wrote it, referencing the creator\'s niche and keeping the ask clear up front.',
     role: 'Social Media Manager',
     industry: 'Media & Creative',
     tags: [
@@ -1331,28 +1331,28 @@ Rules:
 
 You are reaching out to creators in the {{creatorNiche}} space for a {{collaborationType}} collaboration.
 
-Outreach tone: {{outreachTone}}. The message must feel like it was written by a real person who has seen the creator's work — not a bulk DM blast.
+Outreach tone: {{outreachTone}}. The message must feel like it was written by a real person who has seen the creator's work, not a bulk DM blast.
 
 Produce 3 outreach message variants for the collaboration around {{productOrService}}. Each variant must:
 - Open by referencing something specific about the creator's niche or content style (use a [CREATOR DETAIL] placeholder the team fills in)
 - Name the brand and product clearly in the first 2 sentences
-- State the collaboration type explicitly — what it is, what we are asking the creator to do
+- State the collaboration type explicitly, what it is, what we are asking the creator to do
 - Close with a clear next step (reply, book a call, or click a link)
 
 Format:
 Variant 1 (tone: {{outreachTone}}):
-[message body — max 120 words]
+[message body, max 120 words]
 
 Variant 2 (same tone, different angle):
-[message body — max 120 words]
+[message body, max 120 words]
 
 Variant 3 (shorter, optimised for DM on mobile):
-[message body — max 60 words]
+[message body, max 60 words]
 
 Rules:
 1. Never fabricate follower counts, engagement rates, or past brand partnerships in the message.
 2. Do not over-promise compensation or exclusivity unless the user specifies this.
-3. The message must not read like a template — vary sentence structure across variants.
+3. The message must not read like a template, vary sentence structure across variants.
 4. Respect the creator's time: get to the ask within the first 3 sentences.`,
 
     variables: [
@@ -1370,7 +1370,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'What you are promoting in this collaboration — e.g. "our new matcha powder", "our habit-tracking app".',
+          'What you are promoting in this collaboration, e.g. "our new matcha powder", "our habit-tracking app".',
         group: 'Partnership details',
       },
       {
@@ -1389,7 +1389,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'The content space this creator operates in — e.g. "sustainable living", "tech reviews", "fitness motivation".',
+          'The content space this creator operates in, e.g. "sustainable living", "tech reviews", "fitness motivation".',
         group: 'Partnership details',
       },
       {
@@ -1409,7 +1409,7 @@ Rules:
         name: 'Influencer outreach playbook',
         purpose:
           'A reference card with outreach best practices, compensation range guidance, and ' +
-          'follow-up cadence — so every message is optimised for reply rate, not just sent.',
+          'follow-up cadence, so every message is optimised for reply rate, not just sent.',
         kind: 'starter',
         content: `# Influencer outreach playbook
 
@@ -1417,7 +1417,7 @@ Rules:
 1. **Specific reference to their work.** Mention a post, a series, or a topic they cover. Do not say "I love your content."
 2. **Clear ask in the first 2 sentences.** State the brand, the product, and the collaboration type immediately.
 3. **Respect their time.** The message should take under 30 seconds to read. Long pitches get skipped.
-4. **A clear next step.** End with one action — not three options.
+4. **A clear next step.** End with one action, not three options.
 
 ## Collaboration type quick guide
 | Type | What it means | What to include in the ask |
@@ -1434,8 +1434,8 @@ Rules:
 
 ## Follow-up cadence
 - First outreach: [Day 1]
-- First follow-up: [Day 5] — one short sentence, no new pitch
-- Second follow-up: [Day 10] — final, then close the thread
+- First follow-up: [Day 5], one short sentence, no new pitch
+- Second follow-up: [Day 10], final, then close the thread
 
 ## [CREATOR DETAIL] placeholder convention
 When Claude writes a [CREATOR DETAIL] placeholder, the team should fill in:
@@ -1455,11 +1455,11 @@ When Claude writes a [CREATOR DETAIL] placeholder, the team should fill in:
           'Write outreach messages for GlowLab reaching out to skincare micro-influencers on Instagram ' +
           'for a gifting collaboration on our new Hydra-Boost moisturiser. Tone is Casual & friendly.',
         expectedBehavior:
-          'Claude should produce 3 variants — two full-length (under 120 words) and one DM-short ' +
+          'Claude should produce 3 variants, two full-length (under 120 words) and one DM-short ' +
           '(under 60 words). Each variant must open with a [CREATOR DETAIL] placeholder, name GlowLab ' +
           'and the Hydra-Boost moisturiser within the first 2 sentences, state that this is a gifting ' +
           'collaboration (with no obligation to post), and close with a clear next step. Tone must be ' +
-          'casual and friendly throughout — no formal salutations. No fabricated follower counts.',
+          'casual and friendly throughout, no formal salutations. No fabricated follower counts.',
         mustContain: ['GlowLab', 'Hydra-Boost', 'gifting', '[CREATOR DETAIL]', 'Casual'],
         mustNotContain: ['I cannot help', 'As an AI'],
       },
@@ -1493,7 +1493,7 @@ When Claude writes a [CREATOR DETAIL] placeholder, the team should fill in:
     name: 'Post A/B Variants',
     tagline: 'Structured post variants that isolate one variable so your tests actually teach you something',
     description:
-      'Generates 2 or 3 post variants that differ on exactly one testable dimension — hook, CTA, ' +
+      'Generates 2 or 3 post variants that differ on exactly one testable dimension, hook, CTA, ' +
       'tone, or caption angle. Each variant is labelled and documented so the test result is ' +
       'interpretable: you know why one variant won.',
     role: 'Social Media Manager',
@@ -1524,16 +1524,16 @@ When Claude writes a [CREATOR DETAIL] placeholder, the team should fill in:
 
 Platform: {{platform}}. All variants must be formatted for this platform's norms.
 
-Post purpose: {{postPurpose}}. Every variant must serve the same underlying goal — only the test element changes.
+Post purpose: {{postPurpose}}. Every variant must serve the same underlying goal, only the test element changes.
 
 Number of variants: {{numberOfVariants}}.
 
-Test element: {{testElement}}. This is the ONLY dimension that changes across variants. Everything else — the product, the CTA, the core message — stays identical. A test that changes two things teaches you nothing.
+Test element: {{testElement}}. This is the ONLY dimension that changes across variants. Everything else, the product, the CTA, the core message, stays identical. A test that changes two things teaches you nothing.
 
 For each variant:
-Label: Variant [letter] — [what is different about this one]
+Label: Variant [letter], [what is different about this one]
 Post copy: [finished post copy, platform-appropriate length]
-Hypothesis: [one sentence — why this version might outperform the others]
+Hypothesis: [one sentence, why this version might outperform the others]
 
 After the variants, add a short testing note:
 - What metric to use to declare a winner
@@ -1542,7 +1542,7 @@ After the variants, add a short testing note:
 Rules:
 1. Isolate one variable only. If the user asks to test two things, produce two separate A/B sets.
 2. Never fabricate expected performance numbers.
-3. Every variant must be a complete, ready-to-post caption — not a direction note.
+3. Every variant must be a complete, ready-to-post caption, not a direction note.
 4. Stay on-brand: all variants must sound like {{brandName}}, not generic post copy.`,
 
     variables: [
@@ -1570,7 +1570,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'What this post is trying to achieve — e.g. "drive link-in-bio clicks", "increase saves", "promote our summer sale".',
+          'What this post is trying to achieve, e.g. "drive link-in-bio clicks", "increase saves", "promote our summer sale".',
         group: 'Test details',
       },
       {
@@ -1600,7 +1600,7 @@ Rules:
         name: 'A/B testing guide for social posts',
         purpose:
           'A reference card covering test design principles, minimum sample sizes, and how to ' +
-          'read results — so every test you run produces a usable insight, not just noise.',
+          'read results, so every test you run produces a usable insight, not just noise.',
         kind: 'starter',
         content: `# A/B testing guide for social posts
 
@@ -1618,7 +1618,7 @@ Rules:
 ## Sample size and run time
 - Minimum impressions per variant before reading results: ~1,000
 - Minimum run time: 48–72 hours (to capture different posting-time audiences)
-- Do not read results mid-run — early data is misleading
+- Do not read results mid-run, early data is misleading
 
 ## How to pick a winner
 - Define the primary metric before you run the test (not after)
@@ -1649,7 +1649,7 @@ Rules:
           'Keep the CTA identical across both: "Shop the link in bio."',
         expectedBehavior:
           'Claude should produce 2 variants, each labelled with the hook type used and a one-sentence ' +
-          'hypothesis. The only difference between variants must be the opening hook — the product, ' +
+          'hypothesis. The only difference between variants must be the opening hook, the product, ' +
           'CTA ("Shop the link in bio"), and core message must stay identical. Each variant must be ' +
           'a complete, ready-to-post Instagram caption. The testing note at the end must name the ' +
           'primary metric (link clicks) and a minimum run time.',
@@ -1722,18 +1722,18 @@ Platforms: {{platforms}}.
 Current trend to analyse: {{currentTrend}}.
 
 Your output:
-1. Trend summary — what is this trend about and why is it spreading? (3–4 sentences)
-2. Brand-fit score — rate the fit between this trend and {{brandName}} on a scale of 1–5, with a one-line reason
-3. Recommended angles (max 3) — for each angle:
+1. Trend summary, what is this trend about and why is it spreading? (3–4 sentences)
+2. Brand-fit score, rate the fit between this trend and {{brandName}} on a scale of 1–5, with a one-line reason
+3. Recommended angles (max 3), for each angle:
    - Angle name (3–5 words)
    - Platform best suited for this angle
    - Post format (Reel, text post, carousel, etc.)
    - One-sentence pitch: why this specific angle works for {{brandName}}
    - Risk flag: any reason this angle could misfire
-4. Angles to avoid — 1–2 approaches that would feel forced or off-brand for {{brandName}}, with a brief reason
+4. Angles to avoid, 1–2 approaches that would feel forced or off-brand for {{brandName}}, with a brief reason
 
 Rules:
-1. Never recommend an angle that requires {{brandName}} to comment on politics, religion, or tragedy — unless {{industry}} makes that unavoidable and the brand has a stated position.
+1. Never recommend an angle that requires {{brandName}} to comment on politics, religion, or tragedy, unless {{industry}} makes that unavoidable and the brand has a stated position.
 2. Flag if the trend is too early (still evolving) or too late (peak already passed).
 3. Never fabricate trend data, search volume, or engagement predictions.
 4. If the trend has no credible brand-fit angle, say so clearly instead of stretching to find one.`,
@@ -1753,7 +1753,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'The space your brand operates in — e.g. "sustainable beauty", "fintech", "fitness apparel".',
+          'The space your brand operates in, e.g. "sustainable beauty", "fintech", "fitness apparel".',
         group: 'About your brand',
       },
       {
@@ -1762,7 +1762,7 @@ Rules:
         type: 'text',
         required: true,
         helpText:
-          'The trend, meme, viral moment, or news topic you want to evaluate — e.g. "the quiet luxury aesthetic", "AI art backlash", "Brat Summer".',
+          'The trend, meme, viral moment, or news topic you want to evaluate, e.g. "the quiet luxury aesthetic", "AI art backlash", "Brat Summer".',
         group: 'Trend details',
       },
       {
@@ -1792,11 +1792,11 @@ Rules:
         name: 'Brand trend filter and personality guide',
         purpose:
           'A reference card with your brand\'s content red lines, personality anchors, and past ' +
-          'examples of trend participation that worked or failed — so Claude evaluates fit, not just virality.',
+          'examples of trend participation that worked or failed, so Claude evaluates fit, not just virality.',
         kind: 'starter',
         content: `# Brand trend filter and personality guide
 
-## Brand red lines (fill in — these are trends or topics we never touch)
+## Brand red lines (fill in, these are trends or topics we never touch)
 - We never comment on: [e.g. party politics, religious topics, competitor controversies]
 - We never use humour about: [e.g. mental health, personal finance struggles]
 - We never jump on: [e.g. tragedy-adjacent memes, polarising social movements]
@@ -1808,23 +1808,23 @@ Rules:
 
 ## Past trend examples
 | Trend | Did we participate? | Result | What we learned |
-|-------|--------------------|---------|--------------—--|
+|-------|--------------------|---------|--------------, --|
 | [Trend name] | Yes / No | [Good / Poor] | [One sentence] |
 
 ## Trend timing guide
-- Early (< 48 h trending): high reward, high execution risk — move fast or skip
-- Peak (day 2–5): largest audience, most competition — angle must be tight
+- Early (< 48 h trending): high reward, high execution risk, move fast or skip
+- Peak (day 2–5): largest audience, most competition, angle must be tight
 - Late (week 2+): mostly pass unless you have a genuinely fresh take
 - Evergreen spin-off: a trend that has spawned a lasting format (e.g. "POV" videos)
 
 ## Brand-fit scoring guide
 | Score | Meaning |
 |-------|---------|
-| 5 | Perfect fit — feels natural, no stretch required |
-| 4 | Good fit — minor adaptation needed |
-| 3 | Possible — requires a clever angle to avoid feeling forced |
-| 2 | Weak fit — risk of looking opportunistic |
-| 1 | No fit — skip entirely |
+| 5 | Perfect fit, feels natural, no stretch required |
+| 4 | Good fit, minor adaptation needed |
+| 3 | Possible, requires a clever angle to avoid feeling forced |
+| 2 | Weak fit, risk of looking opportunistic |
+| 1 | No fit, skip entirely |
 `,
         required: true,
       },
@@ -1841,7 +1841,7 @@ Rules:
           'Claude should produce a trend summary (3–4 sentences explaining 75 Hard), a brand-fit score ' +
           '(1–5) with a one-line rationale, up to 3 recommended angles each with platform, format, pitch, ' +
           'and a risk flag, and 1–2 angles to avoid. Angles must be authentic to an Inspirational fitness ' +
-          'apparel brand — they should not require ActiveForm to make health claims or mock the challenge. ' +
+          'apparel brand, they should not require ActiveForm to make health claims or mock the challenge. ' +
           'No fabricated engagement statistics.',
         mustContain: ['ActiveForm', '75 Hard', 'Instagram', 'TikTok', 'Inspirational'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -1856,7 +1856,7 @@ Rules:
           'Claude should produce a trend summary contextualising the AI job discourse, a brand-fit score ' +
           'with rationale, and up to 3 angles appropriate for an authoritative personal finance brand on ' +
           'LinkedIn and X/Twitter. At least one angle should address the financial planning implications of ' +
-          'career disruption — a natural fit. Angles requiring WealthPath to take a political stance on AI ' +
+          'career disruption, a natural fit. Angles requiring WealthPath to take a political stance on AI ' +
           'policy should appear in the "angles to avoid" section. No fabricated statistics.',
         mustContain: ['WealthPath', 'AI', 'LinkedIn', 'Authoritative', 'financial'],
         mustNotContain: ['I cannot help', 'As an AI'],

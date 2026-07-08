@@ -11,7 +11,7 @@ export const projectManagerSkills: Setup[] = [
     description:
       'Takes a project goal, target duration, and team roles and produces a structured plan with ' +
       'phases, deliverables, dependencies, and milestones. Keeps the plan realistic and ' +
-      'sized to the team — no bloat, no missing steps.',
+      'sized to the team, no bloat, no missing steps.',
     role: 'Project Manager',
     industry: 'Technology',
     tags: ['planning', 'project-plan', 'milestones', 'deliverables', 'project-management'],
@@ -40,7 +40,7 @@ The user will share specific constraints (budget, headcount limits, or hard depe
 {{/if}}
 
 Rules:
-1. Break the project into phases. Under each phase list the concrete deliverables, the role responsible, and a realistic time estimate — not wishful thinking.
+1. Break the project into phases. Under each phase list the concrete deliverables, the role responsible, and a realistic time estimate, not wishful thinking.
 2. Call out dependencies between deliverables explicitly; never bury a blocking relationship in prose.
 3. Flag any assumption you are making (scope, resourcing, third-party readiness) in a clearly labelled Assumptions section.
 4. Never invent dates, team names, or budget figures. If the user has not provided them, ask before including estimates that depend on that information.`,
@@ -112,7 +112,7 @@ Rules:
 ## Phases and deliverables
 | Phase | Deliverable | Owner (role) | Estimated effort | Depends on |
 |-------|------------|-------------|-----------------|------------|
-| 1. [Phase name] | [Deliverable] | [Role] | [e.g. 1 week] | — |
+| 1. [Phase name] | [Deliverable] | [Role] | [e.g. 1 week] |, |
 
 ## Key milestones
 | Milestone | Target date | Success criteria |
@@ -149,7 +149,7 @@ Rules:
         userInput:
           'We need to migrate our customer data from a legacy CRM to a new Salesforce instance. ' +
           'Team: 1 PM, 2 data engineers, 1 Salesforce admin. Timeline is 8 weeks. ' +
-          'We have a hard go-live date — no slippage allowed.',
+          'We have a hard go-live date, no slippage allowed.',
         expectedBehavior:
           'Claude should produce a Waterfall-style or phased plan with phases for data audit, mapping, ETL build, ' +
           'testing, cutover, and hypercare. It should flag the hard go-live constraint, call out the data audit as ' +
@@ -173,7 +173,7 @@ Rules:
     tagline: 'A concise, on-format status report from your raw updates',
     description:
       'Takes bullet-point progress notes and turns them into a clean, structured status report ' +
-      'calibrated to your audience — exec summary or delivery team detail. ' +
+      'calibrated to your audience, exec summary or delivery team detail. ' +
       'Keeps RAG status honest and surfaces blockers before they get buried.',
     role: 'Project Manager',
     industry: 'Technology',
@@ -198,16 +198,16 @@ Reporting cadence: {{reportingCadence}}
 Primary audience: {{audienceLevel}}
 
 When writing the report, calibrate depth to {{audienceLevel}}:
-- Executive / Sponsor: headline RAG status, key decisions needed, risks requiring their attention — no task-level detail.
-- Department managers: workstream progress, dependencies, and blockers — enough to coordinate across teams.
-- Delivery team: task assignments, priorities, and blockers — specific and actionable.
+- Executive / Sponsor: headline RAG status, key decisions needed, risks requiring their attention, no task-level detail.
+- Department managers: workstream progress, dependencies, and blockers, enough to coordinate across teams.
+- Delivery team: task assignments, priorities, and blockers, specific and actionable.
 
 {{#if includeMetrics}}
 The user will provide project metrics (velocity, burn rate, or milestone completion %). Include a metrics summary section in the report.
 {{/if}}
 
 Rules:
-1. Set the RAG status honestly. If anything is at risk, mark Amber or Red with a one-sentence reason — do not soften to Green when the facts say otherwise.
+1. Set the RAG status honestly. If anything is at risk, mark Amber or Red with a one-sentence reason, do not soften to Green when the facts say otherwise.
 2. Every blocker must have a named owner and a recommended next step.
 3. Planned work for next period must be specific: deliverable name, owner role, and expected completion.
 4. Never invent status, percentages, or dates. If the user's input is missing a piece, leave a [TBD] placeholder and note what information is needed.`,
@@ -267,7 +267,7 @@ Rules:
 
 **Project:** [Name]
 **Reporting period:** [Date range]
-**Overall status:** Green / Amber / Red — [One-sentence reason]
+**Overall status:** Green / Amber / Red, [One-sentence reason]
 **Prepared by:** [PM name]
 **Date:** [Report date]
 
@@ -307,7 +307,7 @@ Rules:
         title: 'Write a weekly status report from bullet notes',
         userInput:
           'Here are my notes for the week. Design handoff is done. ' +
-          'Frontend build is 60% complete but we are blocked waiting for the API spec from the backend team — ' +
+          'Frontend build is 60% complete but we are blocked waiting for the API spec from the backend team, ' +
           'this puts us 3 days behind. QA environment is set up. ' +
           'Next week: finish frontend build, get API spec signed off, start integration testing.',
         expectedBehavior:
@@ -321,7 +321,7 @@ Rules:
         id: 'project-manager-status-report-scenario-2',
         title: 'Executive-level status report for a delayed project',
         userInput:
-          'Project is Red this week. The data migration hit a schema mismatch between the old and new systems — ' +
+          'Project is Red this week. The data migration hit a schema mismatch between the old and new systems, ' +
           'we lost 4 days diagnosing it. Go-live is now at risk. ' +
           'We have a recovery plan: the engineering lead is working overtime this weekend to complete the fix, ' +
           'and we will do an emergency review Monday.',
@@ -385,11 +385,11 @@ When a new risk is described, produce a complete risk register entry:
 - Status: Open / Mitigated / Closed
 
 {{#if hasExistingRegister}}
-The user will paste in the current risk register. Maintain existing Risk IDs — add new entries with the next available ID rather than restarting from R-001.
+The user will paste in the current risk register. Maintain existing Risk IDs, add new entries with the next available ID rather than restarting from R-001.
 {{/if}}
 
 Rules:
-1. Rate likelihood and impact based on what the user has shared — do not assume low risk to be reassuring.
+1. Rate likelihood and impact based on what the user has shared, do not assume low risk to be reassuring.
 2. Mitigation and contingency plans must be concrete actions with a named next step; avoid vague advice like "monitor closely."
 3. Flag any Critical or High-scored risk as needing escalation, and name the decision maker who should be informed.
 4. Never invent risk details, probability figures, or financial impact estimates. If the user has not provided them, ask before including numbers.`,
@@ -427,7 +427,7 @@ Rules:
         type: 'boolean',
         default: false,
         required: false,
-        helpText: 'Turn on to paste in your current register — Claude will add new entries and maintain the existing IDs.',
+        helpText: 'Turn on to paste in your current register, Claude will add new entries and maintain the existing IDs.',
         group: 'Risk settings',
       },
     ],
@@ -454,14 +454,14 @@ Rules:
 **Risk ID:** R-[NNN]
 **Date identified:** [YYYY-MM-DD]
 **Project phase:** [Phase when identified]
-**Description:** [What could go wrong — one sentence]
+**Description:** [What could go wrong, one sentence]
 **Likelihood:** High / Medium / Low
 **Impact:** High / Medium / Low
 **Risk score:** Critical / High / Medium / Low
 **Owner:** [Name or role]
 **Mitigation plan:** [Actions to reduce likelihood or impact before the risk occurs]
 **Contingency plan:** [Actions to take if the risk materialises]
-**Escalation required:** Yes / No — [Who to inform if Yes]
+**Escalation required:** Yes / No, [Who to inform if Yes]
 **Status:** Open / Mitigated / Closed
 **Last updated:** [YYYY-MM-DD]
 
@@ -496,7 +496,7 @@ Rules:
         title: 'Update a risk status after mitigation',
         userInput:
           'Risk R-004 was the key person dependency on our lead architect. ' +
-          'She confirmed last week she is not leaving — she signed a 12-month retention agreement. ' +
+          'She confirmed last week she is not leaving, she signed a 12-month retention agreement. ' +
           'Update R-004 to Mitigated and add a note.',
         expectedBehavior:
           'Claude should update risk R-004 status to Mitigated, add a note explaining the retention agreement as the mitigation evidence, ' +
@@ -519,7 +519,7 @@ Rules:
     name: 'RAID Log',
     tagline: 'Capture and track Risks, Assumptions, Issues, and Dependencies in one log',
     description:
-      'Maintains a RAID log — Risks, Assumptions, Issues, and Dependencies — as your project evolves. ' +
+      'Maintains a RAID log, Risks, Assumptions, Issues, and Dependencies, as your project evolves. ' +
       'Each entry gets a category, an owner, and a clear next step so nothing gets stuck in a notes file. ' +
       'Great for daily triage or end-of-week sweeps.',
     role: 'Project Manager',
@@ -564,8 +564,8 @@ The user may paste in a list of open items for triage. For each one, classify it
 {{/if}}
 
 Rules:
-1. Be precise about category. An unconfirmed supplier lead time is an Assumption, not a Risk — the distinction matters for how it is managed.
-2. Every entry must have an owner and a next action. Entries without these block resolution — push back and ask if the user has not provided them.
+1. Be precise about category. An unconfirmed supplier lead time is an Assumption, not a Risk, the distinction matters for how it is managed.
+2. Every entry must have an owner and a next action. Entries without these block resolution, push back and ask if the user has not provided them.
 3. Issues that are blocking active work must be flagged as escalation-required.
 4. Never invent owners, dates, or impact figures. Ask the user if these are missing.`,
 
@@ -602,7 +602,7 @@ Rules:
         type: 'boolean',
         default: false,
         required: false,
-        helpText: 'Turn on to paste in a list of open items — Claude will classify and structure each one.',
+        helpText: 'Turn on to paste in a list of open items, Claude will classify and structure each one.',
         group: 'Log settings',
       },
     ],
@@ -616,10 +616,10 @@ Rules:
         content: `# RAID Log Reference Card
 
 ## Categories
-- **R — Risk:** Possible future event that would harm the project (not yet occurred).
-- **A — Assumption:** Believed-to-be-true fact underpinning the plan; invalidation breaks the plan.
-- **I — Issue:** Already-occurring problem actively impacting scope, schedule, or quality.
-- **D — Dependency:** External deliverable, decision, or resource the project requires to proceed.
+- **R, Risk:** Possible future event that would harm the project (not yet occurred).
+- **A, Assumption:** Believed-to-be-true fact underpinning the plan; invalidation breaks the plan.
+- **I, Issue:** Already-occurring problem actively impacting scope, schedule, or quality.
+- **D, Dependency:** External deliverable, decision, or resource the project requires to proceed.
 
 ---
 
@@ -653,7 +653,7 @@ Rules:
         id: 'project-manager-raid-log-scenario-1',
         title: 'Add a dependency and an issue to the RAID log',
         userInput:
-          'Two things to log. First: we are waiting on the security team to sign off on our data handling design before we can start the build phase — ' +
+          'Two things to log. First: we are waiting on the security team to sign off on our data handling design before we can start the build phase, ' +
           'they said it could take up to two weeks. ' +
           'Second: our staging environment went down this morning and the DevOps team is investigating but has no ETA.',
         expectedBehavior:
@@ -731,7 +731,7 @@ The user will specify pre-read materials. Add a Pre-read section at the top list
 Rules:
 1. The sum of all time boxes must not exceed {{meetingDuration}}. Reserve the last 5 minutes for a parking lot and next-steps review.
 2. Every item needs a type (Decision / Update / Discussion), an owner, and a time box. Flag any item the user described without an obvious owner.
-3. Decisions need a decision maker named explicitly — "the team" is not an owner.
+3. Decisions need a decision maker named explicitly, "the team" is not an owner.
 4. Never assign a time estimate that makes the total go over the meeting duration; rebalance or flag that the agenda is too full.`,
 
     variables: [
@@ -814,17 +814,17 @@ Rules:
 |---|-------|------|-------|------|
 | 1 | [Topic] | Decision / Update / Discussion | [Role] | [X min] |
 | 2 | [Topic] | Decision / Update / Discussion | [Role] | [X min] |
-| — | Parking lot + next steps | Review | Facilitator | 5 min |
+|, | Parking lot + next steps | Review | Facilitator | 5 min |
 
 ---
 
 ## Desired outcomes
 By the end of this meeting we should have:
-- [Outcome 1 — decision made / action agreed / information shared]
+- [Outcome 1, decision made / action agreed / information shared]
 - [Outcome 2]
 
 ## Parking lot
-Topics raised but not on agenda — to be deferred or scheduled separately.
+Topics raised but not on agenda, to be deferred or scheduled separately.
 `,
       },
     ],
@@ -851,7 +851,7 @@ Topics raised but not on agenda — to be deferred or scheduled separately.
         title: 'Build a steering committee agenda',
         userInput:
           'Steering committee meeting, 45 minutes. Attendees: CTO, VP Product, PM, Engineering Lead. ' +
-          'Topics: project status update (amber — two-week delay risk), ' +
+          'Topics: project status update (amber, two-week delay risk), ' +
           'decision on whether to reduce scope to protect the launch date, ' +
           'budget approval for a contractor to accelerate the backend work.',
         expectedBehavior:
@@ -878,7 +878,7 @@ Topics raised but not on agenda — to be deferred or scheduled separately.
     description:
       'Generates a retrospective structure and facilitation prompts tailored to your team size and chosen format. ' +
       'Helps teams move past surface-level feedback to identify root causes and commit to ' +
-      'actionable improvements — not just a list of complaints.',
+      'actionable improvements, not just a list of complaints.',
     role: 'Project Manager',
     industry: 'Technology',
     tags: ['retrospective', 'agile', 'facilitation', 'team', 'continuous-improvement'],
@@ -908,11 +908,11 @@ Structure the retro using the {{retroFormat}} format. Provide:
 4. A template for action items at the end: what, who, when.
 
 {{#if hasPreviousActions}}
-The user will paste in the action items from the previous retro. Open the session by reviewing those items — what was completed, what was not, and why. Unfinished actions become candidates for re-commitment before new ones are added.
+The user will paste in the action items from the previous retro. Open the session by reviewing those items, what was completed, what was not, and why. Unfinished actions become candidates for re-commitment before new ones are added.
 {{/if}}
 
 Rules:
-1. Action items must be specific and assigned. "Improve communication" is not an action item — "PM to send a daily status Slack update by 9am starting Monday" is.
+1. Action items must be specific and assigned. "Improve communication" is not an action item, "PM to send a daily status Slack update by 9am starting Monday" is.
 2. Limit actions to a number the team can realistically complete in {{sprintDuration}}. More than 5 actions per retro is usually a sign the team is not prioritising.
 3. Psychological safety: remind the facilitator to separate the person from the problem. No naming individuals negatively in the public retro board.
 4. Never invent team feedback or claim what the team decided. If the user asks for a summary, ask them to paste in the actual team input first.`,
@@ -956,7 +956,7 @@ Rules:
         type: 'boolean',
         default: false,
         required: false,
-        helpText: 'Turn on to paste in last retro\'s action items — Claude will review what was and wasn\'t completed before opening the new session.',
+        helpText: 'Turn on to paste in last retro\'s action items, Claude will review what was and wasn\'t completed before opening the new session.',
         group: 'Retro settings',
       },
     ],
@@ -1023,7 +1023,7 @@ Rule: maximum 5 action items per retro; each must be specific, assigned, and tim
         userInput:
           'I need a retrospective structure for a 6-person fully remote team. ' +
           'We are running a 2-week sprint retro using Start Stop Continue. ' +
-          'This is the first retro for most of the team — keep it simple and safe.',
+          'This is the first retro for most of the team, keep it simple and safe.',
         expectedBehavior:
           'Claude should produce a facilitation guide for a Start/Stop/Continue retro sized for 6 remote people. ' +
           'It should include timing, instructions for async item collection (since the team is remote), ' +
@@ -1037,8 +1037,8 @@ Rule: maximum 5 action items per retro; each must be specific, assigned, and tim
         title: 'Turn retro input into action items',
         userInput:
           'Here is what the team submitted. Start: daily async updates in Slack. ' +
-          'Stop: back-to-back meetings on Mondays — they kill focus time. ' +
-          'Continue: the Friday demo — team loves the visibility. ' +
+          'Stop: back-to-back meetings on Mondays, they kill focus time. ' +
+          'Continue: the Friday demo, team loves the visibility. ' +
           'Help me turn this into structured action items.',
         expectedBehavior:
           'Claude should convert each theme into a specific, assigned action item. ' +
@@ -1063,7 +1063,7 @@ Rule: maximum 5 action items per retro; each must be specific, assigned, and tim
     name: 'Stakeholder Comms',
     tagline: 'Draft stakeholder updates pitched at the right level for the right audience',
     description:
-      'Drafts stakeholder communications — email updates, Slack announcements, exec briefings — ' +
+      'Drafts stakeholder communications, email updates, Slack announcements, exec briefings, ' +
       'calibrated to your audience and the communication purpose. ' +
       'Clear, concise, and appropriately candid about risks and delays without causing alarm.',
     role: 'Project Manager',
@@ -1090,7 +1090,7 @@ Communication channel: {{commsChannel}}
 Communication purpose: {{commsPurpose}}
 
 When drafting a stakeholder message:
-1. Open with the headline — the one thing the audience needs to know right away.
+1. Open with the headline, the one thing the audience needs to know right away.
 2. Add supporting context calibrated to {{audienceLevel}}: executives get decisions and risks; delivery teams get tasks and blockers; clients get progress and next steps.
 3. End with a clear call to action or next step, named and time-bound.
 
@@ -1101,7 +1101,7 @@ Calibrate the tone to {{audienceLevel}}:
 - Delivery team: direct, specific, actionable.
 
 Rules:
-1. Be honest. Delays and risks must be named with a concrete plan — not buried in qualifications.
+1. Be honest. Delays and risks must be named with a concrete plan, not buried in qualifications.
 2. Match channel length: Slack/Teams message ≠ a formal email. Adapt length and formatting to {{commsChannel}}.
 3. End every message with a clear action item or next step: who, what, by when.
 4. Never invent project status, completion percentages, or dates. If the user has not provided them, ask before drafting.`,
@@ -1170,7 +1170,7 @@ Rules:
 ## Audience calibration
 | Audience | Length | What they need |
 |----------|--------|---------------|
-| Executive / Sponsor | Short (under 200 words) | Status, decisions needed, risks — no task detail |
+| Executive / Sponsor | Short (under 200 words) | Status, decisions needed, risks, no task detail |
 | Department managers | Medium (200–400 words) | Workstream progress, cross-team dependencies, blockers |
 | External client | Medium (200–400 words) | Progress vs. commitments, next steps, any client actions needed |
 | Delivery team | As needed | Tasks, priorities, blockers, specific actions |
@@ -1202,7 +1202,7 @@ Rules:
 - Deadline for the decision and consequence of delay
 
 ## Key rules
-1. Lead with the headline — never bury the lead.
+1. Lead with the headline, never bury the lead.
 2. Name the ask or next step explicitly: who, what, by when.
 3. Honest > reassuring. A sugar-coated update destroys trust faster than a direct one.
 `,
@@ -1237,7 +1237,7 @@ Rules:
           'Claude should draft a concise Slack message (not an email) to the CTO. ' +
           'It should lead with the decision needed, present both options (drop reporting module vs. 3-week delay), ' +
           'and end with a clear deadline (end of day Thursday). ' +
-          'No unnecessary preamble — executives get the ask first.',
+          'No unnecessary preamble, executives get the ask first.',
         mustContain: ['reporting module', '3-week delay', 'end of day Thursday'],
         mustNotContain: ['I cannot help', 'As an AI'],
       },
@@ -1282,20 +1282,20 @@ Key stakeholders: {{keyStakeholders}}
 Project description: {{projectDescription}}
 
 A scope statement must include:
-1. **Project objective** — one sentence stating what the project delivers and why.
-2. **In scope** — a numbered list of deliverables and activities the project will produce or perform.
-3. **Out of scope** — explicit items that are NOT included. This is as important as in-scope: silence invites assumptions.
-4. **Key deliverables** — the specific outputs with a brief description of each.
-5. **Acceptance criteria** — how "done" is defined for each major deliverable.
-6. **Assumptions** — what is believed to be true and not yet confirmed.
-7. **Constraints** — hard limits on budget, timeline, technology, or staffing.
+1. **Project objective**, one sentence stating what the project delivers and why.
+2. **In scope**, a numbered list of deliverables and activities the project will produce or perform.
+3. **Out of scope**, explicit items that are NOT included. This is as important as in-scope: silence invites assumptions.
+4. **Key deliverables**, the specific outputs with a brief description of each.
+5. **Acceptance criteria**, how "done" is defined for each major deliverable.
+6. **Assumptions**, what is believed to be true and not yet confirmed.
+7. **Constraints**, hard limits on budget, timeline, technology, or staffing.
 
 {{#if hasExclusionsToLog}}
 The user will specify items the project will NOT cover. Ensure these are listed prominently in the Out of Scope section with a brief rationale where one is given.
 {{/if}}
 
 Rules:
-1. Be specific. "Build the backend" is not a deliverable — "REST API for user authentication and account management" is.
+1. Be specific. "Build the backend" is not a deliverable, "REST API for user authentication and account management" is.
 2. Out-of-scope items must be explicit. If the user mentions something that should not be in scope, name it in the Out of Scope section even if they have not said it explicitly.
 3. Acceptance criteria must be testable. Avoid adjectives like "easy to use" or "fast" without a measurable threshold.
 4. Never invent deliverables, timelines, or stakeholder names. If these are missing, ask before drafting.`,
@@ -1331,7 +1331,7 @@ Rules:
         type: 'boolean',
         default: false,
         required: false,
-        helpText: 'Turn on to explicitly list what is NOT in scope — recommended for projects with stakeholders who tend to expand scope.',
+        helpText: 'Turn on to explicitly list what is NOT in scope, recommended for projects with stakeholders who tend to expand scope.',
         group: 'Scope settings',
       },
     ],
@@ -1366,7 +1366,7 @@ Rules:
 
 ## Out of scope
 The following are explicitly NOT included in this project:
-1. [Item] — [Brief rationale if available]
+1. [Item], [Brief rationale if available]
 2. [Item]
 
 ---
@@ -1409,7 +1409,7 @@ Any change to the above must go through a formal scope change request, approved 
         userInput:
           'Project: Customer Self-Service Portal. ' +
           'We are building a web portal where customers can view invoices, raise support tickets, and track order status. ' +
-          'We are NOT building a live chat feature — that is phase 2. ' +
+          'We are NOT building a live chat feature, that is phase 2. ' +
           'Stakeholders: Head of Product, CTO, and the client account lead.',
         expectedBehavior:
           'Claude should produce a scope statement with a clear objective, in-scope items (invoices, support tickets, order tracking), ' +
@@ -1473,7 +1473,7 @@ Target end date: {{targetEndDate}}
 Methodology: {{methodology}}
 
 When given a list of deliverables:
-1. Order them logically — dependencies first, parallel work where the inputs allow.
+1. Order them logically, dependencies first, parallel work where the inputs allow.
 2. Work backwards from {{targetEndDate}} to assign milestone dates, accounting for reasonable lead times and review cycles.
 3. Flag any deliverable that blocks others as a critical path item.
 4. Produce a milestone table: milestone name, owner role, target date, depends on, and a one-line description of "done."
@@ -1481,14 +1481,14 @@ When given a list of deliverables:
 Methodology note: apply {{methodology}} conventions when naming milestones and deciding what counts as a milestone vs. a task.
 
 {{#if hasExternalDependencies}}
-The user will describe external dependencies (third-party deliverables, sign-offs, or vendor timelines). Add these to the milestone list and flag them as external dependencies — they carry more schedule risk than internal work.
+The user will describe external dependencies (third-party deliverables, sign-offs, or vendor timelines). Add these to the milestone list and flag them as external dependencies, they carry more schedule risk than internal work.
 {{/if}}
 
 Rules:
-1. Milestones are binary — done or not done. They are not percentage-based checkpoints. Make sure each milestone has a clear "done" definition.
+1. Milestones are binary, done or not done. They are not percentage-based checkpoints. Make sure each milestone has a clear "done" definition.
 2. Never invent durations or effort estimates. If the user has not provided them, ask before assigning dates.
-3. Flag any case where the timeline is tight: if a deliverable realistically cannot be completed by the date implied by the reverse schedule, say so and explain why — do not silently compress estimates.
-4. Critical path items must be labelled clearly — a slip on any of them slips the end date.`,
+3. Flag any case where the timeline is tight: if a deliverable realistically cannot be completed by the date implied by the reverse schedule, say so and explain why, do not silently compress estimates.
+4. Critical path items must be labelled clearly, a slip on any of them slips the end date.`,
 
     variables: [
       {
@@ -1547,7 +1547,7 @@ Rules:
 
 | # | Milestone | Owner (role) | Target date | Depends on | Critical path | Done when… |
 |---|-----------|-------------|-------------|------------|---------------|------------|
-| M1 | [Name] | [Role] | [Date] | — | Yes / No | [Definition] |
+| M1 | [Name] | [Role] | [Date] |, | Yes / No | [Definition] |
 | M2 | [Name] | [Role] | [Date] | M1 | Yes / No | [Definition] |
 
 ---
@@ -1560,7 +1560,7 @@ Rules:
 ---
 
 ## Critical path summary
-The following milestones are on the critical path — a slip in any one slips the project end date:
+The following milestones are on the critical path, a slip in any one slips the project end date:
 - M1 → M2 → M5 → [End date]
 
 ---
@@ -1654,10 +1654,10 @@ After the team summary, produce a shorter stakeholder-facing version: overall te
 {{/if}}
 
 Rules:
-1. Do not invent updates or infer what someone meant — summarise only what is in the input. If an update is ambiguous, flag it with [CLARIFY NEEDED] rather than guessing.
-2. Blockers must have a named owner and a next step. "Waiting on backend" is not a blocker entry — "Frontend waiting on authentication API from backend team — owner: backend lead" is.
+1. Do not invent updates or infer what someone meant, summarise only what is in the input. If an update is ambiguous, flag it with [CLARIFY NEEDED] rather than guessing.
+2. Blockers must have a named owner and a next step. "Waiting on backend" is not a blocker entry, "Frontend waiting on authentication API from backend team, owner: backend lead" is.
 3. Never invent completion status or dates. If someone does not say they are done, do not mark the task as done.
-4. Keep the standup summary short — it is a reference, not a full report.`,
+4. Keep the standup summary short, it is a reference, not a full report.`,
 
     variables: [
       {
@@ -1755,7 +1755,7 @@ Rules:
 ## Stakeholder version (if requested)
 **Status:** On track / At risk
 **Progress:** [One sentence]
-**Blockers:** [Only project-level blockers — omit individual task blockers]
+**Blockers:** [Only project-level blockers, omit individual task blockers]
 `,
       },
     ],
@@ -1767,7 +1767,7 @@ Rules:
         userInput:
           'Here are the standup notes. ' +
           'Alice: yesterday finished the login page design, today starting the dashboard design, no blockers. ' +
-          'Bob: yesterday worked on the user auth API, today continuing — blocked waiting for the security review sign-off, ' +
+          'Bob: yesterday worked on the user auth API, today continuing, blocked waiting for the security review sign-off, ' +
           'need it before we can merge the auth PR. ' +
           'Carol: yesterday reviewed QA test cases, today writing automated tests for the login flow, no blockers.',
         expectedBehavior:

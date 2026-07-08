@@ -5,7 +5,7 @@ export const recruiterSetup: Setup = {
   id: 'ai-generated-recruiter-v1',
   slug: 'recruiter',
   name: 'Recruiter',
-  tagline: 'Write better job posts, outreach, and interview guides — faster',
+  tagline: 'Write better job posts, outreach, and interview guides, faster',
   description:
     'Configure Claude as an experienced recruiter for your team. It writes job descriptions, ' +
     'drafts candidate outreach, builds structured interview question sets, and helps you ' +
@@ -29,7 +29,7 @@ export const recruiterSetup: Setup = {
 
 Your responsibilities:
 - Write and refine job descriptions that attract the right candidates and reflect the role accurately.
-- Draft outreach messages for sourcing — including cold InMail, email, and referral asks.
+- Draft outreach messages for sourcing, including cold InMail, email, and referral asks.
 - Build structured interview question sets for specific roles and stages.
 - Draft candidate communications: scheduling emails, status updates, offer letters, and rejection notices.
 - Help assess whether a job description or piece of candidate-facing copy may unintentionally deter qualified people.
@@ -49,7 +49,7 @@ Bias-aware language rules (apply these in all candidate-facing writing, no excep
 - Avoid adjectives that research links to demographic drop-off in applications: words like "rockstar," "ninja," "aggressive," or "dominant" in requirements lists.
 - Requirements lists must reflect what the role actually needs. Do not list years-of-experience thresholds as a proxy for skill level. Do not include "nice to have" items in the required list.
 - Avoid language that implies a preference for a particular age, background, or life stage (e.g., "recent graduate," "energetic," "digital native").
-- When reviewing existing copy, flag potentially exclusionary language specifically — do not just say "this could be improved."
+- When reviewing existing copy, flag potentially exclusionary language specifically, do not just say "this could be improved."
 
 Rules:
 1. Do not invent role requirements or compensation ranges. If you do not have that information, ask.
@@ -136,7 +136,7 @@ Rules:
       content: `# Job description template and interview question bank
 
 ## About this file
-Use the template below as a starting point for every new role. The interview question bank covers common competencies — pull the questions relevant to the role you are hiring for.
+Use the template below as a starting point for every new role. The interview question bank covers common competencies, pull the questions relevant to the role you are hiring for.
 
 ---
 
@@ -144,7 +144,7 @@ Use the template below as a starting point for every new role. The interview que
 
 ### [Role title]
 
-**Location:** [City, State / Remote / Hybrid — specify days if hybrid]
+**Location:** [City, State / Remote / Hybrid, specify days if hybrid]
 **Employment type:** [Full-time / Part-time / Contract]
 **Team:** [Team or department name]
 **Reports to:** [Manager title]
@@ -158,14 +158,14 @@ Use the template below as a starting point for every new role. The interview que
 [Two to four sentences describing what this person will do and why the role exists. Focus on impact, not just tasks.]
 
 #### What you will do
-- [Responsibility 1 — start with a verb, describe the outcome, not just the activity]
+- [Responsibility 1, start with a verb, describe the outcome, not just the activity]
 - [Responsibility 2]
 - [Responsibility 3]
 - [Responsibility 4]
 - [Responsibility 5]
 
 #### What we are looking for
-- [Requirement 1 — genuine requirement only; remove if nice-to-have]
+- [Requirement 1, genuine requirement only; remove if nice-to-have]
 - [Requirement 2]
 - [Requirement 3]
 
@@ -211,7 +211,7 @@ Before sending any candidate-facing message, confirm:
 - [ ] Uses gender-neutral language and job titles
 - [ ] Does not include gendered, age-coded, or exclusionary adjectives
 - [ ] Process or timeline described is accurate and one you can actually deliver
-- [ ] Rejection messages are final and respectful — no false hope
+- [ ] Rejection messages are final and respectful, no false hope
 - [ ] Offer letters include all material terms: title, start date, compensation, equity, and any contingencies
 `,
       required: true,
@@ -227,7 +227,7 @@ Before sending any candidate-facing message, confirm:
         'Paste your company values, culture overview, or employer brand messaging guide. ' +
         'If you have a "why work here" section from your careers page, that works well. ' +
         'Include what your team looks like, how decisions get made, and what makes working there different. ' +
-        'Two to four paragraphs is plenty — Claude does not need a full HR handbook.',
+        'Two to four paragraphs is plenty, Claude does not need a full HR handbook.',
       required: false,
     },
   ],
@@ -256,12 +256,12 @@ Before sending any candidate-facing message, confirm:
       userInput:
         'Draft a LinkedIn InMail to a software engineer currently at Stripe who looks like a strong fit ' +
         'for our backend infrastructure role. They have worked on payment systems and distributed services. ' +
-        'Keep it short — under 100 words.',
+        'Keep it short, under 100 words.',
       expectedBehavior:
         'Claude should produce a short, personalized InMail that references the candidate\'s relevant ' +
         'background (payment systems, distributed services) without being generic or sycophantic. ' +
         'It should state what the role is, why it might interest this specific person, and invite a ' +
-        'brief conversation — not a full interview process. It must stay under 100 words and avoid ' +
+        'brief conversation, not a full interview process. It must stay under 100 words and avoid ' +
         'phrases like "I came across your profile and was impressed."',
       mustContain: ['Stripe', 'backend infrastructure', 'payment systems'],
       mustNotContain: ['I cannot help', 'As an AI'],
@@ -274,7 +274,7 @@ Before sending any candidate-facing message, confirm:
         'has three interviewers: one covering campaign planning, one covering data analysis and reporting, ' +
         'and one covering cross-functional collaboration. Each interviewer gets 30 minutes.',
       expectedBehavior:
-        'Claude should produce a guide with three sections — one per interviewer — each containing ' +
+        'Claude should produce a guide with three sections, one per interviewer, each containing ' +
         'four to five structured questions relevant to that competency area (campaign planning, ' +
         'data analysis and reporting, cross-functional collaboration). Questions should be ' +
         'behavioral (past-tense "tell me about a time"), job-relevant, and free of legally ' +

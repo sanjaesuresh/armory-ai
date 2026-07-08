@@ -12,7 +12,7 @@ export const professionalPicks: Setup[] = [
     tagline: "Anthropic's official prompt collection for financial-services workflows.",
     description:
       'An external GitHub repository maintained by Anthropic containing prompts and examples ' +
-      'tailored for financial services use cases — analysis, summarization, and client ' +
+      'tailored for financial services use cases, analysis, summarization, and client ' +
       'communication. Demonstrates best practices for using Claude in regulated finance contexts.',
     role: 'Financial Analyst',
     industry: 'Accounting & Finance',
@@ -39,19 +39,19 @@ export const professionalPicks: Setup[] = [
         isPrimary: true,
         content: `## What it does
 
-Anthropic's official reference agent and skill library for financial-services workflows. Covers investment banking (pitch decks, CIMs, buyer lists, M&A models), equity research (earnings notes, initiations, model updates), private equity (deal sourcing, IC memos, diligence checklists), wealth management (client reviews, financial plans, TLH), and fund administration (GL reconciliation, month-end close, LP statement auditing). Each named agent — Pitch Agent, Market Researcher, Earnings Reviewer, GL Reconciler, KYC Screener, and more — ships as a self-contained Claude Cowork plugin and as a Claude Managed Agent template deployable via the API.
+Anthropic's official reference agent and skill library for financial-services workflows. Covers investment banking (pitch decks, CIMs, buyer lists, M&A models), equity research (earnings notes, initiations, model updates), private equity (deal sourcing, IC memos, diligence checklists), wealth management (client reviews, financial plans, TLH), and fund administration (GL reconciliation, month-end close, LP statement auditing). Each named agent, Pitch Agent, Market Researcher, Earnings Reviewer, GL Reconciler, KYC Screener, and more, ships as a self-contained Claude Cowork plugin and as a Claude Managed Agent template deployable via the API.
 
 ## Key commands
 
 Slash commands available after installing the relevant vertical plugin:
 
-- /comps — comparable company analysis with trading multiples
-- /dcf — DCF valuation with WACC and sensitivity tables
-- /earnings — post-earnings quarterly update report
-- /ic-memo — investment committee memo drafting
-- /source — deal sourcing with CRM check and founder outreach draft
-- /client-review — client meeting prep with performance and talking points
-- /rebalance — allocation drift and tax-aware rebalancing analysis
+- /comps, comparable company analysis with trading multiples
+- /dcf, DCF valuation with WACC and sensitivity tables
+- /earnings, post-earnings quarterly update report
+- /ic-memo, investment committee memo drafting
+- /source, deal sourcing with CRM check and founder outreach draft
+- /client-review, client meeting prep with performance and talking points
+- /rebalance, allocation drift and tax-aware rebalancing analysis
 
 ## Install
 
@@ -67,7 +67,7 @@ Managed Agent deployment: export ANTHROPIC_API_KEY=sk-ant-... and run scripts/de
 
 ## When to use
 
-Use this when you need structured analyst work product — earnings models, pitch materials, valuation templates, reconciliation workflows, or KYC screening — and want Anthropic-maintained prompts calibrated for regulated finance. All outputs are staged for human review; the agents do not execute transactions, bind risk, or post to a ledger.`,
+Use this when you need structured analyst work product, earnings models, pitch materials, valuation templates, reconciliation workflows, or KYC screening, and want Anthropic-maintained prompts calibrated for regulated finance. All outputs are staged for human review; the agents do not execute transactions, bind risk, or post to a ledger.`,
       },
     ],
     repoUrl: 'https://github.com/anthropics/financial-services',
@@ -95,7 +95,7 @@ Use this when you need structured analyst work product — earnings models, pitc
       },
       {
         command: 'claude plugin install pitch-agent@claude-for-financial-services',
-        description: 'Install the Pitch Agent — runs comps, precedents, and LBO analysis to produce a branded pitch deck end to end.',
+        description: 'Install the Pitch Agent, runs comps, precedents, and LBO analysis to produce a branded pitch deck end to end.',
       },
     ],
   },
@@ -109,7 +109,7 @@ Use this when you need structured analyst work product — earnings models, pitc
     tagline: 'Open-source AI skill definitions for day-to-day bookkeeping tasks.',
     description:
       'An external GitHub repository providing AI skill definitions for common bookkeeping ' +
-      'workflows — transaction categorization, reconciliation, and ledger review. Part of the ' +
+      'workflows, transaction categorization, reconciliation, and ledger review. Part of the ' +
       'OpenAccountant project, designed for small-business bookkeepers using Claude or ChatGPT.',
     role: 'Bookkeeper',
     industry: 'Accounting & Finance',
@@ -136,7 +136,7 @@ Use this when you need structured analyst work product — earnings models, pitc
         isPrimary: true,
         content: `## What it does
 
-Open Accountant Skills is a free, MIT-licensed library of 44 financial skills for AI agents — covering personal finance, small-business bookkeeping, and shared workflows. Personal finance skills include subscription-audit, debt-payoff (avalanche vs snowball), net-worth tracking, zero-based-budget, and insurance-audit. Business skills cover profit-loss statement generation, invoice-aging, cash-flow-forecast, break-even-calc, month-end-close, and runway-calculator. Shared skills include smart-categorize (auto-categorize transactions by pattern), tax-prep (IRS Schedule C), quarterly-taxes, mileage-tracker, and depreciation-schedule. Each skill works in two modes: with Wilson CLI for direct database queries, or without Wilson as step-by-step instructions for CSV/spreadsheet workflows.
+Open Accountant Skills is a free, MIT-licensed library of 44 financial skills for AI agents, covering personal finance, small-business bookkeeping, and shared workflows. Personal finance skills include subscription-audit, debt-payoff (avalanche vs snowball), net-worth tracking, zero-based-budget, and insurance-audit. Business skills cover profit-loss statement generation, invoice-aging, cash-flow-forecast, break-even-calc, month-end-close, and runway-calculator. Shared skills include smart-categorize (auto-categorize transactions by pattern), tax-prep (IRS Schedule C), quarterly-taxes, mileage-tracker, and depreciation-schedule. Each skill works in two modes: with Wilson CLI for direct database queries, or without Wilson as step-by-step instructions for CSV/spreadsheet workflows.
 
 ## Key commands
 
@@ -158,7 +158,7 @@ For Claude Code specifically, copy skill folders into .claude/skills/ manually:
 
 ## Install
 
-Works with Claude Code, Cursor, OpenAI Codex, Gemini CLI, GitHub Copilot, Pi, OpenCode, Kiro, Trae, and Rovo Dev — any agent that supports SKILL.md files.
+Works with Claude Code, Cursor, OpenAI Codex, Gemini CLI, GitHub Copilot, Pi, OpenCode, Kiro, Trae, and Rovo Dev, any agent that supports SKILL.md files.
 
 ## When to use
 
@@ -197,7 +197,7 @@ Use this when you do bookkeeping, freelance finance, or small-business accountin
     description:
       'OpenAccountants is an open tax knowledge layer where named, licensed accountants review ' +
       'jurisdiction guides that AI agents use to answer tax questions. Covers 1,000+ guides across ' +
-      '190+ jurisdictions, accessible via MCP or manual file upload. Not tax advice — outputs ' +
+      '190+ jurisdictions, accessible via MCP or manual file upload. Not tax advice, outputs ' +
       'require professional review.',
     role: 'Tax Preparer',
     industry: 'Accounting & Finance',
@@ -224,7 +224,7 @@ Use this when you do bookkeeping, freelance finance, or small-business accountin
         isPrimary: true,
         content: `## What it does
 
-OpenAccountants is a public tax knowledge layer where named, licensed accountants review jurisdiction-specific guides that AI agents load when answering tax questions. The repo holds 1,000+ guides across 190+ jurisdictions — income tax, VAT/GST, payroll, SSC, entity formation, bookkeeping, and crypto tax. 13 countries have the full accounting suite (UK, Germany, Malta, Australia, Canada, India, Spain, France, Japan, Netherlands, Portugal, Belgium, US). Every guide is in one of two states: source-cited draft (written from primary legislation, not yet professionally reviewed) or accountant-reviewed (a named, licensed Partner checked the complete guide; their badge appears on every answer). An accountant-reviewed US guide (Christopher Aryee, CPA) was updated with 33 corrections for the OBBBA in July 2026.
+OpenAccountants is a public tax knowledge layer where named, licensed accountants review jurisdiction-specific guides that AI agents load when answering tax questions. The repo holds 1,000+ guides across 190+ jurisdictions, income tax, VAT/GST, payroll, SSC, entity formation, bookkeeping, and crypto tax. 13 countries have the full accounting suite (UK, Germany, Malta, Australia, Canada, India, Spain, France, Japan, Netherlands, Portugal, Belgium, US). Every guide is in one of two states: source-cited draft (written from primary legislation, not yet professionally reviewed) or accountant-reviewed (a named, licensed Partner checked the complete guide; their badge appears on every answer). An accountant-reviewed US guide (Christopher Aryee, CPA) was updated with 33 corrections for the OBBBA in July 2026.
 
 ## Key commands
 
@@ -244,7 +244,7 @@ Manual (no MCP): download a jurisdiction package from packages/ and attach the .
 
 ## When to use
 
-Use this when you need jurisdiction-aware tax guidance for a client or your own situation — income tax, VAT, payroll, or entity setup — and you want the AI to load current, source-cited rules rather than rely on training data. All outputs require review by a qualified professional before filing, payment, or action. The MCP connector is the recommended path for accountant-reviewed guides with Partner attribution.`,
+Use this when you need jurisdiction-aware tax guidance for a client or your own situation, income tax, VAT, payroll, or entity setup, and you want the AI to load current, source-cited rules rather than rely on training data. All outputs require review by a qualified professional before filing, payment, or action. The MCP connector is the recommended path for accountant-reviewed guides with Partner attribution.`,
       },
     ],
     repoUrl: 'https://github.com/openaccountants/openaccountants',
@@ -274,7 +274,7 @@ Use this when you need jurisdiction-aware tax guidance for a client or your own 
     tagline: 'Prompt collection for common HR generalist tasks in Claude or ChatGPT.',
     description:
       'HR Skills by tuanductran is a library of 40+ SKILL.md files covering the full HR ' +
-      'lifecycle — recruiting, interviewing, job descriptions, onboarding, performance management, ' +
+      'lifecycle, recruiting, interviewing, job descriptions, onboarding, performance management, ' +
       'compliance, DEI, compensation, and more. Works in Claude Code (.claude/skills/) and Claude.ai ' +
       'Projects. Built for the HR/TA community.',
     role: 'HR Generalist',
@@ -324,7 +324,7 @@ Example prompts once installed:
 
 ## When to use
 
-Use this when you need structured, domain-aware help with any HR task — writing JDs, building interview scorecards, drafting onboarding plans, or creating performance review criteria. Skills load automatically in Claude Code when the task matches; in Claude.ai, upload the relevant SKILL.md to a Project.`,
+Use this when you need structured, domain-aware help with any HR task, writing JDs, building interview scorecards, drafting onboarding plans, or creating performance review criteria. Skills load automatically in Claude Code when the task matches; in Claude.ai, upload the relevant SKILL.md to a Project.`,
       },
     ],
     repoUrl: 'https://github.com/tuanductran/hr-skills',
@@ -386,7 +386,7 @@ Use this when you need structured, domain-aware help with any HR task — writin
         isPrimary: true,
         content: `## What it does
 
-Contract Review is an agent skill grounded in the CUAD dataset (41 legal risk categories from 510 real contracts). It provides position-aware contract analysis — you specify which party you are (customer, vendor, buyer, seller, receiving party) and the skill adjusts what it flags as risky. Output includes: risk assessment with severity ratings (Critical / Important / Acceptable), a red flags quick scan (uncapped indemnification, unilateral amendment rights, offshore jurisdiction), key terms table with section references, market standard benchmarks (liability cap thresholds, auto-renewal notice periods, non-compete durations by jurisdiction), negotiability ratings showing what is realistically changeable, and specific redline language rather than generic advice. Specialized checklists exist for NDA, SaaS/MSA, payment/merchant agreements, M&A, and finder/broker contracts. Outputs structured JSON redlines compatible with the companion legal-redline-tools package to produce tracked-changes Word docs and PDFs.
+Contract Review is an agent skill grounded in the CUAD dataset (41 legal risk categories from 510 real contracts). It provides position-aware contract analysis, you specify which party you are (customer, vendor, buyer, seller, receiving party) and the skill adjusts what it flags as risky. Output includes: risk assessment with severity ratings (Critical / Important / Acceptable), a red flags quick scan (uncapped indemnification, unilateral amendment rights, offshore jurisdiction), key terms table with section references, market standard benchmarks (liability cap thresholds, auto-renewal notice periods, non-compete durations by jurisdiction), negotiability ratings showing what is realistically changeable, and specific redline language rather than generic advice. Specialized checklists exist for NDA, SaaS/MSA, payment/merchant agreements, M&A, and finder/broker contracts. Outputs structured JSON redlines compatible with the companion legal-redline-tools package to produce tracked-changes Word docs and PDFs.
 
 ## Key commands
 
@@ -440,7 +440,7 @@ Use this for first-pass review of commercial contracts before involving legal co
     tagline: 'SKILL.md collection covering the core project management workflow.',
     description:
       'PM Skills Marketplace by phuryn is a plugin collection of 68 PM skills and 42 chained ' +
-      'workflows across 9 plugins — discovery, strategy, execution, market research, data analytics, ' +
+      'workflows across 9 plugins, discovery, strategy, execution, market research, data analytics, ' +
       'GTM, marketing/growth, toolkit, and AI shipping. Works in Claude Cowork, Claude Code, and ' +
       'OpenAI Codex. Built on frameworks from Teresa Torres, Marty Cagan, and Alberto Savoia.',
     role: 'Project Manager',
@@ -468,16 +468,16 @@ Use this for first-pass review of commercial contracts before involving legal co
         isPrimary: true,
         content: `## What it does
 
-PM Skills Marketplace is a 9-plugin collection of 68 PM skills and 42 chained command workflows for Claude Cowork and Claude Code. Plugins cover: product discovery (/discover, /brainstorm, /interview, /setup-metrics — 13 skills including opportunity solution trees and assumption mapping); product strategy (/strategy, /business-model, /pricing — 12 skills including Lean Canvas and Porter's Five Forces); execution (/write-prd, /sprint, /pre-mortem, /red-team-prd, /write-stories — 16 skills); market research (/competitive-analysis, /research-users — 7 skills); data analytics (/write-query SQL generation, /analyze-test A/B analysis — 3 skills); go-to-market (/plan-launch, /battlecard — 6 skills); marketing/growth (/north-star, /market-product — 5 skills); toolkit (/review-resume, /draft-nda, /privacy-policy — 4 skills); and AI shipping (/ship-check, /document-app, /security-audit-static, /performance-audit-static — 2 skills). Commands chain multiple skills end to end and suggest the next relevant command when done.
+PM Skills Marketplace is a 9-plugin collection of 68 PM skills and 42 chained command workflows for Claude Cowork and Claude Code. Plugins cover: product discovery (/discover, /brainstorm, /interview, /setup-metrics, 13 skills including opportunity solution trees and assumption mapping); product strategy (/strategy, /business-model, /pricing, 12 skills including Lean Canvas and Porter's Five Forces); execution (/write-prd, /sprint, /pre-mortem, /red-team-prd, /write-stories, 16 skills); market research (/competitive-analysis, /research-users, 7 skills); data analytics (/write-query SQL generation, /analyze-test A/B analysis, 3 skills); go-to-market (/plan-launch, /battlecard, 6 skills); marketing/growth (/north-star, /market-product, 5 skills); toolkit (/review-resume, /draft-nda, /privacy-policy, 4 skills); and AI shipping (/ship-check, /document-app, /security-audit-static, /performance-audit-static, 2 skills). Commands chain multiple skills end to end and suggest the next relevant command when done.
 
 ## Key commands
 
-- /discover — full discovery cycle: ideation, assumption mapping, prioritization, experiment design
-- /write-prd — PRD from a feature idea or problem statement
-- /strategy — 9-section Product Strategy Canvas
-- /north-star — North Star Metric and supporting input metrics
-- /competitive-analysis — competitive landscape analysis
-- /ship-check — turn a vibe-coded repo into a reviewer-ready shipping packet
+- /discover, full discovery cycle: ideation, assumption mapping, prioritization, experiment design
+- /write-prd, PRD from a feature idea or problem statement
+- /strategy, 9-section Product Strategy Canvas
+- /north-star, North Star Metric and supporting input metrics
+- /competitive-analysis, competitive landscape analysis
+- /ship-check, turn a vibe-coded repo into a reviewer-ready shipping packet
 
 ## Install
 
@@ -567,7 +567,7 @@ Install via Claude Code plugin marketplace:
 
 Download for Claude Desktop/Web (upload skill ZIPs to Claude Skills):
 
-- pm-skills-starter-pack.zip — core skills across all categories
+- pm-skills-starter-pack.zip, core skills across all categories
 - 02-discovery-pack.zip, 03-strategy-pack.zip, 04-delivery-pack.zip, 05-ai-pm-pack.zip
 
 Download for Codex:
@@ -580,7 +580,7 @@ Local Streamlit playground:
 
 ## When to use
 
-Use this when you want PM frameworks that teach the reasoning behind each methodology, not just fill in a template. Interactive skills ask contextual questions before recommending a framework — good when you know you have a PM problem but are unsure which approach fits. Component skills are faster for cases where you know exactly what you need (a user story, a press release, a lean canvas).`,
+Use this when you want PM frameworks that teach the reasoning behind each methodology, not just fill in a template. Interactive skills ask contextual questions before recommending a framework, good when you know you have a PM problem but are unsure which approach fits. Component skills are faster for cases where you know exactly what you need (a user story, a press release, a lean canvas).`,
       },
     ],
     repoUrl: 'https://github.com/deanpeters/Product-Manager-Skills',
@@ -596,7 +596,7 @@ Use this when you want PM frameworks that teach the reasoning behind each method
       },
       {
         command: 'opportunity-solution-tree skill',
-        description: 'Generate an Opportunity Solution Tree (Teresa Torres) — outcome, opportunities, solutions, and experiments.',
+        description: 'Generate an Opportunity Solution Tree (Teresa Torres), outcome, opportunities, solutions, and experiments.',
       },
       {
         command: 'stakeholder-engagement-advisor skill',
@@ -618,7 +618,7 @@ Use this when you want PM frameworks that teach the reasoning behind each method
     tagline: 'Claude skills tailored for business analysis and product documentation.',
     description:
       'PM Claude Skills by mohitagw15856 is a collection of 454 professional agent skills for ' +
-      'Claude, ChatGPT, Gemini, Cursor, Codex, and Hermes — covering product, business analysis, ' +
+      'Claude, ChatGPT, Gemini, Cursor, Codex, and Hermes, covering product, business analysis, ' +
       'and operations workflows. Published in the Anthropic plugin directory. Available via npm, ' +
       'PyPI, MCP, and a free-runs playground.',
     role: 'Business Analyst',
@@ -707,7 +707,7 @@ Use this when you need a broad, multi-skill PM and BA library with eval-scored q
     id: 'github-ai-marketing-claude-v1',
     slug: 'github-ai-marketing-claude',
     name: 'AI Marketing for Claude',
-    tagline: 'AI marketing prompts for Claude — campaigns, copy, and brand analysis.',
+    tagline: 'AI marketing prompts for Claude, campaigns, copy, and brand analysis.',
     description:
       'AI Marketing Suite for Claude Code by zubair-trabzada is a 14-skill system with 5 parallel ' +
       'subagents that audit any website across content, conversion, SEO, competitive positioning, ' +
@@ -738,7 +738,7 @@ Use this when you need a broad, multi-skill PM and BA library with eval-scored q
         isPrimary: true,
         content: `## What it does
 
-AI Marketing Suite for Claude Code is a 14-skill, 5-subagent marketing analysis and automation system. The /market audit command launches 5 parallel subagents (content/messaging, conversion optimization, SEO/discoverability, competitive positioning, brand/trust/growth) and scores a website across those six dimensions (weighted 0-100) with a full report saved to MARKETING-AUDIT.md. Other commands include /market copy (optimized copy with before/after examples), /market emails (complete email sequences — welcome, nurture, launch), /market social (30-day content calendar), /market ads (ad creative for all platforms), /market funnel (sales funnel CRO analysis), /market competitors (competitive intelligence), /market landing (landing page CRO), /market launch (product launch playbook), /market proposal (client proposal), /market report (full Markdown report), /market report-pdf (PDF requiring pip install reportlab), and /market brand (brand voice analysis).
+AI Marketing Suite for Claude Code is a 14-skill, 5-subagent marketing analysis and automation system. The /market audit command launches 5 parallel subagents (content/messaging, conversion optimization, SEO/discoverability, competitive positioning, brand/trust/growth) and scores a website across those six dimensions (weighted 0-100) with a full report saved to MARKETING-AUDIT.md. Other commands include /market copy (optimized copy with before/after examples), /market emails (complete email sequences, welcome, nurture, launch), /market social (30-day content calendar), /market ads (ad creative for all platforms), /market funnel (sales funnel CRO analysis), /market competitors (competitive intelligence), /market landing (landing page CRO), /market launch (product launch playbook), /market proposal (client proposal), /market report (full Markdown report), /market report-pdf (PDF requiring pip install reportlab), and /market brand (brand voice analysis).
 
 ## Install
 
@@ -756,7 +756,7 @@ Uninstall: ./uninstall.sh
 
 ## When to use
 
-Use this when you want structured, scored marketing analysis of a website from your Claude Code terminal — for a client pitch, competitor research, or your own landing page optimization. The parallel subagent architecture produces a full scored audit in one command. For simpler copy generation, use /market copy or /market emails without the full audit overhead.`,
+Use this when you want structured, scored marketing analysis of a website from your Claude Code terminal, for a client pitch, competitor research, or your own landing page optimization. The parallel subagent architecture produces a full scored audit in one command. For simpler copy generation, use /market copy or /market emails without the full audit overhead.`,
       },
     ],
     repoUrl: 'https://github.com/zubair-trabzada/ai-marketing-claude',
@@ -764,7 +764,7 @@ Use this when you want structured, scored marketing analysis of a website from y
     capabilities: [
       {
         command: '/market audit <url>',
-        description: 'Launch 5 parallel subagents to score a website across content, conversion, SEO, competitive positioning, and brand — outputs a full scored report.',
+        description: 'Launch 5 parallel subagents to score a website across content, conversion, SEO, competitive positioning, and brand, outputs a full scored report.',
       },
       {
         command: '/market quick <url>',
@@ -795,7 +795,7 @@ Use this when you want structured, scored marketing analysis of a website from y
     description:
       'CoppieGPT by WynterJones configures ChatGPT or Claude as a copywriting assistant that ' +
       'applies 232 copywriting frameworks and formulas. Given any headline or content, it outputs ' +
-      '6 rewrites using different frameworks — AIDA, PAS, Story Selling, StoryBrand, and hundreds ' +
+      '6 rewrites using different frameworks, AIDA, PAS, Story Selling, StoryBrand, and hundreds ' +
       'more. Three-prompt setup, no code required.',
     role: 'Content Writer',
     industry: 'Marketing',
@@ -830,13 +830,13 @@ Three-prompt setup (paste into a new ChatGPT or Claude session in order):
 
 1. Prompt 1: establishes the CoppieGPTv1.0 persona and role.
 2. Prompt 2: knowledge dump of all 232 frameworks (this is the large block from the README).
-3. Prompt 3: sets output rules — always 6 formatted variations, no preamble.
+3. Prompt 3: sets output rules, always 6 formatted variations, no preamble.
 
 All three prompts are in the README. No code, no tools, no API key beyond the AI session you already use. Save the configured session as a Claude Project or ChatGPT Custom GPT to reuse it.
 
 ## When to use
 
-Use this when you need to quickly generate multiple headline or body-copy variations for testing, or when you want to explore how different copywriting frameworks (emotional, story-based, feature-first, urgency-based) would frame the same offer. Not for long-form content — best for headlines, email subject lines, ad copy, and landing page above-the-fold text.`,
+Use this when you need to quickly generate multiple headline or body-copy variations for testing, or when you want to explore how different copywriting frameworks (emotional, story-based, feature-first, urgency-based) would frame the same offer. Not for long-form content, best for headlines, email subject lines, ad copy, and landing page above-the-fold text.`,
       },
     ],
     repoUrl: 'https://github.com/WynterJones/CoppieGPT',
@@ -865,7 +865,7 @@ Use this when you need to quickly generate multiple headline or body-copy variat
     name: 'Prompts.chat',
     tagline: 'The prompts.chat collection: 200+ role-based prompts for Claude and ChatGPT.',
     description:
-      'prompts.chat by Fatih Arslan is the world\'s largest open-source prompt library — 143k+ ' +
+      'prompts.chat by Fatih Arslan is the world\'s largest open-source prompt library, 143k+ ' +
       'GitHub stars, featured in Forbes, referenced by Harvard and Columbia. Contains 200+ role-based ' +
       'system prompts for ChatGPT, Claude, Gemini, and others. Also available as a Claude Code plugin, ' +
       'MCP server, and self-hostable web app.',
@@ -894,11 +894,11 @@ Use this when you need to quickly generate multiple headline or body-copy variat
         isPrimary: true,
         content: `## What it does
 
-prompts.chat is the world's largest open-source prompt library — 143k+ GitHub stars, the most-liked dataset on Hugging Face, referenced by Harvard and Columbia, and endorsed by OpenAI co-founders Greg Brockman and Wojciech Zaremba. It contains 200+ curated role-based system prompts that configure AI models to behave as specific experts: social media manager, SEO specialist, content strategist, copywriter, data analyst, advertiser, financial advisor, and many more. Prompts work with ChatGPT, Claude, Gemini, Llama, Mistral, and other models. Also available as a Claude Code plugin (install with one command), an MCP server (remote or local), a CLI, and a self-hostable web app with custom branding.
+prompts.chat is the world's largest open-source prompt library, 143k+ GitHub stars, the most-liked dataset on Hugging Face, referenced by Harvard and Columbia, and endorsed by OpenAI co-founders Greg Brockman and Wojciech Zaremba. It contains 200+ curated role-based system prompts that configure AI models to behave as specific experts: social media manager, SEO specialist, content strategist, copywriter, data analyst, advertiser, financial advisor, and many more. Prompts work with ChatGPT, Claude, Gemini, Llama, Mistral, and other models. Also available as a Claude Code plugin (install with one command), an MCP server (remote or local), a CLI, and a self-hostable web app with custom branding.
 
 ## Key commands
 
-Browse at https://prompts.chat/prompts — copy any prompt with one click.
+Browse at https://prompts.chat/prompts, copy any prompt with one click.
 
 Claude Code plugin install:
 
@@ -995,7 +995,7 @@ Docker: docker-compose up -d (then access at localhost:3000/chat).
 
 ## When to use
 
-Use this when you want a programmable sales agent that tracks conversation stage and can autonomously search your product catalog and generate payment links — beyond just drafting email templates. For simple prompt-only use (no coding, no running Python), copy the system prompt from examples/ into a Claude Project instead.`,
+Use this when you want a programmable sales agent that tracks conversation stage and can autonomously search your product catalog and generate payment links, beyond just drafting email templates. For simple prompt-only use (no coding, no running Python), copy the system prompt from examples/ into a Claude Project instead.`,
       },
     ],
     repoUrl: 'https://github.com/filip-michalsky/SalesGPT',
@@ -1061,17 +1061,17 @@ Claude Design System Prompt is a 20-chapter system prompt and 14 procedural skil
 
 ## Key skills
 
-- ai-slop-check — detects gradient/emoji/font/house-style AI tropes
-- accessibility-audit — WCAG, semantic HTML, keyboard, motion preferences
-- frontend-aesthetic-direction — commits to a non-generic look when no brand exists
-- polish-pass — umbrella final-gate review before delivery
-- generate-variations — 3+ hi-fi design variations across specified axes
+- ai-slop-check, detects gradient/emoji/font/house-style AI tropes
+- accessibility-audit, WCAG, semantic HTML, keyboard, motion preferences
+- frontend-aesthetic-direction, commits to a non-generic look when no brand exists
+- polish-pass, umbrella final-gate review before delivery
+- generate-variations, 3+ hi-fi design variations across specified axes
 
 Typical greenfield flow: discovery-questions > frontend-aesthetic-direction > wireframe > make-a-prototype > polish-pass
 
 ## Install
 
-Paste claude/system-prompt.md as the system prompt in any LLM that supports system prompts — Claude Projects, Claude Desktop, ChatGPT Custom Instructions, or a local model. Skills in claude/skills/ are invoked by name; the agent loads the matching skill when a task matches its description. MIT licensed.
+Paste claude/system-prompt.md as the system prompt in any LLM that supports system prompts, Claude Projects, Claude Desktop, ChatGPT Custom Instructions, or a local model. Skills in claude/skills/ are invoked by name; the agent loads the matching skill when a task matches its description. MIT licensed.
 
 ## When to use
 
@@ -1083,7 +1083,7 @@ Use this when you want Claude to give design feedback, generate UI, or review co
     capabilities: [
       {
         command: 'ai-slop-check skill',
-        description: 'Detects AI-trope design patterns — gradients, emoji, generic fonts, house-style defaults — and flags them for removal.',
+        description: 'Detects AI-trope design patterns, gradients, emoji, generic fonts, house-style defaults, and flags them for removal.',
       },
       {
         command: 'accessibility-audit skill',
@@ -1139,7 +1139,7 @@ Use this when you want Claude to give design feedback, generate UI, or review co
 
 Useful AI Prompts is a production-ready library of 488 standardized prompts, 260+ Claude Code skills, and 7 automation hooks by aj-geddes. Each prompt follows a validated XML-tag structure: <role> (specific expert identity), <context> (situation framing), <input_handling> (required vs optional), <task> (3–7 numbered steps), <output_specification> (format and length), <quality_criteria> (measurable standards), and <constraints> (hard limits). Every prompt passes 11 quality gates before inclusion, including metadata complete, role-specific (not "I'll help you"), inputs categorized, outputs specified, and copy-paste-ready.
 
-Prompt categories span Business & Strategy (business analysis, finance, marketing, operations, project management), Technology & Engineering (software engineering, DevOps, security, data science), Emerging Technologies (quantum computing, blockchain, biotechnology, space economy, renewable energy, healthcare digital), and Creative & Communication (design, presentations, technical writing, learning & development). The 260+ Claude Code skills auto-trigger when Claude Code detects relevant keywords — covering software development, DevOps, testing, security, API design, and database work. The 7 hooks (security-scan, pre-commit-linting, test-runner, dependency-check, auto-format, session-setup, and a post-save formatter) handle automated checks on commit and session start.
+Prompt categories span Business & Strategy (business analysis, finance, marketing, operations, project management), Technology & Engineering (software engineering, DevOps, security, data science), Emerging Technologies (quantum computing, blockchain, biotechnology, space economy, renewable energy, healthcare digital), and Creative & Communication (design, presentations, technical writing, learning & development). The 260+ Claude Code skills auto-trigger when Claude Code detects relevant keywords, covering software development, DevOps, testing, security, API design, and database work. The 7 hooks (security-scan, pre-commit-linting, test-runner, dependency-check, auto-format, session-setup, and a post-save formatter) handle automated checks on commit and session start.
 
 ## Install
 
@@ -1291,7 +1291,7 @@ Use this when you need a starting prompt for a data science coding task and don'
 
 Healthcare Agents by ajhcs is a model-agnostic prompt library of 51 specialist AI agents for US healthcare administration. Each agent is a long-form Markdown specialist with YAML frontmatter, role-specific source awareness (HIPAA, CMS, OIG, HEDIS, Stars, MIPS/QPP, HRSA 340B, NHSN, TEFCA, HL7/FHIR, X12, and others), compliance boundaries, operational workflows, and concrete deliverable templates. The agents span 10 administrative domains: Strategy & Advisory, Clinical Operations, Quality/Safety/Compliance, Revenue Cycle & Finance, Payer & Managed Care, Health IT & Informatics, Operations & Administration, Population Health, Pharmacy & Drug Programs, and Emergency & Preparedness.
 
-The Workup Engine routes a plain-language healthcare admin problem to a canonical workflow, primary specialist, supporting handoffs, evidence list, and safety boundaries. Version 1.5.0 adds Operator OS — 16 workflow-specific offline evidence packs with citation cards, provenance labels, and secure-environment defaults (no live network fetching by default).
+The Workup Engine routes a plain-language healthcare admin problem to a canonical workflow, primary specialist, supporting handoffs, evidence list, and safety boundaries. Version 1.5.0 adds Operator OS, 16 workflow-specific offline evidence packs with citation cards, provenance labels, and secure-environment defaults (no live network fetching by default).
 
 Each agent supports four output modes: quick triage (root cause analysis), workplan (owners, timeline, KPIs), audit/checklist (evidence, pass/fail criteria), and artifact/template (draft work product).
 
@@ -1313,7 +1313,7 @@ Preview without writing files: npx --yes healthcare-agents install --all --dry-r
 
 ## When to use
 
-Use this when you need a healthcare-domain specialist that knows the correct regulatory framework for the problem. Instead of a generic "follow HIPAA" response, the revenue-cycle-specialist knows CARC/RARC, 837/835, CDM, denial mechanics, and coding. The quality-compliance-officer distinguishes HIPAA Privacy Rule from Security Rule from Breach Notification. Not for final clinical, legal, coding, billing, audit, or compliance determinations — always consult qualified professionals.`,
+Use this when you need a healthcare-domain specialist that knows the correct regulatory framework for the problem. Instead of a generic "follow HIPAA" response, the revenue-cycle-specialist knows CARC/RARC, 837/835, CDM, denial mechanics, and coding. The quality-compliance-officer distinguishes HIPAA Privacy Rule from Security Rule from Breach Notification. Not for final clinical, legal, coding, billing, audit, or compliance determinations, always consult qualified professionals.`,
       },
     ],
     repoUrl: 'https://github.com/ajhcs/healthcare-agents',
@@ -1450,11 +1450,11 @@ Use this when you need a pre-screened, safe-use-first prompt for clinical docume
         isPrimary: true,
         content: `## What it does
 
-Education Agent Skills by GarethManning is an open-source library of 165 evidence-based pedagogical skills across 20 domains, built for Claude Code, OpenAI Codex, Hermes Agent, and any Agent Skills-compatible tool. Every skill is grounded in named research (specific authors, studies, findings) and rated by evidence strength (Strong, Moderate, Emerging, Original). Frameworks without empirical support — learning styles, VAK — are excluded; EXCLUSIONS.md documents why.
+Education Agent Skills by GarethManning is an open-source library of 165 evidence-based pedagogical skills across 20 domains, built for Claude Code, OpenAI Codex, Hermes Agent, and any Agent Skills-compatible tool. Every skill is grounded in named research (specific authors, studies, findings) and rated by evidence strength (Strong, Moderate, Emerging, Original). Frameworks without empirical support, learning styles, VAK, are excluded; EXCLUSIONS.md documents why.
 
 The 20 domains include: Memory & Learning Science (8 skills: retrieval practice, spacing, interleaving, cognitive load, dual coding, elaborative interrogation, feedback), Self-Regulated Learning & Metacognition (5 skills), Explicit & Direct Instruction (5 skills), Questioning & Dialogue (5 skills), Literacy/Writing/Critical Thinking (7 skills), EAL/D & Language Development (5 skills), Curriculum Design & Assessment (13 skills: backwards design, rubric generation, formative assessment, differentiation, gap analysis, learning progressions, PBL), Wellbeing/Motivation/Agency (12 skills), Professional Learning & Teacher Development (10 skills), Global & Cross-Cultural Pedagogies (9 skills), Environmental & Experiential Learning (6 skills), AI Learning Science (14 skills), AI Literacy (7 skills), Montessori & Alternative Evidence-Based Approaches (4 skills), Original Frameworks (17 skills), Curriculum Alignment (4 skills), Historical Thinking (10 skills), Systems Thinking (8 skills), Inclusive Design (3 skills), and Student-Facing Learning Skills (13 live-session skills for learners).
 
-Each skill is a folder under skills/ containing SKILL.md with YAML frontmatter (typed inputs/outputs, evidence sources, chaining metadata, evidence strength rating). No build step — copy skill folders into any tool's skills directory.
+Each skill is a folder under skills/ containing SKILL.md with YAML frontmatter (typed inputs/outputs, evidence sources, chaining metadata, evidence strength rating). No build step, copy skill folders into any tool's skills directory.
 
 ## Install
 
@@ -1496,7 +1496,7 @@ Use this when you need lesson planning, rubric generation, formative assessment,
       },
       {
         command: 'student-facing skills (Domain 20, skills/student-learning/)',
-        description: '13 live-session skills including retrieve-first gate, progressive hint ladder, confidence calibration check, and fading manager — for AI tutoring flows that run during a student\'s study session.',
+        description: '13 live-session skills including retrieve-first gate, progressive hint ladder, confidence calibration check, and fading manager, for AI tutoring flows that run during a student\'s study session.',
       },
     ],
   },
@@ -1538,7 +1538,7 @@ Use this when you need lesson planning, rubric generation, formative assessment,
         isPrimary: true,
         content: `## What it does
 
-Prompts for Education is a Microsoft-maintained prompt library for K-12 and higher education staff and students. The repository is organized into four role-based sections — Educators (lesson design, automating routine tasks, answering student questions), Students (exploring subjects, enhancing creativity, personalizing learning), Staff (workflow automation, communication drafts), and Administrators (policy documents, reporting, professional development plans). Prompts are designed for ChatGPT, Bing Chat/Copilot, and any capable instruction-following model including Claude.
+Prompts for Education is a Microsoft-maintained prompt library for K-12 and higher education staff and students. The repository is organized into four role-based sections, Educators (lesson design, automating routine tasks, answering student questions), Students (exploring subjects, enhancing creativity, personalizing learning), Staff (workflow automation, communication drafts), and Administrators (policy documents, reporting, professional development plans). Prompts are designed for ChatGPT, Bing Chat/Copilot, and any capable instruction-following model including Claude.
 
 The repository is described as a work in progress: prompt density varies by section. The Educators section is most developed and covers creating engaging lessons, answering common student inquiries, and automating routine administrative writing. MIT licensed.
 
@@ -1546,7 +1546,7 @@ The repository is described as a work in progress: prompt density varies by sect
 
 Repository: https://github.com/microsoft/prompts-for-edu
 
-Browse the four role folders on GitHub — Educators/, Students/, Staff/, Administrators/ — and copy the relevant prompts into Claude Projects, ChatGPT Custom Instructions, or Microsoft Copilot. No install required.
+Browse the four role folders on GitHub, Educators/, Students/, Staff/, Administrators/, and copy the relevant prompts into Claude Projects, ChatGPT Custom Instructions, or Microsoft Copilot. No install required.
 
 ## When to use
 
@@ -1608,7 +1608,7 @@ Use this when you want a Microsoft-vetted starting point for education prompts, 
         isPrimary: true,
         content: `## What it does
 
-AI for Grant Writing by eseckel is a curated resource list for developing competitive grant applications, organized into three sections: Useful Services (a comparison table of AI tools — ChatGPT, Gemini, Copilot, Grammarly, Grantable, Curie, DeepL, Proposia — across spell/grammar, text generation, translation, mock review, and image generation), Prompt Resources (prompt collections and prompt engineering guides), and Grant Writing-Specific Resources (curated links to NIH, NSF, and academic grant-writing guides including NIH Grant Writing Tip Sheets, NSF's Guide for Proposal Writing, and peer-reviewed papers on using LLMs for grants).
+AI for Grant Writing by eseckel is a curated resource list for developing competitive grant applications, organized into three sections: Useful Services (a comparison table of AI tools, ChatGPT, Gemini, Copilot, Grammarly, Grantable, Curie, DeepL, Proposia, across spell/grammar, text generation, translation, mock review, and image generation), Prompt Resources (prompt collections and prompt engineering guides), and Grant Writing-Specific Resources (curated links to NIH, NSF, and academic grant-writing guides including NIH Grant Writing Tip Sheets, NSF's Guide for Proposal Writing, and peer-reviewed papers on using LLMs for grants).
 
 The Quick Prompts section includes 20+ ready-to-copy prompts grouped by task: enhancing text clarity, making text more compelling, improving structure and flow, aligning with funding agency mission, aligning with review criteria, developing a strong grant title, identifying challenges of proposed aims, and developing a project timeline. Example:
 - "Please provide feedback on my writing style and how I can make it more persuasive and compelling for the grant reviewer."
@@ -1623,7 +1623,7 @@ Browse the README and copy the relevant quick prompts directly into Claude, Chat
 
 ## When to use
 
-Use this when you need to quickly improve a grant draft's clarity, persuasiveness, or alignment with reviewer criteria. The quick prompts are especially useful for iterating on already-written sections — paste a paragraph and ask one of the review-criteria alignment prompts to identify gaps. For writing full sections from scratch, combine these prompts with your organization's actual program data and funder guidelines.`,
+Use this when you need to quickly improve a grant draft's clarity, persuasiveness, or alignment with reviewer criteria. The quick prompts are especially useful for iterating on already-written sections, paste a paragraph and ask one of the review-criteria alignment prompts to identify gaps. For writing full sections from scratch, combine these prompts with your organization's actual program data and funder guidelines.`,
       },
     ],
     repoUrl: 'https://github.com/eseckel/ai-for-grant-writing',
@@ -1657,8 +1657,8 @@ Use this when you need to quickly improve a grant draft's clarity, persuasivenes
     tagline: '66 standalone CRE skills across Industrial, Brokerage, Asset Management, Office, and Capital Markets.',
     description:
       'CRE Agent Skills by ahacker-1 is a collection of 66 standalone Markdown skill files for ' +
-      'commercial real estate professionals. Organized into five packs — Industrial, Brokerage ' +
-      'Investment Sales, Asset Management, Office, and Capital Markets — with 23 knowledge bases ' +
+      'commercial real estate professionals. Organized into five packs, Industrial, Brokerage ' +
+      'Investment Sales, Asset Management, Office, and Capital Markets, with 23 knowledge bases ' +
       'and 57 research notes. Each skill works in Claude Code, Claude Projects, Cursor, or any LLM tool.',
     role: 'Real Estate Agent',
     industry: 'Real Estate',
@@ -1685,15 +1685,15 @@ Use this when you need to quickly improve a grant draft's clarity, persuasivenes
         isPrimary: true,
         content: `## What it does
 
-CRE Agent Skills by ahacker-1 is 66 standalone Markdown CRE skill files — no API keys, no dependencies, no orchestrator required. Each .md file drops into Claude Code, Claude Projects, ChatGPT, Cursor, or any LLM-powered tool and handles a specific, defined piece of CRE work.
+CRE Agent Skills by ahacker-1 is 66 standalone Markdown CRE skill files, no API keys, no dependencies, no orchestrator required. Each .md file drops into Claude Code, Claude Projects, ChatGPT, Cursor, or any LLM-powered tool and handles a specific, defined piece of CRE work.
 
-The skills span five packs: Multifamily (original core, drawn from the CRE Acquisition Orchestrator), Industrial v1 (8 skills), Brokerage Investment Sales v1 (8 skills), Asset Management v1 (9 skills — budgets, variance, renewals, capex execution, NOI improvement, hold/sell/refi decisions, quarterly LP reviews), Office v1 (8 skills — flight-to-quality market study, rent roll and stacking plan analysis, lease abstract review, rollover and occupancy-cost analysis, TI/LC underwriting, tenant credit, financing fit, IC memo), and Capital Markets v1 (8 skills — debt maturity diagnostics, refinance proceeds gaps, extension/workout strategy, rescue capital comparison, capital stack term sheet comparison, CMBS special servicing readiness, lender update packages, recap IC memo). The Capital Markets pack is property-type-agnostic.
+The skills span five packs: Multifamily (original core, drawn from the CRE Acquisition Orchestrator), Industrial v1 (8 skills), Brokerage Investment Sales v1 (8 skills), Asset Management v1 (9 skills, budgets, variance, renewals, capex execution, NOI improvement, hold/sell/refi decisions, quarterly LP reviews), Office v1 (8 skills, flight-to-quality market study, rent roll and stacking plan analysis, lease abstract review, rollover and occupancy-cost analysis, TI/LC underwriting, tenant credit, financing fit, IC memo), and Capital Markets v1 (8 skills, debt maturity diagnostics, refinance proceeds gaps, extension/workout strategy, rescue capital comparison, capital stack term sheet comparison, CMBS special servicing readiness, lender update packages, recap IC memo). The Capital Markets pack is property-type-agnostic.
 
 Each skill comes with benchmarks that trace to cited sources, organized in 23 knowledge bases. 57 research notes in research/ provide additional depth by pack and topic. 11 Claude Code plugins provide one-command installs for specific packs.
 
 ## Install
 
-Clone the repo and copy the relevant skill file into your tool's skills or projects directory — no other setup needed:
+Clone the repo and copy the relevant skill file into your tool's skills or projects directory, no other setup needed:
 
     git clone https://github.com/ahacker-1/cre-agent-skills.git
 
@@ -1723,7 +1723,7 @@ Use this when you have a specific piece of CRE work in front of you and want a s
       },
       {
         command: 'Office pack: lease abstract review skill',
-        description: 'Structured skill for reviewing lease abstracts — rollover and occupancy-cost analysis, TI/LC underwriting, tenant credit, and financing fit.',
+        description: 'Structured skill for reviewing lease abstracts, rollover and occupancy-cost analysis, TI/LC underwriting, tenant credit, and financing fit.',
       },
       {
         command: 'Capital Markets: debt maturity diagnostics skill',
@@ -1790,7 +1790,7 @@ The premium collection (200 recipes as slash commands, $79.99 one-time) installs
 
 ## When to use
 
-Use this as a reference book for professional Claude Code workflows — find the recipe for the task you're facing today and follow it. The Tier 1 universal recipes (meeting notes, email drafting, document summarization, research synthesis) deliver the fastest immediate returns. The Tier 5 operations recipes (SOP writing, contract review, incident RCA, audit prep) are particularly strong for operations managers.`,
+Use this as a reference book for professional Claude Code workflows, find the recipe for the task you're facing today and follow it. The Tier 1 universal recipes (meeting notes, email drafting, document summarization, research synthesis) deliver the fastest immediate returns. The Tier 5 operations recipes (SOP writing, contract review, incident RCA, audit prep) are particularly strong for operations managers.`,
       },
     ],
     repoUrl: 'https://github.com/sgharlow/claude-code-recipes',
@@ -1798,19 +1798,19 @@ Use this as a reference book for professional Claude Code workflows — find the
     capabilities: [
       {
         command: '/recipe-001 [meeting notes]',
-        description: 'Meeting Notes to Action Items — converts raw meeting notes into organized action items, owners, and deadlines. Saves 30–60 min per meeting.',
+        description: 'Meeting Notes to Action Items, converts raw meeting notes into organized action items, owners, and deadlines. Saves 30–60 min per meeting.',
       },
       {
         command: '/recipe-042 [process description]',
-        description: 'Process Documentation and SOPs — turns a verbal or written process description into a structured SOP. Saves 4–8 hours per process.',
+        description: 'Process Documentation and SOPs, turns a verbal or written process description into a structured SOP. Saves 4–8 hours per process.',
       },
       {
         command: '/recipe-045 [incident log]',
-        description: 'Incident Analysis and Root Cause Reports — structures an incident timeline into an RCA draft. Saves 3–5 hours per incident.',
+        description: 'Incident Analysis and Root Cause Reports, structures an incident timeline into an RCA draft. Saves 3–5 hours per incident.',
       },
       {
         command: '/recipe-021 [competitor data]',
-        description: 'Competitive Intelligence Synthesis — structures competitor data into a positioning analysis with action plan. Saves 6–10 hours per report.',
+        description: 'Competitive Intelligence Synthesis, structures competitor data into a positioning analysis with action plan. Saves 6–10 hours per report.',
       },
     ],
   },
@@ -1852,11 +1852,11 @@ Use this as a reference book for professional Claude Code workflows — find the
         isPrimary: true,
         content: `## What it does
 
-Product Manager Prompts by deanpeters (v2.1, July 2026, MIT License) is a community-built library of 96 practical prompt assets for AI-assisted product management. The library uses three interaction modes: facilitation (AI asks 3–5 questions then builds the artifact), checkpointed co-construction (section-by-section with gates), and autonomous investigation (web research with citations, labeled Fact/Inference/Assumption). Every prompt carries an HTML comment block with pedagogic notes explaining why the prompt is shaped the way it is — visible by clicking Raw on GitHub.
+Product Manager Prompts by deanpeters (v2.1, July 2026, MIT License) is a community-built library of 96 practical prompt assets for AI-assisted product management. The library uses three interaction modes: facilitation (AI asks 3–5 questions then builds the artifact), checkpointed co-construction (section-by-section with gates), and autonomous investigation (web research with citations, labeled Fact/Inference/Assumption). Every prompt carries an HTML comment block with pedagogic notes explaining why the prompt is shaped the way it is, visible by clicking Raw on GitHub.
 
-Directory structure: /prompts — execution-quality one-pass artifacts (PRD, jobs-to-be-done, stakeholder map, premortem, user story, lean UX canvas, agent strategy canvas, session saver), /workshops — facilitated multi-step working sessions (battle card, PRD section-by-section, opportunity solution tree, feature investment, problem framing, painstorming), /market-intelligence — autonomous research prompts with evidence contracts, question budgets, and materiality bars (market landscape scan, competitive research snapshot, competitive intel watch, voice-of-customer miner, TAM/SAM/SOM, battle card builder, SWOT, Porter's Five Forces, Ansoff matrix), /storytelling — narrative and storyboard prompts (Research-to-Narrative Bridge, hero's journey, Starts-with-Why arcs), /loops — batch and agent-ready workflows with optional Jinja2 notation (story-splitting-loop, PRD section loop, epic-story batch, research synthesis loop, competitive watch routine, SWOT batch, market sizing loop).
+Directory structure: /prompts, execution-quality one-pass artifacts (PRD, jobs-to-be-done, stakeholder map, premortem, user story, lean UX canvas, agent strategy canvas, session saver), /workshops, facilitated multi-step working sessions (battle card, PRD section-by-section, opportunity solution tree, feature investment, problem framing, painstorming), /market-intelligence, autonomous research prompts with evidence contracts, question budgets, and materiality bars (market landscape scan, competitive research snapshot, competitive intel watch, voice-of-customer miner, TAM/SAM/SOM, battle card builder, SWOT, Porter's Five Forces, Ansoff matrix), /storytelling, narrative and storyboard prompts (Research-to-Narrative Bridge, hero's journey, Starts-with-Why arcs), /loops, batch and agent-ready workflows with optional Jinja2 notation (story-splitting-loop, PRD section loop, epic-story batch, research synthesis loop, competitive watch routine, SWOT batch, market sizing loop).
 
-The market-intelligence prompts run unattended — designed for agent workflows and scheduled runs with stop conditions. The CLAUDE.md / AGENTS.md in the repo defines the authoring contract for AI-assisted contributions.
+The market-intelligence prompts run unattended, designed for agent workflows and scheduled runs with stop conditions. The CLAUDE.md / AGENTS.md in the repo defines the authoring contract for AI-assisted contributions.
 
 ## Install / access
 
@@ -1866,7 +1866,7 @@ Copy-paste any prompt into ChatGPT, Claude, Gemini, or Copilot. No install requi
 
 ## When to use
 
-Use /prompts when you know the situation and want execution-quality output in one pass. Use /workshops when the situation is fuzzy and you want a guided working session that ends in a finished deliverable. Use /market-intelligence when you need evidence about a market, not another meeting — these prompts do the fieldwork with citations.`,
+Use /prompts when you know the situation and want execution-quality output in one pass. Use /workshops when the situation is fuzzy and you want a guided working session that ends in a finished deliverable. Use /market-intelligence when you need evidence about a market, not another meeting, these prompts do the fieldwork with citations.`,
       },
     ],
     repoUrl: 'https://github.com/deanpeters/product-manager-prompts',
@@ -1874,11 +1874,11 @@ Use /prompts when you know the situation and want execution-quality output in on
     capabilities: [
       {
         command: 'prd-prompt-template (prompts/)',
-        description: 'Write a PRD from your discovery notes — execution-quality output in one pass with checkpointed co-construction across sections.',
+        description: 'Write a PRD from your discovery notes, execution-quality output in one pass with checkpointed co-construction across sections.',
       },
       {
         command: 'market-landscape-scan (market-intelligence/)',
-        description: 'Autonomous market research prompt with a search plan, real URLs, and Fact/Inference/Assumption labels — designed to run unattended in agent workflows.',
+        description: 'Autonomous market research prompt with a search plan, real URLs, and Fact/Inference/Assumption labels, designed to run unattended in agent workflows.',
       },
       {
         command: 'opportunity-solution-tree-workshop (workshops/)',
@@ -1886,7 +1886,7 @@ Use /prompts when you know the situation and want execution-quality output in on
       },
       {
         command: 'story-splitting-loop (loops/)',
-        description: 'Splits epics until nothing splits, with a configurable pass ceiling — agent-ready with optional Jinja2 control flow.',
+        description: 'Splits epics until nothing splits, with a configurable pass ceiling, agent-ready with optional Jinja2 control flow.',
       },
     ],
   },
@@ -1932,37 +1932,37 @@ Awesome Prompts by ai-boost is a curated, engineering-biased prompt resource tha
 
 Copy-paste ready prompts span: Coding & Development, DevOps & SRE, Data Engineering, AI & ML, Product & Strategy, Project Management, Healthcare & Clinical, Industrial & Automotive, Legal & Compliance, Knowledge & Documentation, Writing & Academic, Learning & Education, Research & Analysis, Productivity & Tasks, Safety & Compliance, Meta & Prompt Engineering, Image/Video/Audio Generation, Creative & Role-play, Game Development, Translation, and Legacy 2023-era prompts.
 
-The Frameworks section covers the engineering camp: Prompt Programming (DSPy for LM program compilation), Automatic Prompt Optimization (TextGrad, GEPA), Eval & Testing (promptfoo), Red Team & Security (adversarial prompt testing), and Low-Code & Workflow Platforms. The System Prompt Leaks section collects leaked production system prompts from real products — useful for studying what prompt patterns deployed AI systems use. The Papers section covers 100+ LLM research papers organized into Foundations, Optimization, Reasoning, RAG, Agents, Multi-Agent, Safety, Self-Improving Agents, Tool Use, Evaluation, Memory, and Multimodal.
+The Frameworks section covers the engineering camp: Prompt Programming (DSPy for LM program compilation), Automatic Prompt Optimization (TextGrad, GEPA), Eval & Testing (promptfoo), Red Team & Security (adversarial prompt testing), and Low-Code & Workflow Platforms. The System Prompt Leaks section collects leaked production system prompts from real products, useful for studying what prompt patterns deployed AI systems use. The Papers section covers 100+ LLM research papers organized into Foundations, Optimization, Reasoning, RAG, Agents, Multi-Agent, Safety, Self-Improving Agents, Tool Use, Evaluation, Memory, and Multimodal.
 
 ## Install / access
 
 Repository: https://github.com/ai-boost/awesome-prompts
 
-Browse sections on GitHub and copy the relevant prompts directly. No install required. The repo is best used as a reference and discovery resource rather than a structured workflow tool — it indexes and links rather than providing self-contained installation.
+Browse sections on GitHub and copy the relevant prompts directly. No install required. The repo is best used as a reference and discovery resource rather than a structured workflow tool, it indexes and links rather than providing self-contained installation.
 
 ## When to use
 
-Use this when you want a curated starting point for prompt engineering techniques, frameworks, or research — particularly if you are building AI-powered features or tools and need to understand what the current prompt engineering landscape looks like. The System Prompt Leaks section is genuinely useful for learning production prompt patterns. For structured, workflow-ready prompts, the /prompts section is useful but not as deep as role-specific libraries like useful-ai-prompts or product-manager-prompts.`,
+Use this when you want a curated starting point for prompt engineering techniques, frameworks, or research, particularly if you are building AI-powered features or tools and need to understand what the current prompt engineering landscape looks like. The System Prompt Leaks section is genuinely useful for learning production prompt patterns. For structured, workflow-ready prompts, the /prompts section is useful but not as deep as role-specific libraries like useful-ai-prompts or product-manager-prompts.`,
       },
     ],
     repoUrl: 'https://github.com/ai-boost/awesome-prompts',
     githubStars: 8415,
     capabilities: [
       {
-        command: 'Prompts section — 20+ topic categories',
-        description: 'Copy-paste prompts for coding, DevOps, data engineering, AI/ML, product, healthcare, legal, and more — all open, click and copy.',
+        command: 'Prompts section, 20+ topic categories',
+        description: 'Copy-paste prompts for coding, DevOps, data engineering, AI/ML, product, healthcare, legal, and more, all open, click and copy.',
       },
       {
-        command: 'Frameworks section — Prompt Programming',
+        command: 'Frameworks section, Prompt Programming',
         description: 'Covers DSPy (compile LM programs), TextGrad (automatic prompt optimization), promptfoo (eval & regression testing), and Guidance (structural generation control).',
       },
       {
         command: 'System Prompt Leaks section',
-        description: 'Collected leaked system prompts from real production AI products — useful for understanding what prompt patterns deployed systems actually use.',
+        description: 'Collected leaked system prompts from real production AI products, useful for understanding what prompt patterns deployed systems actually use.',
       },
       {
         command: 'Papers section',
-        description: '100+ research papers on LLM foundations, optimization, reasoning, RAG, agents, multi-agent systems, safety, tool use, evaluation, memory, and multimodal — organized by topic.',
+        description: '100+ research papers on LLM foundations, optimization, reasoning, RAG, agents, multi-agent systems, safety, tool use, evaluation, memory, and multimodal, organized by topic.',
       },
     ],
   },

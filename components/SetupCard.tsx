@@ -92,7 +92,7 @@ export default function SetupCard({ setup, whyLabels, variant = 'full', rank }: 
             </span>
           ) : setup.source === 'github' ? (
             <span className="badge badge-github" data-testid="badge-github">
-              Community pick
+              Community
             </span>
           ) : null}
 

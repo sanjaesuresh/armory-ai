@@ -11,7 +11,7 @@ export const productManagerSkills: Setup[] = [
     description:
       'Drafts a concise Product Requirements Document from a problem statement, target user, and ' +
       'success criteria. Covers problem, solution scope, success metrics, out-of-scope items, ' +
-      'open questions, and dependencies — structured so engineering can start immediately.',
+      'open questions, and dependencies, structured so engineering can start immediately.',
     role: 'Product Manager',
     industry: 'Technology',
     tags: ['prd', 'requirements', 'product-management', 'documentation', 'planning'],
@@ -39,12 +39,12 @@ Additional constraints or context: {{additionalConstraints}}
 {{/if}}
 
 Write a concise one-pager PRD with the following sections:
-1. Problem statement — What is broken, for whom, and at what frequency or scale?
-2. Success metrics — 2–3 measurable outcomes with specific thresholds (no vague "improve" language).
-3. Proposed solution — What will be built, not how. Scope only, no implementation detail.
-4. Out of scope — Explicitly list what this work does not include.
-5. Open questions — Unresolved decisions, each with an owner placeholder and a target resolution date.
-6. Dependencies — Other teams or systems this feature relies on.
+1. Problem statement, What is broken, for whom, and at what frequency or scale?
+2. Success metrics, 2–3 measurable outcomes with specific thresholds (no vague "improve" language).
+3. Proposed solution, What will be built, not how. Scope only, no implementation detail.
+4. Out of scope, Explicitly list what this work does not include.
+5. Open questions, Unresolved decisions, each with an owner placeholder and a target resolution date.
+6. Dependencies, Other teams or systems this feature relies on.
 
 Rules:
 1. Each success metric must be testable with a number or a binary pass/fail state.
@@ -107,7 +107,7 @@ How often / scale: [frequency, number of users affected, or business cost]
 | [Metric 1] | | | |
 | [Metric 2] | | | |
 
-Rule: every metric must have a number — avoid "faster" or "better" without a threshold.
+Rule: every metric must have a number, avoid "faster" or "better" without a threshold.
 
 ## 3. Proposed solution (scope only)
 What we will build: [1–3 sentences describing the user-facing outcome, not the implementation]
@@ -122,11 +122,11 @@ What we will build: [1–3 sentences describing the user-facing outcome, not the
 | [Decision not yet made] | [name] | [date] |
 
 ## 6. Dependencies
-- [Team or system name] — [what is needed from them and when]
+- [Team or system name], [what is needed from them and when]
 
 ## Writing rules
 - Success metrics: avoid "improve," "faster," or "more" without a number.
-- Proposed solution: do not name technologies or architecture choices — that belongs in a tech spec.
+- Proposed solution: do not name technologies or architecture choices, that belongs in a tech spec.
 - Out of scope: be explicit. If you are unsure, put it here and revisit.
 `,
         required: true,
@@ -161,7 +161,7 @@ What we will build: [1–3 sentences describing the user-facing outcome, not the
           'Claude should structure the PRD around the security audit failure and the enterprise admins ' +
           'persona. The success metric must use the "zero failed audits" target as given, and may suggest ' +
           'a complementary metric (e.g., 2FA adoption rate among enterprise accounts). The proposed solution ' +
-          'must stay scope-level — no JWT implementation details. Dependencies should flag the identity provider ' +
+          'must stay scope-level, no JWT implementation details. Dependencies should flag the identity provider ' +
           'integration. Claude must not fabricate compliance data or audit statistics.',
         mustContain: ['two-factor authentication', 'enterprise admins', 'security audits', '2FA'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -213,12 +213,12 @@ Edge cases or constraints to account for: {{edgeCaseContext}}
 For each user story, write:
 - Story title (5–8 words)
 - Story statement: "As a [role], I want [feature] so that [benefit]."
-- Acceptance criteria (numbered list; each criterion is binary — pass or fail, not subjective)
+- Acceptance criteria (numbered list; each criterion is binary, pass or fail, not subjective)
 - Size estimate (XS / S / M / L / XL) with a one-sentence rationale
 
 Rules:
 1. Each acceptance criterion must be testable: "the system displays a confirmation message" passes; "users feel confident" does not.
-2. Write separate stories for separate user intents — do not bundle two distinct actions into one story.
+2. Write separate stories for separate user intents, do not bundle two distinct actions into one story.
 3. If the epic is too large to fit in one response, list all story titles first and ask which to expand.
 4. Never fabricate user research, business metrics, or technical implementation details.`,
 
@@ -269,12 +269,12 @@ Rules:
 ## Story statement
 As a [role], I want [feature] so that [benefit].
 
-- Role: the specific user type, not "user" — be precise ("data analyst," "enterprise admin")
+- Role: the specific user type, not "user", be precise ("data analyst," "enterprise admin")
 - Feature: what they want to do, not how the system does it
 - Benefit: the outcome they get, tied to a goal
 
 ## Acceptance criteria rules
-Each criterion must be binary — it either passes or it does not.
+Each criterion must be binary, it either passes or it does not.
 
 Good: "When the user submits the form with a missing required field, the system highlights the field in red and shows an error message."
 Bad: "The form should be easy to use."
@@ -309,7 +309,7 @@ Number each criterion. Group related criteria under the same story; use separate
           'project lead who needs to see task updates, @mentions, and deadline reminders in one place ' +
           'without switching between email and the app.',
         expectedBehavior:
-          'Claude should produce at least three distinct stories — one per notification type or user intent ' +
+          'Claude should produce at least three distinct stories, one per notification type or user intent ' +
           '(task updates, @mentions, deadline reminders). Each story must follow the "As a [role], I want ' +
           '[feature] so that [benefit]" format, include a numbered list of binary acceptance criteria, and ' +
           'carry a size estimate with rationale. Stories must not be bundled into one giant story. ' +
@@ -389,8 +389,8 @@ RICE formula: Score = (Reach × Impact × Confidence) / Effort
 - Effort: expressed in {{effortUnit}}
 
 Rules:
-1. Use only information provided — if Reach is unknown, state an assumption explicitly and use 50% confidence.
-2. Do not let personal preference override scores — follow the formula and surface the result.
+1. Use only information provided, if Reach is unknown, state an assumption explicitly and use 50% confidence.
+2. Do not let personal preference override scores, follow the formula and surface the result.
 3. Flag any item where a different Reach or Effort estimate would change the top-three ranking.
 4. Never fabricate user counts, business metrics, or engineering effort estimates.`,
 
@@ -426,7 +426,7 @@ Rules:
         label: 'Additional criteria or constraints (optional)',
         type: 'multiline',
         required: false,
-        helpText: 'Strategic constraints that affect ranking — e.g. "nothing that requires a database migration this quarter."',
+        helpText: 'Strategic constraints that affect ranking, e.g. "nothing that requires a database migration this quarter."',
         group: 'Prioritization context',
       },
     ],
@@ -447,17 +447,17 @@ Higher score = higher priority.
 
 ## Reach
 Estimated number of users or customers affected per quarter.
-Use the number directly — do not multiply or normalize.
+Use the number directly, do not multiply or normalize.
 If unknown: state an assumption, reduce confidence to 50%.
 
 ## Impact (fixed scale)
 | Score | Meaning |
 |-------|---------|
-| 3 | Massive — transforms the experience for affected users |
-| 2 | High — noticeably improves the experience |
-| 1 | Medium — modest improvement |
-| 0.5 | Low — slight improvement |
-| 0.25 | Minimal — barely noticeable |
+| 3 | Massive, transforms the experience for affected users |
+| 2 | High, noticeably improves the experience |
+| 1 | Medium, modest improvement |
+| 0.5 | Low, slight improvement |
+| 0.25 | Minimal, barely noticeable |
 
 ## Confidence
 | % | Meaning |
@@ -477,9 +477,9 @@ Flag an item on the watch list when:
 - A dependency outside the team could delay shipping
 
 ## Common mistakes
-- Using "high impact" for everything — force a ranking by using different scores
-- Ignoring effort — a high-impact item with massive effort may still rank low
-- Skipping the watch list — surfacing uncertainty is as valuable as the score
+- Using "high impact" for everything, force a ranking by using different scores
+- Ignoring effort, a high-impact item with massive effort may still rank low
+- Skipping the watch list, surfacing uncertainty is as valuable as the score
 `,
         required: true,
       },
@@ -498,7 +498,7 @@ Flag an item on the watch list when:
           'Effort, and Score columns, followed by a ranked list and a rationale per item tied to the ' +
           'trial-to-paid conversion goal. Items with unclear Reach (e.g., dark mode, custom dashboard) ' +
           'should have lower confidence scores and appear on the watch list. Claude must not invent ' +
-          'user counts — it should state assumptions explicitly.',
+          'user counts, it should state assumptions explicitly.',
         mustContain: ['SSO login', 'Bulk export to PDF', 'trial-to-paid conversion', 'quarterly goal'],
         mustNotContain: ['I cannot help', 'As an AI'],
       },
@@ -532,7 +532,7 @@ Flag an item on the watch list when:
     name: 'Release Notes Writer',
     tagline: 'Turn a raw changelog into polished, audience-appropriate release notes',
     description:
-      'Converts a list of shipped changes — new features, bug fixes, improvements, and breaking changes — ' +
+      'Converts a list of shipped changes, new features, bug fixes, improvements, and breaking changes, ' +
       'into clear, well-structured release notes calibrated to your audience. Outputs are ready to ' +
       'publish to a changelog page, in-app notification, or release email.',
     role: 'Product Manager',
@@ -564,7 +564,7 @@ Preferred changelog format: {{changelogFormat}}
 When given a list of changes, write release notes that:
 1. Open with a brief summary paragraph (2–3 sentences) describing the theme of this release
 2. Group changes under labeled sections matching the chosen format
-3. Write each item from the user's perspective — lead with the benefit or impact, not the technical mechanism
+3. Write each item from the user's perspective, lead with the benefit or impact, not the technical mechanism
 4. Highlight any breaking changes with a clear warning and migration step if possible
 5. Close with a "What's next" teaser (1 sentence) if future work is mentioned
 
@@ -575,8 +575,8 @@ Audience calibration:
 - Internal team: full technical detail is fine; include root causes for bug fixes
 
 Rules:
-1. Do not invent changes that were not provided — if a detail is missing, flag it as [NEEDS DETAIL].
-2. Breaking changes must be called out in a visually distinct section — never buried in a list.
+1. Do not invent changes that were not provided, if a detail is missing, flag it as [NEEDS DETAIL].
+2. Breaking changes must be called out in a visually distinct section, never buried in a list.
 3. Write in past tense for shipped items ("Added," "Fixed," "Removed," not "We are adding").
 4. Never fabricate performance numbers, user counts, or benchmark comparisons.`,
 
@@ -635,16 +635,16 @@ Rules:
 
 ### What's New / Bug Fixes / Improvements
 Use for: end-user-facing releases with a mix of new features and polish.
-- **What's New** — net-new capabilities
-- **Improvements** — enhancements to existing features
-- **Bug Fixes** — resolved defects (user-facing language, not stack traces)
+- **What's New**, net-new capabilities
+- **Improvements**, enhancements to existing features
+- **Bug Fixes**, resolved defects (user-facing language, not stack traces)
 
 ### Added / Changed / Fixed / Removed
 Use for: developer / API consumer audiences (follows Keep a Changelog convention).
-- **Added** — new features, endpoints, or parameters
-- **Changed** — behavior changes to existing features (include before → after)
-- **Fixed** — resolved bugs
-- **Removed** — deprecated items that are now gone (always include migration path)
+- **Added**, new features, endpoints, or parameters
+- **Changed**, behavior changes to existing features (include before → after)
+- **Fixed**, resolved bugs
+- **Removed**, deprecated items that are now gone (always include migration path)
 
 ### Narrative prose
 Use for: high-stakes or marketing-facing releases where story matters more than structure.
@@ -666,9 +666,9 @@ Use for: high-stakes or marketing-facing releases where story matters more than 
 | Internal team | Root cause, technical detail | Sanitizing or over-simplifying |
 
 ## Writing rules
-- Past tense: "Added," "Fixed," "Removed" — not "We are adding"
+- Past tense: "Added," "Fixed," "Removed", not "We are adding"
 - Lead with benefit: "Export reports 3× faster" not "Refactored the export pipeline"
-- One item per bullet — do not bundle two changes
+- One item per bullet, do not bundle two changes
 `,
         required: true,
       },
@@ -687,7 +687,7 @@ Use for: high-stakes or marketing-facing releases where story matters more than 
           'group the three changes into appropriate sections. Real-time collaboration should lead with the ' +
           'user benefit ("Work together without refreshing"). The autosave fix should be in Bug Fixes with ' +
           'plain language (no "race condition" jargon). The 40% load time improvement should be stated as ' +
-          'given — Claude must not round up or invent a higher figure. No technical implementation details.',
+          'given, Claude must not round up or invent a higher figure. No technical implementation details.',
         mustContain: ['real-time collaboration', 'autosave', 'load time', '2.4.0'],
         mustNotContain: ['I cannot help', 'As an AI'],
       },
@@ -722,7 +722,7 @@ Use for: high-stakes or marketing-facing releases where story matters more than 
     name: 'Roadmap Narrative',
     tagline: 'Wrap a roadmap in a compelling "why" story that gets stakeholders aligned',
     description:
-      'Drafts a written narrative for a product roadmap — a "north star" story that explains the ' +
+      'Drafts a written narrative for a product roadmap, a "north star" story that explains the ' +
       'strategic theme, why now, and how the planned work connects to business goals. ' +
       'Calibrated to the audience so executives get strategy and engineers get context.',
     role: 'Product Manager',
@@ -752,7 +752,7 @@ Audience: {{audienceType}}
 Write a roadmap narrative with the following structure:
 1. Where we are now (1–2 sentences grounding the reader in the current state)
 2. Why this theme, why now (2–3 sentences: the business or user problem driving this direction)
-3. What we are building and in what order (connect the roadmap items to the theme — do not just list features)
+3. What we are building and in what order (connect the roadmap items to the theme, do not just list features)
 4. What success looks like by the end of {{timeHorizon}} (2–3 specific, observable outcomes)
 5. What we are not doing and why (explicit trade-offs made to stay focused)
 
@@ -763,7 +763,7 @@ Audience calibration:
 - All hands: balance inspiration and clarity; avoid jargon; make the "why" feel personally relevant
 
 Rules:
-1. Never fabricate roadmap items, timelines, or business metrics — use only what is provided.
+1. Never fabricate roadmap items, timelines, or business metrics, use only what is provided.
 2. Trade-offs in section 5 must be specific: name what is explicitly deferred, not just "other things."
 3. If given a list of roadmap items, weave them into the narrative rather than listing them verbatim.
 4. Never fabricate competitive data, revenue figures, or user research.`,
@@ -819,10 +819,10 @@ Rules:
 ## Five-section structure
 
 ### 1. Where we are now
-Ground the reader quickly — no jargon. One or two sentences on the current product state, user base, or business position that makes the theme feel necessary.
+Ground the reader quickly, no jargon. One or two sentences on the current product state, user base, or business position that makes the theme feel necessary.
 
 ### 2. Why this theme, why now
-The forcing function. What changed — user behavior, competition, a strategic bet, or a business target — that makes this the right direction at this moment? This is where you earn credibility.
+The forcing function. What changed, user behavior, competition, a strategic bet, or a business target, that makes this the right direction at this moment? This is where you earn credibility.
 
 ### 3. What we are building and in what order
 Do not list features. Connect the work to the theme:
@@ -863,11 +863,11 @@ Format: "We are not building [X] this [horizon] because [reason]. It is queued f
         id: 'product-manager-roadmap-narrative-scenario-1',
         title: 'Write an executive roadmap narrative for an onboarding theme',
         userInput:
-          'Write a roadmap narrative for Q2 and Q3. The primary theme is user onboarding — we want to ' +
+          'Write a roadmap narrative for Q2 and Q3. The primary theme is user onboarding, we want to ' +
           'cut time-to-first-value from 7 days to under 2 days. I am presenting this to executive leadership ' +
           'next week. Planned work: guided setup wizard, in-app checklist, empty-state templates.',
         expectedBehavior:
-          'Claude should produce a five-section narrative written for executives — business-outcome led, ' +
+          'Claude should produce a five-section narrative written for executives, business-outcome led, ' +
           'no technical implementation detail. Section 2 must explain why onboarding is the bottleneck now ' +
           '(using only provided context). Section 4 must use the specific 7-to-under-2-day metric as a ' +
           'target. Section 5 must explicitly name something deferred. Claude must not fabricate activation ' +
@@ -880,10 +880,10 @@ Format: "We are not building [X] this [horizon] because [reason]. It is queued f
         title: 'Write an engineering team roadmap narrative for a stability theme',
         userInput:
           'Write a roadmap narrative for the next 6 months for the engineering team. The theme is ' +
-          'platform stability — we have had too many incidents and need to invest in reliability ' +
+          'platform stability, we have had too many incidents and need to invest in reliability ' +
           'before adding new features.',
         expectedBehavior:
-          'Claude should write for an engineering audience — the sequencing rationale in section 3 ' +
+          'Claude should write for an engineering audience, the sequencing rationale in section 3 ' +
           'should explain why reliability work ships before new features (e.g., incidents reduce velocity ' +
           'more than pausing feature work does). Section 5 must name specific feature work that is ' +
           'deferred and why. The tone should be collaborative and technically grounded. Claude must not ' +
@@ -906,8 +906,8 @@ Format: "We are not building [X] this [horizon] because [reason]. It is queued f
     name: 'Competitive Analysis',
     tagline: 'Structure competitor observations into a product-focused analysis with clear takeaways',
     description:
-      'Takes raw observations about a competitor — feature lists, pricing signals, positioning copy, ' +
-      'user reviews — and structures them into a product-focused competitive analysis. ' +
+      'Takes raw observations about a competitor, feature lists, pricing signals, positioning copy, ' +
+      'user reviews, and structures them into a product-focused competitive analysis. ' +
       'Identifies positioning gaps and surfaces three specific product actions you can take.',
     role: 'Product Manager',
     industry: 'Technology',
@@ -936,16 +936,16 @@ Focus this analysis on: {{focusDimension}}
 {{/if}}
 
 When given competitor observations, produce a structured analysis with:
-1. Competitor positioning summary (how they describe themselves and who they target — one paragraph)
+1. Competitor positioning summary (how they describe themselves and who they target, one paragraph)
 2. Feature comparison (what they have that we lack; what we have that they lack; what overlaps)
 3. Target customer signals (who their content, pricing, and messaging implies they are optimizing for)
 4. Weaknesses and gaps (specific things they are doing poorly or not covering)
 5. Product opportunities (3 specific, actionable product decisions we should consider based on this analysis)
 
 Rules:
-1. Work only with the observations provided — do not invent feature capabilities, pricing, or user data.
+1. Work only with the observations provided, do not invent feature capabilities, pricing, or user data.
 2. Label inferences clearly: "Based on their homepage copy, they appear to target…"
-3. Product opportunities must be specific to our product and grounded in the gap analysis — not generic advice.
+3. Product opportunities must be specific to our product and grounded in the gap analysis, not generic advice.
 4. Never fabricate revenue figures, market share data, or user counts.`,
 
     variables: [
@@ -954,7 +954,7 @@ Rules:
         label: 'Your product name',
         type: 'text',
         required: true,
-        helpText: 'Your product — the one doing the analyzing.',
+        helpText: 'Your product, the one doing the analyzing.',
         group: 'Products',
       },
       {
@@ -997,7 +997,7 @@ Rules:
 - Homepage hero: headline + subheading + primary CTA
 - Pricing page: tiers, price points, what's included at each tier
 - Feature list or comparison page (if public)
-- 5–10 recent G2, Capterra, or App Store reviews — especially 2–3 star reviews (they reveal real pain)
+- 5–10 recent G2, Capterra, or App Store reviews, especially 2–3 star reviews (they reveal real pain)
 - 3–5 recent LinkedIn or blog posts (reveals who they are trying to reach)
 - Any public changelog or "What's new" page (reveals roadmap direction)
 
@@ -1020,7 +1020,7 @@ Columns: "Only us," "Only them," "Both," "Neither (opportunity)"
 
 ### 4. Weaknesses and gaps
 Pull these from negative reviews and from what they conspicuously avoid talking about.
-Each weakness should be: [Observable gap] — [Evidence from observations]
+Each weakness should be: [Observable gap], [Evidence from observations]
 
 ### 5. Product opportunities (for us)
 Each opportunity must be:
@@ -1028,7 +1028,7 @@ Each opportunity must be:
 - Grounded in a gap or weakness identified above
 - Actionable within 1–2 quarters
 
-Format: [Action] — because [competitor gap or user pain] — priority: High / Medium / Low
+Format: [Action], because [competitor gap or user pain], priority: High / Medium / Low
 
 ## Inference labeling
 Always prefix inferred conclusions with:
@@ -1054,7 +1054,7 @@ Always prefix inferred conclusions with:
           'the "all-in-one" claim and infer enterprise or tech-savvy target. Feature comparison should ' +
           'note what Basecamp has that Notion lacks (simplicity, opinionated structure). Weaknesses should ' +
           'reference the G2 review evidence about complexity. Product opportunities must be specific to ' +
-          'Basecamp — e.g., "double down on onboarding simplicity as a differentiator." No fabricated ' +
+          'Basecamp, e.g., "double down on onboarding simplicity as a differentiator." No fabricated ' +
           'user counts or revenue data.',
         mustContain: ['Notion', 'Basecamp', 'all-in-one workspace', 'learning curve'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -1090,8 +1090,8 @@ Always prefix inferred conclusions with:
     name: 'User Interview Guide',
     tagline: 'A structured interview script that uncovers real user behavior, not surface opinions',
     description:
-      'Generates a complete user interview guide — opening framing, behavior-first questions, probing ' +
-      'follow-ups, and a closing — designed to surface actual user workflows and pain points rather than ' +
+      'Generates a complete user interview guide, opening framing, behavior-first questions, probing ' +
+      'follow-ups, and a closing, designed to surface actual user workflows and pain points rather than ' +
       'hypothetical feature requests. Timed to fit your session length.',
     role: 'Product Manager',
     industry: 'Technology',
@@ -1119,7 +1119,7 @@ Interview duration: {{interviewDuration}}
 
 Write a complete interview guide with the following structure:
 1. Introduction script (2–3 minutes): how to open, set expectations, get consent to record, and warm up the participant
-2. Warm-up questions (2–3 questions, 5 minutes): context-setting about their role and current workflow — no product mention yet
+2. Warm-up questions (2–3 questions, 5 minutes): context-setting about their role and current workflow, no product mention yet
 3. Core behavior questions (the bulk of the time): open-ended, past-tense questions about actual behavior, not hypotheticals
 4. Probing follow-ups: a bank of 5–8 probing questions to go deeper on any answer (suitable for any section)
 5. Closing (2–3 minutes): thank participant, ask if they have questions, explain next steps
@@ -1130,9 +1130,9 @@ Format each question section with:
 - An estimated time allocation
 
 Rules:
-1. All core questions must be past-tense and behavior-based ("Tell me about the last time you…") — no hypotheticals ("Would you use…?").
+1. All core questions must be past-tense and behavior-based ("Tell me about the last time you…"), no hypotheticals ("Would you use…?").
 2. Questions must avoid leading language that implies a correct answer.
-3. Scale the number of core questions to fit {{interviewDuration}} — a 30-minute guide has fewer questions than a 60-minute one.
+3. Scale the number of core questions to fit {{interviewDuration}}, a 30-minute guide has fewer questions than a 60-minute one.
 4. Never fabricate interview findings, participant quotes, or user data.`,
 
     variables: [
@@ -1157,7 +1157,7 @@ Rules:
         label: 'Participant type',
         type: 'text',
         required: true,
-        helpText: 'Who you are interviewing — be specific. E.g. "new signups who churned in their first 30 days."',
+        helpText: 'Who you are interviewing, be specific. E.g. "new signups who churned in their first 30 days."',
         group: 'Research context',
       },
       {
@@ -1210,7 +1210,7 @@ Bad: "If we added a one-click report feature, would you use it?"
 ## Common facilitation mistakes
 - Suggesting answers: "Was it frustrating?" → better: "What was that like?"
 - Accepting the first answer: always probe once more
-- Talking too much: aim for 80/20 — participant talks 80% of the time
+- Talking too much: aim for 80/20, participant talks 80% of the time
 - Jumping to solutions: if a participant says "you should build X," ask "what would that help you accomplish?"
 
 ## Timing guide
@@ -1221,7 +1221,7 @@ Bad: "If we added a one-click report feature, would you use it?"
 | 60 minutes | 3 min | 7 min | 38 min | 10 min | 2 min |
 
 ## After the interview
-- Write notes immediately — memory fades within 30 minutes
+- Write notes immediately, memory fades within 30 minutes
 - Note direct quotes verbatim; label inferences as such
 - Use a consistent tag system (e.g., #pain, #workaround, #job-to-be-done) across all sessions
 `,
@@ -1239,7 +1239,7 @@ Bad: "If we added a one-click report feature, would you use it?"
         expectedBehavior:
           'Claude should produce a complete guide with an intro script, 2–3 warm-up questions, core behavior ' +
           'questions scaled to fit 45 minutes, a probing follow-up bank, and a close. Core questions must ' +
-          'be past-tense behavior questions about the actual drop-off moment — not hypotheticals about what ' +
+          'be past-tense behavior questions about the actual drop-off moment, not hypotheticals about what ' +
           'would have helped. The guide should not mention the product by name in early questions to avoid ' +
           'priming. Claude must not fabricate drop-off rates or interview findings.',
         mustContain: ['45-minute', 'onboarding flow', 'completing their profile', 'first 3 days'],
@@ -1278,7 +1278,7 @@ Bad: "If we added a one-click report feature, would you use it?"
     description:
       'Recommends a focused set of KPIs for a product feature or initiative, calibrated to the ' +
       'product stage and primary goal. Each metric includes a definition, a measurement method, ' +
-      'and a rationale for why it matters at this stage — not at every stage.',
+      'and a rationale for why it matters at this stage, not at every stage.',
     role: 'Product Manager',
     industry: 'Technology',
     tags: ['metrics', 'kpis', 'analytics', 'product-management', 'data'],
@@ -1310,15 +1310,15 @@ When given a feature or initiative to measure, recommend a focused metric set wi
 4. Anti-metrics (1–2 things that are easy to measure and tempting to track but would lead the team in the wrong direction at this stage)
 
 For each metric include:
-- Definition (precisely what it measures — no ambiguity)
+- Definition (precisely what it measures, no ambiguity)
 - How to measure it (data source or event to track)
 - Reporting cadence: {{reportingCadence}}
 - Stage fit rationale (why this metric matters in the {{productStage}} stage specifically)
 
 Rules:
-1. Tailor metrics to the stated product stage — a Discovery metric set looks very different from a Maturity set.
-2. Limit the north star to exactly one metric — do not offer multiple options without ranking them.
-3. Anti-metrics must be specific and explained — do not just say "avoid vanity metrics."
+1. Tailor metrics to the stated product stage, a Discovery metric set looks very different from a Maturity set.
+2. Limit the north star to exactly one metric, do not offer multiple options without ranking them.
+3. Anti-metrics must be specific and explained, do not just say "avoid vanity metrics."
 4. Never fabricate benchmarks, industry averages, or target numbers without flagging them as estimates.`,
 
     variables: [
@@ -1382,7 +1382,7 @@ It should be:
 Explain WHY the north star moved. Usually 3–5 metrics covering:
 - Input metrics (actions users take that drive the north star)
 - Process metrics (health of the funnel or workflow)
-- Quality metrics (user satisfaction signals — not pure volume)
+- Quality metrics (user satisfaction signals, not pure volume)
 
 ### Guardrail metrics
 Things that must NOT regress as you optimize the north star.
@@ -1390,9 +1390,9 @@ Example: if your north star is "reports generated per week," a guardrail is "tim
 
 ### Anti-metrics
 Easy to measure, tempting to track, but misleading at your current stage.
-- Page views during Discovery — you are trying to learn, not drive traffic
-- Total registered users during Maturity — you care about retention, not new signups
-- Support tickets opened during Growth — could indicate normal adoption growing pains, not quality problems
+- Page views during Discovery, you are trying to learn, not drive traffic
+- Total registered users during Maturity, you care about retention, not new signups
+- Support tickets opened during Growth, could indicate normal adoption growing pains, not quality problems
 
 ## Stage-appropriate north star examples
 
@@ -1435,7 +1435,7 @@ Easy to measure, tempting to track, but misleading at your current stage.
           'What metrics should we track for our enterprise onboarding flow? We are in Discovery stage, ' +
           'primary goal is validating that admins can fully configure the product without support help.',
         expectedBehavior:
-          'Claude should select a north star appropriate for Discovery — something that confirms the ' +
+          'Claude should select a north star appropriate for Discovery, something that confirms the ' +
           'core workflow is learnable without assistance, such as "% of enterprise admins who complete ' +
           'full configuration within their first session without contacting support." Anti-metrics should ' +
           'call out what NOT to track at this stage (e.g., total configured accounts is a vanity metric ' +
@@ -1459,7 +1459,7 @@ Easy to measure, tempting to track, but misleading at your current stage.
     name: 'Stakeholder Update',
     tagline: 'Write a clear, honest stakeholder update that surfaces risks without burying the lead',
     description:
-      'Drafts a concise stakeholder update for a product initiative — covering delivery status, ' +
+      'Drafts a concise stakeholder update for a product initiative, covering delivery status, ' +
       'what shipped or was decided, what is coming next, risks, and decisions needed. ' +
       'Calibrated to the audience so executives get the essentials and peers get the context.',
     role: 'Product Manager',
@@ -1489,11 +1489,11 @@ Open decision that needs input: {{openDecision}}
 {{/if}}
 
 Write a structured stakeholder update with the following sections:
-1. Status line — one line: "Status: [On track / At risk / Blocked / Shipped] — [one-sentence summary]"
-2. This period — what shipped, was decided, or progressed (bullet list; 3–5 items maximum)
-3. Next period — what is planned for the coming period (bullet list; 3–5 items maximum)
-4. Risks — what could slip, and why (be specific about the risk and its impact; do not soften blockers)
-5. Decisions needed — any outstanding decisions, each with an owner placeholder and a target date
+1. Status line, one line: "Status: [On track / At risk / Blocked / Shipped], [one-sentence summary]"
+2. This period, what shipped, was decided, or progressed (bullet list; 3–5 items maximum)
+3. Next period, what is planned for the coming period (bullet list; 3–5 items maximum)
+4. Risks, what could slip, and why (be specific about the risk and its impact; do not soften blockers)
+5. Decisions needed, any outstanding decisions, each with an owner placeholder and a target date
 
 Audience calibration:
 - Executive leadership: compress to 5–7 bullets total; lead with business impact; skip implementation detail
@@ -1502,8 +1502,8 @@ Audience calibration:
 - Mixed: prioritize the status line and risks; let each group drill into the sections they need
 
 Rules:
-1. Never bury a blocker inside the "next period" section — blockers belong in "Risks" with full context.
-2. Do not soften the status color to avoid uncomfortable conversations — use the accurate status.
+1. Never bury a blocker inside the "next period" section, blockers belong in "Risks" with full context.
+2. Do not soften the status color to avoid uncomfortable conversations, use the accurate status.
 3. Decisions needed must name a specific owner placeholder and a date, not just "TBD."
 4. Never fabricate metrics, delivery dates, or team decisions that were not provided.`,
 
@@ -1555,11 +1555,11 @@ Rules:
         content: `# Stakeholder Update Template
 
 ## Status line
-Status: [On track / At risk / Blocked / Shipped] — [one sentence: what this means right now]
+Status: [On track / At risk / Blocked / Shipped], [one sentence: what this means right now]
 
 ## This period
 - [What shipped, was decided, or materially progressed]
-- [Keep to 3–5 bullets maximum — if there are more, summarize by theme]
+- [Keep to 3–5 bullets maximum, if there are more, summarize by theme]
 
 ## Next period
 - [What is planned for the coming week / sprint / month]
@@ -1589,9 +1589,9 @@ Status: [On track / At risk / Blocked / Shipped] — [one sentence: what this me
 ---
 
 ## Common mistakes
-- Softening "At risk" to "On track" to avoid a difficult conversation — this is how slips become surprises
-- Burying a blocker inside "Next period" — blockers always go in Risks
-- Leaving "Decisions needed" without an owner and a date — these never get resolved
+- Softening "At risk" to "On track" to avoid a difficult conversation, this is how slips become surprises
+- Burying a blocker inside "Next period", blockers always go in Risks
+- Leaving "Decisions needed" without an owner and a date, these never get resolved
 `,
         required: true,
       },
@@ -1602,7 +1602,7 @@ Status: [On track / At risk / Blocked / Shipped] — [one sentence: what this me
         id: 'product-manager-stakeholder-update-scenario-1',
         title: 'Write an at-risk update for a slipped deadline',
         userInput:
-          'Write a stakeholder update for the checkout redesign project. Status is At risk — we are ' +
+          'Write a stakeholder update for the checkout redesign project. Status is At risk, we are ' +
           'two weeks behind because the payment gateway integration took longer than estimated. ' +
           'Audience is executive leadership.',
         expectedBehavior:
@@ -1618,7 +1618,7 @@ Status: [On track / At risk / Blocked / Shipped] — [one sentence: what this me
         id: 'product-manager-stakeholder-update-scenario-2',
         title: 'Write an on-track update for cross-functional peers',
         userInput:
-          'Write an update on the mobile app relaunch for cross-functional peers. We are on track — just ' +
+          'Write an update on the mobile app relaunch for cross-functional peers. We are on track, just ' +
           'finished the beta with 200 testers, launch is still set for March 15th. The main open question ' +
           'is whether marketing has the campaign assets ready.',
         expectedBehavior:
@@ -1675,14 +1675,14 @@ Include a known workaround for each bug where one exists.
 {{/if}}
 
 When given a list of bugs, produce a structured triage summary with:
-1. Triage overview — total bugs, breakdown by severity, trend vs. last period (if data provided)
-2. Severity-ranked bug table — columns: Bug | Severity | Users Affected | Recommended Action | Owner placeholder
-3. Recommended actions — for each bug: Fix now (this sprint) / Schedule (next sprint) / Defer (backlog) / Close (not a bug or duplicate)
-4. Pattern analysis — 2–3 observations about what the bug set reveals as a systemic issue, if any patterns exist
-5. Top 3 bugs to escalate — the three items that need a decision or owner before the next triage cycle
+1. Triage overview, total bugs, breakdown by severity, trend vs. last period (if data provided)
+2. Severity-ranked bug table, columns: Bug | Severity | Users Affected | Recommended Action | Owner placeholder
+3. Recommended actions, for each bug: Fix now (this sprint) / Schedule (next sprint) / Defer (backlog) / Close (not a bug or duplicate)
+4. Pattern analysis, 2–3 observations about what the bug set reveals as a systemic issue, if any patterns exist
+5. Top 3 bugs to escalate, the three items that need a decision or owner before the next triage cycle
 
 Rules:
-1. Severity assignments must use the {{severityScale}} scale — do not invent new severity levels.
+1. Severity assignments must use the {{severityScale}} scale, do not invent new severity levels.
 2. Recommended actions must be justified by user impact, not just severity score alone.
 3. If user count is unknown for a bug, flag it as [USER COUNT UNKNOWN] rather than guessing.
 4. Never fabricate bug counts, crash rates, or error frequency data not provided.`,
@@ -1791,7 +1791,7 @@ Look for:
         id: 'product-manager-bug-triage-summary-scenario-1',
         title: 'Triage a weekly bug list with a mix of severities',
         userInput:
-          'Summarize this week\'s bug triage. Bugs: 1) Users cannot log in with SSO on Chrome v123 — ' +
+          'Summarize this week\'s bug triage. Bugs: 1) Users cannot log in with SSO on Chrome v123, ' +
           'affects 800 enterprise users. 2) PDF export appends a blank page at the end. ' +
           '3) Search returns no results when query contains a colon. ' +
           '4) Email notifications send twice if user has multiple accounts.',
@@ -1810,13 +1810,13 @@ Look for:
         title: 'Sprint-end triage with open and closed counts',
         userInput:
           'Write a sprint-end bug triage summary. Opened this sprint: 12 bugs. Closed: 8. Still open: ' +
-          'P0 — checkout crashes on iOS 17 when using Apple Pay. ' +
-          'P1 — CSV export cuts off rows after row 1000. ' +
-          'P2 — date picker shows wrong month on Safari.',
+          'P0, checkout crashes on iOS 17 when using Apple Pay. ' +
+          'P1, CSV export cuts off rows after row 1000. ' +
+          'P2, date picker shows wrong month on Safari.',
         expectedBehavior:
           'Claude should produce a sprint-end summary that leads with the triage overview (12 opened, ' +
           '8 closed, 4 still open). The checkout crash on iOS 17 with Apple Pay must be called out as ' +
-          'the top escalation item — a P0 that is still open at sprint end requires immediate attention. ' +
+          'the top escalation item, a P0 that is still open at sprint end requires immediate attention. ' +
           'The CSV export row limit bug is P1 and should be scheduled for the next sprint as a top priority. ' +
           'The Safari date picker is P2 and can be scheduled normally. Pattern analysis should note the ' +
           'concentration of issues in third-party integrations (Apple Pay, Safari). No fabricated data.',

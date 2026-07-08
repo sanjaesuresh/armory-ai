@@ -15,7 +15,7 @@ export const claudeCodeToolkitSetup: Setup = {
   id: 'community-claude-code-toolkit-v1',
   slug: 'claude-code-toolkit',
   name: 'Claude Code Toolkit',
-  tagline: 'Turn Claude Code into a disciplined team of specialists — plan-first, skill-routed, safe.',
+  tagline: 'Turn Claude Code into a disciplined team of specialists, plan-first, skill-routed, safe.',
   description:
     'The operating-instructions config from the Claude Code Toolkit ' +
     '(github.com/sanjaesuresh/claude-code-toolkit), bundling 42 skills and 19 subagents behind a ' +
@@ -42,13 +42,13 @@ export const claudeCodeToolkitSetup: Setup = {
 You are my engineering partner in Claude Code. Follow these rules on every task.
 
 ## Posture
-- Be precise, skeptical, and implementation-focused. Read the actual code before advising — prefer concrete file/function references over guesses.
+- Be precise, skeptical, and implementation-focused. Read the actual code before advising, prefer concrete file/function references over guesses.
 - Keep changes tightly scoped. Do not refactor broadly unless I ask. Match the existing style and patterns of the file you edit.
 {{#if primaryStack}}- Primary stack: {{primaryStack}}. Prefer its idioms and the existing dependencies over adding new ones.{{/if}}
 
 ## Planning gate
 Planning discipline for this project: {{planningStrictness}}.
-- For any non-trivial feature or medium-or-larger change, produce a short written plan (scope, risks, assumptions, test plan) and get my approval BEFORE writing code. A detailed spec from me is not approval — you still owe the plan.
+- For any non-trivial feature or medium-or-larger change, produce a short written plan (scope, risks, assumptions, test plan) and get my approval BEFORE writing code. A detailed spec from me is not approval, you still owe the plan.
 - A genuinely small, obvious, localized fix may skip the plan. When unsure, plan.
 
 ## Skills first
@@ -58,10 +58,10 @@ Before acting, check whether a bundled skill or subagent fits, and use it. "Buil
 Do thinking-heavy work (planning, architecture, debugging hypotheses, review) on the stronger model. Execute the agreed plan on the cheaper model, then switch back for the review pass.{{/if}}
 
 ## Decision briefs
-When you ask me to choose between approaches, give each option: a completeness score (X/10), effort on both scales (human vs AI), whether it is [one-way] or [two-way], and a one-line recommendation. Plans and option write-ups are prose only — no code.
+When you ask me to choose between approaches, give each option: a completeness score (X/10), effort on both scales (human vs AI), whether it is [one-way] or [two-way], and a one-line recommendation. Plans and option write-ups are prose only, no code.
 
 ## Verify before done
-A task is DONE only when verified by actually running it — show the evidence (tests, output). If you cannot verify, say UNVERIFIABLE. After finishing, give a short plain-English summary of what changed and why, and the files touched.
+A task is DONE only when verified by actually running it, show the evidence (tests, output). If you cannot verify, say UNVERIFIABLE. After finishing, give a short plain-English summary of what changed and why, and the files touched.
 
 ## Safety (posture: {{safetyPosture}})
 - Never persist proprietary or work-specific information into global files.
@@ -79,8 +79,8 @@ Direct. No filler, no flattery. Avoid AI-tell vocabulary (delve, robust, seamles
       key: 'planningStrictness',
       label: 'Planning discipline',
       type: 'select',
-      options: ['Strict — plan and approve before any non-trivial code', 'Balanced — plan medium+ changes', 'Lightweight — plan only large or risky work'],
-      default: 'Balanced — plan medium+ changes',
+      options: ['Strict, plan and approve before any non-trivial code', 'Balanced, plan medium+ changes', 'Lightweight, plan only large or risky work'],
+      default: 'Balanced, plan medium+ changes',
       required: true,
       helpText: 'How strictly Claude must write a plan and wait for approval before coding.',
       group: 'Workflow',
@@ -98,8 +98,8 @@ Direct. No filler, no flattery. Avoid AI-tell vocabulary (delve, robust, seamles
       key: 'safetyPosture',
       label: 'Safety posture',
       type: 'select',
-      options: ['Standard', 'Careful — confirm destructive commands', 'Locked down — confirm + restrict edit scope'],
-      default: 'Careful — confirm destructive commands',
+      options: ['Standard', 'Careful, confirm destructive commands', 'Locked down, confirm + restrict edit scope'],
+      default: 'Careful, confirm destructive commands',
       required: true,
       helpText: 'How cautious Claude is around destructive shell commands and irreversible actions.',
       group: 'Safety',
@@ -135,22 +135,22 @@ Direct. No filler, no flattery. Avoid AI-tell vocabulary (delve, robust, seamles
       purpose:
         'An overview of the toolkit’s 42 skills and 19 subagents and the one-command install, so you can pair this exported config with the full skill/agent library.',
       kind: 'starter',
-      content: `# Claude Code Toolkit — install & contents
+      content: `# Claude Code Toolkit, install & contents
 
 Repo: https://github.com/sanjaesuresh/claude-code-toolkit
 
 ## What it is
 A portable Claude Code setup: 42 reusable skills + 19 subagents + safety guardrails
 + project templates that turn Claude Code into a team of specialists. Everything is
-plain markdown — no binaries, no telemetry. This Armory setup is the operating-
+plain markdown, no binaries, no telemetry. This Armory setup is the operating-
 instructions layer (your CLAUDE.md); install the repo to get the skills and agents.
 
 ## Install (macOS/Linux)
 \`\`\`bash
 git clone https://github.com/sanjaesuresh/claude-code-toolkit.git
 cd claude-code-toolkit
-bash bootstrap.sh            # copy mode — safe everywhere
-bash bootstrap.sh --symlink  # symlink mode — personal machines
+bash bootstrap.sh            # copy mode, safe everywhere
+bash bootstrap.sh --symlink  # symlink mode, personal machines
 \`\`\`
 
 ## Install (Windows PowerShell)
@@ -196,7 +196,7 @@ for global use). It encodes the plan-first, skill-routed, verify-before-done wor
       userInput:
         'Add a rate limiter to our public API endpoints and wire it into the existing middleware.',
       expectedBehavior:
-        'Claude should NOT jump straight to code. It should recognize this as a non-trivial change and first produce a short written plan — scope, the files/middleware it will touch, risks (e.g. shared state, false positives), assumptions, and a test plan — then ask for approval before implementing. It should offer to execute on the cheaper model once the plan is agreed if model tiering is on.',
+        'Claude should NOT jump straight to code. It should recognize this as a non-trivial change and first produce a short written plan, scope, the files/middleware it will touch, risks (e.g. shared state, false positives), assumptions, and a test plan, then ask for approval before implementing. It should offer to execute on the cheaper model once the plan is agreed if model tiering is on.',
       mustContain: ['rate limiter', 'middleware', 'plan'],
       mustNotContain: ['I cannot help', 'As an AI'],
     },

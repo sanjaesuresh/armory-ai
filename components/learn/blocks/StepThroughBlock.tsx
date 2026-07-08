@@ -55,7 +55,7 @@ export default function StepThroughBlock({ block }: { block: StepThroughBlockDat
       <div
         className="step-through-card"
         role="group"
-        aria-label="Step-through — use the arrow keys to move between steps"
+        aria-label="Step-through, use the arrow keys to move between steps"
         tabIndex={0}
         onKeyDown={onKeyDown}
       >

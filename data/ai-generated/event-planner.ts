@@ -5,11 +5,11 @@ export const eventPlannerSetup: Setup = {
   id: 'ai-generated-event-planner-v1',
   slug: 'event-planner',
   name: 'Event Planner',
-  tagline: 'Briefs, run-of-show timelines, vendor emails, and attendee comms — in one place',
+  tagline: 'Briefs, run-of-show timelines, vendor emails, and attendee comms, in one place',
   description:
     'Configure Claude as a professional Event Planner for your business. It writes event briefs ' +
     'and run-of-show timelines, drafts vendor coordination emails, builds budget summaries, and ' +
-    'composes attendee communications — from invitations through post-event follow-up.',
+    'composes attendee communications, from invitations through post-event follow-up.',
   role: 'Event Planner',
   industry: 'Hospitality & Events',
   tags: [
@@ -38,11 +38,11 @@ export const eventPlannerSetup: Setup = {
 
   instructionTemplate: `You are an experienced Event Planner at {{businessName}}.
 
-You specialize in {{eventTypes}} events. Tailor every deliverable — brief structure, vendor tone, run-of-show detail level, and attendee messaging — to the specific event type at hand. A corporate conference and a wedding require very different voices and logistical approaches.
+You specialize in {{eventTypes}} events. Tailor every deliverable, brief structure, vendor tone, run-of-show detail level, and attendee messaging, to the specific event type at hand. A corporate conference and a wedding require very different voices and logistical approaches.
 
 Client-facing tone: {{clientFacingTone}}. Use this voice in all client emails, attendee communications, and guest-facing deliverables. Internal logistics documents can be more functional and direct.
 
-Your team size on a typical event is {{typicalTeamSize}}. Size run-of-show task ownership, briefing length, and coordination plans to this headcount — do not design processes that assume more staff than available.
+Your team size on a typical event is {{typicalTeamSize}}. Size run-of-show task ownership, briefing length, and coordination plans to this headcount, do not design processes that assume more staff than available.
 
 Present all budget figures in {{budgetCurrency}} unless a client specifies otherwise.
 
@@ -54,11 +54,11 @@ Your responsibilities:
 - Write attendee communications: invitations, confirmations, logistics emails, and post-event follow-ups.
 
 Rules:
-1. Never invent vendor pricing, venue capacities, or guest counts — ask for these specifics before including any numbers.
+1. Never invent vendor pricing, venue capacities, or guest counts, ask for these specifics before including any numbers.
 2. Every run-of-show item must have a named owner and a stated buffer time for the transition that follows it.
 3. Budget summaries must always distinguish between confirmed costs (marked as such) and estimates.
 4. Vendor emails must include event date, venue name, and the coordinator contact name in the first two lines.
-5. Flag any scheduling conflict — overlapping tasks or insufficient travel time between venues — explicitly rather than smoothing it over.
+5. Flag any scheduling conflict, overlapping tasks or insufficient travel time between venues, explicitly rather than smoothing it over.
 6. Attendee communications must never promise specifics (menu items, performer lineup, exact gift bag contents) that have not been confirmed with the relevant vendor.`,
 
   variables: [
@@ -145,13 +145,13 @@ Update each section to match your working style and client expectations. Claude 
 
 ---
 
-## Event brief — required sections
-1. **Event overview** — Name, date, venue, client, and primary objective in two sentences
-2. **Audience** — Who will attend, approximate headcount, any accessibility or dietary needs
-3. **Format** — Event type, programme outline, start and end time
-4. **Key milestones** — Proposal due, deposit deadline, final guest count, load-in date
-5. **Deliverables** — What the client expects from you by event day
-6. **Open questions** — Items not yet decided, with an owner and target resolution date
+## Event brief, required sections
+1. **Event overview**, Name, date, venue, client, and primary objective in two sentences
+2. **Audience**, Who will attend, approximate headcount, any accessibility or dietary needs
+3. **Format**, Event type, programme outline, start and end time
+4. **Key milestones**, Proposal due, deposit deadline, final guest count, load-in date
+5. **Deliverables**, What the client expects from you by event day
+6. **Open questions**, Items not yet decided, with an owner and target resolution date
 
 ---
 
@@ -169,7 +169,7 @@ Each row must include:
 
 ---
 
-## Vendor email — required elements
+## Vendor email, required elements
 Opening lines (always):
 - Event name and date
 - Venue name and full address
@@ -185,7 +185,7 @@ Closing: Your name, title, business name, and direct phone number
 
 ---
 
-## Budget summary — required columns
+## Budget summary, required columns
 | Line item | Vendor | Estimated cost | Confirmed cost | Notes |
 |-----------|--------|---------------|----------------|-------|
 
@@ -196,7 +196,7 @@ Rules:
 
 ---
 
-## Attendee communication — what to never promise before confirmation
+## Attendee communication, what to never promise before confirmation
 - Specific menu items or dietary accommodations not yet confirmed with caterer
 - Entertainment start times not yet locked in contract
 - Exact gift bag or swag contents not yet received
@@ -212,7 +212,7 @@ Rules:
       kind: 'user-provided',
       guidance:
         'Paste a simple list with: vendor or venue name, primary contact name, role (e.g., "catering manager"), ' +
-        'and email or phone. You do not need full contract details here — just enough for Claude to address ' +
+        'and email or phone. You do not need full contract details here, just enough for Claude to address ' +
         'emails correctly and assign ownership in the run-of-show. One line per vendor works fine.',
       required: false,
     },
@@ -229,7 +229,7 @@ Rules:
         'raffle draw at 8:30, closing remarks at 8:45, guests depart by 9 PM. My team is me + one assistant.',
       expectedBehavior:
         'Claude should produce a run-of-show table for the entire event from 6 PM to 9 PM. Each row must ' +
-        'include the time, item, owner (either the planner or the assistant — not invented staff), duration, ' +
+        'include the time, item, owner (either the planner or the assistant, not invented staff), duration, ' +
         'and a brief contingency or buffer note. It should flag any tight transitions (e.g., the gap between ' +
         'the product demo and canapés setup) and not invent speakers, vendors, or other details beyond what ' +
         'was provided.',
@@ -260,7 +260,7 @@ Rules:
         'Draft an attendee logistics email for a charity gala on September 6th at the Rosewood Ballroom, ' +
         'doors open 7 PM, black tie. Include parking info: valet available at $20, street parking within ' +
         '5 minutes walk. Dietary requests must be submitted by August 25th. Do not promise the entertainment ' +
-        'lineup yet — it\'s not confirmed.',
+        'lineup yet, it\'s not confirmed.',
       expectedBehavior:
         'Claude should produce a logistics email to attendees covering event details (September 6th, ' +
         'Rosewood Ballroom, 7 PM doors, black tie dress code), parking information (valet at $20, street ' +

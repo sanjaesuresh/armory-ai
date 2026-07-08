@@ -50,11 +50,11 @@ The practice participates in the following insurance networks: {{insuranceNetwor
 {{/if}}
 
 Rules:
-1. You explain insurance concepts and general coverage information — you do not provide binding benefit determinations, coverage decisions, or out-of-pocket estimates that a patient should rely on financially. Always direct patients to call their insurer to confirm exact benefits before their visit.
-2. Never include specific protected health information (PHI) — diagnoses, lab results, or detailed treatment information — in patient-facing communications unless the supervising clinician has explicitly approved that content for sharing.
+1. You explain insurance concepts and general coverage information, you do not provide binding benefit determinations, coverage decisions, or out-of-pocket estimates that a patient should rely on financially. Always direct patients to call their insurer to confirm exact benefits before their visit.
+2. Never include specific protected health information (PHI), diagnoses, lab results, or detailed treatment information, in patient-facing communications unless the supervising clinician has explicitly approved that content for sharing.
 3. Patient communications must be empathetic, warm, and clear. Write at a 6th-to-8th-grade reading level. Avoid medical abbreviations and clinical jargon without explanation.
 4. Do not fabricate insurance policy details, network status, co-pay amounts, or specific coverage terms not provided to you. If the information is not available, say so and direct the patient to the appropriate resource.
-5. When a patient message contains clinical questions — symptoms, medication concerns, lab results, or requests for medical advice — do not answer. Note that the message should be escalated to the clinical team and offer to help draft an internal routing note.
+5. When a patient message contains clinical questions, symptoms, medication concerns, lab results, or requests for medical advice, do not answer. Note that the message should be escalated to the clinical team and offer to help draft an internal routing note.
 6. Treat all patient information shared in this session as strictly confidential protected health information (PHI). Do not include it in any output intended for external distribution.`,
 
   variables: [
@@ -129,13 +129,13 @@ Rules:
       content: `# Patient communication templates
 
 ## About this file
-Starter templates for common patient communications. Update placeholders in [brackets] to match your practice. Claude adapts these to each specific situation — they are guides, not rigid scripts.
+Starter templates for common patient communications. Update placeholders in [brackets] to match your practice. Claude adapts these to each specific situation, they are guides, not rigid scripts.
 
 ---
 
 ## Appointment confirmation message
 
-Subject: Your appointment at [Practice Name] — [Date] at [Time]
+Subject: Your appointment at [Practice Name], [Date] at [Time]
 
 Hi [Patient first name],
 
@@ -207,7 +207,7 @@ Use these explanations when patients ask about insurance terms:
 The amount you pay out of pocket for covered services before your insurance starts sharing the cost. For example, if your deductible is $1,000, you pay the first $1,000 of covered services yourself each year. After that, your insurance begins to pay.
 
 **Co-pay**
-A fixed amount you pay at each visit — for example, $30 — regardless of what the visit costs. Your insurance covers the rest (after any deductible requirements are met per your plan).
+A fixed amount you pay at each visit, for example, $30, regardless of what the visit costs. Your insurance covers the rest (after any deductible requirements are met per your plan).
 
 **Co-insurance**
 After you meet your deductible, some plans split the cost with you instead of a fixed co-pay. For example, 80/20 means insurance pays 80% and you pay 20% of the allowed amount.
@@ -216,10 +216,10 @@ After you meet your deductible, some plans split the cost with you instead of a 
 The most you will pay in a plan year for covered services. Once you reach this limit, your insurance pays 100% of covered costs for the rest of the year.
 
 **In-network vs. out-of-network**
-In-network providers have an agreement with your insurance company to accept a negotiated rate. Out-of-network providers do not — costs are usually much higher. Always confirm our network status with your insurer before your visit.
+In-network providers have an agreement with your insurance company to accept a negotiated rate. Out-of-network providers do not, costs are usually much higher. Always confirm our network status with your insurer before your visit.
 
 **Prior authorization (PA)**
-Your insurance company's approval before certain services, medications, or procedures are covered. We handle the PA submission on your behalf — but approval is the insurer's decision.
+Your insurance company's approval before certain services, medications, or procedures are covered. We handle the PA submission on your behalf, but approval is the insurer's decision.
 
 ---
 
@@ -247,7 +247,7 @@ If any question does not apply to you, simply write "N/A." If you are unsure, le
       kind: 'user-provided',
       guidance:
         'Paste your most-used call scripts, patient FAQ document, or a summary of your billing and ' +
-        'scheduling policies as patients experience them — for example, your no-show policy, ' +
+        'scheduling policies as patients experience them, for example, your no-show policy, ' +
         'cancellation window, payment plan options, and answers to the five questions patients ask most. ' +
         'A one-to-two-page document is ideal; you do not need a full policy manual.',
       required: false,
@@ -268,7 +268,7 @@ If any question does not apply to you, simply write "N/A." If you are unsure, le
         '(Dr. Torres), the address (400 Westfield Ave), the items to bring (insurance card and photo ID), ' +
         'and the arrival instruction (15 minutes early). The message should be concise, friendly, and free of ' +
         'clinical jargon. It should not include specific medical preparation instructions (like bowel prep steps) ' +
-        'that were not provided — those require clinician review.',
+        'that were not provided, those require clinician review.',
       mustContain: ['colonoscopy', 'Dr. Torres', '400 Westfield Ave', 'insurance card'],
       mustNotContain: ['I cannot help', 'As an AI'],
     },
@@ -280,7 +280,7 @@ If any question does not apply to you, simply write "N/A." If you are unsure, le
         'They are on a BlueCross PPO plan with a $1,500 deductible and a $30 co-pay after the deductible is met. ' +
         'They want to know how much they will owe for today\'s office visit.',
       expectedBehavior:
-        'Claude should explain both terms — deductible and co-pay — in plain, jargon-free language at a ' +
+        'Claude should explain both terms, deductible and co-pay, in plain, jargon-free language at a ' +
         'level any patient could understand. It must use the specific plan details provided ($1,500 deductible, ' +
         '$30 co-pay, BlueCross PPO) to walk through two scenarios: (1) if the patient has not yet met their ' +
         'deductible, they would owe the full allowed amount up to $1,500; (2) if they have already met it, ' +
@@ -299,7 +299,7 @@ If any question does not apply to you, simply write "N/A." If you are unsure, le
         'Keep the tone warm but note that we need to reschedule soon as the follow-up is clinically ' +
         'important per Dr. Reyes.',
       expectedBehavior:
-        'Claude should produce a patient outreach message that is warm and empathetic — not punitive — while ' +
+        'Claude should produce a patient outreach message that is warm and empathetic, not punitive, while ' +
         'conveying the importance of rescheduling. The message must acknowledge the missed appointment, note ' +
         'that Dr. Reyes considers the follow-up clinically important, and include a clear call-to-action to ' +
         'reschedule. It should not disclose specific clinical details about why the follow-up is needed. ' +

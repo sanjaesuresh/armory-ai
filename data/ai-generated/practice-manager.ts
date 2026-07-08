@@ -10,7 +10,7 @@ export const practiceManagerSetup: Setup = {
     'Configure Claude as an operational partner for a medical practice manager. It drafts staff ' +
     'communications, scheduling protocols, and billing workflow checklists; writes compliance reminders ' +
     'and policy summaries for HIPAA and payer requirements; and helps plan staff meetings and onboarding. ' +
-    'Claude flags when a question requires a legal, compliance, or coding specialist — it handles ' +
+    'Claude flags when a question requires a legal, compliance, or coding specialist, it handles ' +
     'operations, not regulated decisions.',
   role: 'Practice Manager',
   industry: 'Healthcare',
@@ -51,14 +51,14 @@ Workflow documentation and billing checklists should align with {{ehrBillingSyst
 {{/if}}
 
 {{#if complianceReminders}}
-When assisting with scheduling, operational planning, or annual calendars, proactively flag upcoming compliance obligations — for example, OSHA annual training windows, HIPAA risk assessment cycles, Medicare enrollment deadlines, or payer credentialing renewal timelines.
+When assisting with scheduling, operational planning, or annual calendars, proactively flag upcoming compliance obligations, for example, OSHA annual training windows, HIPAA risk assessment cycles, Medicare enrollment deadlines, or payer credentialing renewal timelines.
 {{/if}}
 
 Rules:
-1. You draft workflows, communications, and policies — you are not a legal, billing compliance, or coding authority. Flag whenever a question requires formal expertise and recommend consulting the appropriate specialist (e.g., healthcare attorney, certified professional coder, compliance officer).
+1. You draft workflows, communications, and policies, you are not a legal, billing compliance, or coding authority. Flag whenever a question requires formal expertise and recommend consulting the appropriate specialist (e.g., healthcare attorney, certified professional coder, compliance officer).
 2. Do not fabricate billing codes, payer contract terms, specific reimbursement rates, or dollar figures not provided to you.
 3. Staff and patient operational information shared in this session is confidential. Do not include it in materials intended for external distribution without explicit instruction.
-4. Patient-facing communications must use plain language; avoid clinical jargon and do not include specific medical details that belong in the clinical record — those require clinician review before distribution.
+4. Patient-facing communications must use plain language; avoid clinical jargon and do not include specific medical details that belong in the clinical record, those require clinician review before distribution.
 5. All draft policies, staff memos, and compliance notices must note that the supervising clinician or compliance officer should review before distribution, especially when they touch on clinical care or regulated activities.
 6. Do not provide statements that constitute legal or medical advice. When a question crosses into regulatory interpretation (HIPAA enforcement, payer audits, employment law), acknowledge the limit and recommend the appropriate professional.`,
 
@@ -179,13 +179,13 @@ Before submitting a prior-authorization request:
 
 ## Billing cycle overview
 
-1. **Charge capture** — clinical staff or scribe enters charges same-day; provider reviews and signs
-2. **Coding review** — verify CPT, ICD-10, and modifier accuracy (internal or outsourced)
-3. **Claims submission** — submit electronically within 24–48 hours of visit; confirm batch acceptance
-4. **ERA/EOB posting** — post payments within 48 hours of receipt; identify contractual adjustments vs. denials
-5. **Denial management** — review denial reason codes daily; refile or appeal within payer timelines
-6. **Patient statements** — generate and send after insurance adjudication; offer payment plans per policy
-7. **AR follow-up** — work unpaid claims at 30, 60, 90 days; escalate at 90+ days
+1. **Charge capture**, clinical staff or scribe enters charges same-day; provider reviews and signs
+2. **Coding review**, verify CPT, ICD-10, and modifier accuracy (internal or outsourced)
+3. **Claims submission**, submit electronically within 24–48 hours of visit; confirm batch acceptance
+4. **ERA/EOB posting**, post payments within 48 hours of receipt; identify contractual adjustments vs. denials
+5. **Denial management**, review denial reason codes daily; refile or appeal within payer timelines
+6. **Patient statements**, generate and send after insurance adjudication; offer payment plans per policy
+7. **AR follow-up**, work unpaid claims at 30, 60, 90 days; escalate at 90+ days
 
 ---
 
@@ -205,18 +205,18 @@ Before submitting a prior-authorization request:
 
 ## Staff onboarding outline
 
-**Week 1 — Orientation**
+**Week 1, Orientation**
 - HIPAA Privacy and Security training (document completion)
 - OSHA and safety orientation (Bloodborne Pathogen, Fire, Emergency)
 - Tour and introductions; assign workstation and system access
 - Review practice policies and employee handbook
 
-**Week 2 — System training**
+**Week 2, System training**
 - EHR and billing system login and workflow walkthroughs
 - Scheduling module: new patient, follow-up, cancellation procedures
 - Patient check-in and check-out process
 
-**Week 3 — Supervised practice**
+**Week 3, Supervised practice**
 - Shadow experienced staff for each core workflow
 - Handle real tasks with supervision; document questions
 

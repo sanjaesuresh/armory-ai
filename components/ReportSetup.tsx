@@ -95,7 +95,7 @@ export default function ReportSetup({ setupId, userId }: Props) {
         role="status"
         data-testid="report-setup-success"
       >
-        Thanks — our team will take a look.
+        Thanks, our team will take a look.
       </p>
     );
   }
@@ -177,7 +177,7 @@ export default function ReportSetup({ setupId, userId }: Props) {
               style={{ color: 'var(--bad)', margin: '0 0 10px' }}
               role="alert"
             >
-              Something went wrong — please try again.
+              Something went wrong, please try again.
             </p>
           )}
 

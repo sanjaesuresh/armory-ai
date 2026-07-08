@@ -5,10 +5,10 @@ export const contractsParalegalSetup: Setup = {
   id: 'ai-generated-contracts-paralegal-v1',
   slug: 'contracts-paralegal',
   name: 'Contracts Paralegal',
-  tagline: 'Review, redline, and summarize contracts faster — with attorney review built in',
+  tagline: 'Review, redline, and summarize contracts faster, with attorney review built in',
   description:
     'Configure Claude as a contracts paralegal for your legal team. It summarizes contract terms, ' +
-    'flags one-sided or unusual clauses, drafts redline comments, and produces review checklists — ' +
+    'flags one-sided or unusual clauses, drafts redline comments, and produces review checklists, ' +
     'all as working drafts for attorney review before any use or reliance.',
   role: 'Contracts Paralegal',
   industry: "Legal",
@@ -46,12 +46,12 @@ Default governing law for agreements originated by this team: {{governingLawDefa
 Standard contract templates and clause libraries for this team are provided in the knowledge files. When reviewing a counterparty's paper, compare it against these templates and note deviations clearly.
 {{/if}}
 
-Important — professional scope and attorney review:
-All outputs from this setup are working drafts. Nothing produced here constitutes legal advice. Every contract summary, redline comment, and issue list must be reviewed and approved by a licensed attorney before being used to negotiate, sign, or advise on any agreement. This setup assists a paralegal working under attorney supervision — it does not replace that supervision or provide independent legal counsel to any party.
+Important, professional scope and attorney review:
+All outputs from this setup are working drafts. Nothing produced here constitutes legal advice. Every contract summary, redline comment, and issue list must be reviewed and approved by a licensed attorney before being used to negotiate, sign, or advise on any agreement. This setup assists a paralegal working under attorney supervision, it does not replace that supervision or provide independent legal counsel to any party.
 
 Rules:
 1. Never give a legal opinion or tell the user whether to sign a contract. Flag issues for attorney review; do not recommend a course of action.
-2. Do not invent clause language that was not in the document provided. If you are suggesting alternative wording, label it clearly as a suggested redline — not the current contract text.
+2. Do not invent clause language that was not in the document provided. If you are suggesting alternative wording, label it clearly as a suggested redline, not the current contract text.
 3. When a clause is ambiguous, say so. Do not interpret ambiguity in either party's favor.
 4. If a provision raises regulatory, employment, IP ownership, or data privacy issues that go beyond standard contract review, flag it specifically and note that specialist review may be needed.
 5. Never share, paraphrase, or summarize any document in a way that removes the confidentiality of the underlying material.`,
@@ -146,9 +146,9 @@ A standard checklist for reviewing commercial contracts. Work through each secti
 | Item | Present? | Notes |
 |------|----------|-------|
 | Start date and end date defined | | |
-| Auto-renewal clause — notice period to opt out | | |
-| Termination for convenience — by either party | | |
-| Termination for cause — cure period defined | | |
+| Auto-renewal clause, notice period to opt out | | |
+| Termination for convenience, by either party | | |
+| Termination for cause, cure period defined | | |
 | Obligations that survive termination listed | | |
 
 Watch for: auto-renewal with a short opt-out window (less than 30 days); termination for cause with no cure period; no survival clause.
@@ -162,7 +162,7 @@ Watch for: auto-renewal with a short opt-out window (less than 30 days); termina
 - [ ] Late payment interest or penalties defined
 - [ ] Invoicing requirements stated
 - [ ] Disputed invoice process described
-- [ ] Price adjustment or escalation clause — on what basis and with what notice?
+- [ ] Price adjustment or escalation clause, on what basis and with what notice?
 
 ---
 
@@ -171,14 +171,14 @@ Watch for: auto-renewal with a short opt-out window (less than 30 days); termina
 - [ ] Ownership of work product clearly allocated
 - [ ] License grants: scope (exclusive/non-exclusive), field of use, territory, duration
 - [ ] Background IP retained by each party
-- [ ] Any IP assignment language — is this broader than needed?
+- [ ] Any IP assignment language, is this broader than needed?
 - [ ] Open-source software obligations addressed?
 
 ---
 
 ## Section 5: Confidentiality
 
-- [ ] Confidential information defined — is the definition mutual or one-sided?
+- [ ] Confidential information defined, is the definition mutual or one-sided?
 - [ ] Carve-outs standard: publicly known, independently developed, required by law
 - [ ] Obligation period: how long does confidentiality last after termination?
 - [ ] Return or destruction of confidential information on termination
@@ -209,8 +209,8 @@ Watch for: unlimited IP indemnity; one-sided indemnity; indemnitor not controlli
 
 ## Section 8: Limitation of liability
 
-- [ ] Cap on direct damages — at what amount? Is it adequate?
-- [ ] Exclusion of consequential, indirect, and punitive damages — is it mutual?
+- [ ] Cap on direct damages, at what amount? Is it adequate?
+- [ ] Exclusion of consequential, indirect, and punitive damages, is it mutual?
 - [ ] Carve-outs from the cap: death/personal injury, fraud, confidentiality breach, IP infringement
 - [ ] Are the carve-outs reasonable or overly broad?
 
@@ -220,7 +220,7 @@ Watch for: asymmetric caps; consequential damage exclusion that favors only one 
 
 ## Section 9: Dispute resolution
 
-- [ ] Governing law specified — is it your preferred jurisdiction?
+- [ ] Governing law specified, is it your preferred jurisdiction?
 - [ ] Venue or jurisdiction for disputes specified
 - [ ] Arbitration or litigation?
 - [ ] Mandatory notice and cure period before dispute escalation?
@@ -233,7 +233,7 @@ Watch for: asymmetric caps; consequential damage exclusion that favors only one 
 - [ ] Assignment: can either party assign without consent? Change of control treated as assignment?
 - [ ] Entire agreement / integration clause present
 - [ ] Amendments require written consent of both parties
-- [ ] Force majeure — definition and scope
+- [ ] Force majeure, definition and scope
 - [ ] Notices: method, address, and timing
 
 ---
@@ -257,7 +257,7 @@ Use this section to note items that go beyond standard paralegal review:
         'Claude compares counterparty paper against these and notes where they deviate.',
       kind: 'user-provided',
       guidance:
-        'Paste your standard NDA, MSA, or other template agreements — or your preferred clause ' +
+        'Paste your standard NDA, MSA, or other template agreements, or your preferred clause ' +
         'language for key provisions (limitation of liability, indemnification, IP ownership). ' +
         'Label each template or clause section clearly. Redact client names, deal terms, or ' +
         'any confidential information from completed agreements before uploading.',
@@ -300,7 +300,7 @@ Use this section to note items that go beyond standard paralegal review:
         'Claude should produce a structured summary covering: the scope of the license grant ' +
         '(non-exclusive, non-transferable, internal use only), the key restrictions (no sublicense, ' +
         'no transfer, no reverse engineering), and the term (three years, renewable by written agreement). ' +
-        'It should flag any notable gaps — for example, whether there is a price-lock on renewal, ' +
+        'It should flag any notable gaps, for example, whether there is a price-lock on renewal, ' +
         'whether "internal business purposes" is defined, and whether the no-transfer restriction ' +
         'covers change-of-control scenarios.',
       mustContain: ['non-exclusive', 'sublicense', 'reverse'],

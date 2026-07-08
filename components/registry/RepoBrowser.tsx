@@ -319,7 +319,7 @@ export default function RepoBrowser({ repoUrl }: Props) {
           <div className="file-body expanded">
             {readmeTruncated ? (
               <p style={{ margin: 0, padding: '12px 16px', fontSize: '0.8rem', color: 'var(--muted)' }}>
-                Large file —{' '}
+                Large file, {' '}
                 <a href={repoUrl ?? undefined} target="_blank" rel="noopener noreferrer">
                   view on GitHub
                 </a>

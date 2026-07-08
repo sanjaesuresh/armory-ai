@@ -156,7 +156,7 @@ export default async function RoleLandingPage({ params }: Props) {
         <div className="wrap">
           {!hasTailoredSetups && allSetups.length > 0 && (
             <p className="muted" style={{ marginBottom: '24px', fontSize: '0.92rem' }}>
-              Nothing tailored for {roleMeta.label} yet — here&apos;s what&apos;s popular.
+              Nothing tailored for {roleMeta.label} yet, here&apos;s what&apos;s popular.
             </p>
           )}
 
@@ -184,7 +184,7 @@ export default async function RoleLandingPage({ params }: Props) {
                 <path d="M12 8v4M12 16h.01"/>
               </svg>
               <h3>No setups yet</h3>
-              <p>Check back soon — we&apos;re adding new setups regularly.</p>
+              <p>Check back soon, we&apos;re adding new setups regularly.</p>
               <Link href="/professionals" className="btn btn-outline btn-sm">
                 Browse all setups
               </Link>

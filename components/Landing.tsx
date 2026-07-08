@@ -57,7 +57,7 @@ const HOW_STEPS: {
   {
     icon: 'customize',
     title: 'Answer plain-English questions',
-    body: 'Your brand name, your channels, your tone. A short form — not a configuration panel.',
+    body: 'Your brand name, your channels, your tone. A short form, not a configuration panel.',
   },
   {
     icon: 'test-drive',
@@ -78,7 +78,7 @@ function sourceLabel(source: Setup['source']): string {
     case 'curated':      return 'reviewed';
     case 'ai-generated': return 'AI-gen';
     case 'community':    return 'community';
-    case 'github':       return 'community pick';
+    case 'github':       return 'community';
     default:             return '';
   }
 }
@@ -313,7 +313,7 @@ export default async function Landing() {
           <h2 id="how-title" className="land-how-title">Useful in the first ten minutes</h2>
           <p className="land-how-sub">
             A setup is a ready-made set of instructions you paste into Claude to
-            make it act like a specialist — no technical knowledge needed.
+            make it act like a specialist, no technical knowledge needed.
           </p>
           <div className="land-steps">
             {HOW_STEPS.map((step, i) => (

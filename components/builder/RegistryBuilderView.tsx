@@ -240,7 +240,7 @@ export default function RegistryBuilderView({ draft }: Props) {
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         if (/duplicate key|already exists|unique constraint/i.test(msg)) {
-          setFindings([{ field: 'slug', message: 'That slug is already taken — choose another.' }]);
+          setFindings([{ field: 'slug', message: 'That slug is already taken, choose another.' }]);
         }
         setSaveState('error');
         saveFailedRef.current = true;
@@ -270,12 +270,12 @@ export default function RegistryBuilderView({ draft }: Props) {
 
     for (const file of selected) {
       if (!hasAllowedExtension(file.name)) {
-        errors.push(`“${file.name}” — unsupported type. Allowed: ${ALLOWED_LABEL}.`);
+        errors.push(`“${file.name}”, unsupported type. Allowed: ${ALLOWED_LABEL}.`);
         continue;
       }
       if (existingCount + accepted.length >= ARTIFACT_FILE_LIMITS.maxFiles) {
         errors.push(
-          `“${file.name}” — you can attach at most ${ARTIFACT_FILE_LIMITS.maxFiles} files.`,
+          `“${file.name}”, you can attach at most ${ARTIFACT_FILE_LIMITS.maxFiles} files.`,
         );
         continue;
       }
@@ -284,14 +284,14 @@ export default function RegistryBuilderView({ draft }: Props) {
       try {
         content = await file.text();
       } catch {
-        errors.push(`“${file.name}” — couldn’t be read. Try a plain-text file.`);
+        errors.push(`“${file.name}”, couldn’t be read. Try a plain-text file.`);
         continue;
       }
       // Mirror the server's byte limit (use encoded byte length, not char count).
       const byteLength = new TextEncoder().encode(content).length;
       if (byteLength > ARTIFACT_FILE_LIMITS.maxBytesPerFile) {
         errors.push(
-          `“${file.name}” — too large (${formatBytes(byteLength)}). Files must be under 100 KB.`,
+          `“${file.name}”, too large (${formatBytes(byteLength)}). Files must be under 100 KB.`,
         );
         continue;
       }
@@ -472,7 +472,7 @@ export default function RegistryBuilderView({ draft }: Props) {
         if (saveFailedRef.current) {
           setSubmitState('error');
           setSubmitErrors([
-            { message: "Your changes couldn't be saved — check your connection and try again." },
+            { message: "Your changes couldn't be saved, check your connection and try again." },
           ]);
           return;
         }
@@ -575,7 +575,7 @@ export default function RegistryBuilderView({ draft }: Props) {
             <>
               <p className="lede">
                 Drop in the files that make up your {registryKind}. We&apos;ll read
-                them right here in your browser — nothing is uploaded until you submit.
+                them right here in your browser, nothing is uploaded until you submit.
               </p>
 
               <div className="field">
@@ -703,7 +703,7 @@ export default function RegistryBuilderView({ draft }: Props) {
                   {draftAi === 'drafting' ? 'Drafting…' : 'Draft with AI'}
                 </button>
                 <p className="help" style={{ margin: '8px 0 0' }}>
-                  Optional. We read your files and suggest a listing — you review and
+                  Optional. We read your files and suggest a listing, you review and
                   edit everything.
                 </p>
               </div>
@@ -722,7 +722,7 @@ export default function RegistryBuilderView({ draft }: Props) {
                   <div>
                     <strong>We couldn&apos;t draft this one automatically.</strong>
                     <p>
-                      No draft credit was used. Fill in the details yourself — the form
+                      No draft credit was used. Fill in the details yourself, the form
                       below is ready, and review works exactly the same.
                     </p>
                   </div>
@@ -877,7 +877,7 @@ export default function RegistryBuilderView({ draft }: Props) {
               <ul className="review-summary">
                 <li>
                   <span className="k">Name</span>
-                  <span className="v">{input.name || <em className="muted">—</em>}</span>
+                  <span className="v">{input.name || <em className="muted">, </em>}</span>
                 </li>
                 <li>
                   <span className="k">Kind</span>
@@ -887,7 +887,7 @@ export default function RegistryBuilderView({ draft }: Props) {
                 </li>
                 <li>
                   <span className="k">Tagline</span>
-                  <span className="v">{input.tagline || <em className="muted">—</em>}</span>
+                  <span className="v">{input.tagline || <em className="muted">, </em>}</span>
                 </li>
                 <li>
                   <span className="k">Files</span>
@@ -926,7 +926,7 @@ export default function RegistryBuilderView({ draft }: Props) {
                   <strong>Goes to moderation first.</strong>
                   <p>
                     Every submission is checked by the Armory team for safety before it
-                    appears in the registry — usually within a day. It sits under
+                    appears in the registry, usually within a day. It sits under
                     “Pending” in your library until then.
                   </p>
                 </div>
@@ -984,7 +984,7 @@ export default function RegistryBuilderView({ draft }: Props) {
               )}
               {saveState === 'error' && (
                 <span className="save-indicator save-indicator--error" role="alert">
-                  Could not save — check your connection
+                  Could not save, check your connection
                 </span>
               )}
 
@@ -1019,8 +1019,8 @@ export default function RegistryBuilderView({ draft }: Props) {
               <ShieldIcon /> Before it goes live
             </h3>
             <ul className="understand-list">
-              <li>Structural check — required fields and readable files</li>
-              <li>Automated safety screen — no hidden or hostile instructions</li>
+              <li>Structural check, required fields and readable files</li>
+              <li>Automated safety screen, no hidden or hostile instructions</li>
               <li className="pending">Human review by the Armory team</li>
             </ul>
             <p className="small muted" style={{ margin: '10px 0 0' }}>
@@ -1032,7 +1032,7 @@ export default function RegistryBuilderView({ draft }: Props) {
             <ul className="understand-list">
               <li>Up to {ARTIFACT_FILE_LIMITS.maxFiles} files per submission</li>
               <li>100 KB each</li>
-              <li>Text formats — {ALLOWED_LABEL}</li>
+              <li>Text formats, {ALLOWED_LABEL}</li>
             </ul>
           </div>
         </aside>

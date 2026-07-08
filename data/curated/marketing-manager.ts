@@ -37,7 +37,7 @@ Your responsibilities:
 - Maintain a consistent brand voice in every piece of content you produce.
 
 {{#if hasBrandVoice}}
-Brand voice guidelines are provided in the knowledge files. Read them carefully before writing anything — every output must reflect {{brandName}}'s established voice, tone, and style.
+Brand voice guidelines are provided in the knowledge files. Read them carefully before writing anything, every output must reflect {{brandName}}'s established voice, tone, and style.
 {{/if}}
 
 Active channels for {{brandName}}:
@@ -127,8 +127,8 @@ Fill in each section below. Claude will consult this file every time it writes c
 | [Product 2] | | |
 
 ## Competitors to be aware of
-- [Competitor A] — [How we differ]
-- [Competitor B] — [How we differ]
+- [Competitor A], [How we differ]
+- [Competitor B], [How we differ]
 
 ## Things we never say
 - [Off-brand phrase or claim]
@@ -140,7 +140,7 @@ Fill in each section below. Claude will consult this file every time it writes c
       name: 'Your brand guidelines',
       purpose:
         'Upload your full brand voice, tone, and style guide here. Claude uses it to ' +
-        'match your established writing conventions — word choices, sentence structure, ' +
+        'match your established writing conventions, word choices, sentence structure, ' +
         'punctuation preferences, and anything else that makes your brand sound like you.',
       kind: 'user-provided',
       guidance:
@@ -160,7 +160,7 @@ Fill in each section below. Claude will consult this file every time it writes c
         'We are launching a new feature called Smart Scheduling next Tuesday. ' +
         'Write a post for Instagram and one for LinkedIn announcing it.',
       expectedBehavior:
-        'Claude should produce two distinct posts — one optimised for Instagram ' +
+        'Claude should produce two distinct posts, one optimised for Instagram ' +
         '(concise, visual language, emoji-friendly, hashtags) and one for LinkedIn ' +
         '(more professional, slightly longer, benefit-led). Both must mention the brand ' +
         'name and the feature name "Smart Scheduling," and both must match the configured ' +

@@ -45,9 +45,9 @@ When this harness is active, Claude Code follows the red-green-refactor loop wit
 shortcuts. The discipline is instruction-driven: Claude reads this README and treats
 it as the working contract for the session.
 
-1. **Red** — write a failing test that describes the intended behaviour.
-2. **Green** — write the minimum code to make the test pass (nothing more).
-3. **Refactor** — clean up the implementation while keeping all tests green.
+1. **Red**, write a failing test that describes the intended behaviour.
+2. **Green**, write the minimum code to make the test pass (nothing more).
+3. **Refactor**, clean up the implementation while keeping all tests green.
 
 The \`settings.json\` adds two practical nudges:
 - **Permission gates** that restrict bash commands to test-related tools and block
@@ -55,15 +55,15 @@ The \`settings.json\` adds two practical nudges:
 - **A PostToolUse hook** that runs \`npm test\` automatically after every Write or Edit,
   so test results surface immediately without a manual run.
 
-Neither of these prevents you from writing code in the wrong order — the discipline
+Neither of these prevents you from writing code in the wrong order, the discipline
 comes from Claude following the instructions in this file.
 
 ## Files in this harness
 
 | File | Purpose |
 |------|---------|
-| \`README.md\` | This guide — Claude reads it as its working instructions |
-| \`settings.json\` | Claude Code project settings — copy to \`.claude/settings.json\` |
+| \`README.md\` | This guide, Claude reads it as its working instructions |
+| \`settings.json\` | Claude Code project settings, copy to \`.claude/settings.json\` |
 
 ## Setup
 
@@ -90,7 +90,7 @@ Claude will:
 ### Adding a test for existing code
 Tell Claude: "Write a test for <function/module>."
 
-Claude will write the test, run it, and — if it passes immediately — ask whether
+Claude will write the test, run it, and, if it passes immediately, ask whether
 the function has a gap worth testing instead. A test that passes without any code
 change provides no safety net.
 
@@ -102,20 +102,20 @@ tests for the most important gaps.
 
 ## Commands
 
-- \`/run-tdd <feature description>\` — Start a red-green-refactor cycle: write a failing
+- \`/run-tdd <feature description>\`, Start a red-green-refactor cycle: write a failing
   test, implement to green, then refactor.
-- \`/check-coverage <module or file>\` — Run coverage for a specific module and list
+- \`/check-coverage <module or file>\`, Run coverage for a specific module and list
   uncovered lines and branches.
-- \`/scaffold-test <function or component>\` — Generate a failing test file with the
+- \`/scaffold-test <function or component>\`, Generate a failing test file with the
   right imports and describe structure, ready for you to fill in the assertions.
 
 ## Allowed bash commands
 
 The harness permits only test-related bash commands:
 
-- \`npm test\`, \`npx vitest\`, \`npx jest\` — run the test suite
-- \`npx tsc --noEmit\` — type-check without emitting
-- \`npm run coverage\`, \`npx vitest --coverage\` — generate coverage reports
+- \`npm test\`, \`npx vitest\`, \`npx jest\`, run the test suite
+- \`npx tsc --noEmit\`, type-check without emitting
+- \`npm run coverage\`, \`npx vitest --coverage\`, generate coverage reports
 
 Write and Edit tools are unrestricted.
 Destructive commands (\`rm -rf\`, \`git push\`, \`git reset --hard\`) are blocked.

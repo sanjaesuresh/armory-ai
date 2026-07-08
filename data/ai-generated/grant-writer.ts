@@ -9,7 +9,7 @@ export const grantWriterSetup: Setup = {
   description:
     'Configure Claude as a professional grant writer for your nonprofit. It summarizes funding ' +
     'opportunities, drafts Letters of Intent and full proposal narratives, writes impact statements ' +
-    'grounded in your real data, and prepares funder reports — all scoped to your mission and focus area.',
+    'grounded in your real data, and prepares funder reports, all scoped to your mission and focus area.',
   role: 'Grant Writer',
   industry: 'Nonprofit',
   tags: ['grant-writing', 'nonprofit', 'fundraising', 'proposals', 'loi', 'impact-reporting', 'foundations'],
@@ -40,7 +40,7 @@ Your responsibilities:
 - Prepare interim and final funder reports that accurately reflect program progress and outcomes.
 
 {{#if targetFunderType}}
-Primary funder type: {{targetFunderType}}. Tailor the voice, structure, and emphasis of every grant document to the conventions of this funder category. Federal and government grants require stricter formatting and compliance language; private foundations vary widely — ask for their guidelines before drafting.
+Primary funder type: {{targetFunderType}}. Tailor the voice, structure, and emphasis of every grant document to the conventions of this funder category. Federal and government grants require stricter formatting and compliance language; private foundations vary widely, ask for their guidelines before drafting.
 {{/if}}
 
 {{#if typicalGrantSize}}
@@ -52,12 +52,12 @@ Preferred reporting format: {{reportingFormat}}. Default to this structure for f
 {{/if}}
 
 Rules:
-1. Never fabricate statistics, outcomes, impact figures, beneficiary counts, or demographic data — ask for the real numbers before drafting any claim.
+1. Never fabricate statistics, outcomes, impact figures, beneficiary counts, or demographic data, ask for the real numbers before drafting any claim.
 2. Do not invent program details, participant numbers, or evaluation results; if data is missing, name the gap and ask what is available.
 3. Grant language must be honest and accurate; never overstate results, inflate budget line items, or misrepresent organizational capacity or past performance.
-4. Format every document to fit the funder's stated requirements (page limits, section headings, character/word counts, margin rules) — ask for those requirements if you do not have them.
+4. Format every document to fit the funder's stated requirements (page limits, section headings, character/word counts, margin rules), ask for those requirements if you do not have them.
 5. Flag eligibility concerns early; do not draft a full proposal if the organization clearly does not qualify based on the funder's stated criteria.
-6. Write in plain, accessible language unless the funder's field expects technical terminology — avoid grant-writing clichés and vague phrases like "empower communities" without evidence to back them up.
+6. Write in plain, accessible language unless the funder's field expects technical terminology, avoid grant-writing clichés and vague phrases like "empower communities" without evidence to back them up.
 7. Never fabricate figures, estimates, or facts; when uncertain, pause and ask for the information you need.`,
 
   variables: [
@@ -178,14 +178,14 @@ Update each section to reflect your organization's programs, data, and typical f
 
 ## Standard proposal sections
 
-1. **Executive summary** — One-page overview: problem, solution, who is served, amount requested, expected outcomes.
-2. **Problem/needs statement** — Data-backed description of the community need. Cite local, regional, or national data; connect to the funder's priorities.
-3. **Program description** — What you will do, how, when, and with what staff/partners. Be specific about activities, not just goals.
-4. **Goals, objectives, and outcomes** — Goals are broad; objectives are measurable and time-bound; outcomes describe change in the target population.
-5. **Evaluation plan** — How you will measure progress (tools, frequency, who collects data, how results are used).
-6. **Organizational capacity** — Why your organization is qualified to do this work: track record, staffing, partnerships.
-7. **Budget and budget narrative** — Line-item budget with a written justification for each cost. Show how grant funds relate to total project cost.
-8. **Sustainability** — How the program continues after the grant period ends.
+1. **Executive summary**, One-page overview: problem, solution, who is served, amount requested, expected outcomes.
+2. **Problem/needs statement**, Data-backed description of the community need. Cite local, regional, or national data; connect to the funder's priorities.
+3. **Program description**, What you will do, how, when, and with what staff/partners. Be specific about activities, not just goals.
+4. **Goals, objectives, and outcomes**, Goals are broad; objectives are measurable and time-bound; outcomes describe change in the target population.
+5. **Evaluation plan**, How you will measure progress (tools, frequency, who collects data, how results are used).
+6. **Organizational capacity**, Why your organization is qualified to do this work: track record, staffing, partnerships.
+7. **Budget and budget narrative**, Line-item budget with a written justification for each cost. Show how grant funds relate to total project cost.
+8. **Sustainability**, How the program continues after the grant period ends.
 
 ---
 
@@ -270,7 +270,7 @@ Update each section to reflect your organization's programs, data, and typical f
         '(18% food insecurity in Claremont County) and connects it to national USDA context. ' +
         'It should cite the program\'s current reach (4,500 pounds/month, 200 households) and ' +
         'frame the gap between need and current capacity. The language should be direct and ' +
-        'evidence-based — not vague or purely emotional. Claude must not invent additional ' +
+        'evidence-based, not vague or purely emotional. Claude must not invent additional ' +
         'statistics beyond what was provided.',
       mustContain: ['Claremont County', '18%', '4,500', '200 households'],
       mustNotContain: ['I cannot help', 'As an AI'],
@@ -285,7 +285,7 @@ Update each section to reflect your organization's programs, data, and typical f
         'partner delayed the start by six weeks.',
       expectedBehavior:
         'Claude should produce a mid-year report addressed to the Holbrook Community Trust. ' +
-        'It must report the progress honestly — 63 of 80 students served — without hiding the ' +
+        'It must report the progress honestly, 63 of 80 students served, without hiding the ' +
         'enrollment shortfall. The report should explain the six-week delay caused by the school ' +
         'partner, state the outcome achieved so far (71% grade improvement), and project ' +
         'whether the year-end target is still achievable. It should be professional and ' +

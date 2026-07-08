@@ -29,7 +29,7 @@ interface ApprovedHeroProps {
 function sourceBadge(source: Setup['source']): { text: string; cls: string } | null {
   if (source === 'curated') return { text: 'Reviewed', cls: 'hero-src-cur' };
   if (source === 'ai-generated') return { text: 'AI-gen', cls: 'hero-src-ai' };
-  if (source === 'github') return { text: 'Community pick', cls: 'hero-src-com' };
+  if (source === 'github') return { text: 'Community', cls: 'hero-src-com' };
   if (source === 'community') return { text: 'Member post', cls: 'hero-src-com' };
   return null;
 }

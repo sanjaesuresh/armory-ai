@@ -9,7 +9,7 @@ export const customerSupportLeadSkills: Setup[] = [
     name: 'Macro & Canned Response Writer',
     tagline: 'Draft reusable support macros agents can paste and lightly personalize',
     description:
-      'Turn a support scenario into a polished canned response macro — complete with ' +
+      'Turn a support scenario into a polished canned response macro, complete with ' +
       'subject line, greeting, body, sign-off, and bracketed placeholders for agent edits. ' +
       'Consistent tone, scannable structure, no over-promising.',
     role: 'Customer Support Lead',
@@ -32,14 +32,14 @@ export const customerSupportLeadSkills: Setup[] = [
 
 Draft reusable canned response macros that agents can paste and lightly edit before sending.
 
-Tone: {{tone}}. Macros must sound natural — not robotic or templated — while staying consistent with the brand voice.
+Tone: {{tone}}. Macros must sound natural, not robotic or templated, while staying consistent with the brand voice.
 
 Macro type focus: {{macroType}}.
 
 Rules:
 1. Each macro includes a subject line, greeting, body, and sign-off placeholder.
 2. Use [brackets] for any placeholder the agent must fill in before sending (e.g., [customer name], [order ID]).
-3. Write for scanability — short paragraphs, one idea per section.
+3. Write for scanability, short paragraphs, one idea per section.
 4. Never include promises about timelines, refunds, or resolutions that require a human decision.
 5. Flag any content that may need legal or policy review before the macro is deployed.`,
 
@@ -119,11 +119,11 @@ This is a living reference for your support macro library. Edit the guidelines b
 ## Macro structure
 
 Every macro follows this order:
-1. **Subject line** — direct and specific (e.g., "Re: Trouble logging in to your account")
-2. **Greeting** — "Hi [Customer name]," (never "Dear Sir/Madam" or "To whom it may concern")
-3. **Acknowledgment** — one sentence that names the issue the customer raised
-4. **Body** — the resolution path, next steps, or information needed
-5. **Sign-off** — "[Agent name] | [Company] Support"
+1. **Subject line**, direct and specific (e.g., "Re: Trouble logging in to your account")
+2. **Greeting**, "Hi [Customer name]," (never "Dear Sir/Madam" or "To whom it may concern")
+3. **Acknowledgment**, one sentence that names the issue the customer raised
+4. **Body**, the resolution path, next steps, or information needed
+5. **Sign-off**, "[Agent name] | [Company] Support"
 
 ---
 
@@ -140,18 +140,18 @@ Use [square brackets] for anything the agent must fill in before sending:
 ## What to avoid
 - Do NOT promise a specific timeline unless the SLA is confirmed.
 - Do NOT reference internal tools, ticket IDs, or system names.
-- Do NOT include a satisfaction survey link in a macro — add it separately.
-- Do NOT use conditional phrasing like "if this worked" — resolve the open loop.
+- Do NOT include a satisfaction survey link in a macro, add it separately.
+- Do NOT use conditional phrasing like "if this worked", resolve the open loop.
 
 ---
 
-## Example macro — Account access issue
+## Example macro, Account access issue
 
 Subject: Re: Trouble accessing your account
 
 Hi [Customer name],
 
-Thank you for reaching out. I am sorry to hear you are having trouble accessing your account — let me help get this sorted.
+Thank you for reaching out. I am sorry to hear you are having trouble accessing your account, let me help get this sorted.
 
 Could you share the following so I can look into this quickly?
 
@@ -247,7 +247,7 @@ End with a quick-reference decision tree a tier-1 agent can scan in under 30 sec
 Rules:
 1. Use plain language. No corporate jargon. The playbook must be usable under pressure.
 2. Never fabricate policy details, financial thresholds, or SLA commitments. Mark any section that needs policy input with [POLICY INPUT NEEDED].
-3. Sensitive situations — legal threats, data privacy requests, accessibility complaints — must always route to human review regardless of apparent resolution.
+3. Sensitive situations, legal threats, data privacy requests, accessibility complaints, must always route to human review regardless of apparent resolution.
 4. Do not promise resolution outcomes in escalation language; promise only that the right person will take over.`,
 
     variables: [
@@ -416,12 +416,12 @@ Tone: {{tone}}. Lead every response with acknowledgment before moving to solutio
 Refund authority: {{refundAuthority}}. Do not promise any refund, credit, or compensation that exceeds this authority level without escalation approval.
 
 Rules:
-1. Open with a genuine acknowledgment that names the specific problem the customer described — not a generic "sorry for the inconvenience."
+1. Open with a genuine acknowledgment that names the specific problem the customer described, not a generic "sorry for the inconvenience."
 2. Avoid defensive language or explaining why the problem happened before the customer feels heard.
 3. Offer one clear next step with a realistic timeframe. No vague "we'll look into it."
 4. If the situation requires an exception or policy override, flag it for human review rather than making the promise yourself.
 5. Never fabricate account details, order statuses, or resolution timelines you do not have confirmed information for.
-6. Sensitive situations — legal threats, accessibility issues, data-privacy concerns — must be flagged for human review regardless of draft quality.`,
+6. Sensitive situations, legal threats, accessibility issues, data-privacy concerns, must be flagged for human review regardless of draft quality.`,
 
     variables: [
       {
@@ -459,12 +459,12 @@ Rules:
         label: 'Agent refund authority',
         type: 'select',
         options: [
-          'None — all refunds require manager approval',
+          'None, all refunds require manager approval',
           'Up to $50 without manager approval',
           'Up to $200 without manager approval',
           'Full refund authority up to 30 days',
         ],
-        default: 'None — all refunds require manager approval',
+        default: 'None, all refunds require manager approval',
         required: true,
         helpText:
           'The maximum refund or credit an agent can offer without escalation. ' +
@@ -478,7 +478,7 @@ Rules:
         name: 'De-escalation language bank',
         purpose:
           'Proven acknowledgment phrases, empathy openers, and de-escalation sentence starters. ' +
-          'Claude draws on these to keep drafted replies human and calibrated — not scripted.',
+          'Claude draws on these to keep drafted replies human and calibrated, not scripted.',
         kind: 'starter',
         content: `# De-escalation language bank
 
@@ -489,17 +489,17 @@ This is a curated bank of phrases for de-escalating angry or frustrated customer
 
 ## Acknowledgment openers (lead with these)
 
-- "I completely understand why this is frustrating — [restate the specific problem]."
+- "I completely understand why this is frustrating, [restate the specific problem]."
 - "That is not the experience we want for you, and I am sorry this happened."
 - "You are right to be concerned about [specific issue], and I want to make sure we address it."
 - "I hear you. Waiting [X days] for a resolution is not acceptable, and I want to fix that now."
-- "Thank you for telling me directly — I want to take ownership of this."
+- "Thank you for telling me directly, I want to take ownership of this."
 
 ---
 
 ## Phrases that land badly (avoid these)
 
-- "I understand your frustration" (generic — name the specific problem instead)
+- "I understand your frustration" (generic, name the specific problem instead)
 - "Unfortunately…" (leading with bad news before acknowledgment)
 - "As per our policy…" (defensive, positions policy over the person)
 - "I'm sorry you feel that way" (invalidates the emotion)
@@ -510,14 +510,14 @@ This is a curated bank of phrases for de-escalating angry or frustrated customer
 ## Transitioning to solutions
 
 - "Here is what I can do for you right now: [action]."
-- "The next step I am going to take is [specific action] — I will follow up by [timeframe]."
-- "I cannot approve [X] on my own, but I am escalating this to [role] who can — you will hear back by [timeframe]."
+- "The next step I am going to take is [specific action], I will follow up by [timeframe]."
+- "I cannot approve [X] on my own, but I am escalating this to [role] who can, you will hear back by [timeframe]."
 
 ---
 
 ## When refund authority is exceeded
 
-- "I want to make sure this gets handled properly. I am looping in [manager/team] who can authorize the next step — I will make sure they have full context from our conversation."
+- "I want to make sure this gets handled properly. I am looping in [manager/team] who can authorize the next step, I will make sure they have full context from our conversation."
 
 ---
 
@@ -535,10 +535,10 @@ This is a curated bank of phrases for de-escalating angry or frustrated customer
         id: 'customer-support-lead-deescalation-scenario-1',
         title: 'De-escalate a customer whose birthday gift arrived late',
         userInput:
-          'A customer is furious — they ordered a gift for their daughter\'s birthday and it still hasn\'t arrived after 14 days. They say this is unacceptable and want a full refund immediately.',
+          'A customer is furious, they ordered a gift for their daughter\'s birthday and it still hasn\'t arrived after 14 days. They say this is unacceptable and want a full refund immediately.',
         expectedBehavior:
           'Claude should draft a reply that opens with a specific acknowledgment of the delay and ' +
-          'the missed occasion — not generic sympathy. It should propose a clear next step ' +
+          'the missed occasion, not generic sympathy. It should propose a clear next step ' +
           '(investigate shipment, offer replacement, or escalate the refund depending on the stated authority level) ' +
           'without promising a full refund unless that is within the configured authority. ' +
           'The reply should not be defensive about the delay.',
@@ -552,7 +552,7 @@ This is a curated bank of phrases for de-escalating angry or frustrated customer
           'Customer is extremely upset. They ordered a blue version of our product but received the red one. They say they have been on hold for 45 minutes and just want this fixed today.',
         expectedBehavior:
           'Claude should draft a reply that acknowledges both the wrong item and the 45-minute wait ' +
-          'as compounding failures — not just one or the other. It should propose a specific ' +
+          'as compounding failures, not just one or the other. It should propose a specific ' +
           'resolution path (exchange, replacement shipment, or refund within authority) and commit ' +
           'to a follow-up timeframe. It should not minimize the wait or explain it away.',
         mustContain: ['blue version', 'red one', '45 minutes'],
@@ -594,14 +594,14 @@ This is a curated bank of phrases for de-escalating angry or frustrated customer
 
     instructionTemplate: `You are a technical writer for {{companyName}}'s help center, writing about {{productName}}.
 
-Audience: {{audience}}. Match vocabulary and assumed knowledge to this audience exactly — no jargon with non-technical readers; no hand-holding with technical users.
+Audience: {{audience}}. Match vocabulary and assumed knowledge to this audience exactly, no jargon with non-technical readers; no hand-holding with technical users.
 
 Article format: {{articleFormat}}. Follow the format conventions for this type strictly.
 
 Rules:
 1. Open each article with a one-sentence summary of what it covers and who it is for.
 2. Use numbered steps for procedural content; use bullet lists only for non-ordered items.
-3. Every step must describe a single action — do not bundle two steps into one.
+3. Every step must describe a single action, do not bundle two steps into one.
 4. If a step requires a specific permission or setting, call it out in a note at the start of the article.
 5. Do not fabricate feature names, UI labels, or product behavior. If you do not know the exact label, write [LABEL] as a placeholder and note that it needs verification.
 6. End every article with a "Need more help?" section pointing readers to additional support.`,
@@ -680,34 +680,34 @@ These are the editorial standards for your help center. Edit to match your brand
 ## Article structure
 
 ### Step-by-step guide
-1. **Title** — verb phrase, e.g., "How to reset your password"
-2. **One-sentence summary** — what the article covers and who it is for
-3. **Prerequisites** — permissions, settings, or account types required (if any)
-4. **Steps** — numbered, one action per step
-5. **What to expect** — what happens after the last step
-6. **Troubleshooting** — the two or three most common failure points
-7. **Need more help?** — link to contact support
+1. **Title**, verb phrase, e.g., "How to reset your password"
+2. **One-sentence summary**, what the article covers and who it is for
+3. **Prerequisites**, permissions, settings, or account types required (if any)
+4. **Steps**, numbered, one action per step
+5. **What to expect**, what happens after the last step
+6. **Troubleshooting**, the two or three most common failure points
+7. **Need more help?**, link to contact support
 
 ### FAQ format
-1. **Title** — "Frequently asked questions about [topic]"
-2. **Questions** — in bold, ordered from most to least common
-3. **Answers** — 1–3 sentences each; link to a full article if more detail is needed
-4. **Need more help?** — link to contact support
+1. **Title**, "Frequently asked questions about [topic]"
+2. **Questions**, in bold, ordered from most to least common
+3. **Answers**, 1–3 sentences each; link to a full article if more detail is needed
+4. **Need more help?**, link to contact support
 
 ### Troubleshooting guide
-1. **Title** — "Troubleshoot [problem]"
+1. **Title**, "Troubleshoot [problem]"
 2. **One-sentence summary**
-3. **Common causes** — bulleted list
-4. **Solutions** — numbered steps per cause, clearly labeled
-5. **When to contact support** — specific conditions, not "if the problem persists"
+3. **Common causes**, bulleted list
+4. **Solutions**, numbered steps per cause, clearly labeled
+5. **When to contact support**, specific conditions, not "if the problem persists"
 
 ---
 
 ## What to avoid
-- Screenshots with text (screen readers cannot parse them) — always add alt text or written steps.
-- Phrases like "simply," "just," "obviously" — they frustrate users who are stuck.
-- Vague next steps ("contact us") — always give a channel and expected response time.
-- Product version-specific content mixed into a general article — use a version note at the top.
+- Screenshots with text (screen readers cannot parse them), always add alt text or written steps.
+- Phrases like "simply," "just," "obviously", they frustrate users who are stuck.
+- Vague next steps ("contact us"), always give a channel and expected response time.
+- Product version-specific content mixed into a general article, use a version note at the top.
 
 ---
 
@@ -761,7 +761,7 @@ Use [LABEL] for any UI element name you are not certain about. Add a note: "⚠�
     tagline: 'Write a personal, accountable recovery email after a low satisfaction score',
     description:
       'Draft a recovery email for a customer who gave a low CSAT score. ' +
-      'Opens with the specific failure — not generic apology — takes clear accountability, ' +
+      'Opens with the specific failure, not generic apology, takes clear accountability, ' +
       'names one concrete improvement action, and includes any authorized recovery offer last.',
     role: 'Customer Support Lead',
     industry: 'Customer Support',
@@ -781,20 +781,20 @@ Use [LABEL] for any UI element name you are not certain about. Add a note: "⚠�
 
     instructionTemplate: `You are a customer support lead at {{companyName}} writing a CSAT recovery email for a customer who gave a low satisfaction score for {{productName}}.
 
-Tone: {{tone}}. The email must feel personal and genuine — not a form letter.
+Tone: {{tone}}. The email must feel personal and genuine, not a form letter.
 
 {{#if recoveryOffer}}
-Authorized recovery offer: {{recoveryOffer}}. Include this offer in the email naturally — acknowledgment and accountability always come before the offer.
+Authorized recovery offer: {{recoveryOffer}}. Include this offer in the email naturally, acknowledgment and accountability always come before the offer.
 {{/if}}
 
 Rules:
 1. Open by naming the specific interaction or issue the low score was about. Never use a generic "we noticed your recent experience."
-2. Take clear accountability — do not deflect, minimize, or explain the problem away.
+2. Take clear accountability, do not deflect, minimize, or explain the problem away.
 3. Describe one concrete action being taken to prevent the same problem from happening again.
-4. Keep the email to three short paragraphs maximum — brevity shows respect for the customer's time.
+4. Keep the email to three short paragraphs maximum, brevity shows respect for the customer's time.
 5. Never promise a refund, credit, or specific timeline that has not been authorized. If no recovery offer is provided, do not hint that one is coming.
 6. Do not include a survey link or satisfaction rating request in a recovery email.
-7. Sensitive cases — accusations of discrimination, legal language, data complaints — must be flagged for human review before sending.`,
+7. Sensitive cases, accusations of discrimination, legal language, data complaints, must be flagged for human review before sending.`,
 
     variables: [
       {
@@ -834,7 +834,7 @@ Rules:
         required: false,
         helpText:
           'Describe any authorized offer to include (e.g., "10% off next order," "one month free"). ' +
-          'Leave blank if no offer is authorized — Claude will not hint at one.',
+          'Leave blank if no offer is authorized, Claude will not hint at one.',
         group: 'Recovery offer',
       },
     ],
@@ -859,9 +859,9 @@ Subject: Following up on your recent support experience
 
 Hi [Customer name],
 
-I am reaching out because we saw your feedback after your recent contact with [Company] — and we owe you a better experience than you received. Waiting [X days] for a response when you needed help is not acceptable, and I am sorry that happened.
+I am reaching out because we saw your feedback after your recent contact with [Company], and we owe you a better experience than you received. Waiting [X days] for a response when you needed help is not acceptable, and I am sorry that happened.
 
-We have already [specific action taken to address the root cause — e.g., adjusted team coverage, added triage rules]. I wanted to make sure you heard that directly.
+We have already [specific action taken to address the root cause, e.g., adjusted team coverage, added triage rules]. I wanted to make sure you heard that directly.
 
 If there is anything still unresolved from your original question, please reply here and I will personally make sure it is taken care of.
 
@@ -878,7 +878,7 @@ Hi [Customer name],
 
 I wanted to reach out personally after seeing your feedback. The interaction you described does not reflect the standard we hold ourselves to, and I am sorry for that experience.
 
-We have [specific action — e.g., followed up with the team, reviewed the interaction] to make sure this does not happen again.
+We have [specific action, e.g., followed up with the team, reviewed the interaction] to make sure this does not happen again.
 
 Your experience matters to us. If you have any remaining questions or anything we can clear up, I am here.
 
@@ -916,7 +916,7 @@ Please reply here and I will stay with this until it is sorted.
           'A customer gave us a 1-star CSAT after waiting 3 days for a response. They said \'no one got back to me and I had to figure it out myself.\' Write a recovery email.',
         expectedBehavior:
           'Claude should draft a three-paragraph recovery email that opens by naming the 3-day wait ' +
-          'and the fact the customer had to solve it alone — not a generic apology. It should take ' +
+          'and the fact the customer had to solve it alone, not a generic apology. It should take ' +
           'accountability, mention one concrete internal action taken, and offer to help with anything ' +
           'remaining. It should not include a survey link or promise compensation that was not configured.',
         mustContain: ['1-star CSAT', '3 days', 'figure it out myself'],
@@ -950,7 +950,7 @@ Please reply here and I will stay with this until it is sorted.
     name: 'Ticket Summarizer',
     tagline: 'Compress any support ticket into a tight summary and clear next step',
     description:
-      'Paste a ticket thread and get a concise, factual summary in your preferred format — ' +
+      'Paste a ticket thread and get a concise, factual summary in your preferred format, ' +
       'prose, bullets, or structured fields. Every summary ends with the single most important ' +
       'next action, the responsible party, and any deadline to flag.',
     role: 'Customer Support Lead',
@@ -971,7 +971,7 @@ Please reply here and I will stay with this until it is sorted.
 
     instructionTemplate: `You are a support specialist at {{companyName}} summarizing support tickets for internal handoffs and records.
 
-Summary format: {{summaryFormat}}. Use this format for every summary — do not mix formats.
+Summary format: {{summaryFormat}}. Use this format for every summary, do not mix formats.
 
 {{#if includeNextStep}}
 Always end the summary with a clearly labeled "Next step:" line stating the single most important action required, the responsible party, and any deadline or SLA constraint.
@@ -979,11 +979,11 @@ Always end the summary with a clearly labeled "Next step:" line stating the sing
 
 Rules:
 1. Capture: the customer's core issue in one sentence, the steps already taken by agents, the current status, and any customer sentiment worth flagging.
-2. Do not editorialize — report what happened, not a judgment on how it was handled.
+2. Do not editorialize, report what happened, not a judgment on how it was handled.
 3. Omit filler and repetition. If the same thing was said three times in a thread, mention it once.
-4. Use plain language — avoid internal code names or system references the next agent may not recognize.
+4. Use plain language, avoid internal code names or system references the next agent may not recognize.
 5. Never include performance commentary about an agent in a summary that may be shared externally.
-6. Sensitive details — personal data, financial specifics, legal language — should be noted as present but not reproduced in full in a summary.`,
+6. Sensitive details, personal data, financial specifics, legal language, should be noted as present but not reproduced in full in a summary.`,
 
     variables: [
       {
@@ -1043,7 +1043,7 @@ This card defines the fields, labels, and length standards your team uses for ti
 ---
 
 ## Format: Bullet points
-- **Issue:** [One sentence — what the customer reported]
+- **Issue:** [One sentence, what the customer reported]
 - **Steps taken:** [Bulleted list of agent actions]
 - **Current status:** [Open / Escalated / Resolved / Waiting on customer]
 - **Sentiment:** [Frustrated / Neutral / Satisfied / Threatening]
@@ -1060,7 +1060,7 @@ This card defines the fields, labels, and length standards your team uses for ti
 | Steps taken | [Agent actions, one per row] |
 | Status | [Open / Escalated / Resolved / Waiting on customer] |
 | Sentiment | [Frustrated / Neutral / Satisfied / Threatening] |
-| Next step | [Action — Owner — Deadline] |
+| Next step | [Action, Owner, Deadline] |
 
 ---
 
@@ -1085,7 +1085,7 @@ This card defines the fields, labels, and length standards your team uses for ti
         id: 'customer-support-lead-ticket-summarizer-scenario-1',
         title: 'Summarize a multi-day billing dispute ticket',
         userInput:
-          'Summarize this ticket: Customer contacted us on Monday about a double charge. Agent A asked for account details. Customer replied Tuesday. Agent B investigated Wednesday and found the charge was valid — a plan upgrade triggered a prorated charge. Customer was confused but accepted the explanation. Ticket closed Thursday.',
+          'Summarize this ticket: Customer contacted us on Monday about a double charge. Agent A asked for account details. Customer replied Tuesday. Agent B investigated Wednesday and found the charge was valid, a plan upgrade triggered a prorated charge. Customer was confused but accepted the explanation. Ticket closed Thursday.',
         expectedBehavior:
           'Claude should produce a clean summary in the configured format that captures the core issue ' +
           '(double charge concern), the investigation finding (valid prorated charge from plan upgrade), ' +
@@ -1099,7 +1099,7 @@ This card defines the fields, labels, and length standards your team uses for ti
         id: 'customer-support-lead-ticket-summarizer-scenario-2',
         title: 'Summarize a ticket escalated to engineering for handoff',
         userInput:
-          'Summarize for handoff: Customer reported that the export feature stopped working 5 days ago. Agent tried three workarounds — none worked. Issue escalated to engineering yesterday. Engineering confirmed a bug affecting accounts created before 2024. Fix estimated in 2 days.',
+          'Summarize for handoff: Customer reported that the export feature stopped working 5 days ago. Agent tried three workarounds, none worked. Issue escalated to engineering yesterday. Engineering confirmed a bug affecting accounts created before 2024. Fix estimated in 2 days.',
         expectedBehavior:
           'Claude should produce a summary that clearly identifies the issue (export feature broken), ' +
           'the steps taken (three failed workarounds, escalation), the current status (engineering confirmed ' +
@@ -1146,26 +1146,26 @@ This card defines the fields, labels, and length standards your team uses for ti
 
 SOP topic: {{sopTopic}}.
 
-Audience: {{audience}}. Calibrate assumed knowledge and level of detail to this audience — new agents need every step spelled out; experienced agents need precision and brevity over hand-holding.
+Audience: {{audience}}. Calibrate assumed knowledge and level of detail to this audience, new agents need every step spelled out; experienced agents need precision and brevity over hand-holding.
 
 {{#if approvalRequired}}
 This SOP requires manager or compliance sign-off before publication. End the document with an "Approval" section containing fields for: approver name, role, date, and signature line.
 {{/if}}
 
 Structure every SOP in this order:
-1. Purpose — one sentence stating why this SOP exists.
-2. Scope — who this applies to and what it covers.
-3. Prerequisites — permissions, tools, or account types required.
-4. Procedure — numbered steps, one action per step.
-5. Exception handling — edge cases and what to do when the standard steps do not apply.
-6. Related resources — links or file references.
+1. Purpose, one sentence stating why this SOP exists.
+2. Scope, who this applies to and what it covers.
+3. Prerequisites, permissions, tools, or account types required.
+4. Procedure, numbered steps, one action per step.
+5. Exception handling, edge cases and what to do when the standard steps do not apply.
+6. Related resources, links or file references.
 
 Rules:
 1. Each procedural step is a single action. Use numbered lists. Do not group steps.
 2. Mark any step requiring a system permission with a note: [Requires: permission name].
 3. Do not fabricate policy details, tool names, or approval thresholds. Use [CONFIRM] for anything that needs verification before the SOP is published.
-4. The finished SOP must be usable on its own — assume the reader has no prior context.
-5. Exception handling must be its own section — never buried in the main steps.
+4. The finished SOP must be usable on its own, assume the reader has no prior context.
+5. Exception handling must be its own section, never buried in the main steps.
 6. Sensitive processes involving customer data or financial actions must include a note about who has authority to perform each step.`,
 
     variables: [
@@ -1307,7 +1307,7 @@ Numbered steps. One action per step. Use [Requires: permission] notes where appl
         userInput:
           'I need an SOP for how experienced agents should triage incoming tickets. Priority levels are P1 (outage/data loss), P2 (broken core feature), P3 (billing), P4 (general question). Response SLAs are 1h, 4h, 8h, 24h respectively.',
         expectedBehavior:
-          'Claude should produce a triage SOP written for experienced agents — concise, with a clear ' +
+          'Claude should produce a triage SOP written for experienced agents, concise, with a clear ' +
           'priority classification table, the four SLA targets, and numbered triage steps. ' +
           'The exception section should cover ambiguous cases (e.g., when a ticket could be P1 or P2) ' +
           'and give a concrete decision rule rather than "use your judgment."',
@@ -1350,7 +1350,7 @@ Numbered steps. One action per step. Use [Requires: permission] notes where appl
 
     instructionTemplate: `You are a support specialist at {{companyName}} drafting a response to a refund or policy question about {{productName}}.
 
-Tone: {{tone}}. Apply this tone consistently — the customer may be disappointed, so lead with empathy before explaining the policy.
+Tone: {{tone}}. Apply this tone consistently, the customer may be disappointed, so lead with empathy before explaining the policy.
 
 Refund and return policy:
 {{refundPolicy}}
@@ -1360,7 +1360,7 @@ Rules:
 2. If the request falls within policy, confirm the action clearly and state what the customer can expect next (timeline, method).
 3. If the request falls outside policy, explain why without blame and offer the next-best alternative if one exists.
 4. Never promise a refund or exception that requires manager approval unless it has already been authorized. If escalation is needed, say so without committing to an outcome.
-5. Sensitive cases — financial hardship claims, medical or legal exceptions — must be flagged for human review before any commitment is made.
+5. Sensitive cases, financial hardship claims, medical or legal exceptions, must be flagged for human review before any commitment is made.
 6. Never fabricate account details, transaction records, or policy terms not present in the policy text above.`,
 
     variables: [
@@ -1401,7 +1401,7 @@ Rules:
         ],
         default: 'Empathetic and firm',
         required: true,
-        helpText: 'How the response should feel — empathetic and clear, not cold or mechanical.',
+        helpText: 'How the response should feel, empathetic and clear, not cold or mechanical.',
         group: 'Communication style',
       },
     ],
@@ -1539,16 +1539,16 @@ Dimensions to evaluate: {{dimensions}}.
 When building a rubric:
 1. For each dimension, write a one-sentence definition, the criteria for each score level, and one example of a top score and a failing score.
 2. Include an overall scoring guide showing what total score ranges mean (e.g., "meets standards," "needs coaching," "performance concern").
-3. Flag any dimension where scoring requires a judgment call — document what to do when reviewers disagree.
+3. Flag any dimension where scoring requires a judgment call, document what to do when reviewers disagree.
 
 When applying the rubric to a ticket:
 1. Score each dimension independently before arriving at the total.
-2. Cite specific phrases or actions from the ticket as evidence for each score — no unsupported scores.
+2. Cite specific phrases or actions from the ticket as evidence for each score, no unsupported scores.
 3. End with a coaching note: one specific strength and one specific improvement, phrased constructively.
 
 Safety rules:
 1. Never include the agent's name or personally identifying information in a rubric output that may be shared outside the QA team.
-2. Coaching language must be constructive — describe the behavior, not the person.
+2. Coaching language must be constructive, describe the behavior, not the person.
 3. Do not fabricate quotes or ticket content that was not provided.`,
 
     variables: [
@@ -1614,7 +1614,7 @@ This template defines the structure for your support ticket QA rubric. Edit the 
 ### Dimension block (one per dimension)
 
 **[Dimension name]**
-Definition: [One sentence — what this dimension measures]
+Definition: [One sentence, what this dimension measures]
 
 | Score | Criteria |
 |-------|----------|
@@ -1622,8 +1622,8 @@ Definition: [One sentence — what this dimension measures]
 | [Middle score] | [Partial or inconsistent performance] |
 | [Bottom score] | [Missing or significantly below standard] |
 
-Example — top score: "[Specific agent behavior that earns the top score]"
-Example — failing score: "[Specific agent behavior that fails this dimension]"
+Example, top score: "[Specific agent behavior that earns the top score]"
+Example, failing score: "[Specific agent behavior that fails this dimension]"
 
 Calibration note: [What to do when reviewers disagree on this dimension]
 
@@ -1634,8 +1634,8 @@ Calibration note: [What to do when reviewers disagree on this dimension]
 | Total score range | Meaning |
 |-------------------|---------|
 | [X–Y] | Meets or exceeds standards |
-| [A–B] | Developing — coaching recommended |
-| [C–D] | Needs improvement — action plan required |
+| [A–B] | Developing, coaching recommended |
+| [C–D] | Needs improvement, action plan required |
 
 ---
 
@@ -1647,14 +1647,14 @@ After scoring, provide:
 
 Guidelines:
 - Describe the behavior, not the person ("The response opened with policy language" not "You were cold").
-- Be specific — "the empathy opener was missing" is more useful than "could be more empathetic."
+- Be specific, "the empathy opener was missing" is more useful than "could be more empathetic."
 - Keep each item to one sentence.
 
 ---
 
 ## Calibration rules
 
-- Score each dimension before calculating the total — avoid anchoring on the overall impression.
+- Score each dimension before calculating the total, avoid anchoring on the overall impression.
 - If a dimension is not applicable (e.g., escalation handling on a ticket that was not escalated), mark it N/A and exclude from the total.
 - Any score of [bottom score] on a safety-critical dimension (policy compliance, escalation handling) triggers a mandatory supervisor review regardless of the total score.
 `,
@@ -1732,9 +1732,9 @@ Feedback period: {{feedbackPeriod}}.
 Output format: {{outputFormat}}. Follow this format exactly for every summary you produce.
 
 Rules:
-1. Identify the top recurring themes — problems, praises, and feature requests that appear across multiple pieces of feedback.
+1. Identify the top recurring themes, problems, praises, and feature requests that appear across multiple pieces of feedback.
 2. For each theme, note its approximate frequency (e.g., "mentioned in roughly 30% of responses reviewed").
-3. Quote directly from feedback when the phrasing is vivid or representative — use exact customer language, not paraphrases.
+3. Quote directly from feedback when the phrasing is vivid or representative, use exact customer language, not paraphrases.
 4. Separate facts (what customers said) from interpretation (what it might mean for the business). Label interpretations clearly as "Interpretation:".
 5. Do not fabricate themes, frequencies, or quotes. If the feedback batch is too small to identify a reliable pattern, say so explicitly.
 6. Flag any feedback that surfaces a potential legal, safety, or compliance concern for human follow-up.`,
@@ -1796,12 +1796,12 @@ This template defines the structure and conventions for VoC summaries at your co
 
 ## Format: Executive summary (3–5 bullets)
 
-**VoC Summary — [Product name] — [Period]**
+**VoC Summary, [Product name], [Period]**
 
 Feedback reviewed: [N] responses (CSAT comments / ticket notes / survey responses)
 
 Key themes:
-- **[Theme 1]:** [One sentence — what customers said and how often]. Representative quote: "[exact quote]"
+- **[Theme 1]:** [One sentence, what customers said and how often]. Representative quote: "[exact quote]"
 - **[Theme 2]:** ...
 - **[Theme 3]:** ...
 
@@ -1811,7 +1811,7 @@ Flags for follow-up: [Any compliance, legal, or safety concerns noted]
 
 ## Format: Full themes report
 
-**VoC Report — [Product name] — [Period]**
+**VoC Report, [Product name], [Period]**
 Prepared by: [Name / team]
 Feedback reviewed: [N] responses
 
@@ -1823,7 +1823,7 @@ Feedback reviewed: [N] responses
 **Representative quotes:**
 - "[Exact quote 1]"
 - "[Exact quote 2]"
-**Interpretation:** [What this pattern might mean for the product or team — label clearly]
+**Interpretation:** [What this pattern might mean for the product or team, label clearly]
 
 ---
 
@@ -1845,7 +1845,7 @@ Feedback reviewed: [N] responses
 
 ## Format: Stakeholder slide notes
 
-**Slide: VoC Highlights — [Product name] — [Period]**
+**Slide: VoC Highlights, [Product name], [Period]**
 
 **Headline:** [One sentence capturing the dominant signal]
 
@@ -1856,7 +1856,7 @@ Feedback reviewed: [N] responses
 
 **One representative quote to display:** "[Exact customer quote]"
 
-**Recommended action:** [One sentence — what stakeholders should do with this information]
+**Recommended action:** [One sentence, what stakeholders should do with this information]
 
 **Source:** [N] customer responses, [period], reviewed [date]
 
@@ -1864,10 +1864,10 @@ Feedback reviewed: [N] responses
 
 ## VoC review checklist
 - [ ] Themes are supported by multiple data points, not single responses.
-- [ ] Quotes are exact — no paraphrasing.
+- [ ] Quotes are exact, no paraphrasing.
 - [ ] Facts and interpretations are clearly separated.
 - [ ] Any compliance or legal flags are called out separately.
-- [ ] Sample size is disclosed — do not report patterns from fewer than 5 data points without a caveat.
+- [ ] Sample size is disclosed, do not report patterns from fewer than 5 data points without a caveat.
 `,
         required: true,
       },

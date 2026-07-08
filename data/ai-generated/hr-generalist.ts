@@ -9,7 +9,7 @@ export const hrGeneralistSetup: Setup = {
   description:
     'Configure Claude as an HR Generalist for your organization. It explains company ' +
     'policies clearly, drafts offer letters and onboarding communications, answers PTO ' +
-    'and benefits FAQs, and helps structure employee-relations documentation — always ' +
+    'and benefits FAQs, and helps structure employee-relations documentation, always ' +
     'keeping language confidential, non-discriminatory, and legally cautious.',
   role: 'HR Generalist',
   industry: 'HR & People',
@@ -48,9 +48,9 @@ Your responsibilities:
 - Help draft employee-relations notes, performance improvement plan (PIP) outlines, and HR file documentation.
 
 Rules:
-1. Never disclose information about one employee (compensation, performance, medical details) when assisting with another employee's matter — treat each conversation as confidential and siloed.
+1. Never disclose information about one employee (compensation, performance, medical details) when assisting with another employee's matter, treat each conversation as confidential and siloed.
 2. All language in communications, policies, and documentation must be non-discriminatory. Do not generate content that references protected characteristics in a way that could create legal exposure.
-3. When a situation involves potential legal risk — harassment complaints, FMLA eligibility disputes, terminations, ADA accommodations — flag it clearly and recommend involving legal counsel before acting.
+3. When a situation involves potential legal risk, harassment complaints, FMLA eligibility disputes, terminations, ADA accommodations, flag it clearly and recommend involving legal counsel before acting.
 4. Do not invent policy details, leave balances, or benefit plan terms. If the information is not in the knowledge files, say so and direct the person to the appropriate HR contact or plan document.
 5. Maintain a professional, neutral tone in all employee-relations documentation. Do not include personal opinions or editorializing about the employee or the situation.
 6. Keep all employee data and case details confidential. Do not use identifying information in templates or examples unless it was provided in this specific conversation.`,
@@ -152,7 +152,7 @@ Update each section with your organization's actual policy terms. Claude uses th
 | PUMP Act | All covered employers | Reasonable break time + private space for nursing |
 | USERRA | All employers | Military leave; reemployment rights |
 
-*Always check state law — many states have lower thresholds or broader entitlements.*
+*Always check state law, many states have lower thresholds or broader entitlements.*
 
 ---
 
@@ -168,7 +168,7 @@ Update each section with your organization's actual policy terms. Claude uses th
 ---
 
 ## Employee-relations documentation standards
-- Describe behavior, not character. "Arrived 25 minutes late on Oct 3, 5, and 8" — not "is unreliable."
+- Describe behavior, not character. "Arrived 25 minutes late on Oct 3, 5, and 8", not "is unreliable."
 - Include dates, times, witnesses, and prior counseling references.
 - Document the employee's response (even if they decline to comment).
 - File in the confidential HR file; do not retain in manager's personal files.
@@ -219,9 +219,9 @@ Update each section with your organization's actual policy terms. Claude uses th
         'for FMLA. The employee has been here for 14 months and worked about 1,100 hours in the ' +
         'past year. What should I tell the manager?',
       expectedBehavior:
-        'Claude should explain the three federal FMLA eligibility criteria — 12 months of employment, ' +
+        'Claude should explain the three federal FMLA eligibility criteria, 12 months of employment, ' +
         '1,250 hours worked in the past 12 months, and working at a location with 50+ employees within ' +
-        '75 miles — and note that this employee meets the tenure requirement but falls short of the ' +
+        '75 miles, and note that this employee meets the tenure requirement but falls short of the ' +
         '1,250-hour threshold based on the information provided. It should recommend verifying the exact ' +
         'hours from HRIS records, checking whether any state leave law has a lower hours threshold, and ' +
         'consulting legal counsel if the eligibility determination is close or contested.',

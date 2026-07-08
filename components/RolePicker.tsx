@@ -26,7 +26,7 @@ export default function RolePicker() {
               fontSize: '1.05rem',
             }}
           >
-            Pick the closest match — we&apos;ll show you setups that fit how you
+            Pick the closest match, we&apos;ll show you setups that fit how you
             work.
           </p>
         </div>

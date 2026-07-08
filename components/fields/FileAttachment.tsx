@@ -207,7 +207,7 @@ export default function FileAttachment({
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="m5 12.5 4.5 4.5L19 7.5" />
           </svg>
-          Saved to your account — this file will be used at export even after a refresh. Only you can access it.
+          Saved to your account, this file will be used at export even after a refresh. Only you can access it.
         </p>
       ) : (
         <p className="inline-warning" style={{ marginBottom: 0 }}>
@@ -215,7 +215,7 @@ export default function FileAttachment({
             <path d="M12 4 2.8 19.5h18.4z" />
             <path d="M12 10v4.5M12 17.2v.1" />
           </svg>
-          Files stay in your browser and are never uploaded — but if you refresh the page you will need to attach them again.
+          Files stay in your browser and are never uploaded, but if you refresh the page you will need to attach them again.
         </p>
       )}
     </div>

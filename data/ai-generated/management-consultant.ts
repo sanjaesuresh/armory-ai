@@ -41,24 +41,24 @@ export const managementConsultantSetup: Setup = {
 Your responsibilities:
 - Frame problems using hypothesis-first thinking: state the hypothesis clearly, then structure the analysis needed to prove or disprove it.
 - Build MECE issue trees and logic frameworks that decompose complex problems without overlap or gap.
-- Write slide-narrative outlines where every slide headline states the point — not just the topic — and each section advances a single logical storyline.
+- Write slide-narrative outlines where every slide headline states the point, not just the topic, and each section advances a single logical storyline.
 - Draft concise executive summaries that lead with the recommendation and supporting rationale, not the methodology.
 - Prepare stakeholder interview guides with probing, open-ended questions tailored to the interviewee's role and decision-making authority.
 
-Your primary deliverable types on this engagement: {{deliverables}}. Calibrate format, depth, and language to each deliverable type — a C-suite read-out and a working-team process analysis require very different treatments.
+Your primary deliverable types on this engagement: {{deliverables}}. Calibrate format, depth, and language to each deliverable type, a C-suite read-out and a working-team process analysis require very different treatments.
 
 {{#if stakeholderLevel}}
 Primary audience for this engagement: {{stakeholderLevel}}. Adjust communication style, assumed prior knowledge, and level of supporting detail accordingly.
 {{/if}}
 
 {{#if projectPhase}}
-Current project phase: {{projectPhase}}. Focus outputs on what is most valuable at this stage — do not jump to recommendations while still in discovery, and do not revisit scoping once you are in synthesis.
+Current project phase: {{projectPhase}}. Focus outputs on what is most valuable at this stage, do not jump to recommendations while still in discovery, and do not revisit scoping once you are in synthesis.
 {{/if}}
 
 Rules:
 1. Never fabricate data, benchmarks, market figures, or citations. If supporting data is needed, flag it explicitly and ask the user to supply it.
 2. Keep all client information and engagement details strictly confidential. Do not reference specific client names or proprietary data when framing advice for external audiences.
-3. Structure every analysis output explicitly — use issue trees, MECE breakdowns, or numbered frameworks. Never deliver unstructured prose when a framework would be more useful.
+3. Structure every analysis output explicitly, use issue trees, MECE breakdowns, or numbered frameworks. Never deliver unstructured prose when a framework would be more useful.
 4. Every slide outline must include a "headline" field per slide that states the insight or recommendation, not just the section title.
 5. When a conclusion rests on an unverified assumption, flag the assumption explicitly rather than embedding it invisibly in the logic.
 6. If a request would require inventing findings or conclusions without underlying evidence, decline and specify what information must be gathered first.`,
@@ -87,7 +87,7 @@ Rules:
       ],
       default: 'strategy & growth',
       required: true,
-      helpText: 'The type of consulting work this setup will support — shapes how Claude frames problems and structures deliverables.',
+      helpText: 'The type of consulting work this setup will support, shapes how Claude frames problems and structures deliverables.',
       group: 'About you',
     },
     {
@@ -160,11 +160,11 @@ Rules:
       content: `# Consulting frameworks reference card
 
 ## About this file
-This reference card travels with every engagement. Update the sections that vary by project — client context, key hypotheses, and interview role map. Claude reads this before producing any structured deliverable.
+This reference card travels with every engagement. Update the sections that vary by project, client context, key hypotheses, and interview role map. Claude reads this before producing any structured deliverable.
 
 ---
 
-## Problem framing — hypothesis-first approach
+## Problem framing, hypothesis-first approach
 
 1. **State the hypothesis first.** "We believe [X] because [Y]. If true, [Z] follows." Never start with the analysis.
 2. **MECE test.** Does the breakdown cover all cases (collectively exhaustive)? Do any categories overlap (mutually exclusive)? If both, the structure is sound.
@@ -174,28 +174,28 @@ This reference card travels with every engagement. Update the sections that vary
 
 ## Slide headline rules
 
-- Every slide gets one headline — a complete sentence that states the point.
+- Every slide gets one headline, a complete sentence that states the point.
 - Good: "Operating costs are 18% above industry benchmark, driven by logistics and returns."
 - Bad: "Cost Analysis" / "Operating Cost Benchmarking"
-- The slide body (data, chart, bullets) exists only to prove the headline — not to introduce new points.
+- The slide body (data, chart, bullets) exists only to prove the headline, not to introduce new points.
 - The storyline should be readable from the headlines alone, in sequence.
 
 ---
 
 ## Executive summary structure (one-page default)
 
-1. **Situation** — context the reader already knows (1–2 sentences max).
-2. **Complication** — what changed or what the problem is (1–2 sentences).
-3. **Question** — the question this work answers (one sentence).
-4. **Answer / Recommendation** — the direct answer, stated first (the rest supports this).
-5. **Key supporting points** — 3–5 bullets, each with a number or evidence anchor.
-6. **Next steps** — who does what by when.
+1. **Situation**, context the reader already knows (1–2 sentences max).
+2. **Complication**, what changed or what the problem is (1–2 sentences).
+3. **Question**, the question this work answers (one sentence).
+4. **Answer / Recommendation**, the direct answer, stated first (the rest supports this).
+5. **Key supporting points**, 3–5 bullets, each with a number or evidence anchor.
+6. **Next steps**, who does what by when.
 
 Lead with the answer. Never bury the recommendation at the end.
 
 ---
 
-## Stakeholder interview guide — question patterns by role
+## Stakeholder interview guide, question patterns by role
 
 ### C-suite / Executive sponsor
 - What does success look like for this initiative 12 months from now?
@@ -204,7 +204,7 @@ Lead with the answer. Never bury the recommendation at the end.
 - What would change your mind about the current direction?
 
 ### Functional leader (VP / Director)
-- Walk me through how this process works today — where does it break?
+- Walk me through how this process works today, where does it break?
 - What data do you track, and what decisions does it drive?
 - What would your team do differently if they had the authority and resources?
 - What are you most worried the project will miss or get wrong?
@@ -224,7 +224,7 @@ Lead with the answer. Never bury the recommendation at the end.
 | Porter's Five Forces | Industry attractiveness and competitive pressure |
 | Value chain analysis | Finding cost or differentiation opportunities |
 | 2x2 prioritization | Ranking initiatives by impact vs. effort/risk |
-| SWOT | Quick situational scan (use sparingly — often too generic) |
+| SWOT | Quick situational scan (use sparingly, often too generic) |
 | Root cause / 5 Whys | Diagnosing operational failures |
 `,
       required: true,
@@ -259,7 +259,7 @@ Lead with the answer. Never bury the recommendation at the end.
         'mutually exclusive, collectively exhaustive branches. The top level should distinguish ' +
         'between cost volume drivers and cost efficiency drivers, or a similarly MECE first split. ' +
         'Each branch should terminate in a sub-question that is directly answerable by data or ' +
-        'interviews. Claude should not fabricate specific numbers or conclusions — the tree should ' +
+        'interviews. Claude should not fabricate specific numbers or conclusions, the tree should ' +
         'structure the diagnostic, not answer it. It should label the tree clearly and note any ' +
         'MECE assumptions made.',
       mustContain: ['operating costs', 'revenue', 'MECE'],

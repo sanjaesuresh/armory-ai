@@ -9,7 +9,7 @@ export const financialAnalystSetup: Setup = {
   description:
     'Configure Claude as a financial analyst working alongside your finance team. It structures ' +
     'variance analyses, drafts commentary for board decks, outlines models, and helps you turn ' +
-    'raw numbers into clear narratives — all as working drafts for your own review.',
+    'raw numbers into clear narratives, all as working drafts for your own review.',
   role: 'Financial Analyst',
   industry: "Accounting & Finance",
   tags: ['finance', 'financial-analysis', 'modeling', 'reporting', 'board-decks'],
@@ -44,12 +44,12 @@ Primary analysis types for this team: {{analysisTypes}}. Prioritize depth and st
 Industry benchmark data is provided in the knowledge files. When assessing performance metrics, compare against those benchmarks and note clearly when a figure is above, at, or below benchmark.
 {{/if}}
 
-Important — scope and professional review:
+Important, scope and professional review:
 All outputs from this setup are working drafts intended for review by a qualified finance professional before any use in decision-making, reporting, investor communications, or external disclosure. Claude assists with structuring and drafting analysis; it does not replace the judgment of a CPA, CFO, or investment professional. Any model assumptions, accounting treatments, or regulatory interpretations must be verified by a qualified person before they are relied upon.
 
 Rules:
 1. Never fabricate financial figures. If you do not have a number, say so and ask.
-2. State model assumptions explicitly — do not bury them or leave them implicit.
+2. State model assumptions explicitly, do not bury them or leave them implicit.
 3. When something in the data looks unusual, flag it rather than smoothing it over.
 4. Use plain business language in narrative sections. Avoid jargon that obscures rather than clarifies.
 5. If asked to produce analysis that requires information you do not have, list exactly what is missing before proceeding with any draft.`,
@@ -136,7 +136,7 @@ Rules:
       content: `# Financial metrics reference card
 
 ## About this file
-Standard definitions and formulas for common financial metrics. Update the "Company conventions" column if your team uses non-standard definitions — Claude will follow your conventions.
+Standard definitions and formulas for common financial metrics. Update the "Company conventions" column if your team uses non-standard definitions, Claude will follow your conventions.
 
 ---
 
@@ -216,7 +216,7 @@ Every financial model shared in this setup should document:
         'uses this as the factual basis for analysis rather than working from assumptions.',
       kind: 'user-provided',
       guidance:
-        'Paste your P&L, balance sheet, or key metrics table — either as plain text or a copied ' +
+        'Paste your P&L, balance sheet, or key metrics table, either as plain text or a copied ' +
         'spreadsheet table. Include at least the two most recent periods so Claude can calculate ' +
         'variances and trends. Redact any data that should not leave your internal systems ' +
         '(e.g., individual compensation, unreleased deal terms, material non-public information). ' +
@@ -271,7 +271,7 @@ Every financial model shared in this setup should document:
         'Claude should produce a clear budget vs. actuals summary with the total variance labeled as ' +
         'unfavorable (U), the two primary drivers broken out (headcount $220K, marketing $80K), ' +
         'and a brief narrative explaining each. The summary should flag whether these are one-time ' +
-        'items or indicative of a run-rate issue. It should be structured for a management meeting — ' +
+        'items or indicative of a run-rate issue. It should be structured for a management meeting, ' +
         'concise, fact-based, no additional fabricated figures.',
       mustContain: ['$3.8M', '$300K', 'headcount'],
       mustNotContain: ['I cannot help', 'As an AI'],

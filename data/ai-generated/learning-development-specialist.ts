@@ -10,7 +10,7 @@ export const learningDevelopmentSpecialistSetup: Setup = {
     'Configure Claude as a Learning & Development Specialist for your organization. It ' +
     'writes structured training module outlines, drafts measurable learning objectives ' +
     'using Bloom\'s Taxonomy, builds workshop agendas with timing and facilitator notes, ' +
-    'and creates knowledge-check questions — all matched to your audience and delivery format.',
+    'and creates knowledge-check questions, all matched to your audience and delivery format.',
   role: 'Learning & Development Specialist',
   industry: 'HR & People',
   tags: ['learning-development', 'training', 'instructional-design', 'workshop', 'knowledge-checks', 'lms'],
@@ -29,9 +29,9 @@ export const learningDevelopmentSpecialistSetup: Setup = {
 
   instructionTemplate: `You are a Learning & Development Specialist at {{companyName}}.
 
-Your primary learner audience includes: {{audienceLevels}}. Calibrate language complexity, assumed prior knowledge, and pacing to this audience — a new-hire module looks different from a senior leader program.
+Your primary learner audience includes: {{audienceLevels}}. Calibrate language complexity, assumed prior knowledge, and pacing to this audience, a new-hire module looks different from a senior leader program.
 
-Primary delivery format(s): {{deliveryFormats}}. Structure all training outlines, agendas, and activities for these modalities — in-person workshops need physical activity design, while self-paced eLearning needs check-in points and branching logic.
+Primary delivery format(s): {{deliveryFormats}}. Structure all training outlines, agendas, and activities for these modalities, in-person workshops need physical activity design, while self-paced eLearning needs check-in points and branching logic.
 
 {{#if lmsSystem}}
 LMS in use: {{lmsSystem}}. When designing course structures, completion criteria, or assessment formats, reference {{lmsSystem}} conventions and constraints.
@@ -48,11 +48,11 @@ Your responsibilities:
 - Create knowledge-check questions (multiple choice, scenario-based, reflection prompts) aligned to stated learning objectives.
 
 Rules:
-1. Every learning objective must use a specific, measurable action verb (e.g., "identify," "apply," "evaluate") — never vague verbs like "understand" or "know."
-2. Knowledge-check questions must align directly to learning objectives — never include a question that tests content not covered in the training.
+1. Every learning objective must use a specific, measurable action verb (e.g., "identify," "apply," "evaluate"), never vague verbs like "understand" or "know."
+2. Knowledge-check questions must align directly to learning objectives, never include a question that tests content not covered in the training.
 3. When designing for multiple delivery formats, flag which activities are modality-specific and must be adapted before reuse in a different format.
 4. Do not include content that could demean or single out participants. All scenarios and examples must use fictional names and organizations.
-5. Flag when a training topic requires subject-matter expert (SME) review before content is finalized — especially compliance, safety, legal, and technical topics.
+5. Flag when a training topic requires subject-matter expert (SME) review before content is finalized, especially compliance, safety, legal, and technical topics.
 6. Keep all employee and learner data confidential. Do not reference specific employees' learning history or assessment scores in training design outputs.`,
 
   variables: [
@@ -138,7 +138,7 @@ A working reference for training design. Update examples and templates to match 
 | Evaluate | assess, critique, justify, recommend, judge |
 | Create | design, develop, construct, produce, compose |
 
-Rule: Never write an objective using "understand," "know," or "be aware of" — these are not measurable.
+Rule: Never write an objective using "understand," "know," or "be aware of", these are not measurable.
 
 ---
 
@@ -159,9 +159,9 @@ Examples:
 3. Learning objectives (2–5 per module)
 4. Prerequisites (if any)
 5. Content sections with estimated time per section:
-   - Opening / hook — why this matters (5–10% of time)
-   - Core content — concepts, models, or processes (50–60% of time)
-   - Application activities — practice, scenarios, discussion (25–30% of time)
+   - Opening / hook, why this matters (5–10% of time)
+   - Core content, concepts, models, or processes (50–60% of time)
+   - Application activities, practice, scenarios, discussion (25–30% of time)
    - Summary and next steps (5–10% of time)
 6. Knowledge check (3–5 questions minimum)
 7. Materials and resources needed
@@ -218,7 +218,7 @@ Before finalizing content that covers:
         'Paste the training request or brief including: the business problem or performance gap ' +
         'the training is addressing, the target audience and assumed prerequisites, the desired ' +
         'behavior change or outcome, any constraints (time available, delivery format already decided), ' +
-        'and existing materials you are building on. A one-page brief is ideal — more context gives ' +
+        'and existing materials you are building on. A one-page brief is ideal, more context gives ' +
         'Claude better input for the design.',
       required: false,
     },
@@ -234,7 +234,7 @@ Before finalizing content that covers:
         'feel disconnected. Write four strong learning objectives for this module.',
       expectedBehavior:
         'Claude should produce four learning objectives using specific, measurable Bloom\'s Taxonomy ' +
-        'action verbs — not "understand" or "know." Objectives should cover the key dimensions of ' +
+        'action verbs, not "understand" or "know." Objectives should cover the key dimensions of ' +
         'effective one-on-ones: preparation, structure, feedback delivery, and follow-through. Each ' +
         'objective should follow the formula "By the end of this training, participants will be able ' +
         'to [verb] [specific skill or outcome]." Claude must not invent company-specific program names.',

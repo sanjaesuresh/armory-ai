@@ -44,7 +44,7 @@ A Claude Code project configuration for scaffolding and enforcing a staged CI pi
 ## What it does
 
 When this harness is active, Claude Code operates as a CI pipeline engineer. It follows a
-strict gate order — lint → typecheck → test → build — and refuses to advance a gate until
+strict gate order, lint → typecheck → test → build, and refuses to advance a gate until
 the previous one is green. The workflow is instruction-driven: Claude reads this README and
 treats it as the working contract for the session.
 
@@ -59,8 +59,8 @@ treats it as the working contract for the session.
 
 | File | Purpose |
 |------|---------|
-| \`README.md\` | This guide — Claude reads it as its working instructions |
-| \`settings.json\` | Claude Code project settings — copy to \`.claude/settings.json\` |
+| \`README.md\` | This guide, Claude reads it as its working instructions |
+| \`settings.json\` | Claude Code project settings, copy to \`.claude/settings.json\` |
 
 ## Setup
 
@@ -97,22 +97,22 @@ packages) and propose the most likely fix before touching any code.
 
 ## Commands
 
-- \`/ci-setup\` — Scaffold a full lint→typecheck→test→build pipeline for the current
+- \`/ci-setup\`, Scaffold a full lint→typecheck→test→build pipeline for the current
   project, including a CI config file and local script equivalents.
-- \`/ci-gate <gate-name>\` — Run a single gate (e.g. \`/ci-gate lint\`) and report
+- \`/ci-gate <gate-name>\`, Run a single gate (e.g. \`/ci-gate lint\`) and report
   pass/fail with the raw output.
-- \`/ci-debug <gate-name>\` — Diagnose a failing gate: diff CI vs local environment,
+- \`/ci-debug <gate-name>\`, Diagnose a failing gate: diff CI vs local environment,
   pinpoint the root cause, and propose a fix.
 
 ## Allowed bash commands
 
 The harness permits pipeline-related commands only:
 
-- \`Bash(npm run lint*)\`, \`Bash(npx eslint*)\` — lint gate
-- \`Bash(npx tsc*)\` — typecheck gate
-- \`Bash(npm test*)\`, \`Bash(npx vitest*)\`, \`Bash(npx jest*)\` — test gate
-- \`Bash(npm run build*)\`, \`Bash(npx next build*)\` — build gate
-- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(git log*)\` — inspect state
+- \`Bash(npm run lint*)\`, \`Bash(npx eslint*)\`, lint gate
+- \`Bash(npx tsc*)\`, typecheck gate
+- \`Bash(npm test*)\`, \`Bash(npx vitest*)\`, \`Bash(npx jest*)\`, test gate
+- \`Bash(npm run build*)\`, \`Bash(npx next build*)\`, build gate
+- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(git log*)\`, inspect state
 
 Destructive commands (\`rm -rf\`, \`git push\`, \`git reset --hard\`) are blocked.
 
@@ -120,7 +120,7 @@ Destructive commands (\`rm -rf\`, \`git push\`, \`git reset --hard\`) are blocke
 
 - The harness does not auto-detect your CI platform; tell Claude which one you use at
   the start of the session.
-- Caching config is proposed, not generated automatically — Claude needs to know your
+- Caching config is proposed, not generated automatically, Claude needs to know your
   runner OS and lockfile location to produce valid cache keys.
 `,
       },
@@ -180,7 +180,7 @@ Destructive commands (\`rm -rf\`, \`git push\`, \`git reset --hard\`) are blocke
     id: 'curated-load-test-harness-v1',
     slug: 'load-test-harness',
     name: 'Load-Test Harness',
-    tagline: 'Define load scenarios, ramp profiles, and SLO thresholds — then get a pass/fail verdict',
+    tagline: 'Define load scenarios, ramp profiles, and SLO thresholds, then get a pass/fail verdict',
     description:
       'A Claude Code project config and guide for authoring load and stress tests: scenario ' +
       'definitions, virtual-user ramp profiles, SLO thresholds for latency and error rate, ' +
@@ -233,8 +233,8 @@ run, and produce a pass/fail report against those thresholds.
 
 | File | Purpose |
 |------|---------|
-| \`README.md\` | This guide — Claude reads it as its working instructions |
-| \`settings.json\` | Claude Code project settings — copy to \`.claude/settings.json\` |
+| \`README.md\` | This guide, Claude reads it as its working instructions |
+| \`settings.json\` | Claude Code project settings, copy to \`.claude/settings.json\` |
 
 ## Setup
 
@@ -272,7 +272,7 @@ a report with a PASS or FAIL verdict for each threshold and an overall go/no-go.
 ## Example output
 
 \`\`\`
-SLO Report — POST /orders — 2026-07-07
+SLO Report, POST /orders, 2026-07-07
 ──────────────────────────────────────
 p95 latency   target: ≤ 300 ms   measured: 218 ms   ✓ PASS
 p99 latency   target: ≤ 800 ms   measured: 540 ms   ✓ PASS
@@ -284,21 +284,21 @@ Overall verdict: PASS
 
 ## Commands
 
-- \`/loadtest <scenario>\` — Run a named scenario and stream live metrics until completion.
-- \`/define-slo\` — Interactively define SLO thresholds (latency, error rate, throughput)
+- \`/loadtest <scenario>\`, Run a named scenario and stream live metrics until completion.
+- \`/define-slo\`, Interactively define SLO thresholds (latency, error rate, throughput)
   and write them to \`slo.json\`.
-- \`/slo-report\` — Evaluate the most recent test run against \`slo.json\` and return a
+- \`/slo-report\`, Evaluate the most recent test run against \`slo.json\` and return a
   structured PASS/FAIL report.
 
 ## Allowed bash commands
 
 The harness permits load-test runners and read-only inspection:
 
-- \`Bash(npx k6*)\`, \`Bash(k6*)\` — k6 load tests
-- \`Bash(locust*)\` — Locust load tests
-- \`Bash(npx artillery*)\` — Artillery load tests
-- \`Bash(curl*)\` — health-check the target before a run
-- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(cat*)\` — inspect scripts and results
+- \`Bash(npx k6*)\`, \`Bash(k6*)\`, k6 load tests
+- \`Bash(locust*)\`, Locust load tests
+- \`Bash(npx artillery*)\`, Artillery load tests
+- \`Bash(curl*)\`, health-check the target before a run
+- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(cat*)\`, inspect scripts and results
 
 Destructive commands and pushes are blocked.
 
@@ -362,7 +362,7 @@ Destructive commands and pushes are blocked.
     id: 'curated-contract-test-harness-v1',
     slug: 'contract-test-harness',
     name: 'Contract-Test Harness',
-    tagline: 'Consumer-driven contract testing between services — break the build on API drift',
+    tagline: 'Consumer-driven contract testing between services, break the build on API drift',
     description:
       'A Claude Code project config and guide for consumer-driven contract testing: define ' +
       'contracts from the consumer side, verify the provider against them, and fail the build ' +
@@ -400,7 +400,7 @@ A Claude Code project configuration for consumer-driven contract testing between
 
 When this harness is active, Claude Code follows a contract-first discipline for API
 interactions between services. The consumer defines what it expects; the provider must
-prove it delivers exactly that — or the build breaks.
+prove it delivers exactly that, or the build breaks.
 
 - **Consumer side:** Claude helps you write a contract file (Pact JSON or a plain schema)
   that describes the requests your service sends and the responses it needs.
@@ -415,8 +415,8 @@ prove it delivers exactly that — or the build breaks.
 
 | File | Purpose |
 |------|---------|
-| \`README.md\` | This guide — Claude reads it as its working instructions |
-| \`settings.json\` | Claude Code project settings — copy to \`.claude/settings.json\` |
+| \`README.md\` | This guide, Claude reads it as its working instructions |
+| \`settings.json\` | Claude Code project settings, copy to \`.claude/settings.json\` |
 
 ## Setup
 
@@ -435,7 +435,7 @@ Tell Claude: "Define a contract for how \`orders\` calls \`GET /products/:id\`."
 
 Claude will:
 1. Ask what fields the consumer actually uses from the response (not just what the
-   provider returns — only what the consumer reads matters).
+   provider returns, only what the consumer reads matters).
 2. Generate a Pact interaction or JSON schema scoped to those fields.
 3. Write a consumer test that records the interaction and asserts it matches the contract.
 
@@ -453,22 +453,22 @@ and which consumer fields are affected.
 
 ## Commands
 
-- \`/contract <consumer> <provider> <endpoint>\` — Scaffold a consumer contract for a
+- \`/contract <consumer> <provider> <endpoint>\`, Scaffold a consumer contract for a
   specific interaction, scoped to only the fields the consumer reads.
-- \`/verify-provider <provider>\` — Run provider verification against all consumer contracts
+- \`/verify-provider <provider>\`, Run provider verification against all consumer contracts
   and report PASS/FAIL per interaction.
-- \`/contract-drift\` — Rerun verification after a provider change and summarise every
+- \`/contract-drift\`, Rerun verification after a provider change and summarise every
   broken interaction with the field-level diff.
 
 ## Allowed bash commands
 
 The harness permits contract-testing tools:
 
-- \`Bash(npx pact*)\`, \`Bash(pact*)\` — Pact consumer and provider tests
-- \`Bash(npm test*)\`, \`Bash(npx vitest*)\`, \`Bash(npx jest*)\` — run consumer tests
+- \`Bash(npx pact*)\`, \`Bash(pact*)\`, Pact consumer and provider tests
+- \`Bash(npm test*)\`, \`Bash(npx vitest*)\`, \`Bash(npx jest*)\`, run consumer tests
   that generate Pact files
-- \`Bash(curl*)\` — probe the provider before a verification run
-- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(git log*)\` — inspect changes
+- \`Bash(curl*)\`, probe the provider before a verification run
+- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(git log*)\`, inspect changes
 
 Destructive commands and pushes are blocked.
 
@@ -533,7 +533,7 @@ Destructive commands and pushes are blocked.
     id: 'curated-release-checklist-harness-v1',
     slug: 'release-checklist-harness',
     name: 'Release-Checklist Harness',
-    tagline: 'Gate every release: green tests, changelog, version bump, rollback plan — go/no-go verdict',
+    tagline: 'Gate every release: green tests, changelog, version bump, rollback plan, go/no-go verdict',
     description:
       'A Claude Code project config and runbook that enforces a pre-release checklist before ' +
       'any version ships: all tests green, changelog entry present, version bumped consistently, ' +
@@ -575,14 +575,14 @@ and delivers a go/no-go verdict. No release proceeds until all blocking items ar
 
 **Checklist items (in order):**
 
-1. **Tests green** — the full test suite passes in CI on the release commit.
-2. **Changelog updated** — a \`CHANGELOG.md\` or equivalent entry exists for this version,
+1. **Tests green**, the full test suite passes in CI on the release commit.
+2. **Changelog updated**, a \`CHANGELOG.md\` or equivalent entry exists for this version,
    listing every user-visible change.
-3. **Version bumped** — \`package.json\` (and any other version sources: \`pyproject.toml\`,
+3. **Version bumped**, \`package.json\` (and any other version sources: \`pyproject.toml\`,
    \`Cargo.toml\`, etc.) agree on the new version and follow semver.
-4. **Rollback plan documented** — a rollback procedure is written and reachable (inline
+4. **Rollback plan documented**, a rollback procedure is written and reachable (inline
    comment, wiki page, or runbook) before deployment starts.
-5. **Monitoring confirmed** — at least one alerting rule covers the release's key metrics;
+5. **Monitoring confirmed**, at least one alerting rule covers the release's key metrics;
    the on-call engineer is aware.
 
 Any FAIL blocks the release. Claude reports which items need attention before asking you
@@ -592,8 +592,8 @@ to proceed.
 
 | File | Purpose |
 |------|---------|
-| \`README.md\` | This guide — Claude reads it as its working instructions |
-| \`settings.json\` | Claude Code project settings — copy to \`.claude/settings.json\` |
+| \`README.md\` | This guide, Claude reads it as its working instructions |
+| \`settings.json\` | Claude Code project settings, copy to \`.claude/settings.json\` |
 
 ## Setup
 
@@ -615,7 +615,7 @@ Claude will:
 3. Read \`package.json\` and any other version files and verify they all say \`2.4.0\`.
 4. Ask you to confirm or provide a rollback procedure.
 5. Ask whether monitoring is in place for this release.
-6. Output the verdict table and — if all green — give an explicit go-ahead.
+6. Output the verdict table and, if all green, give an explicit go-ahead.
 
 ### Generating a rollback plan
 Tell Claude: "Write a rollback plan for v2.4.0."
@@ -632,12 +632,12 @@ before committing.
 ## Example output
 
 \`\`\`
-Release checklist — v2.4.0
+Release checklist, v2.4.0
 ────────────────────────────────────────────
 ✓ Tests            all 312 tests pass on commit a3f9c1d
 ✓ Changelog        CHANGELOG.md entry found for v2.4.0
-✓ Version bump     package.json, Dockerfile ARG — all say 2.4.0
-✗ Rollback plan    no rollback procedure found — blocking
+✓ Version bump     package.json, Dockerfile ARG, all say 2.4.0
+✗ Rollback plan    no rollback procedure found, blocking
 ✓ Monitoring       Grafana alert "error-rate-high" covers /api/*
 
 Overall verdict: NO-GO  (1 blocking item)
@@ -645,22 +645,22 @@ Overall verdict: NO-GO  (1 blocking item)
 
 ## Commands
 
-- \`/release-check <version>\` — Run the full pre-release checklist for the given version
+- \`/release-check <version>\`, Run the full pre-release checklist for the given version
   and output a per-item PASS/FAIL table with an overall go/no-go verdict.
-- \`/rollback-plan <version>\` — Draft a numbered rollback runbook for the release,
+- \`/rollback-plan <version>\`, Draft a numbered rollback runbook for the release,
   covering deployment revert, config rollback, and verification steps.
-- \`/bump-version <version>\` — Update every version source in the repo to the given
+- \`/bump-version <version>\`, Update every version source in the repo to the given
   version consistently, then show the diff for review.
 
 ## Allowed bash commands
 
 The harness permits test runners, version inspection, and read-only git:
 
-- \`Bash(npm test*)\`, \`Bash(npx vitest*)\`, \`Bash(npx jest*)\` — run the test suite
-- \`Bash(npx tsc*)\` — typecheck before release
-- \`Bash(npm version*)\` — bump version in package.json
-- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(git log*)\`, \`Bash(git tag*)\` — inspect state
-- \`Bash(cat*)\` — read version files and changelog
+- \`Bash(npm test*)\`, \`Bash(npx vitest*)\`, \`Bash(npx jest*)\`, run the test suite
+- \`Bash(npx tsc*)\`, typecheck before release
+- \`Bash(npm version*)\`, bump version in package.json
+- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(git log*)\`, \`Bash(git tag*)\`, inspect state
+- \`Bash(cat*)\`, read version files and changelog
 
 Destructive commands and remote pushes are blocked.
 
@@ -725,11 +725,11 @@ Destructive commands and remote pushes are blocked.
     id: 'curated-monorepo-task-harness-v1',
     slug: 'monorepo-task-harness',
     name: 'Monorepo Task Harness',
-    tagline: 'Build and test only the packages affected by your change — with a task graph and caching',
+    tagline: 'Build and test only the packages affected by your change, with a task graph and caching',
     description:
       'A Claude Code project config and guide for orchestrating build and test tasks across ' +
       'a monorepo. Claude computes the affected package set from the change, maps the task ' +
-      'dependency graph, runs only what needs running, and skips cached outputs — so you ' +
+      'dependency graph, runs only what needs running, and skips cached outputs, so you ' +
       'pay only for the work that actually changed.',
     role: 'Engineering',
     industry: null,
@@ -764,13 +764,13 @@ affected by a change in a monorepo.
 
 When this harness is active, Claude Code acts as a monorepo task orchestrator. It computes
 which packages are affected by the current change, builds the dependency graph between them,
-and runs only the necessary tasks in the correct order — using cached outputs wherever
+and runs only the necessary tasks in the correct order, using cached outputs wherever
 possible.
 
 - **Affected detection:** Claude uses \`git diff\` to identify changed files, maps them to
   packages, and follows the dependency graph to include any downstream packages that must
   be rebuilt or retested.
-- **Task graph:** Claude makes the dependency order explicit — if \`pkg-b\` depends on
+- **Task graph:** Claude makes the dependency order explicit, if \`pkg-b\` depends on
   \`pkg-a\`, it builds \`pkg-a\` first, regardless of the order packages appear in the workspace.
 - **Caching:** Claude checks for existing build outputs (dist/, .turbo/, .nx-cache/) before
   running a task, and skips any package whose inputs have not changed since the last run.
@@ -781,8 +781,8 @@ possible.
 
 | File | Purpose |
 |------|---------|
-| \`README.md\` | This guide — Claude reads it as its working instructions |
-| \`settings.json\` | Claude Code project settings — copy to \`.claude/settings.json\` |
+| \`README.md\` | This guide, Claude reads it as its working instructions |
+| \`settings.json\` | Claude Code project settings, copy to \`.claude/settings.json\` |
 
 ## Setup
 
@@ -837,23 +837,23 @@ Cache saved: ~68s  Total: 67s
 
 ## Commands
 
-- \`/affected\` — Compute and list the packages affected by the current branch's changes,
+- \`/affected\`, Compute and list the packages affected by the current branch's changes,
   including downstream dependents.
-- \`/task-graph\` — Show the dependency graph for the affected packages: order, critical
+- \`/task-graph\`, Show the dependency graph for the affected packages: order, critical
   path, and which tasks will be cache hits.
-- \`/cache-status\` — Report which packages have valid cached outputs and which need a
+- \`/cache-status\`, Report which packages have valid cached outputs and which need a
   fresh run based on current file hashes.
 
 ## Allowed bash commands
 
 The harness permits monorepo toolchain commands and read-only git:
 
-- \`Bash(npx turbo*)\`, \`Bash(turbo*)\` — Turborepo task runner
-- \`Bash(npx nx*)\`, \`Bash(nx*)\` — Nx task runner
-- \`Bash(pnpm run*)\`, \`Bash(pnpm --filter*)\` — pnpm workspace commands
-- \`Bash(lerna*)\` — Lerna lifecycle commands
-- \`Bash(npm run*)\` — fallback workspace scripts
-- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(git log*)\` — change detection
+- \`Bash(npx turbo*)\`, \`Bash(turbo*)\`, Turborepo task runner
+- \`Bash(npx nx*)\`, \`Bash(nx*)\`, Nx task runner
+- \`Bash(pnpm run*)\`, \`Bash(pnpm --filter*)\`, pnpm workspace commands
+- \`Bash(lerna*)\`, Lerna lifecycle commands
+- \`Bash(npm run*)\`, fallback workspace scripts
+- \`Bash(git diff*)\`, \`Bash(git status*)\`, \`Bash(git log*)\`, change detection
 
 Destructive commands and remote pushes are blocked.
 

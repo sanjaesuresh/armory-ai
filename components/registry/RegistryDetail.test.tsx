@@ -126,7 +126,7 @@ describe('RegistryDetail', () => {
     );
     const badge = screen.getByTestId('detail-badge-github');
     expect(badge).toBeInTheDocument();
-    expect(badge).toHaveTextContent('Community pick');
+    expect(badge).toHaveTextContent('Community');
   });
 
   it('renders an ai-generated source badge', () => {

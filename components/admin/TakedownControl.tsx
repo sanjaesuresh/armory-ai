@@ -67,11 +67,11 @@ export default function TakedownControl({ setupId }: Props) {
         router.refresh();
       } else {
         setStatus('error');
-        setErrorMsg(data.error ?? 'Action failed — please try again.');
+        setErrorMsg(data.error ?? 'Action failed, please try again.');
       }
     } catch {
       setStatus('error');
-      setErrorMsg('Network error — please try again.');
+      setErrorMsg('Network error, please try again.');
     }
   }
 
@@ -105,7 +105,7 @@ export default function TakedownControl({ setupId }: Props) {
             <label htmlFor="takedown-note">
               Reason{' '}
               <span style={{ fontWeight: 400, color: 'var(--muted)' }}>
-                (required — the author sees this verbatim)
+                (required, the author sees this verbatim)
               </span>
             </label>
             <textarea

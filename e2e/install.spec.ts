@@ -87,7 +87,7 @@ test.describe('/install page', () => {
 
     // Body must include the brand-prefixed project name suggestion
     await expect(
-      page.getByText(/Flowmatic Coffee Co — Marketing Manager/),
+      page.getByText(/Flowmatic Coffee Co, Marketing Manager/),
     ).toBeVisible();
   });
 

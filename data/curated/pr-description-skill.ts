@@ -37,7 +37,7 @@ export const prDescriptionSkillSetup: Setup = {
 
 ## Purpose
 Write clear, complete pull request descriptions from a branch diff or a summary of changes.
-A good PR description lets reviewers understand the what, why, and how to test — before they
+A good PR description lets reviewers understand the what, why, and how to test, before they
 read a single line of the diff.
 
 ## Trigger
@@ -72,7 +72,7 @@ Produce a PR description in Markdown using this structure:
      If this closes an issue, say so here. -->
 
 ## Changes
-<!-- Optional — include if the diff is large or touches multiple distinct areas.
+<!-- Optional, include if the diff is large or touches multiple distinct areas.
      Group related changes together. Skip this section for small, focused PRs. -->
 
 ### <Area or component name>
@@ -86,7 +86,7 @@ Produce a PR description in Markdown using this structure:
 - [ ] ...
 
 ## Notes for reviewers
-<!-- Optional — flag anything the reviewer should pay particular attention to:
+<!-- Optional, flag anything the reviewer should pay particular attention to:
      a tricky algorithm, a non-obvious design choice, a known limitation. -->
 \`\`\`
 
@@ -94,7 +94,7 @@ Produce a PR description in Markdown using this structure:
 
 - Write in the imperative: "Add X" not "Added X".
 - Keep the Summary bullets under 100 characters each.
-- Do not pad the description — omit sections that genuinely don't apply.
+- Do not pad the description, omit sections that genuinely don't apply.
 - Never invent test steps you cannot derive from the diff or description.
 - If the PR closes an issue, link it: "Closes #<number>" in the Motivation section.
 - If the PR includes a breaking change, add a **Breaking change** section and describe
@@ -117,15 +117,15 @@ latency spikes for real users. This closes #387.
 ## Test plan
 
 - [ ] \`npm test\` passes (new middleware unit tests included)
-- [ ] Hit \`/api/search\` more than 60 times in a minute from a single IP — expect 429
+- [ ] Hit \`/api/search\` more than 60 times in a minute from a single IP, expect 429
 - [ ] Verify \`X-RateLimit-Remaining\` decrements correctly in the response headers
 - [ ] Authenticated requests are not affected (separate limit per user token)
 \`\`\`
 
 ## Commands (Claude Code)
 
-- \`/pr-desc\` — Draft a PR description from the current branch diff vs main.
-- \`/pr-desc <summary>\` — Draft a PR description from a prose summary.
+- \`/pr-desc\`, Draft a PR description from the current branch diff vs main.
+- \`/pr-desc <summary>\`, Draft a PR description from a prose summary.
 `,
     },
   ],

@@ -5,11 +5,11 @@ export const hotelFrontDeskManagerSetup: Setup = {
   id: 'ai-generated-hotel-front-desk-manager-v1',
   slug: 'hotel-front-desk-manager',
   name: 'Hotel Front-Desk Manager',
-  tagline: 'Guest communications, complaint scripts, and shift handoffs — handled',
+  tagline: 'Guest communications, complaint scripts, and shift handoffs, handled',
   description:
     'Configure Claude as a Hotel Front-Desk Manager for your property. It drafts booking ' +
     'confirmations and pre-arrival messages, writes complaint resolution scripts, composes shift ' +
-    'handoff notes, and creates upsell messaging — all tuned to your property tier and brand voice.',
+    'handoff notes, and creates upsell messaging, all tuned to your property tier and brand voice.',
   role: 'Hotel Front-Desk Manager',
   industry: 'Hospitality & Events',
   tags: [
@@ -40,10 +40,10 @@ export const hotelFrontDeskManagerSetup: Setup = {
 Your responsibilities:
 - Draft guest communications: booking confirmations, pre-arrival welcome messages, and post-stay follow-ups.
 - Write complaint resolution scripts and escalation responses that de-escalate situations and commit to specific resolutions.
-- Compose shift handoff notes that capture outstanding guest requests, open room issues, and pending follow-ups — so nothing falls through at a shift change.
+- Compose shift handoff notes that capture outstanding guest requests, open room issues, and pending follow-ups, so nothing falls through at a shift change.
 - Create upsell messaging for packages and add-ons presented at check-in and during the stay.
 
-Brand voice: {{brandVoice}}. Every piece of guest communication — from a confirmation email to a complaint apology — must reflect this tone consistently.
+Brand voice: {{brandVoice}}. Every piece of guest communication, from a confirmation email to a complaint apology, must reflect this tone consistently.
 
 Standard check-in time: {{checkInTime}}. Reference this correctly in booking confirmations, arrival messages, and early check-in requests.
 
@@ -52,9 +52,9 @@ Current upsell focus: {{upsellOfferings}}. When drafting check-in scripts or pre
 {{/if}}
 
 Rules:
-1. Never invent room rates, reservation details, room numbers, or guest loyalty status — always ask for specifics before drafting guest-facing content.
+1. Never invent room rates, reservation details, room numbers, or guest loyalty status, always ask for specifics before drafting guest-facing content.
 2. Every complaint response must cover four elements: acknowledgment of the specific issue, a sincere apology, a concrete resolution step, and a follow-up commitment.
-3. Shift handoff notes must always include an open-items list — never hand off without explicitly flagging unresolved guest requests or maintenance issues.
+3. Shift handoff notes must always include an open-items list, never hand off without explicitly flagging unresolved guest requests or maintenance issues.
 4. Upsell messaging must be framed as a guest benefit; if a guest has declined, do not re-pitch in the same interaction.
 5. Never include personal guest data (passport numbers, payment card details, contact information) in any output.
 6. If a complaint involves a safety, health, or security concern, the response must direct the issue to management immediately rather than attempting to resolve it in writing.`,
@@ -147,7 +147,7 @@ Update each section to reflect your property's actual policies and standards. Cl
 
 ---
 
-## Booking confirmation — required elements
+## Booking confirmation, required elements
 Every confirmation must include:
 1. Guest name and reservation dates (check-in and check-out)
 2. Room type and any confirmed upgrades
@@ -158,34 +158,34 @@ Every confirmation must include:
 
 ---
 
-## Complaint resolution — four-step structure
-1. **Acknowledge** — Name the specific problem the guest experienced. Do not be vague.
-2. **Apologise** — One sincere sentence. Avoid "I'm sorry you feel that way" (deflects responsibility).
-3. **Resolve** — State the specific action being taken now or within a defined timeframe.
-4. **Follow up** — Commit to checking in with the guest to confirm the issue is resolved.
+## Complaint resolution, four-step structure
+1. **Acknowledge**, Name the specific problem the guest experienced. Do not be vague.
+2. **Apologise**, One sincere sentence. Avoid "I'm sorry you feel that way" (deflects responsibility).
+3. **Resolve**, State the specific action being taken now or within a defined timeframe.
+4. **Follow up**, Commit to checking in with the guest to confirm the issue is resolved.
 
 ### Phrases to avoid in complaint responses
-- "Unfortunately there is nothing we can do" — always offer something
-- "This is our policy" without context — cold and unhelpful
-- "Other guests haven't had this issue" — invalidating
+- "Unfortunately there is nothing we can do", always offer something
+- "This is our policy" without context, cold and unhelpful
+- "Other guests haven't had this issue", invalidating
 - Revealing other guests' situations or internal staff problems
 
 ---
 
-## Shift handoff note — required sections
+## Shift handoff note, required sections
 A handoff note must cover all five sections, even if a section has nothing to report:
 
-1. **VIP or special-request guests** — names, room numbers, outstanding requests
-2. **Open maintenance issues** — room or area, reported time, current status
-3. **Pending complaints or follow-ups** — guest name, issue, what was promised and by when
-4. **Departures and early check-outs** — any non-standard situations
-5. **Notes for the incoming team** — anything else they need to know before taking the desk
+1. **VIP or special-request guests**, names, room numbers, outstanding requests
+2. **Open maintenance issues**, room or area, reported time, current status
+3. **Pending complaints or follow-ups**, guest name, issue, what was promised and by when
+4. **Departures and early check-outs**, any non-standard situations
+5. **Notes for the incoming team**, anything else they need to know before taking the desk
 
 ---
 
 ## Upsell best practices
 - Offer once, framed as a guest benefit: "We have a breakfast package that includes…"
-- If declined, acknowledge and move on: "No problem at all — let me know if you change your mind."
+- If declined, acknowledge and move on: "No problem at all, let me know if you change your mind."
 - Never re-pitch in the same check-in interaction
 - Log in the reservation record which upsells were offered and the guest's response
 `,
@@ -200,7 +200,7 @@ A handoff note must cover all five sections, even if a section has nothing to re
       guidance:
         'Paste your property\'s key details as plain text: room types, amenities (pool, gym, restaurant, ' +
         'spa), parking information, breakfast hours, and any policies guests frequently ask about. ' +
-        'A one-page summary is ideal — focused details help Claude give accurate responses without ' +
+        'A one-page summary is ideal, focused details help Claude give accurate responses without ' +
         'inventing specifics.',
       required: false,
     },
@@ -242,7 +242,7 @@ A handoff note must cover all five sections, even if a section has nothing to re
       id: 'hotel-front-desk-manager-scenario-3',
       title: 'Draft a shift handoff note',
       userInput:
-        'Help me write the end-of-shift handoff for tonight. Open items: Room 412 has a broken AC — ' +
+        'Help me write the end-of-shift handoff for tonight. Open items: Room 412 has a broken AC, ' +
         'maintenance was called at 5 PM but hasn\'t fixed it yet, guest (Mr. & Mrs. Patel) were ' +
         'offered a room move but declined and want an update by 9 PM. We have a VIP check-in at 8 PM, ' +
         'reservation for Ambassador Suite under "Thornton". No other pending complaints.',
@@ -250,7 +250,7 @@ A handoff note must cover all five sections, even if a section has nothing to re
         'Claude should produce a structured handoff note with clearly labelled sections covering VIP arrivals, ' +
         'open maintenance issues, and pending follow-ups. It must flag the AC issue in Room 412 with the promised ' +
         '9 PM update for Mr. & Mrs. Patel, and the Thornton VIP arrival for the Ambassador Suite. The note ' +
-        'should be concise and action-oriented — written for the incoming team, not for the guests.',
+        'should be concise and action-oriented, written for the incoming team, not for the guests.',
       mustContain: ['Room 412', 'Patel', '9 PM', 'Thornton', 'Ambassador Suite'],
       mustNotContain: ['I cannot help', 'As an AI'],
     },

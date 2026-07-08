@@ -9,7 +9,7 @@ export const dataAnalystSetup: Setup = {
   description:
     'Configure Claude as a senior Data Analyst for your team. It writes queries in your ' +
     'stack, diagnoses metric movements, designs dashboard specs, and explains statistical ' +
-    'concepts in language your audience can act on — without inventing schema details it ' +
+    'concepts in language your audience can act on, without inventing schema details it ' +
     'does not have.',
   role: 'Data Analyst',
   industry: "Technology",
@@ -45,14 +45,14 @@ A data dictionary is included in the knowledge files. Reference it for table nam
 Your responsibilities:
 - Write correct, readable queries and analysis scripts with brief comments explaining the intent of each logical step.
 - Identify likely causes when a metric moves unexpectedly, and propose diagnostic queries to confirm or rule out each hypothesis.
-- Design dashboard specs — chart type, grain, filters, key metric, and alert threshold — before writing any implementation code.
+- Design dashboard specs, chart type, grain, filters, key metric, and alert threshold, before writing any implementation code.
 - Explain statistical concepts in plain language when the audience is non-technical, without losing accuracy.
 
 Rules:
 1. Never invent column names, table names, or business logic. If schema details are missing, ask before writing a query.
 2. State the date range, grain (one row = one [event / user / order / day]), and key assumptions at the top of every analysis.
 3. When a query involves a business metric, define the metric in plain English before calculating it.
-4. Flag data quality concerns — nulls, gaps, duplicates, timezone mismatches — rather than silently excluding affected rows.`,
+4. Flag data quality concerns, nulls, gaps, duplicates, timezone mismatches, rather than silently excluding affected rows.`,
 
   variables: [
     {
@@ -121,12 +121,12 @@ Rules:
       name: 'Metric definitions and analysis reference card',
       purpose:
         'Gives Claude a compact reference for common metric definitions, analysis checklist ' +
-        'items, and dashboard design principles — so outputs start with correct definitions ' +
+        'items, and dashboard design principles, so outputs start with correct definitions ' +
         'and explicit assumptions rather than relying on convention.',
       kind: 'starter',
       content: `# Metric definitions and analysis reference card
 
-## Analysis checklist — complete before sharing any output
+## Analysis checklist, complete before sharing any output
 - Date range is stated explicitly (e.g., 2026-06-01 through 2026-06-30, UTC)
 - Grain is defined (one row = one [user / session / order / day / event])
 - The metric is defined in plain English before it is calculated
@@ -147,12 +147,12 @@ Drop-off rate: 1 minus the conversion rate.
 ### Revenue
 MRR: sum of monthly recurring revenue from all active subscriptions on the last day of the reporting month. Exclude trials unless noted.
 ARPU: total revenue divided by total active users over the same period.
-LTV (simple): ARPU multiplied by average customer lifespan in months. Flag if monthly churn is above 5% — the estimate degrades quickly with high churn.
+LTV (simple): ARPU multiplied by average customer lifespan in months. Flag if monthly churn is above 5%, the estimate degrades quickly with high churn.
 
 ### Engagement
 DAU/MAU ratio: daily active users divided by monthly active users. A ratio above 0.2 is generally considered healthy for a daily-use tool.
 
-## SQL query structure — standard conventions
+## SQL query structure, standard conventions
 1. Header comment: state the purpose, date range, grain, and key assumptions.
 2. CTEs first: one CTE per logical step, named in plain English (e.g., active_users, revenue_by_day).
 3. Final SELECT: only the columns the consumer needs. No SELECT *.
@@ -160,7 +160,7 @@ DAU/MAU ratio: daily active users divided by monthly active users. A ratio above
 5. Include a row-count check or a LIMIT during development to avoid runaway queries.
 
 ## Dashboard design checklist
-- Title states the metric name and date range — not just "Overview" or "Summary"
+- Title states the metric name and date range, not just "Overview" or "Summary"
 - Primary metric is the largest and most prominent element on the page
 - Every point-in-time number has a trend line or comparison period alongside it
 - Filters are consistent across all charts on the page
@@ -174,14 +174,14 @@ DAU/MAU ratio: daily active users divided by monthly active users. A ratio above
       name: 'Your data dictionary or schema reference',
       purpose:
         'Upload your table schema, data dictionary, or metric glossary here. Claude uses it ' +
-        'to write queries with the correct table names, column names, and join keys — so ' +
+        'to write queries with the correct table names, column names, and join keys, so ' +
         'every query it produces runs against your actual database rather than an invented schema.',
       kind: 'user-provided',
       guidance:
         'Paste your data dictionary as plain text, or copy the output of a schema introspection ' +
         'query (e.g., INFORMATION_SCHEMA results). Include table name, column name, data type, ' +
-        'and a brief description for each column. If you have a metrics glossary — a list of ' +
-        'metric names and how they are calculated — include it here too. Even partial coverage ' +
+        'and a brief description for each column. If you have a metrics glossary, a list of ' +
+        'metric names and how they are calculated, include it here too. Even partial coverage ' +
         'of your most-used tables is useful.',
       required: false,
     },
@@ -200,7 +200,7 @@ DAU/MAU ratio: daily active users divided by monthly active users. A ratio above
         'Claude should propose a structured diagnostic approach: first isolating the exact ' +
         'step in the funnel where drop-off increased (which transition worsened), then ' +
         'segmenting by device, browser, traffic source, and cohort to narrow the cause. ' +
-        'It should suggest specific queries or analyses for each hypothesis — not just name ' +
+        'It should suggest specific queries or analyses for each hypothesis, not just name ' +
         'the hypotheses in the abstract. It must define abandonment rate before using it, ' +
         'state the date range and grain for each proposed query, and flag what data might ' +
         'be missing before drawing conclusions.',
@@ -237,8 +237,8 @@ DAU/MAU ratio: daily active users divided by monthly active users. A ratio above
         'The spec should define WAU explicitly, list the charts and metrics to include ' +
         '(primary WAU trend, WAU by segment, DAU/WAU ratio, week-over-week change at minimum), ' +
         'specify the grain and date range for each, and describe the filters needed. ' +
-        'It should call out common mistakes — like showing a rolling average without a raw ' +
-        'trend line, or omitting a data-freshness timestamp — and note what the product team ' +
+        'It should call out common mistakes, like showing a rolling average without a raw ' +
+        'trend line, or omitting a data-freshness timestamp, and note what the product team ' +
         'will most likely ask follow-up questions about.',
       mustContain: ['WAU', 'weekly', 'segment', 'trend'],
       mustNotContain: ['I cannot help', 'As an AI'],

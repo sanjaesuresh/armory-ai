@@ -10,7 +10,7 @@ export const recruiterSkills: Setup[] = [
     tagline: 'Turn a role brief into an inclusive, structured job description',
     description:
       'Converts a role brief into a publication-ready job description. ' +
-      'Applies bias-aware language rules automatically — no rockstars, no ninja engineers, ' +
+      'Applies bias-aware language rules automatically, no rockstars, no ninja engineers, ' +
       'no years-of-experience proxies. Produces a consistent structure every time.',
     role: 'Recruiter',
     industry: 'HR & People',
@@ -33,16 +33,16 @@ export const recruiterSkills: Setup[] = [
 Write a complete, structured job description for the {{roleName}} role in the {{department}} team at {{seniorityLevel}} seniority.
 
 Structure every JD in this order:
-1. About {{companyName}} (2–3 sentences — factual, no superlatives)
+1. About {{companyName}} (2–3 sentences, factual, no superlatives)
 2. About the role (2–4 sentences describing impact, not just tasks)
 3. What you will do (5–6 bullet points, each starting with a verb)
-4. What we are looking for (3–5 genuine requirements only — remove anything nice-to-have)
+4. What we are looking for (3–5 genuine requirements only, remove anything nice-to-have)
 5. Nice to have (1–3 optional items, clearly labeled)
 {{#if includeCompensation}}
 6. Compensation and benefits (salary range, equity, bonus, PTO, notable perks)
 {{/if}}
 
-Bias-aware language rules — apply to every word:
+Bias-aware language rules, apply to every word:
 - Gender-neutral language and job titles throughout; use "they/them" when pronoun is unknown.
 - Avoid: rockstar, ninja, aggressive, dominant, digital native, recent graduate, energetic.
 - Requirements must reflect actual job needs; do not use years-of-experience as a proxy for skill level.
@@ -159,8 +159,8 @@ Everything else goes in the Nice to have section.
           '"We need a rockstar sales ninja who is aggressive, energetic, and a recent graduate with 3–5 years ' +
           'of SaaS sales experience. Join our young team and help us dominate the market."',
         expectedBehavior:
-          'Claude should identify each problematic phrase specifically — rockstar, ninja, aggressive, energetic, ' +
-          'recent graduate, young team, dominate — and explain why each may deter qualified candidates or ' +
+          'Claude should identify each problematic phrase specifically, rockstar, ninja, aggressive, energetic, ' +
+          'recent graduate, young team, dominate, and explain why each may deter qualified candidates or ' +
           'reflect demographic bias. It should suggest neutral replacements for each flagged term.',
         mustContain: ['rockstar', 'ninja', 'aggressive', 'energetic'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -207,7 +207,7 @@ Nice-to-have skills (boost these where possible): {{niceToHaveSkills}}
 Terms to exclude from results: {{excludeTerms}}
 
 Output format:
-1. The Boolean string — ready to paste, no commentary inline
+1. The Boolean string, ready to paste, no commentary inline
 2. Clause-by-clause explanation in plain English (one sentence per clause)
 3. A brief warning if any clause is likely too broad (overwhelms results) or too narrow (near-zero results)
 
@@ -273,11 +273,11 @@ Rules:
         content: `# Boolean Search Quick Reference
 
 ## Operators
-AND — both terms must appear: Python AND "machine learning"
-OR  — either term works (group in parentheses): (ML OR "machine learning" OR AI)
-NOT — exclude a term: NOT recruiter
-""  — exact phrase match: "product manager"
-()  — group OR alternatives to control precedence
+AND, both terms must appear: Python AND "machine learning"
+OR, either term works (group in parentheses): (ML OR "machine learning" OR AI)
+NOT, exclude a term: NOT recruiter
+"", exact phrase match: "product manager"
+(), group OR alternatives to control precedence
 
 ## LinkedIn-specific notes
 - LinkedIn Recruiter supports AND, OR, NOT, and quotes.
@@ -348,7 +348,7 @@ site:linkedin.com/in/ "job title" ("skill1" OR "skill2") -"term to exclude"
     tagline: 'Write a personalized outreach message that passive candidates actually reply to',
     description:
       'Drafts a personalized candidate outreach message for LinkedIn InMail, email, or DM. ' +
-      'Opens with a specific observation about the candidate\'s background — never a generic opener — ' +
+      'Opens with a specific observation about the candidate\'s background, never a generic opener, ' +
       'and closes with a low-friction ask.',
     role: 'Recruiter',
     industry: 'HR & People',
@@ -374,7 +374,7 @@ Target message length: {{messageLength}}
 
 Rules:
 1. Open with a specific, genuine observation about the candidate's background. Never open with "I came across your profile and was impressed" or any variation of it.
-2. State the role and one concrete reason it may be relevant to this specific candidate — draw directly from the background notes.
+2. State the role and one concrete reason it may be relevant to this specific candidate, draw directly from the background notes.
 3. Close with a low-friction ask: a 20-minute conversation, not a full application or interview.
 4. Do not oversell urgency, exclusivity, or the company.
 5. No discriminatory language; keep candidate data confidential; write inclusively and bias-aware.`,
@@ -412,7 +412,7 @@ Rules:
         type: 'multiline',
         required: true,
         helpText:
-          'Paste relevant highlights from the candidate\'s profile — current role, notable projects, skills, ' +
+          'Paste relevant highlights from the candidate\'s profile, current role, notable projects, skills, ' +
           'or anything you want to reference. The more specific, the better the personalisation.',
         group: 'Personalisation',
       },
@@ -445,7 +445,7 @@ Rules:
 
 ## High-performing opener formula
 Reference something SPECIFIC from the candidate's work:
-  "[Specific observation about their project, company, or skill] — that's exactly the kind of [X] we're building for at [Company]."
+  "[Specific observation about their project, company, or skill], that's exactly the kind of [X] we're building for at [Company]."
 
 ## Message structure that works
 1. Specific opener (1 sentence)
@@ -454,8 +454,8 @@ Reference something SPECIFIC from the candidate's work:
 Total: under 100 words for cold InMail; under 150 for email
 
 ## Email subject line formula
-"[Role] at [Company] — [one-word or phrase that connects to their background]"
-Example: "Staff Engineer at Acme — distributed systems background"
+"[Role] at [Company], [one-word or phrase that connects to their background]"
+Example: "Staff Engineer at Acme, distributed systems background"
 
 ## Asks that work vs. asks that don't
 ✗ "Would you be open to a full interview process?"
@@ -475,7 +475,7 @@ Example: "Staff Engineer at Acme — distributed systems background"
           'role on our personalization team. Keep it under 80 words.',
         expectedBehavior:
           'Claude should produce a short InMail that opens with a specific reference to the candidate\'s ' +
-          'published work on recommendation systems or causal inference — not a generic opener. ' +
+          'published work on recommendation systems or causal inference, not a generic opener. ' +
           'It should name the Staff Data Scientist role and the personalization team, and close with a ' +
           'low-friction ask. It must stay under 80 words and avoid "I came across your profile."',
         mustContain: ['Spotify', 'recommendation systems', 'Staff Data Scientist'],
@@ -536,14 +536,14 @@ What this screen must confirm: {{screeningGoal}}
 Generate {{questionCount}}.
 
 {{#if includeLogisticsCheck}}
-Begin with 1–2 logistics questions covering location, work authorisation, earliest available start date, and compensation range expectations — before any role-specific questions.
+Begin with 1–2 logistics questions covering location, work authorisation, earliest available start date, and compensation range expectations, before any role-specific questions.
 {{/if}}
 
 Format: number each question, then add a one-sentence "Listen for:" note explaining what a strong answer covers.
 
 Rules:
 1. Questions must be role-relevant and behavioral where possible.
-2. Flag any question that could be legally problematic in common hiring jurisdictions — questions about age, family status, national origin, health, religion, or childcare arrangements are off-limits.
+2. Flag any question that could be legally problematic in common hiring jurisdictions, questions about age, family status, national origin, health, religion, or childcare arrangements are off-limits.
 3. Do not include questions that can be answered by reading the candidate's resume.
 4. No discriminatory language; keep candidate data confidential; write inclusively and bias-aware.`,
 
@@ -562,7 +562,7 @@ Rules:
         type: 'multiline',
         required: true,
         helpText:
-          'List the key things you need to verify — skills, scope of experience, ' +
+          'List the key things you need to verify, skills, scope of experience, ' +
           'motivation, or any must-haves the JD requires. Two to four items is typical.',
         group: 'Role details',
       },
@@ -573,7 +573,7 @@ Rules:
         options: ['5 questions', '8 questions', '10 questions'],
         default: '8 questions',
         required: true,
-        helpText: 'Match this to your available screen time — 5 for a 20-min screen, 8–10 for a 45-min screen.',
+        helpText: 'Match this to your available screen time, 5 for a 20-min screen, 8–10 for a 45-min screen.',
         group: 'Options',
       },
       {
@@ -601,7 +601,7 @@ Rules:
 ## Legally off-limits topics (never ask about these)
 - Age or date of birth
 - Family status, marital status, or childcare arrangements
-- National origin, citizenship (can ask "authorised to work in [country]?" — no more)
+- National origin, citizenship (can ask "authorised to work in [country]?", no more)
 - Religion or religious observance
 - Disability or health conditions
 - Pregnancy or plans to have children
@@ -656,7 +656,7 @@ A strong answer follows a STAR-like pattern: describes the Situation briefly, ex
         expectedBehavior:
           'Claude should flag question 2 as legally off-limits (family status / childcare arrangements) ' +
           'and explain why it is problematic. It should suggest a legal replacement (e.g., "Are you able to ' +
-          'meet the travel requirements of this role?"). Questions 1 and 3 may each get a brief note — ' +
+          'meet the travel requirements of this role?"). Questions 1 and 3 may each get a brief note, ' +
           'question 1 could be improved to ask about scope rather than tenure.',
         mustContain: ['Do you have children', 'Project Manager', 'travel'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -710,7 +710,7 @@ Build one section per competency. Each section must include:
 Rules:
 1. All questions must be behavioral (past-tense: "Tell me about a time…") and role-relevant.
 2. Flag any question that could be legally problematic before including it.
-3. Rubric anchors must be behavior-based — no inferences about personality, culture fit, or demographics.
+3. Rubric anchors must be behavior-based, no inferences about personality, culture fit, or demographics.
 4. No discriminatory language; keep candidate data confidential; write inclusively and bias-aware.`,
 
     variables: [
@@ -765,10 +765,10 @@ Rules:
         content: `# Interview Scorecard Design Reference
 
 ## Recommended rating scale: 1–4
-1 — Strong no-hire: clear evidence of absence for this competency
-2 — Lean no-hire: limited or inconsistent evidence; significant gaps remain
-3 — Lean hire: solid evidence with minor gaps; manageable with onboarding support
-4 — Strong hire: clear, specific evidence of high performance in this competency
+1, Strong no-hire: clear evidence of absence for this competency
+2, Lean no-hire: limited or inconsistent evidence; significant gaps remain
+3, Lean hire: solid evidence with minor gaps; manageable with onboarding support
+4, Strong hire: clear, specific evidence of high performance in this competency
 
 ## What a strong behavioral anchor looks like
 Weak anchor: "Communicates well with stakeholders"
@@ -799,7 +799,7 @@ Ownership: Credits team exclusively with no individual action; no example of goi
           'Competencies: product strategy and prioritization, data-driven decision making, ' +
           'cross-functional influence. Rating scale: 1–4. Include watch-out notes.',
         expectedBehavior:
-          'Claude should produce three scorecard sections — one per competency — each with 2–3 behavioral ' +
+          'Claude should produce three scorecard sections, one per competency, each with 2–3 behavioral ' +
           'questions and a four-point rubric (1 through 4) with behavior-based anchors at each level. ' +
           'Each section should also include a "Watch out for:" note with 1–2 specific signals. ' +
           'No legally off-limits evaluation criteria should appear.',
@@ -862,8 +862,8 @@ Write a professional offer letter covering all of these sections in order:
 1. Congratulations opening (2 sentences max)
 2. Role title, start date, reporting structure
 3. Compensation: base salary, bonus (if applicable), equity (if applicable)
-4. Benefits summary (healthcare, PTO, notable perks — use what is provided)
-5. Contingencies (background check, reference checks, drug screening — include only what applies)
+4. Benefits summary (healthcare, PTO, notable perks, use what is provided)
+5. Contingencies (background check, reference checks, drug screening, include only what applies)
 {{#if includeAtWillClause}}
 6. At-will employment clause
 {{/if}}
@@ -871,7 +871,7 @@ Write a professional offer letter covering all of these sections in order:
 
 Rules:
 1. Do not invent any term not provided. Use [INSERT MISSING FIELD] as a placeholder for anything not given.
-2. The letter must be factually accurate to what was provided — do not promise what you were not told.
+2. The letter must be factually accurate to what was provided, do not promise what you were not told.
 3. Flag in a separate note after the letter anything that should be reviewed by legal counsel before sending.
 4. No discriminatory language; keep candidate data confidential; write inclusively and bias-aware.`,
 
@@ -931,7 +931,7 @@ Rules:
         kind: 'starter',
         content: `# Offer Letter Checklist
 
-## Required fields — every offer must have these
+## Required fields, every offer must have these
 - [ ] Candidate full name and address (or email delivery note)
 - [ ] Job title (exact match to what will appear in HRIS)
 - [ ] Start date
@@ -940,7 +940,7 @@ Rules:
 - [ ] Contingencies that apply (background check, reference checks, etc.)
 - [ ] Offer expiration date and acceptance instructions
 
-## Conditional fields — include if applicable
+## Conditional fields, include if applicable
 - [ ] Annual or quarterly bonus: target %, conditions, and when paid
 - [ ] Equity: grant size, vesting schedule, cliff, exercise window
 - [ ] Signing bonus: amount, vesting/clawback terms
@@ -958,7 +958,7 @@ Rules:
 ✗ Promising a start date before background check clears
 ✗ Including equity vesting terms without legal review
 ✗ Omitting the at-will clause in at-will employment states
-✗ Using informal comp language ("around $X") — must be exact
+✗ Using informal comp language ("around $X"), must be exact
 `,
         required: true,
       },
@@ -1011,7 +1011,7 @@ Rules:
     tagline: 'Write a respectful, clear rejection that closes the loop without false hope',
     description:
       'Drafts a stage-appropriate rejection email that is warm, direct, and final. Calibrates tone and ' +
-      'detail to the interview stage — a first-round rejection reads differently from a final-round one.',
+      'detail to the interview stage, a first-round rejection reads differently from a final-round one.',
     role: 'Recruiter',
     industry: 'HR & People',
     tags: ['rejection', 'candidate-communication', 'recruiting', 'hr', 'talent-acquisition'],
@@ -1036,14 +1036,14 @@ Write a rejection email appropriate for a candidate at the {{hiringStage}} stage
 - First or final interview rejection: genuine acknowledgment of their time; consider brief, non-committal positive note (4–5 sentences max)
 
 {{#if allowFutureContact}}
-Close with a genuine invitation to stay in touch for future roles — only write this if you mean it. Do not use boilerplate like "we'll keep your resume on file."
+Close with a genuine invitation to stay in touch for future roles, only write this if you mean it. Do not use boilerplate like "we'll keep your resume on file."
 {{/if}}
 
 Rules:
 1. Be warm but clear. The candidate must not leave the email unsure whether they are rejected.
 2. Do not imply reconsideration or future candidacy if there is none.
 3. Do not reveal the reason for rejection unless the hiring manager has explicitly approved disclosing it.
-4. Keep the email short — proportionate to the stage reached.
+4. Keep the email short, proportionate to the stage reached.
 5. No discriminatory language; keep candidate data confidential; write inclusively and bias-aware.`,
 
     variables: [
@@ -1098,7 +1098,7 @@ Rules:
 
 Application review (no interview yet)
 - Keep it short: 2–3 sentences.
-- No need to reference specific qualities — they did not interview.
+- No need to reference specific qualities, they did not interview.
 - Example opening: "Thank you for your interest in the [Role] role at [Company]. After reviewing your application, we have decided to move forward with other candidates at this time."
 
 Phone screen
@@ -1117,7 +1117,7 @@ First or final interview
 ✗ "We might reach out in the future." (Unless genuinely true)
 ✗ Any vague language that leaves candidacy status unclear
 
-## Rejection is final — write it that way
+## Rejection is final, write it that way
 A rejection email should close the loop completely. The candidate should not need to follow up to confirm the status.
 `,
         required: true,
@@ -1131,10 +1131,10 @@ A rejection email should close the loop completely. The candidate should not nee
         userInput:
           'Write a final interview rejection email for a senior engineering candidate who interviewed ' +
           'for a Staff Engineer role at Luminary AI. They made it through three rounds. ' +
-          'Do not invite future contact — we are not sure we would reach out again.',
+          'Do not invite future contact, we are not sure we would reach out again.',
         expectedBehavior:
           'Claude should produce a 4–5 sentence rejection email that acknowledges the three-round ' +
-          'process and thanks the candidate genuinely for their time. It should be clear and final — ' +
+          'process and thanks the candidate genuinely for their time. It should be clear and final, ' +
           'no language implying reconsideration or future outreach. It must not include ' +
           '"we\'ll keep your resume on file" or equivalent.',
         mustContain: ['Staff Engineer', 'Luminary AI', 'three rounds'],
@@ -1146,7 +1146,7 @@ A rejection email should close the loop completely. The candidate should not nee
         userInput:
           'Write a phone screen rejection email for a candidate who applied for a Marketing Manager role ' +
           'at Clearview. They were strong but we filled the role internally. ' +
-          'We do want to stay in touch — she would be a good fit for future openings.',
+          'We do want to stay in touch, she would be a good fit for future openings.',
         expectedBehavior:
           'Claude should produce a warm, 3–4 sentence rejection that mentions the phone screen, ' +
           'notes the role was filled internally, and includes a genuine (not boilerplate) invitation ' +
@@ -1197,13 +1197,13 @@ Produce a structured summary covering:
 2. Standout moments or evidence from the interview (2–3 specific points)
 3. Gaps or areas to probe in the next stage (1–2 items; write "None identified" if there are none)
 {{#if includeRecommendation}}
-4. Hiring recommendation: Advance / Hold / Decline — followed by one sentence explaining the reasoning
+4. Hiring recommendation: Advance / Hold / Decline, followed by one sentence explaining the reasoning
 {{/if}}
 
 Target length: 200–350 words.
 
 Rules:
-1. Base the summary only on what is in the notes — do not infer background, personality traits, or cultural fit from demographic signals.
+1. Base the summary only on what is in the notes, do not infer background, personality traits, or cultural fit from demographic signals.
 2. Use objective, behavior-based language throughout.
 3. Do not editorialize beyond what the evidence supports.
 4. No discriminatory language; keep candidate data confidential; write inclusively and bias-aware.`,
@@ -1259,20 +1259,20 @@ Rules:
         content: `# Candidate Summary Writing Guide
 
 ## What a good summary does
-- Translates raw notes into evidence — specific, behavior-based, attributable to the candidate
+- Translates raw notes into evidence, specific, behavior-based, attributable to the candidate
 - Surfaces gaps honestly without editorializing
 - Gives the reader enough to make or advance a decision without reading full notes
 
 ## What to AVOID
 ✗ "She was very likeable and would be a great culture fit." (Opinion, not evidence)
-✗ "He seemed young but experienced." (Age signal — off-limits)
-✗ "She was articulate and well-spoken." (Coded language — off-limits)
-✗ "He didn't seem very confident." (Personality inference — not behavior-based)
+✗ "He seemed young but experienced." (Age signal, off-limits)
+✗ "She was articulate and well-spoken." (Coded language, off-limits)
+✗ "He didn't seem very confident." (Personality inference, not behavior-based)
 
 ## Preferred language patterns
 ✓ "Described managing a team of 8 engineers across two time zones during a product migration."
 ✓ "Gave a concrete example of building the company's first data pipeline from scratch; cited specific tools (dbt, Airflow)."
-✓ "Could not give a clear example of managing up or influencing without direct authority — worth probing."
+✓ "Could not give a clear example of managing up or influencing without direct authority, worth probing."
 
 ## Standout moment formula
 Event → Action → Outcome (specific):
@@ -1280,7 +1280,7 @@ Event → Action → Outcome (specific):
 
 ## Recommendation guidance
 Advance: evidence is strong across key competencies; no blockers.
-Hold: strong on some competencies but a gap remains — specify what needs clarification.
+Hold: strong on some competencies but a gap remains, specify what needs clarification.
 Decline: clear evidence of absence in one or more must-have competencies.
 `,
         required: true,
@@ -1293,9 +1293,9 @@ Decline: clear evidence of absence in one or more must-have competencies.
         title: 'Summarize a strong data analyst candidate for a hiring manager',
         userInput:
           'Write a candidate summary for a Data Analyst role for the hiring manager. ' +
-          'Notes: Ana Rodrigues, currently at Deliveroo. Owns weekly exec reporting — built the dashboard from scratch in Looker. ' +
+          'Notes: Ana Rodrigues, currently at Deliveroo. Owns weekly exec reporting, built the dashboard from scratch in Looker. ' +
           'Led migration from spreadsheets to BigQuery for three teams. Strong SQL. Struggled slightly on ' +
-          'the Python question — knows basics but not confident with scripting. Asked good questions about team structure. ' +
+          'the Python question, knows basics but not confident with scripting. Asked good questions about team structure. ' +
           'Include a hiring recommendation.',
         expectedBehavior:
           'Claude should produce a 200–350 word summary with: a relevant experience section noting her Deliveroo role ' +
@@ -1310,12 +1310,12 @@ Decline: clear evidence of absence in one or more must-have competencies.
         title: 'Write a summary for an executive audience with no recommendation',
         userInput:
           'Write a candidate summary for a VP of Engineering role for the Executive team. ' +
-          'No recommendation needed — just the evidence. ' +
+          'No recommendation needed, just the evidence. ' +
           'Notes: Marcus Webb, 12 years in engineering leadership. Scaled an engineering org from 15 to 80 at a Series C. ' +
           'Led two M&A technical integrations. Strong on roadmap and stakeholder management. ' +
           'Panel had mixed views on his hands-on technical depth.',
         expectedBehavior:
-          'Claude should write a concise, evidence-based summary for an executive audience — tighter and higher-level ' +
+          'Claude should write a concise, evidence-based summary for an executive audience, tighter and higher-level ' +
           'than a hiring-manager summary. It should cite the scaling achievement (15 to 80), the M&A integrations, ' +
           'and the panel disagreement on technical depth as a gap to probe. No recommendation section.',
         mustContain: ['Marcus Webb', 'VP of Engineering', 'M&A', 'technical depth'],
@@ -1361,10 +1361,10 @@ Target channels: {{targetChannels}}
 Budget constraint: {{budgetConstraint}}
 
 Build a week-by-week sourcing plan covering:
-1. Channel prioritization — which channels to activate first given the timeline and budget, and why
+1. Channel prioritization, which channels to activate first given the timeline and budget, and why
 2. Weekly outreach targets per channel (realistic numbers, not aspirational)
 3. Search strategy per channel (keywords, filters, or Boolean strings where helpful)
-4. Midpoint check — what to do if pipeline is thin at the halfway point
+4. Midpoint check, what to do if pipeline is thin at the halfway point
 5. Fallback channels to activate if primary channels underperform
 
 Rules:
@@ -1432,12 +1432,12 @@ Rules:
 
 ## Channel summary
 
-### LinkedIn (paid — Recruiter seat or InMail credits)
+### LinkedIn (paid, Recruiter seat or InMail credits)
 Time to first candidate: 2–5 days
 Best for: Experienced passive candidates, leadership roles, most professional functions
 Limitations: High noise at senior IC+ levels; InMail reply rates average 15–25%
 
-### Job boards (Indeed, Glassdoor — free and paid)
+### Job boards (Indeed, Glassdoor, free and paid)
 Time to first candidate: 1–3 days (active applicants)
 Best for: Entry-to-mid roles, high-volume hiring, roles with clear title recognition
 Limitations: High inbound volume requires screening capacity; passive candidates rarely apply
@@ -1447,9 +1447,9 @@ Time to first candidate: 3–7 days
 Best for: Roles requiring trust, cultural alignment, or specialised networks
 Limitations: Slow to generate volume; can reduce diversity if network is homogeneous
 
-### GitHub (free — search + outreach)
+### GitHub (free, search + outreach)
 Time to first candidate: 5–10 days
-Best for: Engineers — especially open source contributors
+Best for: Engineers, especially open source contributors
 Limitations: Requires manual research; reply rates vary significantly
 
 ### Events and meetups
@@ -1495,7 +1495,7 @@ If fewer than 3–5 qualified candidates are in active process at the halfway po
         title: 'Build a sourcing plan with a 2-week deadline and no paid channels',
         userInput:
           'Build a sourcing plan for a Customer Support Lead role. ' +
-          'We need to fill it in 2 weeks. No paid channels — only employee referrals and free job boards. ' +
+          'We need to fill it in 2 weeks. No paid channels, only employee referrals and free job boards. ' +
           'Budget: no paid channels.',
         expectedBehavior:
           'Claude should flag immediately that 2 weeks with no paid channels is an extremely tight window ' +
@@ -1546,15 +1546,15 @@ Key competencies for this role: {{keyCompetencies}}
 Hiring decision needed by: {{decisionDeadline}}
 
 Produce a structured debrief document with these sections:
-1. Competency-by-competency summary — what the panel collectively said about each key competency (2–3 sentences per competency)
-2. Points of alignment — where all or most interviewers agreed, and what evidence they cited
-3. Points of disagreement — where panel members diverged, and what drove the difference
-4. Risks and open questions — gaps in the evidence, areas not covered, or questions left unanswered
-5. Hiring recommendation — Advance to offer / Hold for additional information / Decline, with a 2–3 sentence rationale
+1. Competency-by-competency summary, what the panel collectively said about each key competency (2–3 sentences per competency)
+2. Points of alignment, where all or most interviewers agreed, and what evidence they cited
+3. Points of disagreement, where panel members diverged, and what drove the difference
+4. Risks and open questions, gaps in the evidence, areas not covered, or questions left unanswered
+5. Hiring recommendation, Advance to offer / Hold for additional information / Decline, with a 2–3 sentence rationale
 
 Rules:
 1. Attribute diverging opinions to interviewer roles, not names, unless the hiring manager has explicitly approved named attribution.
-2. Do not let any single interviewer's view dominate the synthesis — weight feedback by evidence quality, not volume or seniority.
+2. Do not let any single interviewer's view dominate the synthesis, weight feedback by evidence quality, not volume or seniority.
 3. Flag explicitly if any panel feedback appears to reflect demographic bias rather than job-relevant evidence.
 4. No discriminatory language; keep candidate data confidential; write inclusively and bias-aware.`,
 
@@ -1613,11 +1613,11 @@ Low quality: gut feeling, "vibe," likeability, or culture fit without behavioral
 Always weight high-quality evidence over low-quality evidence, regardless of who gave it.
 
 ## Common bias patterns in panel feedback (flag these)
-"I just didn't feel a connection" — not evidence; reflects likeability bias
-"Seemed quiet / reserved" — personality observation, not job-relevant behavior
-"Not sure they'd fit our culture" — without specific behavioral evidence, likely bias
-"They were impressive for their background" — demographic inference; remove from synthesis
-"Reminded me of [colleague name]" — affinity bias; flag immediately
+"I just didn't feel a connection", not evidence; reflects likeability bias
+"Seemed quiet / reserved", personality observation, not job-relevant behavior
+"Not sure they'd fit our culture", without specific behavioral evidence, likely bias
+"They were impressive for their background", demographic inference; remove from synthesis
+"Reminded me of [colleague name]", affinity bias; flag immediately
 
 ## Debrief alignment vs. disagreement
 Alignment: two or more interviewers cite independent evidence for the same conclusion → strong signal
@@ -1642,18 +1642,18 @@ Always state the decision deadline in the debrief so the hiring team knows the u
         userInput:
           'Synthesize panel feedback for a Head of Product candidate. Decision needed by Friday.\n\n' +
           'Key competencies: product strategy, stakeholder alignment, team leadership.\n\n' +
-          'Hiring Manager: "Really strong on strategy — laid out a clear product vision with data to back it up. ' +
+          'Hiring Manager: "Really strong on strategy, laid out a clear product vision with data to back it up. ' +
           'A little uncertain on the team leadership question, gave a vague answer about managing underperformers."\n\n' +
           'Engineering Lead: "Great cross-functional instincts. Knew how to work with engineering without ' +
           'going around them. Strong hire."\n\n' +
-          'CPO: "Impressive on strategy and roadmap. But I\'m not convinced on leadership depth — ' +
+          'CPO: "Impressive on strategy and roadmap. But I\'m not convinced on leadership depth, ' +
           'she\'s never managed a team larger than 4. That\'s a risk for a team of 12."',
         expectedBehavior:
           'Claude should produce a structured debrief with all five sections. The competency summary ' +
           'should reflect what each panel member said per competency. Alignment should note the strong consensus ' +
           'on product strategy. Disagreement should surface the split on leadership depth. ' +
           'Risks should flag the team-size gap. The recommendation should be Hold or Decline with a rationale ' +
-          'citing the leadership evidence gap — not just one person\'s opinion.',
+          'citing the leadership evidence gap, not just one person\'s opinion.',
         mustContain: ['Head of Product', 'product strategy', 'team leadership', 'Friday'],
         mustNotContain: ['I cannot help', 'As an AI'],
       },
@@ -1663,12 +1663,12 @@ Always state the decision deadline in the debrief so the hiring team knows the u
         userInput:
           'Synthesize this panel feedback for a Senior Engineer role. Decision needed by tomorrow.\n\n' +
           'Key competencies: system design, debugging and problem-solving, code quality.\n\n' +
-          'Interviewer A: "Solid system design — walked through a distributed cache design clearly and handled follow-up questions well."\n\n' +
+          'Interviewer A: "Solid system design, walked through a distributed cache design clearly and handled follow-up questions well."\n\n' +
           'Interviewer B: "Good on debugging. Found the bug in the code review exercise in under 10 minutes."\n\n' +
           'Interviewer C: "I just didn\'t feel a connection. Not sure they\'d fit our culture. ' +
           'Also seemed quiet and reserved compared to the rest of our team."',
         expectedBehavior:
-          'Claude should flag Interviewer C\'s feedback as likely bias — "didn\'t feel a connection," ' +
+          'Claude should flag Interviewer C\'s feedback as likely bias, "didn\'t feel a connection," ' +
           '"quiet and reserved," and "fit our culture" without behavioral evidence are all bias signals. ' +
           'The competency summary should weight Interviewers A and B (high-quality evidence) heavily ' +
           'and note that no behavioral evidence was provided for culture fit. ' +

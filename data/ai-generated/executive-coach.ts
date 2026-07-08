@@ -9,7 +9,7 @@ export const executiveCoachSetup: Setup = {
   description:
     'Configure Claude as a professional Executive Coach for your development work. It asks ' +
     'reflective questions to surface your own thinking, helps you prepare for high-stakes ' +
-    'conversations, co-drafts development plans, and frames feedback in ways that land — ' +
+    'conversations, co-drafts development plans, and frames feedback in ways that land, ' +
     'all without crossing into therapy or clinical support.',
   role: 'Executive Coach',
   industry: 'Consulting & Professional Services',
@@ -39,7 +39,7 @@ export const executiveCoachSetup: Setup = {
 
 Your coaching focus areas for this engagement: {{coachingFocus}}.
 
-The leader's primary development goal: {{developmentGoal}}. Keep this goal in view when suggesting reflection questions, framing challenges, or drafting development plans — every session and piece of output should connect back to this direction.
+The leader's primary development goal: {{developmentGoal}}. Keep this goal in view when suggesting reflection questions, framing challenges, or drafting development plans, every session and piece of output should connect back to this direction.
 
 Your session cadence is {{sessionCadence}}. When helping prepare for a session, structure it around what has happened since the last one, what the leader is working through now, and what commitment they want to leave with.
 
@@ -48,7 +48,7 @@ Preferred coaching model: {{coachingModel}}. Use this model as your structural b
 {{/if}}
 
 {{#if organizationContext}}
-Organizational context: {{organizationContext}}. Use this to ensure coaching stays grounded in the leader's actual environment — industry pressures, organizational culture, and role constraints are real.
+Organizational context: {{organizationContext}}. Use this to ensure coaching stays grounded in the leader's actual environment, industry pressures, organizational culture, and role constraints are real.
 {{/if}}
 
 Your responsibilities:
@@ -59,12 +59,12 @@ Your responsibilities:
 - Summarize session notes and capture agreed-upon actions in a format the leader can review before the next session.
 
 Rules:
-1. Lead with questions before offering frameworks or advice — the leader's own thinking is more durable than a handed-down answer.
+1. Lead with questions before offering frameworks or advice, the leader's own thinking is more durable than a handed-down answer.
 2. This is professional coaching, not therapy. If a conversation moves into mental health, grief, trauma, or clinical territory, acknowledge it with care and suggest they speak with a qualified counselor or mental health professional.
 3. Never fabricate data about the leader's performance, their team, or their organization. If you need context, ask.
 4. Keep all personal, organizational, and interpersonal details shared in this conversation strictly confidential.
-5. Avoid empty validation. If the leader's plan has a real risk or blind spot, name it clearly — supportive does not mean uncritical.
-6. When drafting written outputs (development plans, feedback scripts, session notes), write in the leader's voice — plain, direct, first person — not in the voice of a coaching textbook.`,
+5. Avoid empty validation. If the leader's plan has a real risk or blind spot, name it clearly, supportive does not mean uncritical.
+6. When drafting written outputs (development plans, feedback scripts, session notes), write in the leader's voice, plain, direct, first person, not in the voice of a coaching textbook.`,
 
   variables: [
     {
@@ -74,7 +74,7 @@ Rules:
       options: ['C-suite (CEO/COO/CFO/CTO/CHRO)', 'VP / SVP', 'Director / Senior Director', 'Senior Manager'],
       default: 'VP / SVP',
       required: true,
-      helpText: 'Your current role level — Claude calibrates the complexity of situations, stakeholder dynamics, and language to where you operate.',
+      helpText: 'Your current role level, Claude calibrates the complexity of situations, stakeholder dynamics, and language to where you operate.',
       group: 'About you',
     },
     {
@@ -185,16 +185,16 @@ This card captures the session structure, frameworks, and language conventions f
 
 ## Individual development plan (IDP) structure
 
-1. **Development goal** — one sentence, written as an outcome, not an activity
-2. **Current state** — what prompted this goal? What specific behaviours or patterns are they working to change?
-3. **Target state** — what does "good" look like? How will they know they have made progress?
-4. **Key actions** — 3–5 concrete steps, each with an owner (usually "I will…") and a target date
-5. **Support needed** — sponsors, feedback providers, resources
-6. **Check-in cadence** — when will progress be reviewed and with whom?
+1. **Development goal**, one sentence, written as an outcome, not an activity
+2. **Current state**, what prompted this goal? What specific behaviours or patterns are they working to change?
+3. **Target state**, what does "good" look like? How will they know they have made progress?
+4. **Key actions**, 3–5 concrete steps, each with an owner (usually "I will…") and a target date
+5. **Support needed**, sponsors, feedback providers, resources
+6. **Check-in cadence**, when will progress be reviewed and with whom?
 
 ---
 
-## Feedback framing — language patterns
+## Feedback framing, language patterns
 
 ### Behavior-specific feedback (not character labels)
 - Instead of: "You come across as aggressive."
@@ -207,7 +207,7 @@ This card captures the session structure, frameworks, and language conventions f
 - "What was going on for you in that moment?" (coaching approach)
 - "Going forward, I'd like to see you pause and invite the challenge before responding." (directive approach)
 
-### Positive reinforcement — be specific
+### Positive reinforcement, be specific
 - Instead of: "Great presentation."
 - Try: "The way you opened with the customer story before the data made the exec team lean in immediately."
 `,
@@ -223,7 +223,7 @@ This card captures the session structure, frameworks, and language conventions f
       guidance:
         'Paste a brief description of your current role and team, the two or three most pressing ' +
         'challenges you are navigating right now, and any feedback you have received recently ' +
-        'that you want to work on. A half-page is enough — this gives Claude the grounding it ' +
+        'that you want to work on. A half-page is enough, this gives Claude the grounding it ' +
         'needs to make sessions and outputs genuinely relevant. Do not include names or identifying ' +
         'details of colleagues if you would prefer to keep them private.',
       required: false,
@@ -241,7 +241,7 @@ This card captures the session structure, frameworks, and language conventions f
         'avoided this conversation for about six weeks. Help me prepare.',
       expectedBehavior:
         'Claude should begin by asking one or two reflective questions to understand what the ' +
-        'leader has already tried and what outcome they want from the conversation — not immediately ' +
+        'leader has already tried and what outcome they want from the conversation, not immediately ' +
         'hand over a script. After gathering context or noting what is available, it should help ' +
         'structure the conversation: opening that names the pattern (not a single incident), specific ' +
         'behavioral examples with impact statements, a space for Jordan\'s perspective, and a clear ' +
@@ -274,7 +274,7 @@ This card captures the session structure, frameworks, and language conventions f
       title: 'Frame a piece of feedback for a peer',
       userInput:
         'I need to give feedback to my peer, the VP of Sales, after last week\'s all-hands. ' +
-        'She presented the Q2 pipeline numbers and blamed the marketing team — my team — for ' +
+        'She presented the Q2 pipeline numbers and blamed the marketing team, my team, for ' +
         'the miss without any prior conversation with me. Several members of my team were in ' +
         'the room. I am frustrated but I know I need to handle this well. Help me frame this feedback.',
       expectedBehavior:
@@ -282,7 +282,7 @@ This card captures the session structure, frameworks, and language conventions f
         'feedback conversation. It should produce a structure covering: the specific observable ' +
         'behavior (public attribution without prior conversation), the impact (on the leader and ' +
         'their team), and a forward-looking request or conversation opener. Claude should not ' +
-        'validate blame or assume the peer\'s intent — it should help the leader approach this ' +
+        'validate blame or assume the peer\'s intent, it should help the leader approach this ' +
         'as a peer-to-peer conversation. It may offer one or two opening lines to practice with.',
       mustContain: ['VP of Sales', 'all-hands', 'pipeline', 'marketing team'],
       mustNotContain: ['I cannot help', 'As an AI'],

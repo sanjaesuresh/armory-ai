@@ -5,11 +5,11 @@ export const ecommerceMerchandiserSetup: Setup = {
   id: 'ai-generated-ecommerce-merchandiser-v1',
   slug: 'ecommerce-merchandiser',
   name: 'E-commerce Merchandiser',
-  tagline: 'Product titles, descriptions, category copy, and promo messaging — optimized',
+  tagline: 'Product titles, descriptions, category copy, and promo messaging, optimized',
   description:
     'Configure Claude as an E-commerce Merchandiser for your brand. It writes and optimizes product ' +
     'titles and descriptions, plans category and collection pages, drafts promotional copy for sales ' +
-    'events and campaigns, and creates SEO metadata — all aligned to your brand voice and audience.',
+    'events and campaigns, and creates SEO metadata, all aligned to your brand voice and audience.',
   role: 'E-commerce Merchandiser',
   industry: 'Retail & E-commerce',
   tags: [
@@ -38,14 +38,14 @@ export const ecommerceMerchandiserSetup: Setup = {
 
   instructionTemplate: `You are an E-commerce Merchandiser for {{brandName}}, a brand selling {{productCategories}}.
 
-Your target customer is {{targetAudience}}. Every product title, description, category page, and promotional message must speak directly to this customer's language, motivations, and concerns — not to a generic shopper.
+Your target customer is {{targetAudience}}. Every product title, description, category page, and promotional message must speak directly to this customer's language, motivations, and concerns, not to a generic shopper.
 
-SEO approach: {{seoApproach}}. Apply this when writing or optimizing product titles and descriptions — balance keyword placement with genuine readability for the end customer.
+SEO approach: {{seoApproach}}. Apply this when writing or optimizing product titles and descriptions, balance keyword placement with genuine readability for the end customer.
 
 Promotional copy style: {{promotionStyle}}. Use this as your guiding framework when drafting collection banners, sale pages, email subject lines, and campaign copy.
 
 {{#if toneOfVoice}}
-Brand tone of voice: {{toneOfVoice}}. Maintain this voice consistently across all outputs — from product descriptions and category intros to error messages and empty-state copy.
+Brand tone of voice: {{toneOfVoice}}. Maintain this voice consistently across all outputs, from product descriptions and category intros to error messages and empty-state copy.
 {{/if}}
 
 Your responsibilities:
@@ -56,12 +56,12 @@ Your responsibilities:
 - Create merchandising briefs for new product launches and seasonal catalogue resets.
 
 Rules:
-1. Never invent product specifications, pricing, availability status, or customer review data — only use information explicitly provided to you.
+1. Never invent product specifications, pricing, availability status, or customer review data, only use information explicitly provided to you.
 2. Every product description must include at least one concrete benefit or use case, not just a feature list.
-3. SEO titles must be readable by a human first — keyword stuffing that degrades readability is not acceptable.
+3. SEO titles must be readable by a human first, keyword stuffing that degrades readability is not acceptable.
 4. Promotional copy must not make claims that cannot be substantiated (for example, "best in the world" or "#1 rated" without a cited source).
 5. Flag any product title or description that makes an unverifiable health, safety, or performance claim rather than writing it uncritically.
-6. Category and collection naming must make sense to a first-time visitor — avoid internal code names, abbreviations, or warehouse jargon.`,
+6. Category and collection naming must make sense to a first-time visitor, avoid internal code names, abbreviations, or warehouse jargon.`,
 
   variables: [
     {
@@ -137,7 +137,7 @@ Rules:
       ],
       required: false,
       helpText:
-        'If your brand has a distinct voice, select it here. Claude will maintain it across all copy types — product pages, collection intros, and promo copy.',
+        'If your brand has a distinct voice, select it here. Claude will maintain it across all copy types, product pages, collection intros, and promo copy.',
       group: 'Your approach',
     },
   ],
@@ -162,13 +162,13 @@ Update each section to match your brand's copy standards. Claude reads this befo
 [Brand or key attribute] + [Product name] + [Key differentiator or size/variant]
 
 ### Examples by style
-- Keyword-first: "Wireless Noise-Cancelling Headphones — Over-Ear, 40Hr Battery"
-- Benefit-first: "Sleep Better Every Night — Premium Memory Foam Pillow, Queen Size"
-- Brand-voice-first: "The Sunday Tote — Oversized Canvas Carry-All in Natural"
+- Keyword-first: "Wireless Noise-Cancelling Headphones, Over-Ear, 40Hr Battery"
+- Benefit-first: "Sleep Better Every Night, Premium Memory Foam Pillow, Queen Size"
+- Brand-voice-first: "The Sunday Tote, Oversized Canvas Carry-All in Natural"
 
 ### Title rules
 - Maximum 70 characters for Google Shopping and most platform search displays
-- Do not use ALL CAPS for emphasis — use word order instead
+- Do not use ALL CAPS for emphasis, use word order instead
 - No exclamation marks in titles
 - Variants (size, colour) go at the end, not the beginning
 
@@ -183,13 +183,13 @@ Update each section to match your brand's copy standards. Claude reads this befo
 - Sentence 3 (optional): Who it is for or when to use it
 
 ### Long description (for PDP body)
-1. Opening hook — the problem it solves or the feeling it delivers (1 sentence)
-2. Key features — 3–5 bullet points, each starting with a benefit, not a spec
-3. Specs — size, material, care instructions, compatibility (in a separate table if possible)
-4. Social proof prompt — "Pairs well with…" or "Also loved by…" (only if true)
+1. Opening hook, the problem it solves or the feeling it delivers (1 sentence)
+2. Key features, 3–5 bullet points, each starting with a benefit, not a spec
+3. Specs, size, material, care instructions, compatibility (in a separate table if possible)
+4. Social proof prompt, "Pairs well with…" or "Also loved by…" (only if true)
 
 ### Description rules
-- Avoid: "premium," "high-quality," "amazing," "must-have" — these are empty filler
+- Avoid: "premium," "high-quality," "amazing," "must-have", these are empty filler
 - Never: make health or safety claims ("clinically proven," "FDA approved") without a verified source
 - Always: include at least one concrete use case ("perfect for hiking weekends" counts)
 
@@ -198,7 +198,7 @@ Update each section to match your brand's copy standards. Claude reads this befo
 ## SEO metadata templates
 
 ### Title tag
-[Primary keyword] — [Brand name] | [Benefit or category]
+[Primary keyword], [Brand name] | [Benefit or category]
 Max 60 characters
 
 ### Meta description
@@ -228,7 +228,7 @@ Before publishing any sale or campaign copy:
     {
       name: 'Product catalogue extract',
       purpose:
-        'Upload a sample of your product catalogue — titles, descriptions, specs, and pricing. ' +
+        'Upload a sample of your product catalogue, titles, descriptions, specs, and pricing. ' +
         'Claude uses this to write new copy in a consistent style and at the right detail level for your category.',
       kind: 'user-provided',
       guidance:
@@ -246,9 +246,9 @@ Before publishing any sale or campaign copy:
       title: 'Write product descriptions for three items',
       userInput:
         'Write short product descriptions (2–3 sentences each) for three items in our outdoor ' +
-        'kitchenware range: 1) A 12-inch cast iron skillet — pre-seasoned, compatible with all ' +
-        'hob types and oven-safe to 260°C. 2) A collapsible silicone camping kettle — 1L capacity, ' +
-        'folds flat to 2.5cm, BPA-free. 3) A bamboo serving board with carved handle — 40x25cm, ' +
+        'kitchenware range: 1) A 12-inch cast iron skillet, pre-seasoned, compatible with all ' +
+        'hob types and oven-safe to 260°C. 2) A collapsible silicone camping kettle, 1L capacity, ' +
+        'folds flat to 2.5cm, BPA-free. 3) A bamboo serving board with carved handle, 40x25cm, ' +
         'food-safe oil finish.',
       expectedBehavior:
         'Claude should produce three short descriptions of 2–3 sentences each, one per product. ' +
@@ -271,7 +271,7 @@ Before publishing any sale or campaign copy:
         'reflects the sale, (2) a 2-sentence intro that opens with an appeal to the target customer and ' +
         'references the discount range, (3) a recommendation for product sort order with a brief rationale, ' +
         'and (4) a hero banner headline in the brand\'s tone. It must not claim "up to 40% off" if only ' +
-        'specific items qualify — it should use the range "20–40% off" as stated.',
+        'specific items qualify, it should use the range "20–40% off" as stated.',
       mustContain: ['swimwear', '20', '40%', 'one-piece'],
       mustNotContain: ['I cannot help', 'As an AI'],
     },
@@ -280,8 +280,8 @@ Before publishing any sale or campaign copy:
       title: 'Write SEO title tags and meta descriptions for a product range',
       userInput:
         'Write title tags and meta descriptions for these three products: ' +
-        '1) Merino Wool Running Socks (3-pack), $24. 2) Foam Roller — High-Density, 45cm, $38. ' +
-        '3) Resistance Band Set — 5 bands, light to heavy, $29. Our brand is ActiveEdge. ' +
+        '1) Merino Wool Running Socks (3-pack), $24. 2) Foam Roller, High-Density, 45cm, $38. ' +
+        '3) Resistance Band Set, 5 bands, light to heavy, $29. Our brand is ActiveEdge. ' +
         'Primary customers are recreational runners and gym-goers.',
       expectedBehavior:
         'Claude should produce a title tag (max 60 characters) and meta description (max 155 characters) ' +

@@ -178,7 +178,7 @@ export default function PreviewPanel({ setup, answers, testDriveEnabled = false,
           )}
         </div>
         <p className="small" style={{ color: 'var(--ink-soft)', margin: '10px 0 0' }}>
-          This is the exact text you&apos;ll paste into Claude — nothing hidden.
+          This is the exact text you&apos;ll paste into Claude, nothing hidden.
         </p>
       </div>
     </aside>

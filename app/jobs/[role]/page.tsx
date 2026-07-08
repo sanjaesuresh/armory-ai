@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const display = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   return {
     title: `${display} · Armory`,
-    description: `AI setups and skills for the ${display} role — customize and export to Claude or ChatGPT.`,
+    description: `AI setups and skills for the ${display} role, customize and export to Claude or ChatGPT.`,
     openGraph: {
       title: `${display} · Armory`,
       description: `AI setups and skills for the ${display} role.`,
@@ -135,7 +135,7 @@ export default async function JobHubPage({ params }: Props) {
               maxWidth: '42em',
             }}
           >
-            Ready-made AI setups for {roleName}s — customize and export to Claude or ChatGPT.
+            Ready-made AI setups for {roleName}s, customize and export to Claude or ChatGPT.
           </p>
         </header>
 

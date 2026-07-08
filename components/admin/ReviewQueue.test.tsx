@@ -385,7 +385,7 @@ describe('ReviewQueue', () => {
   it('renders the correct label text for a model-pass finding', () => {
     render(<ReviewQueue items={[modelFlagItem]} />);
     const finding = screen.getByTestId('finding-0');
-    expect(finding.textContent).toContain('Model pass — flagged.');
+    expect(finding.textContent).toContain('Model pass, flagged.');
     expect(finding.textContent).not.toContain('Model pass.');
   });
 

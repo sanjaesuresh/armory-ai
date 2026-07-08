@@ -8,7 +8,7 @@ export const contentWriterSetup: Setup = {
   tagline: 'Draft, edit, and refine long-form content with consistent voice and solid structure',
   description:
     'Configure Claude as a senior Content Writer for your work. It drafts and edits long-form ' +
-    'pieces — blog posts, white papers, newsletters, case studies — with structural discipline ' +
+    'pieces, blog posts, white papers, newsletters, case studies, with structural discipline ' +
     'and consistent voice. It flags weak sentences, missing sources, and structural problems ' +
     'rather than patching them silently.',
   role: 'Content Writer',
@@ -28,7 +28,7 @@ export const contentWriterSetup: Setup = {
 
   instructionTemplate: `You are a senior Content Writer producing work for {{clientOrBrand}}.
 
-Content types you handle: {{contentTypes}}. Adapt structure, length, and format to the conventions of each type — a blog post has a different pacing and entry point than a white paper or a case study. Do not apply the same structure to every format.
+Content types you handle: {{contentTypes}}. Adapt structure, length, and format to the conventions of each type, a blog post has a different pacing and entry point than a white paper or a case study. Do not apply the same structure to every format.
 
 Writing style: {{writingStyle}}. Apply this style consistently across every draft and revision. When a client's existing content contradicts this style, flag the discrepancy rather than silently overriding their established voice.
 
@@ -46,12 +46,12 @@ Your responsibilities:
 - Draft and edit long-form content that is clear, well-structured, and consistent with the client's voice.
 - Propose headings, section order, and transitions when a piece lacks narrative flow or logical progression.
 - Identify sentences that are too dense, too vague, or off-topic, and offer specific rewrites rather than general notes.
-- Maintain consistent terminology within a piece and across related pieces — pick one term per concept and use it throughout.
+- Maintain consistent terminology within a piece and across related pieces, pick one term per concept and use it throughout.
 
 Rules:
 1. Do not invent facts, statistics, quotes, or named studies. If a claim needs a source, mark it [CITE NEEDED] rather than fabricating one.
 2. Preserve the client's distinctive phrases and voice markers even when reorganizing sections.
-3. When you cut content, state what you removed and why — do not delete silently.
+3. When you cut content, state what you removed and why, do not delete silently.
 4. Always note the word count of any draft, and flag if it falls outside a target range the client has provided.`,
 
   variables: [
@@ -141,12 +141,12 @@ Rules:
       name: 'Content brief template and editing reference card',
       purpose:
         'Gives Claude a complete content brief structure, a structural editing checklist, ' +
-        'a line-editing checklist, and common long-form content frameworks — so every draft ' +
+        'a line-editing checklist, and common long-form content frameworks, so every draft ' +
         'starts from a clear brief and every edit follows a consistent, thorough process.',
       kind: 'starter',
       content: `# Content brief template and editing reference card
 
-## Content brief — complete before drafting
+## Content brief, complete before drafting
 - Title / working headline: [Draft title]
 - Content type: [Blog post / white paper / newsletter / etc.]
 - Purpose: What should the reader know, feel, or do after reading?
@@ -170,11 +170,11 @@ Rules:
 ## Line-editing checklist
 - No sentence longer than 30 words without a clear reason for the length.
 - No paragraph longer than 5 lines in body copy (3 lines for newsletters and social captions).
-- Every passive construction reviewed — is active voice clearer in this context?
+- Every passive construction reviewed, is active voice clearer in this context?
 - Adjective audit: remove adjectives that add no information ("very," "great," "significant," "robust").
 - Every [CITE NEEDED] flag is resolved before final delivery.
 - Consistent terminology: one term per concept, used throughout the piece.
-- Read the piece aloud once — if you trip over a sentence, the reader will too.
+- Read the piece aloud once, if you trip over a sentence, the reader will too.
 
 ## Common long-form content structures
 
@@ -224,11 +224,11 @@ Chapter list > Each chapter follows: intro > key point > evidence > practical ta
         'repeat the same idea, and the conclusion just summarizes without a clear CTA. ' +
         'Please do a structural edit.',
       expectedBehavior:
-        'Claude should identify the specific structural problems — naming the sections or ' +
-        'paragraphs involved — before making changes. It should tighten the introduction, ' +
+        'Claude should identify the specific structural problems, naming the sections or ' +
+        'paragraphs involved, before making changes. It should tighten the introduction, ' +
         'merge or cut the redundant middle sections with an explanation of what was removed ' +
         'and why, and propose a conclusion that ends with a clear action the reader can take. ' +
-        'It must not silently delete content — every cut should be named. Claude should ' +
+        'It must not silently delete content, every cut should be named. Claude should ' +
         'provide a word count before and after the edit, and note if the async communication ' +
         'argument becomes clearer or weaker after the restructure.',
       mustContain: ['async', 'introduction', 'conclusion', 'deep work'],
@@ -247,8 +247,8 @@ Chapter list > Each chapter follows: intro > key point > evidence > practical ta
         'executive summary, problem context, core sections with descriptive subheadings, ' +
         'recommendations, and a conclusion with CTA. Each section should have a brief ' +
         'note on its purpose and approximate word count target that adds up to 4,000 words. ' +
-        'The outline should be specific to the stated audience — IT managers and operations ' +
-        'leads at companies without a compliance team — not generic. Claude should flag ' +
+        'The outline should be specific to the stated audience, IT managers and operations ' +
+        'leads at companies without a compliance team, not generic. Claude should flag ' +
         'where the piece will need statistics or regulatory citations marked [CITE NEEDED].',
       mustContain: ['compliance', 'IT manager', 'data security', 'executive summary'],
       mustNotContain: ['I cannot help', 'As an AI'],
@@ -265,7 +265,7 @@ Chapter list > Each chapter follows: intro > key point > evidence > practical ta
         'Rewrite this so they understand what the product does and why it helps them.',
       expectedBehavior:
         'Claude should rewrite the paragraph in plain language that a non-technical ' +
-        'small-business owner can understand on the first read — no jargon, no unexplained ' +
+        'small-business owner can understand on the first read, no jargon, no unexplained ' +
         'technical terms. The rewrite should preserve the core benefit (fast, reliable ' +
         'coordination across teams) while replacing every technical phrase with something ' +
         'concrete and meaningful to the reader. Claude should briefly explain what it ' +

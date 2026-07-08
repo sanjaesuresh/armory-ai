@@ -224,7 +224,7 @@ export default function BuilderView({ draft }: Props) {
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         if (/duplicate key|already exists|unique constraint/i.test(msg)) {
-          setFindings([{ field: 'slug', message: 'That slug is already taken — choose another.' }]);
+          setFindings([{ field: 'slug', message: 'That slug is already taken, choose another.' }]);
         }
         setSaveState('error');
         // Signal to handleSubmit that this save failed so the POST is aborted.
@@ -298,7 +298,7 @@ export default function BuilderView({ draft }: Props) {
         if (saveFailedRef.current) {
           setSubmitState('error');
           setSubmitErrors([{
-            message: "Your changes couldn't be saved — check your connection and try again.",
+            message: "Your changes couldn't be saved, check your connection and try again.",
           }]);
           return;
         }
@@ -357,7 +357,7 @@ export default function BuilderView({ draft }: Props) {
       </h1>
       <p className="muted" style={{ marginBottom: 0, maxWidth: '44em' }}>
         Author a setup other people can pick up and customize. Every submission is
-        reviewed by the Armory team before it goes live — we check each one for
+        reviewed by the Armory team before it goes live, we check each one for
         safety, not polish.
       </p>
 
@@ -416,7 +416,7 @@ export default function BuilderView({ draft }: Props) {
             {step.id === 'details' &&
               'Plain-language basics so people can find your setup and know what it’s for.'}
             {step.id === 'template' &&
-              'The instruction template your setup generates — add variables for customization.'}
+              'The instruction template your setup generates, add variables for customization.'}
             {step.id === 'knowledge' &&
               'Reference files and test scenarios that ship with your setup.'}
             {step.id === 'submit' &&
@@ -537,7 +537,7 @@ export default function BuilderView({ draft }: Props) {
               )}
               {saveState === 'error' && (
                 <span className="save-indicator save-indicator--error" role="alert">
-                  Could not save — check your connection
+                  Could not save, check your connection
                 </span>
               )}
 
@@ -613,8 +613,8 @@ export default function BuilderView({ draft }: Props) {
           <div className="live-card">
             <h3>Before it goes live</h3>
             <ul className="understand-list">
-              <li>Structural check — required fields, valid template</li>
-              <li>Automated safety screen — no hidden or hostile instructions</li>
+              <li>Structural check, required fields, valid template</li>
+              <li>Automated safety screen, no hidden or hostile instructions</li>
               <li className="pending">Human review by the Armory team</li>
             </ul>
             <p className="small muted" style={{ margin: '10px 0 0' }}>

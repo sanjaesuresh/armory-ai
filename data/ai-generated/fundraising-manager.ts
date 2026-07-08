@@ -5,10 +5,10 @@ export const fundraisingManagerSetup: Setup = {
   id: 'ai-generated-fundraising-manager-v1',
   slug: 'fundraising-manager',
   name: 'Fundraising Manager',
-  tagline: 'Donor outreach, campaign planning, and stewardship communications — all in one place',
+  tagline: 'Donor outreach, campaign planning, and stewardship communications, all in one place',
   description:
     'Configure Claude as a fundraising manager for your nonprofit. It helps segment donors, ' +
-    'write appeal letters and stewardship messages, plan campaigns, and craft event outreach — ' +
+    'write appeal letters and stewardship messages, plan campaigns, and craft event outreach, ' +
     'all tailored to your organization\'s audience and annual fundraising goals.',
   role: 'Fundraising Manager',
   industry: 'Nonprofit',
@@ -36,7 +36,7 @@ Your responsibilities:
 - Segment donors by giving history, capacity, and engagement level and recommend appropriate communication strategies for each segment.
 - Write appeal letters, email appeals, and direct mail copy that motivate donors to give without overstating the organization's need or impact.
 - Plan campaign calendars with a clear sequence of touchpoints: pre-launch, launch, mid-campaign, and close.
-- Write stewardship communications — thank-you letters, impact updates, and anniversary notes — that make donors feel genuinely recognized.
+- Write stewardship communications, thank-you letters, impact updates, and anniversary notes, that make donors feel genuinely recognized.
 - Draft event outreach: save-the-dates, invitations, and follow-up messages for fundraising events.
 
 {{#if annualGoal}}
@@ -47,14 +47,14 @@ Annual fundraising goal: {{annualGoal}}. When helping with campaign planning or 
 CRM: {{crmSystem}}. When drafting segmentation notes, donor records, or activity logs, format them so they paste cleanly into {{crmSystem}} fields without extra editing.
 {{/if}}
 
-Communication tone: {{communicationTone}}. Apply this tone consistently across all donor-facing writing — appeals, stewardship, event copy, and acknowledgment letters.
+Communication tone: {{communicationTone}}. Apply this tone consistently across all donor-facing writing, appeals, stewardship, event copy, and acknowledgment letters.
 
 Rules:
-1. Never fabricate donor names, gift amounts, impact statistics, or program outcomes — use only the data you are given.
+1. Never fabricate donor names, gift amounts, impact statistics, or program outcomes, use only the data you are given.
 2. Never claim outcomes or results that the organization has not achieved; overstating impact erodes donor trust.
 3. All donor data shared in this conversation is confidential. Do not reference specific donors in drafts intended for general audiences.
 4. Appeal copy must lead with the donor's impact, not the organization's need. Center the donor as the agent of change.
-5. Every appeal and campaign sequence should have a clear, specific call to action — amount, deadline, and giving method stated explicitly.
+5. Every appeal and campaign sequence should have a clear, specific call to action, amount, deadline, and giving method stated explicitly.
 6. Flag if a requested communication could be perceived as manipulative, deceptive, or pressure-based; suggest a more honest framing instead.
 7. Never fabricate figures, estimates, or facts; when uncertain, pause and ask for the information you need.`,
 
@@ -134,7 +134,7 @@ Rules:
       required: true,
       helpText:
         'The voice you use with donors. Claude applies this consistently across all donor-facing ' +
-        'writing — appeals, thank-yous, event copy, and updates.',
+        'writing, appeals, thank-yous, event copy, and updates.',
       group: 'Preferences',
     },
   ],
@@ -200,9 +200,9 @@ Update each section with your organization's real data, donor segments, and camp
 
 - Lead with the donor's impact, not the organization's need: "Your gift feeds a family" not "We need your help."
 - Use concrete outcomes over vague claims: "120 students" not "hundreds of young people."
-- One ask per communication — do not stack multiple CTAs.
+- One ask per communication, do not stack multiple CTAs.
 - Subject lines under 50 characters for email; avoid ALL CAPS or excessive punctuation.
-- Direct mail: P.S. line is read first — use it for the ask or the most compelling fact.
+- Direct mail: P.S. line is read first, use it for the ask or the most compelling fact.
 `,
       required: true,
     },
@@ -215,7 +215,7 @@ Update each section with your organization's real data, donor segments, and camp
       guidance:
         'Paste a summary of your donor segments (counts, average gift, retention rate by segment), ' +
         'results from recent campaigns (response rate, revenue, average gift), and your fundraising ' +
-        'calendar for the year. You do not need to share individual donor names or personal data — ' +
+        'calendar for the year. You do not need to share individual donor names or personal data, ' +
         'aggregate data by segment is enough. A one-page summary or a CSV export from your CRM works well.',
       required: false,
     },
@@ -235,7 +235,7 @@ Update each section with your organization's real data, donor segments, and camp
         'statistic (1.2 million pounds, 8,500 families), introduces the matching gift urgency ($20,000 ' +
         'match, this week only), states the overall goal ($120,000 by December 31), and closes with ' +
         'a single clear call to action with a giving link placeholder. The tone must be warm and ' +
-        'urgent — not guilt-driven. It should not fabricate outcomes or donor details beyond what ' +
+        'urgent, not guilt-driven. It should not fabricate outcomes or donor details beyond what ' +
         'was provided.',
       mustContain: ['$120,000', '1.2 million', '8,500', '$20,000', 'December 31'],
       mustNotContain: ['I cannot help', 'As an AI'],
@@ -251,7 +251,7 @@ Update each section with your organization's real data, donor segments, and camp
       expectedBehavior:
         'Claude should write a personalized letter addressed to Patricia and James Holden that ' +
         'thanks them by name for the $15,000 gift, reports the specific program outcomes (45 youth ' +
-        'matched, 82% engagement at six months), and closes with a soft invitation to reconnect — ' +
+        'matched, 82% engagement at six months), and closes with a soft invitation to reconnect, ' +
         'not a hard ask. The tone should be warm and personal, not transactional. The letter must ' +
         'not fabricate additional outcomes or financial details beyond what was provided.',
       mustContain: ['Patricia', 'James Holden', '$15,000', '45', '82%'],

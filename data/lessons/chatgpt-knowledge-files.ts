@@ -12,7 +12,7 @@ export const chatgptKnowledgeFiles: Lesson = {
   slug: 'chatgpt-knowledge-files',
   track: 'chatgpt',
   title: 'How file uploads work',
-  tagline: 'Larger files are indexed, not read in full — the model sees only the most relevant passages, so specific questions get far better results than vague ones.',
+  tagline: 'Larger files are indexed, not read in full, the model sees only the most relevant passages, so specific questions get far better results than vague ones.',
   minutes: 5,
   order: 3,
 
@@ -22,8 +22,8 @@ export const chatgptKnowledgeFiles: Lesson = {
       type: 'prose',
       heading: 'Not all uploads work the same way',
       paragraphs: [
-        'When you upload a file to ChatGPT, you might assume the model reads every word before answering. For small files, that is roughly what happens — the whole document can fit in the context window (the amount of text the model can read at once) alongside your conversation, and the model sees it in full.',
-        'For larger files, something different happens: the file is indexed. The content is split into chunks and stored in a way that makes it searchable. When you ask a question, the system retrieves only the chunks most likely to be relevant, and adds those to the context. The model then answers from those retrieved passages — not from the full document.',
+        'When you upload a file to ChatGPT, you might assume the model reads every word before answering. For small files, that is roughly what happens, the whole document can fit in the context window (the amount of text the model can read at once) alongside your conversation, and the model sees it in full.',
+        'For larger files, something different happens: the file is indexed. The content is split into chunks and stored in a way that makes it searchable. When you ask a question, the system retrieves only the chunks most likely to be relevant, and adds those to the context. The model then answers from those retrieved passages, not from the full document.',
         'This retrieval approach lets ChatGPT handle files much larger than would fit in the context window. But it also means the model is working from a selected excerpt. Broad or vague questions can miss information that is technically in the file, because the retrieval step did not pull the right chunks.',
       ],
     },
@@ -36,12 +36,12 @@ export const chatgptKnowledgeFiles: Lesson = {
         {
           id: 'your-file',
           title: 'Your file',
-          body: 'The document you upload — a PDF, text file, spreadsheet, or other supported format. Once uploaded, it is processed and made available for the conversation.',
+          body: 'The document you upload, a PDF, text file, spreadsheet, or other supported format. Once uploaded, it is processed and made available for the conversation.',
         },
         {
           id: 'index',
           title: 'Index',
-          body: 'For larger files, the content is split into chunks and indexed — made searchable without loading the entire document into context. Think of it like the index at the back of a book: it maps topics to locations so the right sections can be found quickly.',
+          body: 'For larger files, the content is split into chunks and indexed, made searchable without loading the entire document into context. Think of it like the index at the back of a book: it maps topics to locations so the right sections can be found quickly.',
         },
         {
           id: 'question',
@@ -51,12 +51,12 @@ export const chatgptKnowledgeFiles: Lesson = {
         {
           id: 'retrieved-passages',
           title: 'Retrieved passages',
-          body: 'The chunks the system selected as most relevant to your question. These are added to the context window alongside your question so the model can read them. Only these passages — not the whole file — are visible to the model for this turn.',
+          body: 'The chunks the system selected as most relevant to your question. These are added to the context window alongside your question so the model can read them. Only these passages, not the whole file, are visible to the model for this turn.',
         },
         {
           id: 'answer',
           title: 'Answer',
-          body: 'The model\'s response, based on the retrieved passages it was given. If the relevant information was in those chunks, the answer will be good. If the retrieval missed something important, the answer may be incomplete — even if the information is in the file.',
+          body: 'The model\'s response, based on the retrieved passages it was given. If the relevant information was in those chunks, the answer will be good. If the retrieval missed something important, the answer may be incomplete, even if the information is in the file.',
         },
       ],
     },
@@ -65,7 +65,7 @@ export const chatgptKnowledgeFiles: Lesson = {
     {
       type: 'callout',
       tone: 'warning',
-      passage: 'The model does not reread your entire file for every question — it works from the passages the retrieval step selected. If those passages missed something, the answer will too, even if the information is there. Specific questions ("What is the payment due date in clause 5?") retrieve more precisely than vague ones ("What should I know about this contract?"). When an answer seems incomplete, try rephrasing with more detail about exactly what you need.',
+      passage: 'The model does not reread your entire file for every question, it works from the passages the retrieval step selected. If those passages missed something, the answer will too, even if the information is there. Specific questions ("What is the payment due date in clause 5?") retrieve more precisely than vague ones ("What should I know about this contract?"). When an answer seems incomplete, try rephrasing with more detail about exactly what you need.',
     },
   ],
 
@@ -80,7 +80,7 @@ export const chatgptKnowledgeFiles: Lesson = {
         ],
         correctIndex: 2,
         explanation:
-          'Large files are indexed — split into chunks and made searchable. When you ask a question, the system retrieves the chunks most likely to answer it, and the model works from those retrieved passages. The whole file is not read in one go.',
+          'Large files are indexed, split into chunks and made searchable. When you ask a question, the system retrieves the chunks most likely to answer it, and the model works from those retrieved passages. The whole file is not read in one go.',
       },
       {
         prompt: 'Why might ChatGPT miss something that is definitely in your uploaded file?',
@@ -91,7 +91,7 @@ export const chatgptKnowledgeFiles: Lesson = {
         ],
         correctIndex: 1,
         explanation:
-          'The retrieval step selects passages based on relevance to your question. If the relevant chunk was not retrieved — because the question was too vague or the match was not strong — the model will not see it and cannot include it in the answer.',
+          'The retrieval step selects passages based on relevance to your question. If the relevant chunk was not retrieved, because the question was too vague or the match was not strong, the model will not see it and cannot include it in the answer.',
       },
       {
         prompt: 'Which question is more likely to retrieve the right information from a contract?',
@@ -113,7 +113,7 @@ export const chatgptKnowledgeFiles: Lesson = {
         ],
         correctIndex: 1,
         explanation:
-          'A context window can only hold so much text. Indexing lets the system handle documents far too large to fit — it pulls only the relevant chunks into context rather than the whole file. The trade-off is that retrieval is not perfect: the model only sees what the retrieval step selects.',
+          'A context window can only hold so much text. Indexing lets the system handle documents far too large to fit, it pulls only the relevant chunks into context rather than the whole file. The trade-off is that retrieval is not perfect: the model only sees what the retrieval step selects.',
       },
     ],
   },

@@ -36,12 +36,12 @@ Communication style: {{communicationStyle}}
 Recipient and relationship context: {{recipientContext}}
 {{/if}}
 
-When given a topic, subject line, raw notes, or an email thread to reply to, produce a polished, ready-to-send email in the {{communicationStyle}} register. Apply that style consistently — no tonal shifts between paragraphs.
+When given a topic, subject line, raw notes, or an email thread to reply to, produce a polished, ready-to-send email in the {{communicationStyle}} register. Apply that style consistently, no tonal shifts between paragraphs.
 
 Rules:
-1. Never send or confirm anything autonomously — you draft for review; {{executiveName}} approves and acts.
+1. Never send or confirm anything autonomously, you draft for review; {{executiveName}} approves and acts.
 2. Flag any message that requires a personal judgment call, contains sensitive information, or makes a commitment on {{companyName}}'s behalf.
-3. Use only the recipient details and context the user provides — do not invent titles, affiliations, or professional details for real people.
+3. Use only the recipient details and context the user provides, do not invent titles, affiliations, or professional details for real people.
 4. Keep all executive and company information confidential; never volunteer internal details in ways that could reach unintended audiences.`,
 
     variables: [
@@ -50,7 +50,7 @@ Rules:
         label: 'Executive\'s name',
         type: 'text',
         required: true,
-        helpText: 'The name that should appear in signatures and sign-offs — e.g. "Sarah Chen" or "Sarah."',
+        helpText: 'The name that should appear in signatures and sign-offs, e.g. "Sarah Chen" or "Sarah."',
         group: 'About the executive',
       },
       {
@@ -76,7 +76,7 @@ Rules:
         label: 'Recipient and relationship context (optional)',
         type: 'multiline',
         required: false,
-        helpText: 'Describe the key contacts and their relationships to the executive — e.g. "Board chair: formal tone required; CEO of key partner: friendly but professional." Claude will reference this when drafting.',
+        helpText: 'Describe the key contacts and their relationships to the executive, e.g. "Board chair: formal tone required; CEO of key partner: friendly but professional." Claude will reference this when drafting.',
         group: 'Preferences',
       },
     ],
@@ -85,8 +85,8 @@ Rules:
       {
         name: 'Email drafting reference card',
         purpose:
-          'Fillable templates for the most common email types — meeting requests, follow-ups, ' +
-          'declines, and quick acknowledgements — so every draft follows a consistent format.',
+          'Fillable templates for the most common email types, meeting requests, follow-ups, ' +
+          'declines, and quick acknowledgements, so every draft follows a consistent format.',
         kind: 'starter',
         content: `# Email Drafting Reference Card
 
@@ -99,7 +99,7 @@ Rules:
 ## Common templates
 
 ### Meeting request
-Subject: Meeting request — [Topic], [Proposed dates]
+Subject: Meeting request, [Topic], [Proposed dates]
 
 Dear [Recipient],
 
@@ -114,14 +114,14 @@ We would appreciate [duration] at your convenience. Available windows:
 ---
 
 ### Follow-up after a meeting
-Subject: Follow-up — [Topic], [Date]
+Subject: Follow-up, [Topic], [Date]
 
 [Recipient],
 
 Thank you for meeting with [Executive name] on [date]. Key outcomes:
 
 Decisions: [List]
-Action items: [Owner — Item — Due date]
+Action items: [Owner, Item, Due date]
 Open questions: [List]
 
 [Sign-off], [Executive name]
@@ -228,7 +228,7 @@ When given a meeting title, participants, topics, and any timing constraints, bu
 
 Rules:
 1. Always include an opening objective (one sentence: what the meeting must accomplish) and a closing wrap-up slot.
-2. Allocate realistic time — do not compress a complex decision into two minutes or pad a simple update.
+2. Allocate realistic time, do not compress a complex decision into two minutes or pad a simple update.
 3. Flag any topic that seems too large for the available time and suggest splitting it across sessions.
 4. Keep all executive and company information confidential; never fabricate attendee titles or decisions.`,
 
@@ -281,10 +281,10 @@ Rules:
         content: `# Agenda Building Reference Card
 
 ## Standard agenda structure
-1. Opening (2–5 min) — Welcome, objective, ground rules
-2. Topic blocks — see time guidelines below
+1. Opening (2–5 min), Welcome, objective, ground rules
+2. Topic blocks, see time guidelines below
 3. Open discussion / Q&A (5–10 min, if needed)
-4. Wrap-up (5 min) — Recap decisions, confirm action items and owners, confirm next meeting
+4. Wrap-up (5 min), Recap decisions, confirm action items and owners, confirm next meeting
 
 ## Time guidelines by topic type
 | Topic type | Time allocation |
@@ -299,17 +299,17 @@ Rules:
 **[Time]** [Topic title]
 - Owner: [Name]
 - Goal: [Decision needed / Update / Action to assign]
-- Materials: [Pre-read, deck, or document — if applicable]
+- Materials: [Pre-read, deck, or document, if applicable]
 
 ## Common meeting types
-- **Weekly leadership sync** — status updates + blockers + decisions; 30–45 min
-- **Project kickoff** — scope, timeline, roles, open questions; 60–90 min
-- **1:1 check-in** — priorities, blockers, career; 30 min
-- **Board / executive update** — report-out, key decisions, Q&A; 60–90 min
-- **Offsite / strategy session** — themes not agenda items; 2–4 hour blocks
+- **Weekly leadership sync**, status updates + blockers + decisions; 30–45 min
+- **Project kickoff**, scope, timeline, roles, open questions; 60–90 min
+- **1:1 check-in**, priorities, blockers, career; 30 min
+- **Board / executive update**, report-out, key decisions, Q&A; 60–90 min
+- **Offsite / strategy session**, themes not agenda items; 2–4 hour blocks
 
 ## Rules
-- Never schedule a decision item in the last 5 minutes — move it to its own agenda slot.
+- Never schedule a decision item in the last 5 minutes, move it to its own agenda slot.
 - Mark pre-read materials as required or optional; attendees treat unmarked items as optional.
 - End with action items named: [Owner] will [action] by [date].
 `,
@@ -389,16 +389,16 @@ These minutes will be distributed to: {{distributionList}}
 {{/if}}
 
 When given raw notes, bullet points, or a transcript, produce minutes that include:
-1. Meeting header (title, date, attendees — use what the user provides)
+1. Meeting header (title, date, attendees, use what the user provides)
 2. Decisions made (numbered list; each decision is a single clear sentence)
-3. Action items (table: Owner | Action | Due date — use "TBD" if no date given)
+3. Action items (table: Owner | Action | Due date, use "TBD" if no date given)
 4. Open questions (items raised but not resolved)
 5. Next steps or next meeting date (if mentioned)
 
 Rules:
 1. Do not invent names, dates, or decisions not present in the source notes.
 2. If the notes are ambiguous about who owns an action, flag it with "[Owner: confirm]" rather than guessing.
-3. Keep decisions and action items separated — a decision is what was agreed; an action is what must be done next.
+3. Keep decisions and action items separated, a decision is what was agreed; an action is what must be done next.
 4. Keep all executive and company information confidential; never fabricate outcomes or commitments.`,
 
     variables: [
@@ -425,7 +425,7 @@ Rules:
         label: 'Distribution list (optional)',
         type: 'text',
         required: false,
-        helpText: 'Who receives these minutes — e.g. "All attendees + CFO." Claude will include a header line noting the audience.',
+        helpText: 'Who receives these minutes, e.g. "All attendees + CFO." Claude will include a header line noting the audience.',
         group: 'Preferences',
       },
     ],
@@ -449,7 +449,7 @@ Rules:
 ---
 
 ## Decisions made
-1. [Decision — one sentence, past tense: "The team agreed to…"]
+1. [Decision, one sentence, past tense: "The team agreed to…"]
 2. ...
 
 ---
@@ -462,7 +462,7 @@ Rules:
 ---
 
 ## Open questions
-- [Question raised but not resolved — flag with owner if assigned]
+- [Question raised but not resolved, flag with owner if assigned]
 
 ---
 
@@ -473,10 +473,10 @@ Rules:
 ---
 
 ## Field guide
-- **Decision** — a choice that was finalized in the meeting; use past tense ("agreed," "approved," "rejected").
-- **Action item** — a task assigned to a named person with a deadline; "TBD" is acceptable but should be flagged for follow-up.
-- **Open question** — raised but left unresolved; always note whether someone owns the answer and by when.
-- **Absent** — list only those who were expected but did not attend; do not list people not invited.
+- **Decision**, a choice that was finalized in the meeting; use past tense ("agreed," "approved," "rejected").
+- **Action item**, a task assigned to a named person with a deadline; "TBD" is acceptable but should be flagged for follow-up.
+- **Open question**, raised but left unresolved; always note whether someone owns the answer and by when.
+- **Absent**, list only those who were expected but did not attend; do not list people not invited.
 `,
         required: true,
       },
@@ -531,7 +531,7 @@ Rules:
     description:
       'Helps manage the executive\'s calendar by proposing meeting slots, flagging conflicts, ' +
       'and drafting scheduling communications. Works within the stated time zone, buffer preferences, ' +
-      'and scheduling rules — never confirms meetings autonomously.',
+      'and scheduling rules, never confirms meetings autonomously.',
     role: 'Executive Assistant',
     industry: 'Operations',
     tags: ['scheduling', 'calendar', 'executive-support', 'time-management', 'operations'],
@@ -559,7 +559,7 @@ Preferred buffer between meetings: {{bufferPreference}}
 When given scheduling requests, calendar conflicts, or time-management questions, propose options that respect the preferences above. Always present at least two or three alternative slots when proposing times, and flag any hard constraint that cannot be accommodated with the information provided.
 
 Rules:
-1. Never confirm, accept, or block calendar events autonomously — you propose options for {{executiveName}} to approve.
+1. Never confirm, accept, or block calendar events autonomously, you propose options for {{executiveName}} to approve.
 2. When time zones are involved, state times in both the relevant zone and {{timeZone}}.
 3. Flag back-to-back meetings that violate the {{bufferPreference}} buffer and suggest which to move.
 4. Keep all executive and company scheduling information confidential; never fabricate availability or commitments.`,
@@ -673,7 +673,7 @@ Rules:
         expectedBehavior:
           'Claude should apply a prioritization logic (board prep likely highest priority; team standup may be ' +
           'delegatable or reschedulable), flag that the 2pm and 2:30pm overlap, and propose concrete resolutions ' +
-          'for each conflict — e.g., rescheduling the standup, sending a delegate to one meeting, or asking ' +
+          'for each conflict, e.g., rescheduling the standup, sending a delegate to one meeting, or asking ' +
           'Orbit Systems for an alternative time. It must not confirm any reschedule autonomously.',
         mustContain: ['Thursday', 'board', 'Orbit Systems'],
         mustNotContain: ['I cannot help', 'As an AI'],
@@ -734,8 +734,8 @@ When given travel dates, destination, purpose, and any meeting schedule, produce
 - A brief contingency note for each travel day (e.g., alternate flight window, backup hotel)
 
 Rules:
-1. Flag any logistical gap — e.g., insufficient transit time between a flight arrival and a meeting start.
-2. Do not invent flight numbers, prices, or hotel room rates — use placeholders and note what needs to be booked.
+1. Flag any logistical gap, e.g., insufficient transit time between a flight arrival and a meeting start.
+2. Do not invent flight numbers, prices, or hotel room rates, use placeholders and note what needs to be booked.
 3. Use local time for all times in the itinerary; note time zone explicitly.
 4. Keep all executive and company travel information confidential; never fabricate bookings or commitments.`,
 
@@ -745,7 +745,7 @@ Rules:
         label: 'Traveler\'s name',
         type: 'text',
         required: true,
-        helpText: 'The person travelling — used in the itinerary header and any booking placeholders.',
+        helpText: 'The person travelling, used in the itinerary header and any booking placeholders.',
         group: 'About the traveler',
       },
       {
@@ -763,7 +763,7 @@ Rules:
         label: 'Loyalty programs (optional)',
         type: 'text',
         required: false,
-        helpText: 'List loyalty programs and member numbers — e.g. "United MileagePlus #UA12345, Marriott Bonvoy #MB67890." Claude will include these in booking placeholders.',
+        helpText: 'List loyalty programs and member numbers, e.g. "United MileagePlus #UA12345, Marriott Bonvoy #MB67890." Claude will include these in booking placeholders.',
         group: 'Travel preferences',
       },
       {
@@ -787,16 +787,16 @@ Rules:
 
 ## Day template
 ---
-**[Day], [Date] — [City]**
+**[Day], [Date], [City]**
 
 | Time (local) | Item | Details |
 |--------------|------|---------|
-| [Time] | Depart [Origin Airport, Terminal] | Flight [Airline, Flight #] to [Destination] — Confirmation: [TBK] |
+| [Time] | Depart [Origin Airport, Terminal] | Flight [Airline, Flight #] to [Destination], Confirmation: [TBK] |
 | [Time] | Arrive [Destination Airport] | Allow [X min] for baggage + customs |
-| [Time] | Ground transport | [Car service / Taxi / Train] to [Hotel / Venue] — Est. time: [X min] |
+| [Time] | Ground transport | [Car service / Taxi / Train] to [Hotel / Venue], Est. time: [X min] |
 | [Time] | Hotel check-in | [Hotel name, address, confirmation: TBK] |
 | [Time] | [Meeting title] | [Address, contact name, purpose] |
-| [Time] | Dinner | [Restaurant / TBD — dietary note if applicable] |
+| [Time] | Dinner | [Restaurant / TBD, dietary note if applicable] |
 
 **Contingency:** [Alternative flight if missed / backup hotel contact / nearest urgent care]
 
@@ -805,7 +805,7 @@ Rules:
 ## Booking checklist
 - [ ] Outbound flight booked (confirmation: ___)
 - [ ] Return flight booked (confirmation: ___)
-- [ ] Hotel booked — all nights (confirmation: ___)
+- [ ] Hotel booked, all nights (confirmation: ___)
 - [ ] Ground transport arranged (arrival + departure)
 - [ ] Meals or restaurant reservations (for client-facing dinners)
 - [ ] Loyalty numbers applied to all bookings
@@ -894,7 +894,7 @@ Prioritization framework: {{priorityFramework}}
 Available working hours per day: {{workingHoursPerDay}}
 
 {{#if escalationThreshold}}
-Escalation rule — flag immediately if: {{escalationThreshold}}
+Escalation rule, flag immediately if: {{escalationThreshold}}
 {{/if}}
 
 When given a task list, inbox items, or competing demands, apply the {{priorityFramework}} framework to produce:
@@ -904,8 +904,8 @@ When given a task list, inbox items, or competing demands, apply the {{priorityF
 4. A "Delegate" recommendation for items that do not require the executive's personal involvement
 
 Rules:
-1. Do not pad estimates — if a task is unclear, flag it as "estimate uncertain" and ask for clarification rather than guessing.
-2. Do not move, drop, or reassign tasks autonomously — surface options for {{executiveName}} to decide.
+1. Do not pad estimates, if a task is unclear, flag it as "estimate uncertain" and ask for clarification rather than guessing.
+2. Do not move, drop, or reassign tasks autonomously, surface options for {{executiveName}} to decide.
 3. If the total estimated time exceeds {{workingHoursPerDay}}, flag the overflow clearly and suggest what to defer or delegate.
 4. Keep all executive and company information confidential; never fabricate task details or commitments.`,
 
@@ -943,7 +943,7 @@ Rules:
         label: 'Escalation rule (optional)',
         type: 'text',
         required: false,
-        helpText: 'Describe any condition that should trigger an immediate flag — e.g. "Any task involving the board, legal matters, or media inquiries should be flagged before acting."',
+        helpText: 'Describe any condition that should trigger an immediate flag, e.g. "Any task involving the board, legal matters, or media inquiries should be flagged before acting."',
         group: 'Preferences',
       },
     ],
@@ -960,8 +960,8 @@ Rules:
 ## Urgency-Impact matrix (2×2)
 | | High urgency | Low urgency |
 |---|---|---|
-| **High impact** | Do first — block time today | Schedule — plan a focused session |
-| **Low impact** | Delegate or batch — do quickly | Drop or defer — revisit next week |
+| **High impact** | Do first, block time today | Schedule, plan a focused session |
+| **Low impact** | Delegate or batch, do quickly | Drop or defer, revisit next week |
 
 ## Deadline-first approach
 1. List all hard deadlines (external, contractual, or committed to a named person).
@@ -1047,7 +1047,7 @@ Priority order: Board → Investors → C-suite → Key clients → Internal tea
     name: 'Expense Report Organizer',
     tagline: 'Categorize, format, and flag expenses ready for finance submission',
     description:
-      'Takes a raw list of expenses — receipts, transaction notes, or card statements — and ' +
+      'Takes a raw list of expenses, receipts, transaction notes, or card statements, and ' +
       'organizes them into a submission-ready report by category and period. Flags items that ' +
       'need receipts, approvals, or a business-purpose note before submission.',
     role: 'Executive Assistant',
@@ -1073,14 +1073,14 @@ Approved expense categories: {{expenseCategories}}
 Reporting period: {{reportingPeriod}}
 
 When given a list of expenses, receipts, or transaction notes, produce a formatted expense report with:
-1. A summary table — Category | Description | Date | Amount | Receipt status
+1. A summary table, Category | Description | Date | Amount | Receipt status
 2. Category subtotals and a grand total
-3. A flag list — items missing a receipt, business purpose, or approval note
+3. A flag list, items missing a receipt, business purpose, or approval note
 4. A submission checklist of what still needs to be provided before the report can be filed
 
 Rules:
-1. Categorize using only the approved categories above — flag any expense that does not fit clearly and suggest the closest match.
-2. Do not invent amounts, dates, or business purposes — use only what is provided and mark gaps with "[Required: confirm]".
+1. Categorize using only the approved categories above, flag any expense that does not fit clearly and suggest the closest match.
+2. Do not invent amounts, dates, or business purposes, use only what is provided and mark gaps with "[Required: confirm]".
 3. Flag any single expense over a common approval threshold (e.g., meals over $75 per person, gifts over $50) for manager review.
 4. Keep all executive and company financial information confidential; never fabricate totals or receipts.`,
 
@@ -1152,7 +1152,7 @@ Rules:
 ## Expense table
 | Date | Category | Description / Business purpose | Amount | Receipt? |
 |------|----------|-------------------------------|--------|----------|
-| [Date] | [Category] | [Purpose — include attendees for meals] | $[Amount] | Yes / No / Digital |
+| [Date] | [Category] | [Purpose, include attendees for meals] | $[Amount] | Yes / No / Digital |
 
 ---
 
@@ -1170,8 +1170,8 @@ Rules:
 ## Flag list (must be resolved before submission)
 - [ ] Missing receipt: [Item description, amount]
 - [ ] Missing business purpose: [Item]
-- [ ] Exceeds approval threshold: [Item — needs manager sign-off]
-- [ ] Category unclear: [Item — suggest: ___]
+- [ ] Exceeds approval threshold: [Item, needs manager sign-off]
+- [ ] Category unclear: [Item, suggest: ___]
 
 ---
 
@@ -1234,7 +1234,7 @@ Rules:
     tagline: 'Prepare concise briefing documents that get the executive ready for any meeting or event',
     description:
       'Takes the topic, participants, and available background context and produces a structured ' +
-      'briefing document in the chosen format — one-page summary, detailed brief, talking points, ' +
+      'briefing document in the chosen format, one-page summary, detailed brief, talking points, ' +
       'or Q&A prep. Flags gaps where more information is needed before the briefing can be finalized.',
     role: 'Executive Assistant',
     industry: 'Operations',
@@ -1271,7 +1271,7 @@ For {{sensitivityLevel}} briefings, ensure that sensitive details are clearly ma
 
 Rules:
 1. Flag any section where critical information is missing and specify what is needed to complete it.
-2. Do not fabricate facts, figures, or biographical details about third parties — use only what the user provides.
+2. Do not fabricate facts, figures, or biographical details about third parties, use only what the user provides.
 3. Distinguish clearly between facts (stated by the user) and inferences or assumptions (labeled as such).
 4. Keep all executive and company information confidential; never fabricate commitments or outcomes.`,
 
@@ -1299,7 +1299,7 @@ Rules:
         label: 'Meeting or event audience',
         type: 'text',
         required: true,
-        helpText: 'Who will be in the room or on the call — e.g. "Board of directors," "Potential acquisition target — CTO and CFO," "Press interviewer."',
+        helpText: 'Who will be in the room or on the call, e.g. "Board of directors," "Potential acquisition target, CTO and CFO," "Press interviewer."',
         group: 'Format',
       },
       {
@@ -1344,7 +1344,7 @@ Rules:
 ---
 
 ## Key points / Talking points
-1. [Point — what to say or cover]
+1. [Point, what to say or cover]
 2. [Point]
 3. [Point]
 
@@ -1358,12 +1358,12 @@ Rules:
 ---
 
 ## Potential sensitivities
-- [Risk or sensitive topic to handle carefully — suggest approach]
+- [Risk or sensitive topic to handle carefully, suggest approach]
 
 ---
 
 ## What is still missing (flag for completion)
-- [ ] [Information gap — specify what is needed and from whom]
+- [ ] [Information gap, specify what is needed and from whom]
 
 ---
 
@@ -1404,7 +1404,7 @@ Rules:
           'Anticipated questions: guidance revision, competitive pressure, headcount plans.',
         expectedBehavior:
           'Claude should produce a Q&A prep format briefing with the key financial results as background, ' +
-          'and then structured Q&A pairs for each anticipated analyst question — guidance revision, ' +
+          'and then structured Q&A pairs for each anticipated analyst question, guidance revision, ' +
           'competitive pressure, and headcount. Each answer frame should acknowledge the question, ' +
           'state what can be confirmed, and note what should be deferred to the CFO or flagged as forward-looking. ' +
           'No invented figures beyond what the user provided.',
@@ -1449,20 +1449,20 @@ Rules:
 
 Follow-up style: {{followUpStyle}}
 
-Escalation window — flag as overdue if no response after: {{escalationWindow}}
+Escalation window, flag as overdue if no response after: {{escalationWindow}}
 
 {{#if trackingContext}}
 Context about current projects and key relationships: {{trackingContext}}
 {{/if}}
 
 When given a list of pending items, sent emails, or action items from meetings, produce:
-1. A status tracker table — Item | Owner / Recipient | Date sent or assigned | Status | Days outstanding | Action recommended
+1. A status tracker table, Item | Owner / Recipient | Date sent or assigned | Status | Days outstanding | Action recommended
 2. Draft follow-up messages (in the {{followUpStyle}} style) for any item that has passed the {{escalationWindow}} window
-3. An escalation flag for items that are both overdue AND high-stakes — label these as "Escalate: needs {{executiveName}}'s direct attention"
+3. An escalation flag for items that are both overdue AND high-stakes, label these as "Escalate: needs {{executiveName}}'s direct attention"
 
 Rules:
-1. Do not send any follow-up messages autonomously — you draft for review and approval.
-2. Keep follow-up tone proportionate to the relationship and the stakes — a first reminder should be collegial, not accusatory.
+1. Do not send any follow-up messages autonomously, you draft for review and approval.
+2. Keep follow-up tone proportionate to the relationship and the stakes, a first reminder should be collegial, not accusatory.
 3. If an item has no clear due date, prompt the user to set one rather than defaulting to "no action needed."
 4. Keep all executive and company information confidential; never fabricate commitments or response statuses.`,
 
@@ -1523,8 +1523,8 @@ Rules:
 
 ## Follow-up message templates
 
-### First reminder — Concise and friendly
-Subject: Quick follow-up — [Original subject]
+### First reminder, Concise and friendly
+Subject: Quick follow-up, [Original subject]
 
 Hi [Name],
 
@@ -1532,14 +1532,14 @@ Just following up on my note from [date] regarding [topic]. Wanted to make sure 
 
 [One sentence on what you need and by when.]
 
-Thanks so much — let me know if you have any questions.
+Thanks so much, let me know if you have any questions.
 
 [Executive name]
 
 ---
 
-### Second reminder — Professional and direct
-Subject: Following up — [Original subject] [Date reference]
+### Second reminder, Professional and direct
+Subject: Following up, [Original subject] [Date reference]
 
 [Name],
 
@@ -1554,7 +1554,7 @@ Thank you.
 ---
 
 ### Formal escalation
-Subject: URGENT: Response needed — [Original subject]
+Subject: URGENT: Response needed, [Original subject]
 
 Dear [Name],
 
@@ -1653,15 +1653,15 @@ Approximate budget: {{budgetRange}}
 {{/if}}
 
 When given an event date, purpose, and key requirements, produce a coordination package with:
-1. Pre-event checklist — tasks organized by how far in advance they must be completed (6+ weeks, 4 weeks, 2 weeks, 1 week, day before, day-of)
-2. Vendor checklist — category, vendor name (or TBD), contact, deliverable, and confirmation status
-3. Run-of-show — a timestamped schedule from setup through close-out
-4. Open decisions — items that need sign-off before the event can proceed
+1. Pre-event checklist, tasks organized by how far in advance they must be completed (6+ weeks, 4 weeks, 2 weeks, 1 week, day before, day-of)
+2. Vendor checklist, category, vendor name (or TBD), contact, deliverable, and confirmation status
+3. Run-of-show, a timestamped schedule from setup through close-out
+4. Open decisions, items that need sign-off before the event can proceed
 
 Scale recommendations for space, catering, and AV to the {{attendeeCount}} size. Flag any requirement that is unrealistic for the {{eventType}} given the budget or timeline provided.
 
 Rules:
-1. Do not confirm or book vendors autonomously — you produce planning documents for review.
+1. Do not confirm or book vendors autonomously, you produce planning documents for review.
 2. Flag any logistical gap: insufficient lead time, missing decision, or a vendor category with no named supplier.
 3. Use placeholders ("TBD" / "To be confirmed") for anything not yet decided rather than inventing details.
 4. Keep all executive and company event information confidential; never fabricate costs or vendor commitments.`,

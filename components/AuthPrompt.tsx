@@ -57,7 +57,7 @@ export default function AuthPrompt({ message, redirectTo }: Props) {
 
       {phase === 'sent' ? (
         <p className="auth-prompt-sent" data-testid="auth-prompt-sent">
-          Check your email — we sent a one-tap sign-in link to{' '}
+          Check your email, we sent a one-tap sign-in link to{' '}
           <strong>{email.trim()}</strong>. It works on any device.
         </p>
       ) : (

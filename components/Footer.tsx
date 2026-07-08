@@ -13,7 +13,7 @@ export default function Footer() {
             Armory
           </Link>
           <p className="promise" style={{ color: 'var(--ink-soft)' }}>
-            Built for people who use AI, not people who configure AI. Export, don&apos;t host — your setup lives in your Claude, not ours.
+            Built for people who use AI, not people who configure AI. Export, don&apos;t host, your setup lives in your Claude, not ours.
           </p>
         </div>
 

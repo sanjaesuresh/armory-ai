@@ -243,8 +243,8 @@ export default function ReviewQueue({ items }: Props) {
         action === 'approve'
           ? 'Approved and published.'
           : action === 'reject'
-            ? 'Rejected — note sent to the author.'
-            : 'Taken down — note sent to the author.';
+            ? 'Rejected, note sent to the author.'
+            : 'Taken down, note sent to the author.';
       setActionSuccess(successMsg);
       setNote('');
       setBusy(false);
@@ -389,7 +389,7 @@ export default function ReviewQueue({ items }: Props) {
               <AlertIcon />
               <div>
                 <strong>
-                  {f.pass === 'rules' ? 'Rules pass — flagged.' : 'Model pass — flagged.'}
+                  {f.pass === 'rules' ? 'Rules pass, flagged.' : 'Model pass, flagged.'}
                 </strong>{' '}
                 {f.message} Flagged for your judgment; not auto-rejected.
               </div>
@@ -472,7 +472,7 @@ export default function ReviewQueue({ items }: Props) {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                     <strong>
                       <code>{e.scenarioId}</code>
-                      {' — '}
+                      {', '}
                       <span role="status">{e.pass ? 'Pass' : 'Fail'}</span>
                     </strong>
                     <span
@@ -608,7 +608,7 @@ export default function ReviewQueue({ items }: Props) {
             Note to the author{' '}
             <span className="req" aria-hidden="true">*</span>{' '}
             <span className="muted" style={{ fontWeight: 600 }}>
-              (required to reject — the author sees this verbatim)
+              (required to reject, the author sees this verbatim)
             </span>
           </label>
           <textarea

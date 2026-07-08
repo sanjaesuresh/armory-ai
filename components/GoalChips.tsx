@@ -72,7 +72,7 @@ export default function GoalChips({ role, cat }: GoalChipsProps) {
         className="muted small"
         style={{ marginBottom: '16px', marginTop: 0 }}
       >
-        Pick any that apply — or skip to browse all setups for your role.
+        Pick any that apply, or skip to browse all setups for your role.
       </p>
 
       <div

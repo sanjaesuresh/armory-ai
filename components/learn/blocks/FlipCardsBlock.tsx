@@ -27,7 +27,7 @@ export default function FlipCardsBlock({ block }: { block: FlipCardsBlockData })
                 type="button"
                 className="flip-card-btn"
                 aria-pressed={isFlipped}
-                aria-label={`${card.front} — flip card`}
+                aria-label={`${card.front}, flip card`}
                 onClick={() => toggle(i)}
               >
                 <span className="flip-card-inner">

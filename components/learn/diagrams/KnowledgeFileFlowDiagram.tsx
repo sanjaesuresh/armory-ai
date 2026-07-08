@@ -86,7 +86,7 @@ export default function KnowledgeFileFlowDiagram({ activeHotspotId, onHotspotSel
               data-hotspot-id={h.id}
               aria-pressed={active}
               aria-expanded={active}
-              aria-label={`${h.label} — ${active ? 'hide' : 'show'} explanation`}
+              aria-label={`${h.label}, ${active ? 'hide' : 'show'} explanation`}
               onClick={() => onHotspotSelect(h.id)}
             >
               {i + 1}

@@ -47,7 +47,7 @@ Your responsibilities:
 Your preferred requirements format is {{requirementsFormat}}. Use this format for all requirements and specifications unless the user asks for something different.
 
 {{#if stakeholders}}
-Primary stakeholders on this project: {{stakeholders}}. When writing requirements, keep this audience in mind — business-facing language for business stakeholders, technical precision for engineering and architecture stakeholders.
+Primary stakeholders on this project: {{stakeholders}}. When writing requirements, keep this audience in mind, business-facing language for business stakeholders, technical precision for engineering and architecture stakeholders.
 {{/if}}
 
 {{#if processNotation}}
@@ -56,9 +56,9 @@ Preferred process notation: {{processNotation}}. Describe process steps in a str
 
 Rules:
 1. Never invent business rules, data definitions, or system constraints. If you do not have enough information, ask one clarifying question before drafting.
-2. Every acceptance criterion must be testable — it must have a clear pass or fail state, not a subjective descriptor like "faster" or "better."
-3. When a requirement is ambiguous, flag it with an "OPEN QUESTION" label before proceeding — do not resolve ambiguity silently.
-4. Gap analyses must distinguish between gaps that block launch and gaps that can be deferred — do not treat all gaps as equal.
+2. Every acceptance criterion must be testable, it must have a clear pass or fail state, not a subjective descriptor like "faster" or "better."
+3. When a requirement is ambiguous, flag it with an "OPEN QUESTION" label before proceeding, do not resolve ambiguity silently.
+4. Gap analyses must distinguish between gaps that block launch and gaps that can be deferred, do not treat all gaps as equal.
 5. Never fabricate data volumes, performance baselines, or system metrics. Note when numbers are placeholders and must be confirmed by the user.
 6. Keep all project details, business rules, and stakeholder information shared in this conversation confidential.`,
 
@@ -68,7 +68,7 @@ Rules:
       label: 'Organization or project name',
       type: 'text',
       required: true,
-      helpText: 'The company, department, or project this BA work is for — appears in document headers and requirements IDs.',
+      helpText: 'The company, department, or project this BA work is for, appears in document headers and requirements IDs.',
       group: 'About the project',
     },
     {
@@ -97,7 +97,7 @@ Rules:
       options: ['Agile / Scrum', 'SAFe', 'Kanban', 'Waterfall', 'Hybrid'],
       default: 'Agile / Scrum',
       required: true,
-      helpText: 'Your team\'s delivery approach — determines how Claude structures work items, sprints, and documentation artifacts.',
+      helpText: 'Your team\'s delivery approach, determines how Claude structures work items, sprints, and documentation artifacts.',
       group: 'About the project',
     },
     {
@@ -158,11 +158,11 @@ This card captures the standards and templates for this project. Update each sec
 As a [role], I want [feature or capability] so that [business benefit or outcome].
 
 ### Acceptance criteria quality checklist
-- [ ] Each criterion is testable (clear pass/fail — not "faster," "easier," or "better")
+- [ ] Each criterion is testable (clear pass/fail, not "faster," "easier," or "better")
 - [ ] Each criterion names a specific user action or specific system state
 - [ ] Edge cases and error conditions appear as separate criteria
 - [ ] Performance criteria include a number (e.g., "response within 2 seconds for 95% of requests")
-- [ ] No implementation detail in the acceptance criteria — describe WHAT, not HOW
+- [ ] No implementation detail in the acceptance criteria, describe WHAT, not HOW
 
 ---
 
@@ -188,9 +188,9 @@ For each capability area:
 | [capability] | [describe] | [describe] | [name the gap] | Yes / No / Defer | [TBD] |
 
 Distinguish:
-- **Launch blockers** — must be closed before go-live
-- **Post-launch backlog** — important but not on the critical path
-- **Nice-to-have / future phase** — explicitly deferred
+- **Launch blockers**, must be closed before go-live
+- **Post-launch backlog**, important but not on the critical path
+- **Nice-to-have / future phase**, explicitly deferred
 
 ---
 
@@ -207,7 +207,7 @@ Always include:
 
 ---
 
-## Requirements traceability — minimum viable
+## Requirements traceability, minimum viable
 
 Each requirement should reference:
 - Business objective it supports (OBJ-###)
@@ -227,7 +227,7 @@ Each requirement should reference:
         'Paste the project scope statement, a list of in-scope and out-of-scope items, any ' +
         'existing requirements that have already been agreed, and the key business objectives ' +
         'this project must satisfy. A project charter or initiative brief works well. Keep it ' +
-        'to two pages or less — focused context is more useful than a full specification dump.',
+        'to two pages or less, focused context is more useful than a full specification dump.',
       required: false,
     },
   ],
@@ -265,7 +265,7 @@ Each requirement should reference:
         'data gaps (fields, data quality, migration mapping), process gaps (workflows that change), ' +
         'and capability gaps (features not in the legacy system). Each gap should be assessed as ' +
         'a launch blocker or post-launch backlog item with a brief rationale. Claude should not ' +
-        'fabricate specific data volumes, field names, or Salesforce configuration details — it ' +
+        'fabricate specific data volumes, field names, or Salesforce configuration details, it ' +
         'should flag where the user needs to confirm specifics.',
       mustContain: ['Northbrook Financial', 'Salesforce', 'legacy CRM', 'launch blocker'],
       mustNotContain: ['I cannot help', 'As an AI'],

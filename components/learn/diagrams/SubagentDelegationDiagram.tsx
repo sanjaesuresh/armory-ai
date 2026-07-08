@@ -21,7 +21,7 @@ export default function SubagentDelegationDiagram({ activeHotspotId, onHotspotSe
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
-        aria-label="A main agent hands a task to a subagent that works in its own fresh context, then returns a compact summary — an outbound task arrow above and a return arrow below."
+        aria-label="A main agent hands a task to a subagent that works in its own fresh context, then returns a compact summary, an outbound task arrow above and a return arrow below."
       >
         <defs>
           <marker id="sd-arrow" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto">
@@ -66,7 +66,7 @@ export default function SubagentDelegationDiagram({ activeHotspotId, onHotspotSe
               data-hotspot-id={h.id}
               aria-pressed={active}
               aria-expanded={active}
-              aria-label={`${h.label} — ${active ? 'hide' : 'show'} explanation`}
+              aria-label={`${h.label}, ${active ? 'hide' : 'show'} explanation`}
               onClick={() => onHotspotSelect(h.id)}
             >
               {i + 1}

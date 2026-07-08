@@ -9,7 +9,7 @@ export const taxPreparerSetup: Setup = {
   description:
     'Configure Claude as a tax preparation assistant for your practice. It builds tailored ' +
     'client document-request checklists, explains tax forms and common deductions in plain ' +
-    'language, drafts client communications, and helps structure organizers — while always ' +
+    'language, drafts client communications, and helps structure organizers, while always ' +
     'flagging when a situation requires a licensed professional\'s judgment.',
   role: 'Tax Preparer',
   industry: 'Accounting & Finance',
@@ -29,7 +29,7 @@ export const taxPreparerSetup: Setup = {
 
   instructionTemplate: `You are a tax preparation assistant at {{firmName}}, supporting the {{taxYear}} filing season.
 
-Your client types include: {{clientTypes}}. Tailor document requests, checklists, and explanations to the specific filing situation — an individual W-2 filer needs a very different organizer than an S-Corp owner.
+Your client types include: {{clientTypes}}. Tailor document requests, checklists, and explanations to the specific filing situation, an individual W-2 filer needs a very different organizer than an S-Corp owner.
 
 Your primary tax software is {{taxSoftware}}. When describing workflows, data entry steps, or review checklists, reference {{taxSoftware}} conventions where relevant.
 
@@ -44,9 +44,9 @@ Your responsibilities:
 - Help structure tax organizers and review checklists to catch common errors before filing.
 
 Rules:
-1. Never invent tax figures, deduction amounts, income thresholds, or specific tax law citations without flagging uncertainty — ask or note that verification is required.
+1. Never invent tax figures, deduction amounts, income thresholds, or specific tax law citations without flagging uncertainty, ask or note that verification is required.
 2. When explaining a deduction or credit, state the general eligibility concept and explicitly recommend the client confirm applicability with a licensed tax professional.
-3. Distinguish clearly between federal and state treatment when the two differ — do not imply federal rules apply at the state level without qualification.
+3. Distinguish clearly between federal and state treatment when the two differ, do not imply federal rules apply at the state level without qualification.
 4. Client tax data shared in this conversation is confidential. Do not reference one client's information when helping with another.
 5. Flag immediately when a situation involves audit risk, amended returns, foreign income, or other complex areas where a licensed CPA or enrolled agent must review directly.
 6. Never give definitive tax or legal advice. Provide general information only and always recommend consulting a licensed CPA, enrolled agent, or tax attorney for specific guidance.`,
@@ -122,7 +122,7 @@ A starting checklist of common tax documents organized by client type. Update se
 - [ ] W-2 from each employer
 - [ ] 1099-INT (bank interest)
 - [ ] 1099-DIV (dividends)
-- [ ] 1099-B (brokerage sales — include cost basis statements)
+- [ ] 1099-B (brokerage sales, include cost basis statements)
 - [ ] SSA-1099 (Social Security benefits, if applicable)
 - [ ] 1099-R (retirement distributions, if applicable)
 
@@ -186,7 +186,7 @@ All items from Individual (W-2) above, plus:
       guidance:
         'Paste the client\'s organizer answers, a summary of their prior-year return (income ' +
         'sources, filing status, key deductions), or your intake notes. Remove Social Security ' +
-        'numbers and full account numbers before uploading — use last-four digits or a placeholder ' +
+        'numbers and full account numbers before uploading, use last-four digits or a placeholder ' +
         'instead. Even a brief bullet list of known income sources and life changes this year is useful.',
       required: false,
     },

@@ -46,16 +46,16 @@ A Claude Code starter config by centminmod that implements a Cline-inspired dual
 
 ## Key commands
 
-- /init — analyze the codebase and populate the memory bank from scratch
-- /update-memory-bank — write current sprint state back to CLAUDE.md and memory files
-- /security-audit — OWASP-guided security scan of the codebase with severity categories
-- /secure-prompts — detect prompt injection attacks in file content or pasted text
-- /check-best-practices — language-specific code quality analysis with before/after examples
-- /create-release-note — generate customer-facing and technical release notes from git commits
-- /ccusage-daily — parse ccusage output into a daily cost and token usage summary
-- /apply-thinking-to — apply Anthropic extended thinking patterns to an existing prompt file
-- /convert-to-todowrite-tasklist-prompt — convert a verbose workflow into parallel-subagent tasks (60-70% speed improvement)
-- /cleanup-context — remove duplicate and obsolete memory bank content (15-25% token reduction)
+- /init, analyze the codebase and populate the memory bank from scratch
+- /update-memory-bank, write current sprint state back to CLAUDE.md and memory files
+- /security-audit, OWASP-guided security scan of the codebase with severity categories
+- /secure-prompts, detect prompt injection attacks in file content or pasted text
+- /check-best-practices, language-specific code quality analysis with before/after examples
+- /create-release-note, generate customer-facing and technical release notes from git commits
+- /ccusage-daily, parse ccusage output into a daily cost and token usage summary
+- /apply-thinking-to, apply Anthropic extended thinking patterns to an existing prompt file
+- /convert-to-todowrite-tasklist-prompt, convert a verbose workflow into parallel-subagent tasks (60-70% speed improvement)
+- /cleanup-context, remove duplicate and obsolete memory bank content (15-25% token reduction)
 
 ## Install
 
@@ -73,7 +73,7 @@ Then open Claude Code in your project and run /init to populate the memory bank.
 
 ## When to use
 
-Use this when you want a production-ready CLAUDE.md setup with persistent memory across sessions, a suite of security and architecture slash commands, and a structured workflow for session start and end — without building it yourself.`,
+Use this when you want a production-ready CLAUDE.md setup with persistent memory across sessions, a suite of security and architecture slash commands, and a structured workflow for session start and end, without building it yourself.`,
       },
     ],
     repoUrl: 'https://github.com/centminmod/my-claude-code-setup',
@@ -143,25 +143,25 @@ Use this when you want a production-ready CLAUDE.md setup with persistent memory
         isPrimary: true,
         content: `## What it does
 
-A personal Claude Code dotfiles repo by zircote that clones directly into ~/.claude/ and immediately makes 100+ specialist agents, 60+ reusable skills, and a suite of custom slash commands available in every project. Agents are organized across 10 categories — core development (backend, frontend, fullstack), language specialists (python-pro, typescript-pro, golang-pro, rust-engineer), infrastructure (kubernetes-specialist, terraform-engineer, cloud-architect), quality and security (security-engineer, qa-expert, penetration-tester), data and AI (ml-engineer, data-scientist, llm-architect), developer experience, specialized domains (fintech-engineer, blockchain-developer), business and product (product-manager, technical-writer), meta-orchestration (workflow-orchestrator, task-distributor), and research and analysis. Coding standards for Python, Go, React/TypeScript, Git, Testing, and MCP are in the includes/ directory and load automatically from context.
+A personal Claude Code dotfiles repo by zircote that clones directly into ~/.claude/ and immediately makes 100+ specialist agents, 60+ reusable skills, and a suite of custom slash commands available in every project. Agents are organized across 10 categories, core development (backend, frontend, fullstack), language specialists (python-pro, typescript-pro, golang-pro, rust-engineer), infrastructure (kubernetes-specialist, terraform-engineer, cloud-architect), quality and security (security-engineer, qa-expert, penetration-tester), data and AI (ml-engineer, data-scientist, llm-architect), developer experience, specialized domains (fintech-engineer, blockchain-developer), business and product (product-manager, technical-writer), meta-orchestration (workflow-orchestrator, task-distributor), and research and analysis. Coding standards for Python, Go, React/TypeScript, Git, Testing, and MCP are in the includes/ directory and load automatically from context.
 
 ## Key commands
 
-- /git:cm — stage all files and create a commit
-- /git:cp — stage, commit, and push all changes
-- /git:pr — create a pull request from the current branch
-- /cr — comprehensive code review dispatching parallel specialist agents
-- /cr-fx — interactive remediation of code review findings from /cr
-- /explore — exhaustive codebase exploration using Opus 4.5
-- /deep-research — multi-phase research protocol using Opus 4.5
+- /git:cm, stage all files and create a commit
+- /git:cp, stage, commit, and push all changes
+- /git:pr, create a pull request from the current branch
+- /cr, comprehensive code review dispatching parallel specialist agents
+- /cr-fx, interactive remediation of code review findings from /cr
+- /explore, exhaustive codebase exploration using Opus 4.5
+- /deep-research, multi-phase research protocol using Opus 4.5
 
 Plugin: zircote/claude-spec (install via /plugin or add github:zircote/claude-spec to pluginMarketplaces):
 
-- /cs:p — strategic project planner with Socratic requirements elicitation
-- /cs:i — implementation progress tracker with PROGRESS.md checkpoints
-- /cs:s — project status and portfolio manager
-- /cs:c — project close-out and archival
-- /cs:wt:create — create a git worktree with a Claude agent
+- /cs:p, strategic project planner with Socratic requirements elicitation
+- /cs:i, implementation progress tracker with PROGRESS.md checkpoints
+- /cs:s, project status and portfolio manager
+- /cs:c, project close-out and archival
+- /cs:wt:create, create a git worktree with a Claude agent
 
 ## Install
 
@@ -174,7 +174,7 @@ Claude Code loads CLAUDE.md and agents automatically. Install the claude-spec pl
 
 ## When to use
 
-Use when you want a comprehensive multi-domain Claude Code setup out of the box — specialist agents across DevOps, ML, security, and product, combined with git workflow commands and project lifecycle management from a single clone.`,
+Use when you want a comprehensive multi-domain Claude Code setup out of the box, specialist agents across DevOps, ML, security, and product, combined with git workflow commands and project lifecycle management from a single clone.`,
       },
     ],
     repoUrl: 'https://github.com/zircote/.claude',
@@ -245,21 +245,21 @@ Use when you want a comprehensive multi-domain Claude Code setup out of the box 
         isPrimary: true,
         content: `## What it does
 
-A reference project config by ChrisWiles that shows how skills, agents, hooks, slash commands, MCP servers, and GitHub Actions fit together in one Claude Code repo. The most distinctive feature is the skill-evaluation hook system: on every prompt submission a Node.js engine scores keywords, file paths, regex patterns, and intent signals from the prompt, then surfaces ranked skill suggestions with confidence scores (HIGH/MEDIUM) so Claude applies the right skills without manual invocation. Four GitHub Actions automate quality over time — PR review fires on every pull request, weekly code quality sweeps random directories, monthly docs sync checks that documentation still matches recent commits, and biweekly dependency audits run safe updates with test verification.
+A reference project config by ChrisWiles that shows how skills, agents, hooks, slash commands, MCP servers, and GitHub Actions fit together in one Claude Code repo. The most distinctive feature is the skill-evaluation hook system: on every prompt submission a Node.js engine scores keywords, file paths, regex patterns, and intent signals from the prompt, then surfaces ranked skill suggestions with confidence scores (HIGH/MEDIUM) so Claude applies the right skills without manual invocation. Four GitHub Actions automate quality over time, PR review fires on every pull request, weekly code quality sweeps random directories, monthly docs sync checks that documentation still matches recent commits, and biweekly dependency audits run safe updates with test verification.
 
 ## Key commands
 
-- /onboard — deep codebase exploration to understand a task or feature area before starting
-- /ticket — read a JIRA or Linear ticket via MCP, create a branch, implement, update ticket status, and open a PR
-- /pr-review — run the code-reviewer agent checklist against the current pull request
-- /pr-summary — generate a structured PR description from the current diff
-- /code-quality — run quality checks across the project
-- /docs-sync — verify that documentation still aligns with recent code changes
+- /onboard, deep codebase exploration to understand a task or feature area before starting
+- /ticket, read a JIRA or Linear ticket via MCP, create a branch, implement, update ticket status, and open a PR
+- /pr-review, run the code-reviewer agent checklist against the current pull request
+- /pr-summary, generate a structured PR description from the current diff
+- /code-quality, run quality checks across the project
+- /docs-sync, verify that documentation still aligns with recent code changes
 
 Hook system (UserPromptSubmit):
 
-- skill-eval.sh / skill-eval.js — on every prompt, score keywords, file paths, regex patterns, and intent signals then suggest matched skills with confidence levels
-- skill-rules.json — configure pattern rules, directory mappings, and confidence thresholds per skill
+- skill-eval.sh / skill-eval.js, on every prompt, score keywords, file paths, regex patterns, and intent signals then suggest matched skills with confidence levels
+- skill-rules.json, configure pattern rules, directory mappings, and confidence thresholds per skill
 
 ## Install
 
@@ -310,8 +310,8 @@ Use this as the reference when wiring up a full Claude Code project with automat
     tagline: 'Hierarchical markdown memory bank adapted from Cline: six files, five workflow commands.',
     description:
       'A memory management system adapted from the Cline Memory Bank pattern, restructured for ' +
-      'Claude Code by hudrazine. Uses six hierarchical markdown files — projectbrief, productContext, ' +
-      'activeContext, systemPatterns, techContext, and progress — loaded via @import in CLAUDE.md. ' +
+      'Claude Code by hudrazine. Uses six hierarchical markdown files, projectbrief, productContext, ' +
+      'activeContext, systemPatterns, techContext, and progress, loaded via @import in CLAUDE.md. ' +
       'The /init-memory-bank command auto-detects technologies and creates only missing files, ' +
       'preserving any existing documentation.',
     role: 'general',
@@ -339,17 +339,17 @@ Use this as the reference when wiring up a full Claude Code project with automat
         isPrimary: true,
         content: `## What it does
 
-Brings the Cline Memory Bank pattern to Claude Code using six hierarchical markdown files stored in a memory-bank/ directory. The hierarchy flows from projectbrief.md through productContext.md and systemPatterns.md/techContext.md into activeContext.md, then into progress.md — each file builds on those above it so Claude always has a coherent picture of what the project is, how it is architected, and what is being worked on now. The core system is loaded into CLAUDE.md via @import so it is active in every session automatically.
+Brings the Cline Memory Bank pattern to Claude Code using six hierarchical markdown files stored in a memory-bank/ directory. The hierarchy flows from projectbrief.md through productContext.md and systemPatterns.md/techContext.md into activeContext.md, then into progress.md, each file builds on those above it so Claude always has a coherent picture of what the project is, how it is architected, and what is being worked on now. The core system is loaded into CLAUDE.md via @import so it is active in every session automatically.
 
 The initialization command is smart: for a new project it prompts for details and creates all six files; for an existing project it reads package.json, README, and any existing documentation to auto-detect the technology stack and populate files without overwriting content that is already there; if a projectbrief.md already exists it reads it and uses it to populate the other five files consistently.
 
 ## Key commands
 
-- /init-memory-bank — initialize the memory bank for the current project; detects existing state and fills only missing files
-- /workflow:understand — load all six memory bank files and summarize the current project state and focus
-- /workflow:plan — draft a detailed implementation strategy against the current activeContext
-- /workflow:execute — implement the plan with systematic quality checks and update progress.md
-- /workflow:update-memory — write the current session state back to all six memory bank files
+- /init-memory-bank, initialize the memory bank for the current project; detects existing state and fills only missing files
+- /workflow:understand, load all six memory bank files and summarize the current project state and focus
+- /workflow:plan, draft a detailed implementation strategy against the current activeContext
+- /workflow:execute, implement the plan with systematic quality checks and update progress.md
+- /workflow:update-memory, write the current session state back to all six memory bank files
 
 ## Install
 
@@ -364,7 +364,7 @@ Then in Claude Code run /init-memory-bank to populate the memory bank.
 
 ## When to use
 
-Use when you want structured, hierarchical project memory that auto-detects the tech stack, preserves existing documentation, and gives Claude a consistent starting context across sessions — without the manual effort of maintaining a single flat CLAUDE.md.`,
+Use when you want structured, hierarchical project memory that auto-detects the tech stack, preserves existing documentation, and gives Claude a consistent starting context across sessions, without the manual effort of maintaining a single flat CLAUDE.md.`,
       },
     ],
     repoUrl: 'https://github.com/hudrazine/claude-code-memory-bank',
@@ -398,7 +398,7 @@ Use when you want structured, hierarchical project memory that auto-detects the 
     id: 'github-claude-code-system-prompts-v1',
     slug: 'github-claude-code-system-prompts',
     name: 'Claude Code System Prompts',
-    tagline: 'Decompiled Claude Code internals: 515+ prompts — tool descriptions, sub-agent prompts, and utilities — updated within minutes of each release.',
+    tagline: 'Decompiled Claude Code internals: 515+ prompts, tool descriptions, sub-agent prompts, and utilities, updated within minutes of each release.',
     description:
       'A reverse-engineered collection of Claude Code\'s internal system prompts maintained by ' +
       'Piebald AI and updated within minutes of each Claude Code release. As of v2.1.204 ' +
@@ -431,7 +431,7 @@ Use when you want structured, hierarchical project memory that auto-detects the 
         isPrimary: true,
         content: `## What it does
 
-A decompilation of Claude Code's internal system prompts extracted directly from the compiled source of each Claude Code release and maintained by Piebald AI. Updated within minutes of every Claude Code version bump — a GitHub release notification fires for each new version, and the CHANGELOG.md tracks prompt changes across 230 versions since v2.0.14.
+A decompilation of Claude Code's internal system prompts extracted directly from the compiled source of each Claude Code release and maintained by Piebald AI. Updated within minutes of every Claude Code version bump, a GitHub release notification fires for each new version, and the CHANGELOG.md tracks prompt changes across 230 versions since v2.0.14.
 
 As of Claude Code v2.1.204 (July 7, 2026) the repo covers 515+ prompt strings, including:
 
@@ -441,15 +441,15 @@ As of Claude Code v2.1.204 (July 7, 2026) the repo covers 515+ prompt strings, i
 - All 27+ built-in tool descriptions (Write, Bash, TodoWrite, Read, etc.)
 - Utility prompts: conversation compaction, session title generation
 
-Because the strings are extracted from the same compiled source that Claude Code uses, they are guaranteed to be exact — not approximated.
+Because the strings are extracted from the same compiled source that Claude Code uses, they are guaranteed to be exact, not approximated.
 
 ## Key files
 
-- system-prompts/ — all tool descriptions and utility prompt files
-- system-prompts/agent-prompt-explore.md — the Explore sub-agent system prompt
-- system-prompts/agent-prompt-plan-mode-enhanced.md — the Plan sub-agent system prompt
-- system-prompts/agent-prompt-claudemd-creation.md — the CLAUDE.md generation agent prompt
-- CHANGELOG.md — prompt diffs across 230 Claude Code versions
+- system-prompts/, all tool descriptions and utility prompt files
+- system-prompts/agent-prompt-explore.md, the Explore sub-agent system prompt
+- system-prompts/agent-prompt-plan-mode-enhanced.md, the Plan sub-agent system prompt
+- system-prompts/agent-prompt-claudemd-creation.md, the CLAUDE.md generation agent prompt
+- CHANGELOG.md, prompt diffs across 230 Claude Code versions
 
 ## Install
 
@@ -487,8 +487,8 @@ Use when writing CLAUDE.md behavioral rules and you want to see exactly how Clau
     name: 'tweakcc',
     tagline: 'CLI to patch a Claude Code install: custom system prompts, themes, thinking verbs, toolsets, session memory, and 20+ more features.',
     description:
-      'A CLI tool by Piebald AI that patches an existing Claude Code installation — npm or native ' +
-      'binary — with custom system prompts, color themes, thinking verbs, spinner animations, ' +
+      'A CLI tool by Piebald AI that patches an existing Claude Code installation, npm or native ' +
+      'binary, with custom system prompts, color themes, thinking verbs, spinner animations, ' +
       'custom toolsets, user-message styling, subagent model overrides, session memory, a ' +
       '/remember skill, table format switching, and MCP startup optimization. Run npx tweakcc, ' +
       'configure via the interactive menu or ~/.tweakcc/config.json, and apply with --apply. ' +
@@ -532,7 +532,7 @@ Features available in tweakcc 4.0.0:
 - User message styling: style the gray user-message text in chat history
 - Table format switching: Claude Code default, Unicode (┌─┬─┐), ASCII/markdown (|---|), or borderless
 - MCP startup optimization: non-blocking parallel MCP connections, ~50% faster startup
-- Opus Plan 1M mode: opusplan[1m] alias — Opus for planning, Sonnet's 1M context for execution
+- Opus Plan 1M mode: opusplan[1m] alias, Opus for planning, Sonnet's 1M context for execution
 - Input pattern highlighters: highlight custom strings (like "ultrathink") in the input box
 - AGENTS.md support, auto-accept plan mode, token count rounding, context limit control
 
@@ -547,7 +547,7 @@ Apply community patches from a URL:
 
 ## When to use
 
-Use when you want to customize Claude Code's UI, system prompts, or behavior without forking the source — and you want customizations to survive Claude Code updates by reapplying from a config file.`,
+Use when you want to customize Claude Code's UI, system prompts, or behavior without forking the source, and you want customizations to survive Claude Code updates by reapplying from a config file.`,
       },
     ],
     repoUrl: 'https://github.com/Piebald-AI/tweakcc',
@@ -585,7 +585,7 @@ Use when you want to customize Claude Code's UI, system prompts, or behavior wit
     id: 'github-context-forge-v1',
     slug: 'github-context-forge',
     name: 'Context Forge',
-    tagline: 'CLI wizard that scaffolds the full Claude Code surface — settings.json, agents, skills, hooks, slash commands, and PRPs — from a 10-screen TUI.',
+    tagline: 'CLI wizard that scaffolds the full Claude Code surface, settings.json, agents, skills, hooks, slash commands, and PRPs, from a 10-screen TUI.',
     description:
       'A CLI tool by Jason Webdev (v4.0.0) that generates the complete modern .claude/ surface ' +
       'from an Ink TUI wizard: a schema-locked settings.json with all 8 hook lifecycle events, ' +
@@ -619,31 +619,31 @@ Use when you want to customize Claude Code's UI, system prompts, or behavior wit
 
 Context Forge (v4.0.0) is a CLI that generates the complete modern Claude Code project surface from a 10-screen Ink TUI wizard (ESC = back, Enter = advance, Ctrl-C = exit). It produces:
 
-- CLAUDE.md — tech-stack-aware project rules with KISS/YAGNI directives and pre-commit checklist
-- .claude/settings.json — schema-locked, wires all 8 Claude Code hook lifecycle events (PreToolUse, PostToolUse, SessionStart, UserPromptSubmit, PreCompact, Stop, SubagentStop, Notification) plus mcpServers, statusLine, outputStyles, and permissions
-- .claude/agents/ — 5 default sub-agents: code-reviewer, test-runner, plan-architect, security-auditor, prp-executor
-- .claude/skills/ — 3 default skills: testing-protocol (renders test command/framework), deployment-checklist (tailored to detected deploy target), codebase-navigation
-- .claude/commands/ — 21 slash commands across 6 subdirs: PRPs/, orchestration/, checkpoints/, quality/, session/, migration/
-- .claude/hooks/ — 14 bash scripts + 4 Python scripts registered through settings.json
-- PRPs/ — Product Requirement Prompts, optionally AI-enhanced via Anthropic or OpenAI API
-- Docs/ — staged Implementation.md, project_structure.md, UI_UX_doc.md, Bug_tracking.md
+- CLAUDE.md, tech-stack-aware project rules with KISS/YAGNI directives and pre-commit checklist
+- .claude/settings.json, schema-locked, wires all 8 Claude Code hook lifecycle events (PreToolUse, PostToolUse, SessionStart, UserPromptSubmit, PreCompact, Stop, SubagentStop, Notification) plus mcpServers, statusLine, outputStyles, and permissions
+- .claude/agents/, 5 default sub-agents: code-reviewer, test-runner, plan-architect, security-auditor, prp-executor
+- .claude/skills/, 3 default skills: testing-protocol (renders test command/framework), deployment-checklist (tailored to detected deploy target), codebase-navigation
+- .claude/commands/, 21 slash commands across 6 subdirs: PRPs/, orchestration/, checkpoints/, quality/, session/, migration/
+- .claude/hooks/, 14 bash scripts + 4 Python scripts registered through settings.json
+- PRPs/, Product Requirement Prompts, optionally AI-enhanced via Anthropic or OpenAI API
+- Docs/, staged Implementation.md, project_structure.md, UI_UX_doc.md, Bug_tracking.md
 
 Also supports analyze (retrofit existing codebases), enhance (plan new features), migrate (plan stack migrations), validate (run quality gates), run-prp (execute a PRP end-to-end), orchestrate (deploy autonomous agent teams via tmux), and dashboard commands.
 
 ## Key commands
 
-- context-forge init — run the 10-screen TUI wizard to scaffold the full surface
-- context-forge init --no-tui — use the legacy inquirer flow for CI or non-TTY environments
-- context-forge init --ai-prp — add AI-generated Product Requirement Prompts to the output
-- context-forge analyze — detect an existing project's tech stack and retrofit CLAUDE.md and PRPs
-- context-forge enhance — plan and scaffold a new feature with PRPs and progress-tracking commands
-- context-forge migrate — plan a tech-stack migration with phased execution and rollback procedures
-- context-forge validate — run the quality gate (lint, tests, coverage, build, security)
-- context-forge run-prp <name> — execute a PRP end-to-end against the codebase
-- /prp-create <feature> — generate a PRP for a new feature (slash command)
-- /prp-execute <name> — execute an existing PRP (slash command)
-- /validate — run the full validation gate from inside Claude Code
-- /checkpoint-create <name> — create a named working-state checkpoint
+- context-forge init, run the 10-screen TUI wizard to scaffold the full surface
+- context-forge init --no-tui, use the legacy inquirer flow for CI or non-TTY environments
+- context-forge init --ai-prp, add AI-generated Product Requirement Prompts to the output
+- context-forge analyze, detect an existing project's tech stack and retrofit CLAUDE.md and PRPs
+- context-forge enhance, plan and scaffold a new feature with PRPs and progress-tracking commands
+- context-forge migrate, plan a tech-stack migration with phased execution and rollback procedures
+- context-forge validate, run the quality gate (lint, tests, coverage, build, security)
+- context-forge run-prp <name>, execute a PRP end-to-end against the codebase
+- /prp-create <feature>, generate a PRP for a new feature (slash command)
+- /prp-execute <name>, execute an existing PRP (slash command)
+- /validate, run the full validation gate from inside Claude Code
+- /checkpoint-create <name>, create a named working-state checkpoint
 
 ## Install
 
@@ -660,7 +660,7 @@ For AI-powered PRPs, set up the API key first:
 
 ## When to use
 
-Use when starting a new project and you want the entire modern .claude/ surface — hooks, agents, skills, commands, PRPs — wired correctly in one command rather than assembled by hand.`,
+Use when starting a new project and you want the entire modern .claude/ surface, hooks, agents, skills, commands, PRPs, wired correctly in one command rather than assembled by hand.`,
       },
     ],
     repoUrl: 'https://github.com/webdevtodayjason/context-forge',
@@ -702,7 +702,7 @@ Use when starting a new project and you want the entire modern .claude/ surface 
     description:
       'A community-maintained reference guide for Claude Code by zebbern, organized into eight ' +
       'sections covering installation, configuration, all slash commands, MCP integration, hooks, ' +
-      'sub-agents, third-party integrations, and troubleshooting — with copy-paste examples and ' +
+      'sub-agents, third-party integrations, and troubleshooting, with copy-paste examples and ' +
       'settings.json snippets throughout. Cross-linked to related repos including agent skills ' +
       'libraries, MCP configs, and Mermaid diagram templates.',
     role: 'general',
@@ -736,14 +736,14 @@ Cross-referenced to related community repos maintained by the same author: a Cla
 
 Sections at a glance:
 
-- Getting Started — install commands, system requirements, initial setup steps
-- Configuration — complete environment variable list with accepted values and defaults; configuration file locations and precedence; settings.json structure
-- Commands — all built-in slash commands with descriptions; CLI flags including rarely documented options
-- MCP — how to configure MCP servers in .mcp.json; per-integration examples (JIRA, GitHub, Slack, Postgres)
-- Sub-agents — how sub-agents work, how to write agent .md files with frontmatter, the Plan and Explore built-ins
-- Hooks — all hook events (PreToolUse, PostToolUse, UserPromptSubmit, Stop, etc.), response format, exit codes
-- --dangerously-skip-permissions — exact definition, safe-use conditions (fully sandboxed CI only), what it skips
-- Third-Party Integrations — IDE plugins, status-bar integrations, GitHub Actions
+- Getting Started, install commands, system requirements, initial setup steps
+- Configuration, complete environment variable list with accepted values and defaults; configuration file locations and precedence; settings.json structure
+- Commands, all built-in slash commands with descriptions; CLI flags including rarely documented options
+- MCP, how to configure MCP servers in .mcp.json; per-integration examples (JIRA, GitHub, Slack, Postgres)
+- Sub-agents, how sub-agents work, how to write agent .md files with frontmatter, the Plan and Explore built-ins
+- Hooks, all hook events (PreToolUse, PostToolUse, UserPromptSubmit, Stop, etc.), response format, exit codes
+- --dangerously-skip-permissions, exact definition, safe-use conditions (fully sandboxed CI only), what it skips
+- Third-Party Integrations, IDE plugins, status-bar integrations, GitHub Actions
 
 ## Install
 
@@ -751,7 +751,7 @@ No install needed. Browse the README on GitHub. Use the section links at the top
 
 ## When to use
 
-Use as the first stop for any Claude Code configuration question — environment variables, hook event names and response format, MCP server setup, or the exact behavior of a CLI flag. Faster than searching the official docs for common configuration patterns.`,
+Use as the first stop for any Claude Code configuration question, environment variables, hook event names and response format, MCP server setup, or the exact behavior of a CLI flag. Faster than searching the official docs for common configuration patterns.`,
       },
     ],
     repoUrl: 'https://github.com/zebbern/claude-code-guide',
@@ -781,7 +781,7 @@ Use as the first stop for any Claude Code configuration question — environment
     id: 'github-awesome-claude-code-v1',
     slug: 'github-awesome-claude-code',
     name: 'Awesome Claude Code',
-    tagline: 'The canonical curated list for Claude Code: skills, plugins, hooks, agents, MCP, status lines, and more — with THE_RESOURCES_TABLE.csv as the machine-readable index.',
+    tagline: 'The canonical curated list for Claude Code: skills, plugins, hooks, agents, MCP, status lines, and more, with THE_RESOURCES_TABLE.csv as the machine-readable index.',
     description:
       'The canonical community-curated "awesome list" for Claude Code by hesreallyhim, covering ' +
       'resources across skills, plugins, hooks, agents, MCP integrations, status lines, memory ' +
@@ -818,15 +818,15 @@ The canonical community-curated list for Claude Code, hand-picked and maintained
 
 THE_RESOURCES_TABLE.csv is the machine-readable index of every entry in a spreadsheet-friendly format with repo URLs, categories, and metadata. The repo also generates animated SVG tickers and recently-added highlight badges displayed in the README.
 
-Resources on the list are curated for quality, security, and originality — not just volume. The README notes that resources from previous iterations not yet migrated to the new format are preserved in README_ALTERNATIVES/ and will be re-added.
+Resources on the list are curated for quality, security, and originality, not just volume. The README notes that resources from previous iterations not yet migrated to the new format are preserved in README_ALTERNATIVES/ and will be re-added.
 
 ## Key files
 
-- README.md — the full categorized list with descriptions and links
-- THE_RESOURCES_TABLE.csv — machine-readable index of all entries
-- README_ALTERNATIVES/ — legacy resources from previous list iterations
-- assets/repo-ticker.svg — animated ticker of featured projects
-- assets/recently-added.svg — recently added resources badge
+- README.md, the full categorized list with descriptions and links
+- THE_RESOURCES_TABLE.csv, machine-readable index of all entries
+- README_ALTERNATIVES/, legacy resources from previous list iterations
+- assets/repo-ticker.svg, animated ticker of featured projects
+- assets/recently-added.svg, recently added resources badge
 
 ## Install
 
@@ -839,7 +839,7 @@ No install needed. Browse the repo on GitHub.
 
 ## When to use
 
-Use as the starting point when looking for any Claude Code community resource — skills, plugins, memory systems, status lines, orchestration tools, or security utilities. THE_RESOURCES_TABLE.csv is the fastest way to bulk-search entries or build a filtered view.`,
+Use as the starting point when looking for any Claude Code community resource, skills, plugins, memory systems, status lines, orchestration tools, or security utilities. THE_RESOURCES_TABLE.csv is the fastest way to bulk-search entries or build a filtered view.`,
       },
     ],
     repoUrl: 'https://github.com/hesreallyhim/awesome-claude-code',
@@ -851,7 +851,7 @@ Use as the starting point when looking for any Claude Code community resource �
       },
       {
         command: 'Browse by category',
-        description: 'Filter resources by category — skills, plugins, MCP, status lines, memory, orchestration, security, and more — in the organized README.',
+        description: 'Filter resources by category, skills, plugins, MCP, status lines, memory, orchestration, security, and more, in the organized README.',
       },
       {
         command: 'Browse README_ALTERNATIVES/',
@@ -867,7 +867,7 @@ Use as the starting point when looking for any Claude Code community resource �
     id: 'github-composio-awesome-claude-skills-v1',
     slug: 'github-composio-awesome-claude-skills',
     name: 'Composio Awesome Claude Skills',
-    tagline: '1000+ production skills across Claude Code, Codex, Cursor, Gemini, and Antigravity — plus Connect for real actions across 500+ apps.',
+    tagline: '1000+ production skills across Claude Code, Codex, Cursor, Gemini, and Antigravity, plus Connect for real actions across 500+ apps.',
     description:
       'A curated collection of 1000+ production Claude Skills from Composio, organized across ' +
       'Document Processing, Development/Code Tools, Data/Analysis, Business/Marketing, ' +
@@ -902,16 +902,16 @@ Use as the starting point when looking for any Claude Code community resource �
 
 A curated collection of 1000+ production Claude Skills from Composio, usable across Claude Code, Claude.ai, Codex, Cursor, Gemini CLI, Antigravity, and Windsurf. Organized in ten categories:
 
-- Document Processing — docx, pdf, pptx, xlsx, EPUB converter, legal skill pack (NDA triage, citation verifier)
-- Development and Code Tools — web artifacts builder, changelog generator, MCP builder, webapp testing, iOS simulator, Playwright automation, LangSmith fetch for LangChain trace debugging, great_cto (7 SDLC agents), and more
-- Data and Analysis — CSV summarizer, deep research via Gemini, PostgreSQL read-only queries, recursive PhD-level research
-- Business and Marketing — lead research assistant, domain brainstormer, competitive ads extractor
-- Communication and Writing — content research writer, meeting insights analyzer (conflict detection, speaking ratios), NotebookLM integration
-- Creative and Media — canvas design (PNG/PDF), video downloader, Slack GIF creator, image enhancer
-- Productivity and Organization — file organizer, invoice organizer, tailored resume generator, n8n workflow operator
-- Collaboration and PM — git-pushing, Google Workspace suite (Gmail/Calendar/Chat/Docs/Sheets/Slides/Drive)
-- Security and Systems — computer forensics, metadata extraction, threat hunting with Sigma rules
-- App Automation via Composio — 78 pre-built workflow skills for SaaS apps (Jira, Slack, GitHub, Notion, Salesforce, Stripe, Shopify, etc.) using the Rube MCP
+- Document Processing, docx, pdf, pptx, xlsx, EPUB converter, legal skill pack (NDA triage, citation verifier)
+- Development and Code Tools, web artifacts builder, changelog generator, MCP builder, webapp testing, iOS simulator, Playwright automation, LangSmith fetch for LangChain trace debugging, great_cto (7 SDLC agents), and more
+- Data and Analysis, CSV summarizer, deep research via Gemini, PostgreSQL read-only queries, recursive PhD-level research
+- Business and Marketing, lead research assistant, domain brainstormer, competitive ads extractor
+- Communication and Writing, content research writer, meeting insights analyzer (conflict detection, speaking ratios), NotebookLM integration
+- Creative and Media, canvas design (PNG/PDF), video downloader, Slack GIF creator, image enhancer
+- Productivity and Organization, file organizer, invoice organizer, tailored resume generator, n8n workflow operator
+- Collaboration and PM, git-pushing, Google Workspace suite (Gmail/Calendar/Chat/Docs/Sheets/Slides/Drive)
+- Security and Systems, computer forensics, metadata extraction, threat hunting with Sigma rules
+- App Automation via Composio, 78 pre-built workflow skills for SaaS apps (Jira, Slack, GitHub, Notion, Salesforce, Stripe, Shopify, etc.) using the Rube MCP
 
 The flagship Connect skill handles auth and connects to 500+ apps out of the box.
 
@@ -933,7 +933,7 @@ Or via the Claude.ai Skills interface at Settings > Capabilities.
 
 ## When to use
 
-Use Connect when you need Claude to take real actions across external services — send an email, create a GitHub issue, post to Slack — using a single API key rather than configuring individual MCP servers. Use category skills for document processing, data analysis, or business workflows that go beyond code.`,
+Use Connect when you need Claude to take real actions across external services, send an email, create a GitHub issue, post to Slack, using a single API key rather than configuring individual MCP servers. Use category skills for document processing, data analysis, or business workflows that go beyond code.`,
       },
     ],
     repoUrl: 'https://github.com/ComposioHQ/awesome-claude-skills',
@@ -1004,7 +1004,7 @@ A curated list of Claude Skills maintained by travisvn, covering the full offici
 
 Official Anthropic skills listed:
 
-Document skills: docx, pdf, pptx, xlsx — create, edit, analyze Office and PDF files.
+Document skills: docx, pdf, pptx, xlsx, create, edit, analyze Office and PDF files.
 Design and creative: algorithmic-art (p5.js generative art), canvas-design (PNG/PDF), slack-gif-creator.
 Development: frontend-design (anti-AI-slop React/Tailwind patterns), web-artifacts-builder (React + shadcn/ui HTML artifacts), mcp-builder (guide for building MCP servers), webapp-testing (Playwright).
 Communication: brand-guidelines (Anthropic brand colors/typography), internal-comms.
@@ -1012,10 +1012,10 @@ Skill creation: skill-creator (interactive Q&A to build new skills).
 
 Community collections highlighted:
 
-- obra/superpowers — 20+ battle-tested skills including TDD, debugging, collaboration patterns; installable via /plugin marketplace add obra/superpowers-marketplace
-- Trail of Bits Security Skills — CodeQL/Semgrep static analysis, variant analysis, vulnerability detection
-- shadcn/ui skill — component context and pattern enforcement for shadcn projects
-- Expo Skills — official Expo team skills for Expo app development
+- obra/superpowers, 20+ battle-tested skills including TDD, debugging, collaboration patterns; installable via /plugin marketplace add obra/superpowers-marketplace
+- Trail of Bits Security Skills, CodeQL/Semgrep static analysis, variant analysis, vulnerability detection
+- shadcn/ui skill, component context and pattern enforcement for shadcn projects
+- Expo Skills, official Expo team skills for Expo app development
 - iOS Simulator skill, Playwright skill, D3.js skill, and more
 
 Also includes: a skills vs. prompts vs. subagents vs. MCP comparison matrix, a quick-reference table for when to use each approach, security guidelines (skills can run arbitrary code), and a step-by-step skill creation guide with skill-creator and manual methods.
@@ -1132,7 +1132,7 @@ Verify the install:
 
 ## When to use
 
-Use when you want a large, immediately available catalog of skills for planning, debugging, testing, or security review across multiple agent tools — and you want installation handled automatically rather than copying skill folders manually. Use a specialized plugin bundle when you know the job domain and want a focused set rather than 1,929 skills at once.`,
+Use when you want a large, immediately available catalog of skills for planning, debugging, testing, or security review across multiple agent tools, and you want installation handled automatically rather than copying skill folders manually. Use a specialized plugin bundle when you know the job domain and want a focused set rather than 1,929 skills at once.`,
       },
     ],
     repoUrl: 'https://github.com/sickn33/antigravity-awesome-skills',
@@ -1162,7 +1162,7 @@ Use when you want a large, immediately available catalog of skills for planning,
     id: 'github-rohitg00-claude-code-toolkit-v1',
     slug: 'github-rohitg00-claude-code-toolkit',
     name: 'rohitg00 Claude Code Toolkit',
-    tagline: 'Comprehensive Claude Code toolkit: 135 agents, 35 skills, 42 commands, 176+ plugins, 20 hooks, 15 MCP configs — installable via plugin marketplace or one-liner.',
+    tagline: 'Comprehensive Claude Code toolkit: 135 agents, 35 skills, 42 commands, 176+ plugins, 20 hooks, 15 MCP configs, installable via plugin marketplace or one-liner.',
     description:
       'A comprehensive Claude Code toolkit from rohitg00 with multiple install paths: plugin ' +
       'marketplace, manual clone, or a one-liner curl installer. Packages 135 agents, 35 curated ' +
@@ -1224,7 +1224,7 @@ One-liner:
 
 ## When to use
 
-Use when you want a single source for agents, skills, commands, plugins, hooks, and MCP configs — particularly if you need the full breadth of 135 agents and 176+ plugins without assembling them from multiple repos. The plugin marketplace install is the fastest path to getting the full toolkit active.`,
+Use when you want a single source for agents, skills, commands, plugins, hooks, and MCP configs, particularly if you need the full breadth of 135 agents and 176+ plugins without assembling them from multiple repos. The plugin marketplace install is the fastest path to getting the full toolkit active.`,
       },
     ],
     repoUrl: 'https://github.com/rohitg00/awesome-claude-code-toolkit',
@@ -1295,17 +1295,17 @@ A personal collection of Claude Code skills by Gleb Kalinin (glebis), each built
 
 Skills in the collection:
 
-Release (tiered compatibility) — config-driven release manager that bumps version files, runs a readiness gate, drafts a Keep-a-Changelog section from conventional commits, updates COMPATIBILITY.md with surfaces × maturity tiers (experimental/preview/stable), tags the release, and reports closed issues. A breaking change to a stable surface is forced to a major bump. Engine: 27-unit-test scripts/release.py; no third-party dependencies. Configure via release.config.json; invoke with /release minor or /release major.
+Release (tiered compatibility), config-driven release manager that bumps version files, runs a readiness gate, drafts a Keep-a-Changelog section from conventional commits, updates COMPATIBILITY.md with surfaces × maturity tiers (experimental/preview/stable), tags the release, and reports closed issues. A breaking change to a stable surface is forced to a major bump. Engine: 27-unit-test scripts/release.py; no third-party dependencies. Configure via release.config.json; invoke with /release minor or /release major.
 
-Synthetic Session Generator — generate persona-consistent synthetic coaching and therapy session transcripts for evals, demos, and training data. Supports 4 modalities (ICF/GROW coaching, CBT, IFS parts-work, ACT/Motivational Interviewing), reusable persona bibles, 4 output formats (Fathom/Granola style, plain dialogue, structured JSON with eval labels, Obsidian markdown), 8 languages, and optional GPT Image 2 case-conceptualization cards. Always watermarked as synthetic.
+Synthetic Session Generator, generate persona-consistent synthetic coaching and therapy session transcripts for evals, demos, and training data. Supports 4 modalities (ICF/GROW coaching, CBT, IFS parts-work, ACT/Motivational Interviewing), reusable persona bibles, 4 output formats (Fathom/Granola style, plain dialogue, structured JSON with eval labels, Obsidian markdown), 8 languages, and optional GPT Image 2 case-conceptualization cards. Always watermarked as synthetic.
 
-qmd Search — semantic search over a local Obsidian vault using the on-device qmd engine (Node >= 22 or Bun). Five search modes: BM25 keyword, vector semantic, hybrid expansion+rerank, literal native-script grep, and fused (hybrid + grep). Cross-lingual retrieval (EN↔RU). Includes a smoke-test suite (18 cases) and quality evals (qmd bench).
+qmd Search, semantic search over a local Obsidian vault using the on-device qmd engine (Node >= 22 or Bun). Five search modes: BM25 keyword, vector semantic, hybrid expansion+rerank, literal native-script grep, and fused (hybrid + grep). Cross-lingual retrieval (EN↔RU). Includes a smoke-test suite (18 cases) and quality evals (qmd bench).
 
-Cognitive Toolkit (CBT/DBT) — evidence-based interventions: guided thought records, opposite action, DEAR MAN roleplay, crisis skills with HRV biofeedback. Configurable therapeutic pushback. Standalone or via Telegram.
+Cognitive Toolkit (CBT/DBT), evidence-based interventions: guided thought records, opposite action, DEAR MAN roleplay, crisis skills with HRV biofeedback. Configurable therapeutic pushback. Standalone or via Telegram.
 
-Present — interactive HTML presentations with ElevenLabs voiceover narration synced to slides. Dual article/slides mode, scroll-reveal animations, optional GPT Image 2 illustrations, Tufte-inspired typography (EB Garamond + DM Sans).
+Present, interactive HTML presentations with ElevenLabs voiceover narration synced to slides. Dual article/slides mode, scroll-reveal animations, optional GPT Image 2 illustrations, Tufte-inspired typography (EB Garamond + DM Sans).
 
-GPT Image 2 — generate and edit images using OpenAI's GPT Image 2 model. 14 style presets, thinking mode (off/low/medium/high) for complex compositions, 8 platform presets.
+GPT Image 2, generate and edit images using OpenAI's GPT Image 2 model. 14 style presets, thinking mode (off/low/medium/high) for complex compositions, 8 platform presets.
 
 ## Install
 
@@ -1336,7 +1336,7 @@ Use the release skill for any project that needs structured version bumping with
       },
       {
         command: 'qmd-search (5 modes)',
-        description: 'Semantically search a local Obsidian vault using BM25, vector, hybrid, grep, or fused mode — with cross-lingual EN↔RU retrieval.',
+        description: 'Semantically search a local Obsidian vault using BM25, vector, hybrid, grep, or fused mode, with cross-lingual EN↔RU retrieval.',
       },
       {
         command: '/present',

@@ -256,7 +256,7 @@ export default function ScenariosEditor({ value, onChange }: ScenariosEditorProp
                 Expected behavior <span className="req" aria-hidden="true">*</span>
               </label>
               <p className="help">
-                Prose description of what a good response looks like — shown in the preview.
+                Prose description of what a good response looks like, shown in the preview.
               </p>
               <textarea
                 className="input"
@@ -281,7 +281,7 @@ export default function ScenariosEditor({ value, onChange }: ScenariosEditorProp
                     (optional)
                   </span>
                 </label>
-                <p className="help">One phrase per line — phrases a good response will include.</p>
+                <p className="help">One phrase per line, phrases a good response will include.</p>
                 <textarea
                   className="input"
                   id={mustId}
@@ -302,7 +302,7 @@ export default function ScenariosEditor({ value, onChange }: ScenariosEditorProp
                     (optional)
                   </span>
                 </label>
-                <p className="help">One phrase per line — phrases a good response won&apos;t include.</p>
+                <p className="help">One phrase per line, phrases a good response won&apos;t include.</p>
                 <textarea
                   className="input"
                   id={mustNotId}

@@ -5,12 +5,12 @@ export const docsWritingHarnessSetup: Setup = {
   id: 'curated-docs-writing-harness-v1',
   slug: 'docs-writing-harness',
   name: 'Docs Writing Harness',
-  tagline: 'Keep documentation in sync with your code — automatically',
+  tagline: 'Keep documentation in sync with your code, automatically',
   description:
     'A Claude Code project config and reference guide for maintaining technical documentation ' +
     'alongside code. Claude follows a docs-as-code workflow: every code change that affects a ' +
     'public API, config value, or user-facing behaviour is accompanied by a docs update in the ' +
-    'same session. The workflow is instruction-driven — Claude follows this guide, not a ' +
+    'same session. The workflow is instruction-driven, Claude follows this guide, not a ' +
     'mechanical gate.',
   role: 'Engineering',
   industry: null,
@@ -48,15 +48,15 @@ contract for the session.
 - Every change to a public function signature, config option, or user-facing behaviour
   prompts Claude to check and update the relevant docs before marking the task done.
 - Claude drafts, edits, and checks documentation using the voice and structure rules below.
-- There is no mechanical block — Claude follows these instructions, so be explicit with it
+- There is no mechanical block, Claude follows these instructions, so be explicit with it
   if a session needs to skip a docs update.
 
 ## Files in this harness
 
 | File | Purpose |
 |------|---------|
-| \`README.md\` | This guide — Claude reads it as its working instructions |
-| \`settings.json\` | Claude Code project settings — copy to \`.claude/settings.json\` |
+| \`README.md\` | This guide, Claude reads it as its working instructions |
+| \`settings.json\` | Claude Code project settings, copy to \`.claude/settings.json\` |
 
 ## Setup
 
@@ -87,10 +87,10 @@ Claude will read the relevant source files and docs together, list discrepancies
 Tell Claude: "Write docs for <feature/API>."
 
 Claude will follow this page structure:
-1. **Overview** — what it does and when to use it.
-2. **Parameters / Options** — every configurable field, its type, and its default.
-3. **Examples** — at least one working example with the expected output.
-4. **Troubleshooting** — common errors and how to resolve them.
+1. **Overview**, what it does and when to use it.
+2. **Parameters / Options**, every configurable field, its type, and its default.
+3. **Examples**, at least one working example with the expected output.
+4. **Troubleshooting**, common errors and how to resolve them.
 
 ## Voice and style rules
 
@@ -105,20 +105,20 @@ Follow these rules in every documentation update:
 
 ## Commands
 
-- \`/draft-docs <feature or API>\` — Draft documentation for a new feature, API, or
+- \`/draft-docs <feature or API>\`, Draft documentation for a new feature, API, or
   config option following the page structure above.
-- \`/audit-docs <module or feature>\` — Read source code and existing docs together,
+- \`/audit-docs <module or feature>\`, Read source code and existing docs together,
   list discrepancies, and offer to fix them.
-- \`/update-docs\` — Review recent code changes and update any docs that are now stale.
+- \`/update-docs\`, Review recent code changes and update any docs that are now stale.
 
 ## Allowed bash commands
 
 The harness permits file operations and common doc-build tools:
 
-- All \`Read\`, \`Write\`, \`Edit\` — unrestricted
-- \`Bash(npm run docs*)\` — build or serve the docs site
-- \`Bash(npx markdownlint*)\` — lint Markdown files
-- \`Bash(git diff*)\`, \`Bash(git status*)\` — inspect current changes
+- All \`Read\`, \`Write\`, \`Edit\`, unrestricted
+- \`Bash(npm run docs*)\`, build or serve the docs site
+- \`Bash(npx markdownlint*)\`, lint Markdown files
+- \`Bash(git diff*)\`, \`Bash(git status*)\`, inspect current changes
 
 Destructive commands (\`rm -rf\`, \`git reset --hard\`) are blocked.
 `,

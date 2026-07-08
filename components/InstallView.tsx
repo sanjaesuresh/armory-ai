@@ -38,7 +38,7 @@ function buildSteps(
         <>
           Open Claude and look for <strong style={{ color: 'var(--ink)' }}>Projects</strong> in
           the sidebar. Click{' '}
-          <strong style={{ color: 'var(--ink)' }}>New Project</strong> — that's the button
+          <strong style={{ color: 'var(--ink)' }}>New Project</strong>, that's the button
           highlighted on the right.
         </>
       ) as ReactNode,
@@ -49,9 +49,9 @@ function buildSteps(
       heading: 'Name your Project',
       body: (
         <>
-          Give it a name you'll recognise — we suggest{' '}
+          Give it a name you'll recognise, we suggest{' '}
           <strong style={{ color: 'var(--ink)' }}>
-            {brandName} — Marketing Manager
+            {brandName}, Marketing Manager
           </strong>
           . The name is just for you; it doesn't change how Claude behaves.
         </>
@@ -80,7 +80,7 @@ function buildSteps(
       body: (
         <>
           Under <strong style={{ color: 'var(--ink)' }}>Project knowledge</strong>, upload{' '}
-          <strong style={{ color: 'var(--ink)' }}>{starterFileName}</strong> — and your own
+          <strong style={{ color: 'var(--ink)' }}>{starterFileName}</strong>, and your own
           voice guide if you attached one. Claude reads these before every answer.
         </>
       ) as ReactNode,
@@ -93,7 +93,7 @@ function buildSteps(
     heading: "You're set up",
     body: (
       <>
-        Start any conversation inside the Project — Claude now works as your {brandName} marketing
+        Start any conversation inside the Project, Claude now works as your {brandName} marketing
         manager. Try a campaign brief or a piece of copy and see the difference.
       </>
     ) as ReactNode,
@@ -153,8 +153,8 @@ function buildClaudeCodeSteps(
       heading: 'Add knowledge files',
       body: (
         <>
-          Create <strong style={{ color: 'var(--ink)' }}>{starterFileName}</strong> — and any
-          other knowledge files from your export page — in your project directory at the paths
+          Create <strong style={{ color: 'var(--ink)' }}>{starterFileName}</strong>, and any
+          other knowledge files from your export page, in your project directory at the paths
           shown. You can reference them in conversations when you need Claude to use them.
         </>
       ) as ReactNode,
@@ -168,7 +168,7 @@ function buildClaudeCodeSteps(
     body: (
       <>
         Start a new conversation inside Claude Code. Claude will pick up the instructions in{' '}
-        <strong style={{ color: 'var(--ink)' }}>CLAUDE.md</strong> automatically — no extra
+        <strong style={{ color: 'var(--ink)' }}>CLAUDE.md</strong> automatically, no extra
         command needed. Try something relevant to your setup and see the difference.
       </>
     ) as ReactNode,
@@ -217,7 +217,7 @@ function buildChatGptSteps(
         heading: "You're set up",
         body: (
           <>
-            Start a new chat — ChatGPT now works as your {brandName} marketing manager across all
+            Start a new chat, ChatGPT now works as your {brandName} marketing manager across all
             of your conversations.
           </>
         ) as ReactNode,
@@ -246,8 +246,8 @@ function buildChatGptSteps(
       heading: 'Name your GPT',
       body: (
         <>
-          Give it a name you&apos;ll recognise — we suggest{' '}
-          <strong style={{ color: 'var(--ink)' }}>{brandName} — Marketing Manager</strong>. Add a
+          Give it a name you&apos;ll recognise, we suggest{' '}
+          <strong style={{ color: 'var(--ink)' }}>{brandName}, Marketing Manager</strong>. Add a
           short description if you like.
         </>
       ) as ReactNode,
@@ -275,7 +275,7 @@ function buildChatGptSteps(
         <>
           Under <strong style={{ color: 'var(--ink)' }}>Knowledge</strong>, click{' '}
           <strong style={{ color: 'var(--ink)' }}>Upload files</strong> and add{' '}
-          <strong style={{ color: 'var(--ink)' }}>{starterFileName}</strong> — and your own voice
+          <strong style={{ color: 'var(--ink)' }}>{starterFileName}</strong>, and your own voice
           guide if you attached one.
         </>
       ) as ReactNode,
@@ -289,7 +289,7 @@ function buildChatGptSteps(
     body: (
       <>
         Click <strong style={{ color: 'var(--ink)' }}>Create</strong>, then start a chat with your
-        new GPT — ChatGPT now works as your {brandName} marketing manager.
+        new GPT, ChatGPT now works as your {brandName} marketing manager.
       </>
     ) as ReactNode,
     imageKey: 'chatgpt-gpt-ready',
@@ -572,7 +572,7 @@ export default function InstallView() {
               Install in {targetLabel(target)}, step by step
             </h1>
             <p className="muted" style={{ margin: 0 }}>
-              {stepWord} short steps, about two minutes. Keep the export page handy — you'll paste
+              {stepWord} short steps, about two minutes. Keep the export page handy, you'll paste
               from it.
             </p>
           </div>
@@ -619,12 +619,12 @@ export default function InstallView() {
           {target === 'chatgpt' ? (
             <ul className="understand-list" style={{ maxWidth: '46em' }}>
               <li>
-                Can&apos;t find &quot;Create a GPT&quot;? Custom GPTs need a paid ChatGPT plan — head
+                Can&apos;t find &quot;Create a GPT&quot;? Custom GPTs need a paid ChatGPT plan, head
                 back to the <Link href="/export">export page</Link> and choose{' '}
                 <strong>Use Custom Instructions</strong> instead.
               </li>
               <li>
-                No knowledge upload? Skip that step — your setup still works with just the
+                No knowledge upload? Skip that step, your setup still works with just the
                 instructions.
               </li>
               <li>
@@ -633,14 +633,14 @@ export default function InstallView() {
               </li>
               <li>
                 Want different answers?{' '}
-                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again — it
+                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again, it
                 takes a minute.
               </li>
             </ul>
           ) : target === 'claude-code' ? (
             <ul className="understand-list" style={{ maxWidth: '46em' }}>
               <li>
-                Can&apos;t find a CLAUDE.md? Create the file yourself — any plain-text editor works.
+                Can&apos;t find a CLAUDE.md? Create the file yourself, any plain-text editor works.
                 Place it in the root of the project directory where you run{' '}
                 <strong>claude</strong>.
               </li>
@@ -649,32 +649,32 @@ export default function InstallView() {
                 (the same directory where you started Claude Code), not in a subdirectory.
               </li>
               <li>
-                Knowledge files not being used? You need to mention the file in conversation —
+                Knowledge files not being used? You need to mention the file in conversation, 
                 Claude Code doesn&apos;t read arbitrary files automatically, only CLAUDE.md.
               </li>
               <li>
                 Want different answers?{' '}
-                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again — it
+                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again, it
                 takes a minute.
               </li>
             </ul>
           ) : (
             <ul className="understand-list" style={{ maxWidth: '46em' }}>
               <li>
-                Can't find Projects in the sidebar? You're probably on the free plan — head back to
+                Can't find Projects in the sidebar? You're probably on the free plan, head back to
                 the <Link href="/export">export page</Link> and use the free-plan path instead.
               </li>
               <li>
-                No "Add to knowledge" button? Skip the upload step — your setup still works with just
+                No "Add to knowledge" button? Skip the upload step, your setup still works with just
                 the custom instructions.
               </li>
               <li>
-                Claude's answers feel generic? Double-check the instructions pasted completely — the
+                Claude's answers feel generic? Double-check the instructions pasted completely, the
                 block ends with rule 4, "flag it and confirm before proceeding."
               </li>
               <li>
                 Want different answers?{' '}
-                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again — it
+                <Link href={`/setup/${slug}/customize`}>Edit your setup</Link> and export again, it
                 takes a minute.
               </li>
             </ul>

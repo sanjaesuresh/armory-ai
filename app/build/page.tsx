@@ -57,7 +57,7 @@ export default async function BuildPage() {
           <p className="muted" style={{ marginBottom: 28, maxWidth: '44em' }}>
             Author a guided setup people can customize, or post an agent, skill,
             or harness to the developer registry. Every submission is reviewed by
-            the Armory team before it goes live — we check each one for safety,
+            the Armory team before it goes live, we check each one for safety,
             not polish.
           </p>
           <NewBuildStarter />

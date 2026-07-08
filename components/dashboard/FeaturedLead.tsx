@@ -26,7 +26,7 @@ import { detailPathFor } from '@/lib/catalog/dashboard';
 function heroSourceLabel(source: Setup['source']): string {
   if (source === 'curated') return 'reviewed';
   if (source === 'ai-generated') return 'AI-gen';
-  if (source === 'github') return 'community pick';
+  if (source === 'github') return 'community';
   if (source === 'community') return 'community';
   return '';
 }
@@ -35,7 +35,7 @@ function runnerSourceLabel(source: Setup['source']): string {
   if (source === 'curated') return 'reviewed';
   if (source === 'ai-generated') return 'AI-generated';
   if (source === 'community') return 'Member post';
-  if (source === 'github') return 'community pick';
+  if (source === 'github') return 'community';
   return '';
 }
 

@@ -18,8 +18,8 @@ function tabLabel(block: ExportBlock): string {
 
 function copyLabel(block: ExportBlock): string {
   return block.kind === 'instruction'
-    ? 'Custom instructions — paste into your Project'
-    : `${block.label} — fill in the blanks, then upload`;
+    ? 'Custom instructions, paste into your Project'
+    : `${block.label}, fill in the blanks, then upload`;
 }
 
 const tabStyle = (active: boolean): React.CSSProperties => ({
@@ -65,7 +65,7 @@ export default function BundleTabs({ blocks, setup, brandName, onCopySuccess }: 
     [totalTabs],
   );
 
-  const projectName = brandName ? `${brandName} — ${setup.name}` : setup.name;
+  const projectName = brandName ? `${brandName}, ${setup.name}` : setup.name;
   const knowledgeBlocks = blocks.filter((b) => b.kind === 'knowledge');
 
   return (
@@ -162,7 +162,7 @@ export default function BundleTabs({ blocks, setup, brandName, onCopySuccess }: 
           ))}
         </ul>
         <p className="small" style={{ marginTop: '14px', color: 'var(--ink-soft)' }}>
-          That&apos;s the whole configuration — no settings pages, no toggles.
+          That&apos;s the whole configuration, no settings pages, no toggles.
         </p>
       </div>
     </div>

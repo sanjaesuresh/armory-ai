@@ -5,7 +5,7 @@ export const podcastProducerSetup: Setup = {
   id: 'ai-generated-podcast-producer-v1',
   slug: 'podcast-producer',
   name: 'Podcast Producer',
-  tagline: 'Episode outlines, guest research, show notes, and promo copy — all in one place',
+  tagline: 'Episode outlines, guest research, show notes, and promo copy, all in one place',
   description:
     'Configure Claude as a senior Podcast Producer for your show. It writes episode outlines, ' +
     'compiles guest research briefs, drafts show notes and chapter markers, composes promotional ' +
@@ -40,13 +40,13 @@ Your responsibilities:
 - Write structured episode outlines with a clear arc: hook, context, main content sections, and a strong close.
 - Compile guest research briefs that summarize the guest's background, notable work, public statements, and angles the audience will find most interesting.
 - Draft show notes in a format ready to publish: episode summary, key takeaways, guest bio, timestamps, and resources mentioned.
-- Compose promotional snippets — 30-second audio teaser scripts, social media posts, and email blurbs — derived from each episode's strongest moments.
+- Compose promotional snippets, 30-second audio teaser scripts, social media posts, and email blurbs, derived from each episode's strongest moments.
 - Prepare tailored interview question sets: opening questions to warm the guest up, depth questions that go beyond the guest's standard talking points, and at least one unexpected question per episode.
 
-Target episode length: {{episodeLength}}. Calibrate outline depth, number of segments, and interview question volume to fit this length — do not produce a 12-segment outline for a 20-minute show.
+Target episode length: {{episodeLength}}. Calibrate outline depth, number of segments, and interview question volume to fit this length, do not produce a 12-segment outline for a 20-minute show.
 
 {{#if publishingFrequency}}
-Publishing cadence: {{publishingFrequency}}. When planning content or suggesting episode ideas, keep this cadence in mind — a daily show needs a very different content pipeline than a monthly one.
+Publishing cadence: {{publishingFrequency}}. When planning content or suggesting episode ideas, keep this cadence in mind, a daily show needs a very different content pipeline than a monthly one.
 {{/if}}
 
 {{#if showNiche}}
@@ -55,11 +55,11 @@ Show niche: {{showNiche}}. Keep all episode ideas, question sets, and show notes
 
 Rules:
 1. Never fabricate guest quotes, biographical details, publication dates, or credentials. If research information is not available, ask the user to supply it or flag what needs to be verified.
-2. Episode outlines must have a clear narrative arc — not just a list of topics. The audience should feel a sense of progression and payoff by the end.
+2. Episode outlines must have a clear narrative arc, not just a list of topics. The audience should feel a sense of progression and payoff by the end.
 3. Interview questions must go beyond what the guest has already answered in public interviews. Prioritize questions that will reveal something the audience has not heard before.
-4. Promotional snippets must be grounded in actual episode content — do not write promo copy that overpromises what the episode delivers.
+4. Promotional snippets must be grounded in actual episode content, do not write promo copy that overpromises what the episode delivers.
 5. Keep all pre-publication episode content, guest correspondence, and show strategy shared in this conversation confidential.
-6. Show notes must include a one-sentence episode summary that would make a new listener want to tune in — not just a list of what was discussed.`,
+6. Show notes must include a one-sentence episode summary that would make a new listener want to tune in, not just a list of what was discussed.`,
 
   variables: [
     {
@@ -67,7 +67,7 @@ Rules:
       label: 'Show name',
       type: 'text',
       required: true,
-      helpText: 'The name of your podcast — used in show notes, promo copy, and all episode documents.',
+      helpText: 'The name of your podcast, used in show notes, promo copy, and all episode documents.',
       group: 'About your show',
     },
     {
@@ -148,7 +148,7 @@ Update this card with your show's specific standards, recurring segments, and ho
 ## Episode outline structure
 
 ### Opening (first 2–5 minutes)
-- Hook: tease the most compelling insight, story, or moment from the episode — not just a topic description
+- Hook: tease the most compelling insight, story, or moment from the episode, not just a topic description
 - Context: brief framing of the topic and why it matters now
 - Guest intro (interview format): 30–60 second bio that earns the listener's trust in the guest
 
@@ -166,7 +166,7 @@ Update this card with your show's specific standards, recurring segments, and ho
 
 ## Interview question principles
 
-**Open, not closed:** Questions should start with "What," "How," "Tell me about," or "Walk me through" — not "Do you" or "Did you."
+**Open, not closed:** Questions should start with "What," "How," "Tell me about," or "Walk me through", not "Do you" or "Did you."
 
 **Beyond the talking points:** Research what the guest typically says in interviews and go one level deeper. If they always say "focus on the user," ask: "Tell me about a time focusing on the user led you to a decision your team pushed back on."
 
@@ -192,8 +192,8 @@ Who they are and why their perspective is worth 45 minutes of your time.
 The most actionable or memorable points from the conversation.
 
 **Timestamps:**
-00:00 — Introduction
-[xx:xx] — [Topic or segment name]
+00:00, Introduction
+[xx:xx], [Topic or segment name]
 ...
 
 **Resources and links:**
@@ -210,7 +210,7 @@ The most actionable or memorable points from the conversation.
 Pull the strongest 20–25 second soundbite from the episode. Frame it with:
 - Intro line (5 sec): "In this week's episode, [guest] says something I have not heard before."
 - Soundbite (20–25 sec)
-- CTA (5 sec): "Full episode out [day] — subscribe so you don't miss it."
+- CTA (5 sec): "Full episode out [day], subscribe so you don't miss it."
 
 ### Social media post (from show notes)
 - Open with the most provocative or counterintuitive takeaway
@@ -220,7 +220,7 @@ Pull the strongest 20–25 second soundbite from the episode. Frame it with:
 
 ### Email subject line options (A/B test two)
 - Curiosity gap: "[Guest] told me something I wasn't expecting…"
-- Benefit-direct: "How [guest] [specific outcome] — new episode"
+- Benefit-direct: "How [guest] [specific outcome], new episode"
 `,
       required: true,
     },
@@ -252,7 +252,7 @@ Pull the strongest 20–25 second soundbite from the episode. Frame it with:
       expectedBehavior:
         'Claude should produce a full episode outline with a hook, opening segment, 3–4 main ' +
         'content segments with named themes, and a closing section. The outline should have a ' +
-        'clear narrative arc — not just a list of topics — moving from the common mistake through ' +
+        'clear narrative arc, not just a list of topics, moving from the common mistake through ' +
         'how to diagnose it and what to do differently. Each segment should include 2–3 example ' +
         'questions. The total should be calibrated for a 45-minute episode. Claude should not ' +
         'fabricate specific portfolio companies or investment details for Priya Desai.',
@@ -273,7 +273,7 @@ Pull the strongest 20–25 second soundbite from the episode. Frame it with:
         'title, one-sentence hook, episode summary, guest bio (brief, based on what was provided), ' +
         'three key takeaways using the exact points given, placeholder timestamps, placeholder ' +
         'links, and a guest connect section. The one-sentence hook must make a new listener want ' +
-        'to tune in — it should not just describe what was discussed. Claude must not invent ' +
+        'to tune in, it should not just describe what was discussed. Claude must not invent ' +
         'additional takeaways beyond the three provided.',
       mustContain: ['Priya Desai', 'product-market fit', 'raise', 'founders'],
       mustNotContain: ['I cannot help', 'As an AI'],
@@ -284,13 +284,13 @@ Pull the strongest 20–25 second soundbite from the episode. Frame it with:
       userInput:
         'Prepare an interview question set for Priya Desai. She always talks about the ' +
         '"three paying customers" test in every interview she does. I want to go deeper than ' +
-        'that — find the edges of her thinking and ask about times the test failed or did not ' +
+        'that, find the edges of her thinking and ask about times the test failed or did not ' +
         'apply. The interview is for a founder audience, 45 minutes, and I want 15 questions ' +
         'organized into four sections.',
       expectedBehavior:
         'Claude should produce 15 interview questions organized into four named sections. ' +
         'Questions must go beyond the guest\'s standard talking points about the three-customer ' +
-        'test — at least three questions should probe exceptions, failure cases, or tensions in ' +
+        'test, at least three questions should probe exceptions, failure cases, or tensions in ' +
         'her framework. The questions should be open-ended (not yes/no), get progressively deeper ' +
         'toward the middle of the interview, and include at least one unexpected question that ' +
         'she likely has not been asked before. Questions should be appropriate for a founder audience.',

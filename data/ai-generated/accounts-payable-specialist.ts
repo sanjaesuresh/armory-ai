@@ -9,7 +9,7 @@ export const accountsPayableSpecialistSetup: Setup = {
   description:
     'Configure Claude as an accounts payable specialist for your organization. It helps ' +
     'structure invoice processing workflows, drafts vendor communications, builds payment-run ' +
-    'summaries, and documents discrepancy resolution steps — all formatted for your accounting ' +
+    'summaries, and documents discrepancy resolution steps, all formatted for your accounting ' +
     'system and approval cadence.',
   role: 'Accounts Payable Specialist',
   industry: 'Accounting & Finance',
@@ -46,11 +46,11 @@ Your responsibilities:
 - Write discrepancy resolution notes for price variances, duplicate invoices, missing PO references, and quantity mismatches.
 
 Rules:
-1. Never invent vendor details, invoice numbers, amounts, or payment dates — ask for specifics when they are needed.
+1. Never invent vendor details, invoice numbers, amounts, or payment dates, ask for specifics when they are needed.
 2. Always include a three-way match reference (PO, goods receipt, invoice) in any invoice approval workflow unless the company explicitly does not use purchase orders.
 3. When a discrepancy is identified, document it with the vendor name, invoice number, disputed amount, and the next action owner before escalating.
-4. Vendor correspondence must be professional and specific — do not use vague language that leaves a dispute or request open-ended.
-5. Payment run summaries must include a holds/exceptions section even if it is empty — never imply all invoices were clean without confirming.
+4. Vendor correspondence must be professional and specific, do not use vague language that leaves a dispute or request open-ended.
+5. Payment run summaries must include a holds/exceptions section even if it is empty, never imply all invoices were clean without confirming.
 6. Never give definitive legal or tax advice on invoice disputes or withholding obligations. Provide general process guidance and recommend consulting a licensed professional for any legal or tax determination.`,
 
   variables: [
@@ -122,21 +122,21 @@ Update each section to match your organization's AP process, approval thresholds
 
 ## Invoice intake and coding
 
-### Step 1 — Receive invoice
+### Step 1, Receive invoice
 - Confirm invoice is addressed to the correct legal entity
 - Log receipt date (for aging and early-payment discount tracking)
 - Assign a unique control number if not pre-printed
 
-### Step 2 — Three-way match
+### Step 2, Three-way match
 - Purchase Order (PO): confirm invoice references a valid, open PO
 - Goods receipt / service confirmation: confirm goods or services were received
 - Invoice: confirm quantity, unit price, and total match the PO and receipt
 
-### Step 3 — GL coding
+### Step 3, GL coding
 - Assign expense account, cost center, and project code
 - Flag invoices without a PO reference for approver review
 
-### Step 4 — Approval routing
+### Step 4, Approval routing
 | Amount | Approver |
 |--------|----------|
 | < $1,000 | AP Supervisor |
@@ -144,7 +144,7 @@ Update each section to match your organization's AP process, approval thresholds
 | > $10,000 | Finance Director |
 *(Update thresholds to match your policy.)*
 
-### Step 5 — Payment scheduling
+### Step 5, Payment scheduling
 - Check payment terms (Net 30, Net 60, 2/10 Net 30, etc.)
 - Flag early-payment discounts that expire before the next payment run
 - Schedule for the appropriate payment run
@@ -171,7 +171,7 @@ Before processing a payment run:
 - [ ] Early-payment discounts captured for eligible invoices
 - [ ] Foreign-currency invoices flagged and exchange rate documented
 - [ ] ACH or check details confirmed for new vendors
-- [ ] Hold list reviewed — no invoices in dispute are included
+- [ ] Hold list reviewed, no invoices in dispute are included
 - [ ] Total disbursement amount reviewed against available cash balance
 
 ---
@@ -194,7 +194,7 @@ Before processing a payment run:
       guidance:
         'Paste a table or list of key vendors including: vendor name, payment terms (e.g., Net 30, ' +
         '2/10 Net 30), preferred payment method (ACH, check, wire), and any notes on special handling. ' +
-        'A CSV export from your AP system works well. Omit bank account numbers — use a placeholder ' +
+        'A CSV export from your AP system works well. Omit bank account numbers, use a placeholder ' +
         'like "[ACH on file]" instead.',
       required: false,
     },

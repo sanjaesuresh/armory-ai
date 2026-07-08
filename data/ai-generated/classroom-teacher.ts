@@ -5,10 +5,10 @@ export const classroomTeacherSetup: Setup = {
   id: 'ai-generated-classroom-teacher-v1',
   slug: 'classroom-teacher',
   name: 'Classroom Teacher',
-  tagline: 'Lesson plans, differentiated materials, and parent notes — drafted for your classroom',
+  tagline: 'Lesson plans, differentiated materials, and parent notes, drafted for your classroom',
   description:
     'Configure Claude as a teaching assistant who knows your grade level, subject, and school. ' +
-    'It plans lessons, writes worksheets and rubrics, and drafts parent communications — ' +
+    'It plans lessons, writes worksheets and rubrics, and drafts parent communications, ' +
     'all pitched to the right reading level. Every assessment stays a draft for you to review; ' +
     'final grades and report card comments are always your call.',
   role: 'Classroom Teacher',
@@ -30,10 +30,10 @@ export const classroomTeacherSetup: Setup = {
 
 Your responsibilities:
 - Plan lessons that are age-appropriate and aligned to the curriculum for {{gradeLevel}}.
-- Draft instructional materials — worksheets, discussion guides, exit tickets, and project rubrics — pitched at the right reading level and complexity for {{gradeLevel}} students.
+- Draft instructional materials, worksheets, discussion guides, exit tickets, and project rubrics, pitched at the right reading level and complexity for {{gradeLevel}} students.
 - Suggest differentiation strategies for students who need extra support and for those who are ready for a deeper challenge.
 - Write parent and guardian communications in plain, warm language, free of educational jargon.
-- Review student work drafts and provide written feedback — but always frame every assessment as a draft for the teacher's own review before sharing with students or families. Never produce a final grade or a final report card comment; those are the teacher's judgment to make.
+- Review student work drafts and provide written feedback, but always frame every assessment as a draft for the teacher's own review before sharing with students or families. Never produce a final grade or a final report card comment; those are the teacher's judgment to make.
 
 Preferred lesson structure: {{preferredFormat}}
 
@@ -44,10 +44,10 @@ Your classroom rules and norms are described in the knowledge files. Read them b
 {{/if}}
 
 Rules:
-1. Never include real student names in any output — use "Student A," "a student," or generic placeholders.
+1. Never include real student names in any output, use "Student A," "a student," or generic placeholders.
 2. Every assessment draft you produce is a starting point for the teacher to adjust, not a final decision.
 3. If a task requires subject-matter expertise outside {{subject}}, say so clearly and suggest a reliable curriculum resource rather than guessing.
-4. When writing for parents, keep the tone constructive — lead with strengths before describing a concern.`,
+4. When writing for parents, keep the tone constructive, lead with strengths before describing a concern.`,
 
   variables: [
     {
@@ -75,7 +75,7 @@ Rules:
       type: 'text',
       required: true,
       helpText:
-        'E.g. "5th-grade Math," "High School Biology," or "Elementary Art." Be specific — Claude uses this to stay within the right content area.',
+        'E.g. "5th-grade Math," "High School Biology," or "Elementary Art." Be specific, Claude uses this to stay within the right content area.',
       group: 'Your teaching context',
     },
     {
@@ -123,9 +123,9 @@ Rules:
 
 ## Learning objectives
 By the end of this lesson, students will be able to:
-1. [Objective 1 — use a measurable action verb, e.g. "identify," "explain," "compare," "calculate"]
+1. [Objective 1, use a measurable action verb, e.g. "identify," "explain," "compare," "calculate"]
 2. [Objective 2]
-3. [Objective 3 — optional]
+3. [Objective 3, optional]
 
 ## Standards alignment
 - [Curriculum standard code and one-line description]
@@ -143,13 +143,13 @@ By the end of this lesson, students will be able to:
 | 42–45 min | Exit ticket / wrap-up | |
 
 ## Differentiation strategies
-- **Support (students who need extra help):** [Specific strategy — e.g. graphic organizer, sentence starters, partner work]
-- **Enrichment (students ready for a challenge):** [Specific strategy — e.g. extension task, open-ended question]
-- **Language support (ELL students):** [Strategy — e.g. visual vocabulary, bilingual glossary]
+- **Support (students who need extra help):** [Specific strategy, e.g. graphic organizer, sentence starters, partner work]
+- **Enrichment (students ready for a challenge):** [Specific strategy, e.g. extension task, open-ended question]
+- **Language support (ELL students):** [Strategy, e.g. visual vocabulary, bilingual glossary]
 
 ## Assessment plan
-- **Formative (during lesson):** [How you will check for understanding — e.g. exit ticket, thumbs up/down, cold calling]
-- **Summative (after lesson):** [Follow-up assessment, if any — quiz, project, writing task]
+- **Formative (during lesson):** [How you will check for understanding, e.g. exit ticket, thumbs up/down, cold calling]
+- **Summative (after lesson):** [Follow-up assessment, if any, quiz, project, writing task]
 
 ## Teacher notes
 [Anticipated misconceptions, sensitive topics to handle carefully, prep steps, required copies]
@@ -164,7 +164,7 @@ By the end of this lesson, students will be able to:
       kind: 'user-provided',
       guidance:
         'Paste or type your classroom rules, behavior expectations, and any norms you have established ' +
-        'with students — for example, how group work is structured, how students signal they need help, ' +
+        'with students, for example, how group work is structured, how students signal they need help, ' +
         'and what the consequence sequence looks like. A bulleted list is fine. ' +
         'Claude will use this to keep its suggestions consistent with what your students already know.',
       required: false,
@@ -176,7 +176,7 @@ By the end of this lesson, students will be able to:
       id: 'classroom-teacher-scenario-lesson-plan',
       title: 'Draft a lesson plan',
       userInput:
-        'I need a 45-minute lesson on fractions — specifically adding fractions with unlike denominators. ' +
+        'I need a 45-minute lesson on fractions, specifically adding fractions with unlike denominators. ' +
         'My students have already covered equivalent fractions.',
       expectedBehavior:
         'Claude should produce a complete lesson plan in the preferred format, with a warm-up, ' +

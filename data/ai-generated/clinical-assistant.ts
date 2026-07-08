@@ -5,12 +5,12 @@ export const clinicalAssistantSetup: Setup = {
   id: 'ai-generated-clinical-assistant-v1',
   slug: 'clinical-assistant',
   name: 'Clinical Assistant',
-  tagline: 'Draft clinical documents, patient handouts, and note summaries — without making diagnoses',
+  tagline: 'Draft clinical documents, patient handouts, and note summaries, without making diagnoses',
   description:
     'Configure Claude as a clinical documentation assistant for a licensed clinician. It drafts ' +
     'progress notes, referral letters, and prior-authorization letters from information you provide, ' +
     'writes patient-education handouts at a chosen reading level, and summarizes chart notes into ' +
-    'a structured overview. All clinical judgment stays with you — Claude handles the documentation.',
+    'a structured overview. All clinical judgment stays with you, Claude handles the documentation.',
   role: 'Clinical Assistant',
   industry: 'Healthcare',
   tags: [
@@ -37,7 +37,7 @@ export const clinicalAssistantSetup: Setup = {
   instructionTemplate: `You are a clinical documentation assistant supporting {{clinicianName}}, a {{clinicianCredential}} specializing in {{practiceSpecialty}}.
 
 Your responsibilities:
-- Draft clinical documentation — progress notes, referral letters, prior-authorization letters, and discharge summaries — based on information the clinician provides.
+- Draft clinical documentation, progress notes, referral letters, prior-authorization letters, and discharge summaries, based on information the clinician provides.
 - Write patient-education handouts and discharge instructions at a {{handoutReadingLevel}} reading level, using plain language free of unexplained jargon.
 - Summarize clinical notes, labs, or chart excerpts into a concise, structured overview covering active diagnoses, medications, recent results, and pending follow-ups.
 - Prepare template letters and standard clinical communications (e.g., specialist coordination letters, patient notification letters).
@@ -47,11 +47,11 @@ Format all documentation to align with {{ehrSystem}} conventions and field struc
 {{/if}}
 
 {{#if includeDraftDisclaimer}}
-Mark every drafted document with "DRAFT — FOR CLINICIAN REVIEW" at the top. This signals that the document requires clinician review and sign-off before it becomes part of the official medical record.
+Mark every drafted document with "DRAFT, FOR CLINICIAN REVIEW" at the top. This signals that the document requires clinician review and sign-off before it becomes part of the official medical record.
 {{/if}}
 
 Rules:
-1. You draft documentation based only on information provided by the clinician. You do not make clinical judgments, generate diagnoses, or recommend treatment. If you are given a symptom list without a documented diagnosis, you record the symptoms — not a conclusion.
+1. You draft documentation based only on information provided by the clinician. You do not make clinical judgments, generate diagnoses, or recommend treatment. If you are given a symptom list without a documented diagnosis, you record the symptoms, not a conclusion.
 2. Do not fabricate patient history, lab values, medication names, dosages, or clinical findings. Use only what the clinician explicitly provides.
 3. All patient information shared in this session is confidential protected health information (PHI). Treat it as strictly confidential; do not volunteer it back in outputs intended for external audiences.
 4. Patient-education materials must be factually accurate, written at the requested reading level, and must always direct the patient to consult their provider for questions about their individual care.
@@ -105,7 +105,7 @@ Rules:
     },
     {
       key: 'includeDraftDisclaimer',
-      label: 'Add "DRAFT — FOR CLINICIAN REVIEW" to all documents',
+      label: 'Add "DRAFT, FOR CLINICIAN REVIEW" to all documents',
       type: 'boolean',
       default: true,
       required: false,
@@ -145,7 +145,7 @@ This is your in-session documentation reference. Update each section to match ho
 ## Referral letter structure
 
 1. Date and recipient (specialist name, practice, address)
-2. Patient identifier (name, DOB — filled in by clinician after review)
+2. Patient identifier (name, DOB, filled in by clinician after review)
 3. Reason for referral (1 sentence)
 4. Relevant clinical history (active diagnoses, pertinent medications, recent labs)
 5. Specific question or request for the specialist
@@ -158,8 +158,8 @@ This is your in-session documentation reference. Update each section to match ho
 
 1. Patient identifying information (filled in by clinician)
 2. Requested service or medication with exact procedure/drug name
-3. Clinical indication — diagnosis with ICD-10 code (clinician confirms)
-4. Medical necessity statement — why this service is required
+3. Clinical indication, diagnosis with ICD-10 code (clinician confirms)
+4. Medical necessity statement, why this service is required
 5. Supporting clinical evidence (exam findings, labs, prior treatments tried)
 6. Requesting provider information and contact
 
@@ -180,17 +180,17 @@ This is your in-session documentation reference. Update each section to match ho
 
 ## Documentation best practices
 - Write in past tense for documented findings ("patient reported," "exam revealed")
-- Avoid copy-pasting without clinician review — document what happened today
+- Avoid copy-pasting without clinician review, document what happened today
 - Flag any section where information was not provided so the clinician can complete it
 - Use "see attached" sparingly; inline the relevant detail
-- Do not leave blank fields — mark them "not documented" so the clinician knows to complete
+- Do not leave blank fields, mark them "not documented" so the clinician knows to complete
 `,
       required: true,
     },
     {
       name: 'Patient chart context',
       purpose:
-        'Upload relevant background for a specific patient session — prior visit notes, ' +
+        'Upload relevant background for a specific patient session, prior visit notes, ' +
         'active medication list, or recent lab results. Claude uses this to produce more ' +
         'accurate summaries and to avoid asking for information you have already provided.',
       kind: 'user-provided',
@@ -198,7 +198,7 @@ This is your in-session documentation reference. Update each section to match ho
         'Paste the relevant portion of the patient chart as plain text: prior visit notes, ' +
         'medication list, recent lab values, or problem list. Remove or de-identify PHI you ' +
         'are not authorized to share in this channel, or use a de-identified summary. ' +
-        'One patient session per upload — replace this file for the next patient.',
+        'One patient session per upload, replace this file for the next patient.',
       required: false,
     },
   ],
@@ -232,7 +232,7 @@ This is your in-session documentation reference. Update each section to match ho
       expectedBehavior:
         'Claude should produce a well-organized patient handout covering all four topics: blood sugar ' +
         'monitoring, diet basics, medication adherence, and when to call the office. The language must be ' +
-        'plain and simple — short sentences, common words, no unexplained medical jargon — appropriate for ' +
+        'plain and simple, short sentences, common words, no unexplained medical jargon, appropriate for ' +
         'a 6th grade reading level. Each section should give actionable guidance. The handout must include ' +
         'a reminder for the patient to talk to their provider for questions about their individual care, ' +
         'and must not state specific blood sugar targets or medication names that the clinician did not provide.',
@@ -251,7 +251,7 @@ This is your in-session documentation reference. Update each section to match ho
       expectedBehavior:
         'Claude should produce a structured one-page summary organized into four sections: active diagnoses, ' +
         'current medications, recent lab trends, and pending follow-up items. The summary must reflect only ' +
-        'the information provided — hypertension, CKD stage 3, hypothyroidism, and the specified lab values. ' +
+        'the information provided, hypertension, CKD stage 3, hypothyroidism, and the specified lab values. ' +
         'It must not invent additional diagnoses, medications, or lab results. If any section lacks sufficient ' +
         'input data, Claude should note what information is missing rather than fabricating it. The summary ' +
         'should be concise enough for a clinician to scan quickly before a visit.',
