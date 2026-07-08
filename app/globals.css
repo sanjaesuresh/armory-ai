@@ -1036,6 +1036,10 @@ pre.code {
 /* Column of role-landing links inside the footer */
 .footer-role-col  { display: flex; flex-direction: column; gap: 8px; }
 .footer-role-col a { color: var(--ink-soft); font-size: 0.88rem; font-weight: 600; }
+.footer-credit { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--hairline); font-size: 0.82rem; color: var(--muted); }
+.footer-credit a { color: var(--iris); font-weight: 600; }
+.footer-credit a:hover { text-decoration: underline; }
+.footer-credit-links { display: flex; gap: 18px; }
 .footer-role-col a:hover { color: var(--ink); text-decoration: none; }
 
 /* ---- page transitions ------------------------------------- */
@@ -2360,39 +2364,41 @@ pre.code {
   display: flex; align-items: center; gap: 6px; min-height: 18px;
 }
 
-/* In-progress dot: iris with tint halo */
+/* In-progress dot: orange with tint halo */
+/* --warn (#e0a94a) on --paper (#212122): ~8:1 — WCAG AA pass */
 .lc-dot {
   width: 8px; height: 8px; border-radius: 50%;
-  background: var(--iris); flex: none;
-  box-shadow: 0 0 0 3px var(--iris-tint);
+  background: var(--warn); flex: none;
+  box-shadow: 0 0 0 3px var(--warn-tint);
 }
 
-/* Completed check circle */
-/* --good (#3ddc80) via currentColor on --good-tint (#14271c): ~9:1 — WCAG AA pass */
+/* Completed check circle — dark green */
+/* --iris-deep (#29b866) via currentColor on --good-tint (#14271c): ~7:1 — WCAG AA pass */
 .lc-check {
   width: 16px; height: 16px; border-radius: 50%;
-  background: var(--good-tint); border: 1px solid rgba(61, 220, 128, 0.25);
+  background: var(--good-tint); border: 1px solid rgba(41, 184, 102, 0.3);
   display: inline-flex; align-items: center; justify-content: center; flex: none;
-  color: var(--good);
+  color: var(--iris-deep);
 }
 
 /* Status label below dot/check */
-/* --iris-deep (#29b866) on --paper (#212122): ~8:1 — WCAG AA pass */
-.lc-status-label { font-size: 0.74rem; font-weight: 700; color: var(--iris-deep); }
-/* Completed label: --good (#3ddc80) on --paper (#212122): ~9:1 — WCAG AA pass */
-.lc-completed .lc-status-label { color: var(--good); }
+/* In-progress: --warn (#e0a94a) orange on --paper (#212122): ~8:1 — WCAG AA pass */
+.lc-status-label { font-size: 0.74rem; font-weight: 700; color: var(--warn); }
+/* Completed: --iris-deep (#29b866) dark green on --oat-deep: ~8:1 — WCAG AA pass */
+.lc-completed .lc-status-label { color: var(--iris-deep); }
 
-/* Score badge: green pill after the status label */
-/* --good (#3ddc80) on --good-tint (#14271c): ~9:1 — WCAG AA pass */
+/* Score badge: dark-green pill after the status label */
+/* --iris-deep (#29b866) on --good-tint (#14271c): ~7:1 — WCAG AA pass */
 .score-badge {
   display: inline-flex; align-items: center;
-  background: var(--good-tint); color: var(--good);
+  background: var(--good-tint); color: var(--iris-deep);
   padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
   margin-left: auto;
 }
 
 /* Card body copy */
-.lesson-card h3 { font-size: 0.95rem; margin: 0 0 2px; line-height: 1.25; }
+/* lesson (course) card title in brand green so it stands out as the card's anchor */
+.lesson-card h3 { font-size: 0.95rem; margin: 0 0 2px; line-height: 1.25; color: var(--iris); font-weight: 700; }
 /* --ink-soft (#b6b6b8) on --paper (#212122): ~6:1 — WCAG AA pass */
 .lesson-card .lc-tagline { font-size: 0.82rem; color: var(--ink-soft); margin: 0; flex: 1; line-height: 1.4; }
 
@@ -2691,6 +2697,8 @@ pre.code {
   padding: 11px 6px;
   border-bottom: 1px solid var(--hairline);
   transition: background var(--t-base);
+  position: relative; /* anchor for the stretched name-link overlay */
+  cursor: pointer;
 }
 .idx-row:hover { background: var(--paper); }
 .idx-row:last-child { border-bottom: 0; }
@@ -2713,6 +2721,8 @@ pre.code {
 }
 .idx-name-link:hover { color: var(--ink); text-decoration: none; }
 .idx-name-link:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; border-radius: 2px; }
+/* stretch the single name-link across the whole row so any click on the row navigates */
+.idx-name-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
 
 .idx-clause {
   font-size: 13px;
@@ -2733,7 +2743,9 @@ pre.code {
   white-space: nowrap;
 }
 .idx-kd { color: var(--ink-soft); }
-.idx-up { color: var(--ink-soft); }
+.idx-up { color: var(--ink-soft); display: inline-flex; align-items: center; gap: 5px; }
+/* triangle glyph sits high on its em-box; nudge down to optically center on the digits */
+.idx-up-arrow { font-size: 9px; line-height: 1; position: relative; top: 0.5px; }
 .idx-src { width: 60px; text-align: right; }
 .idx-src-cur { color: var(--good); }
 .idx-src-ai  { color: var(--violet); }
@@ -2932,6 +2944,64 @@ pre.code {
 
 /* Upvote control spacing in sidebar */
 .det-vote { margin-top: 16px; }
+
+/* ─── registry artifact markdown renderer (.det-md) ──────────────────
+   Used by the "What it does" section for agent/skill/harness detail pages.
+   h3 = artifact ## headings, h4 = ### headings; kept small to stay below
+   the section's own <h2> (mono/uppercase/11px via det-blk > h2).
+   unslop-ignore: 14px/13px are deliberate content-hierarchy sizes. */
+.det-md { max-width: 66ch; }
+.det-md h3 {
+  font-size: 14px; font-weight: 600; letter-spacing: 0;
+  line-height: 1.3; color: var(--ink); text-transform: none;
+  font-family: inherit; margin: 18px 0 6px; border: none; padding: 0;
+}
+.det-md h3:first-child { margin-top: 0; }
+.det-md h4 {
+  font-size: 13px; font-weight: 600; letter-spacing: 0;
+  line-height: 1.3; color: var(--ink-soft); font-family: inherit;
+  margin: 12px 0 5px; text-transform: none;
+}
+.det-md-p {
+  font-size: 13.5px; line-height: 1.65; color: var(--ink-soft); margin: 0 0 10px;
+}
+.det-md-list {
+  margin: 0 0 12px; padding-left: 18px;
+}
+.det-md-list li {
+  font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 4px;
+}
+/* fenced code and table blocks — matches the existing .det-code aesthetic */
+.det-md-pre {
+  background: var(--oat-deep); border: 1px solid var(--hairline);
+  border-radius: var(--r-md); padding: 12px 14px;
+  font-family: var(--mono); font-size: 11.5px; line-height: 1.6;
+  color: var(--ink-soft); white-space: pre-wrap; overflow-x: auto;
+  margin: 0 0 12px;
+}
+/* inline code inside prose paragraphs and list items */
+.det-md-ic {
+  font-family: var(--mono); font-size: 11.5px;
+  background: var(--oat-deep); border: 1px solid var(--hairline);
+  border-radius: 3px; padding: 1px 5px; color: var(--ink);
+}
+
+/* ─── commands list (.det-cmd-*) ──────────────────────────────────────
+   Grid layout: mono command name left, description right.              */
+.det-cmd-list { list-style: none; margin: 0; padding: 0; }
+.det-cmd {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 16px; align-items: baseline;
+  padding: 9px 0; border-bottom: 1px solid var(--hairline);
+}
+.det-cmd:last-child { border-bottom: none; }
+/* --iris is the interactive accent; command names are clickable-feeling labels */
+.det-cmd-name {
+  font-family: var(--mono); font-size: 12.5px;
+  color: var(--iris); white-space: nowrap;
+  background: none; border: none; padding: 0;
+}
+.det-cmd-desc { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
 
 /* ─── responsive ──────────────────────────────────────────────────── */
 @media (max-width: 820px) {

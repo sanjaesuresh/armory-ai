@@ -12,8 +12,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const claudeCodeIntro: Lesson = {
   slug: 'claude-code-intro',
   track: 'claude-code',
-  title: 'From chat to agent — how Claude Code acts',
-  tagline: 'A chat AI answers. An agent reads, runs, edits, and checks — until the job is done.',
+  title: 'From chat to agent',
+  tagline: 'Claude Code is an agent: it reads files, runs commands, and checks its own work — then keeps going until the task is done.',
   minutes: 6,
   order: 1,
 

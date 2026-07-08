@@ -134,11 +134,6 @@ export default function Nav() {
           <LogoMark size={22} />
           Armory
         </Link>
-        {/* Decorative mode-tag — no semantic meaning, hidden from AT */}
-        <span className="nav-mode-tag" aria-hidden="true">
-          <span className="nav-slash">/</span>
-          <span className="nav-mode">arsenal</span>
-        </span>
 
         <nav
           className="nav-links"
@@ -208,13 +203,6 @@ export default function Nav() {
                 data-testid="mobile-signin"
               >
                 Sign in
-              </Link>
-              <Link
-                className="btn btn-primary btn-sm nav-mobile-cta"
-                href="/start"
-                onClick={closeMenu}
-              >
-                Get started
               </Link>
             </>
           )}

@@ -11,9 +11,9 @@ import type { Lesson } from '@/lib/learn/types';
 export const claudeArtifacts: Lesson = {
   slug: 'claude-artifacts',
   track: 'claude-app',
-  title: 'Artifacts: when Claude builds you a thing',
+  title: 'Claude Artifacts',
   tagline:
-    'A standalone piece of work in a side panel — editable and iterable, not buried in the scroll.',
+    'Ask Claude for a standalone deliverable and it opens in a side panel — ask for changes and Claude updates it in place.',
   minutes: 4,
   order: 3,
 

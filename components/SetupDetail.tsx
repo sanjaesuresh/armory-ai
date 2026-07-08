@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useRef, type JSX } from 'react';
 import type { Setup } from '@/lib/setup/types';
+import { isRegistryKind } from '@/lib/setup/types';
 import { getCategoryAccent, getCategoryLabel } from '@/lib/catalog/categoryUtils';
+import { formatStars } from '@/lib/catalog/format-stars';
 import UpvoteButton from './UpvoteButton';
 import ReportSetup from './ReportSetup';
 import TakedownControl from './admin/TakedownControl';
@@ -73,6 +75,145 @@ const ShieldIcon = () => (
   </svg>
 );
 
+// renders inline markdown: **bold** and `inline code` — no other patterns needed
+function renderInline(text: string): JSX.Element | string {
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  if (parts.length === 1) return text;
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+          return <strong key={i}>{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith('`') && part.endsWith('`') && part.length > 2) {
+          return <code key={i} className="det-md-ic">{part.slice(1, -1)}</code>;
+        }
+        return part || null;
+      })}
+    </>
+  );
+}
+
+/**
+ * Lightweight markdown-to-React renderer for artifact file content.
+ * Handles: ## h2 (→ h3), ### h3 (→ h4), - lists, ```fenced blocks,
+ * | table rows (as pre), **bold**, `inline code`, paragraphs.
+ * # h1 headings are skipped — they duplicate the page <h1>.
+ * No external deps: pure line-by-line parsing.
+ */
+function ArtifactMarkdown({ content }: { content: string }) {
+  const nodes: JSX.Element[] = [];
+  const lines = content.split('\n');
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // fenced code block — collect until closing ```
+    if (line.trimStart().startsWith('```')) {
+      const codeLines: string[] = [];
+      i++;
+      while (i < lines.length && !lines[i].trimStart().startsWith('```')) {
+        codeLines.push(lines[i]);
+        i++;
+      }
+      nodes.push(
+        <pre key={`code-${i}`} className="det-md-pre">
+          <code>{codeLines.join('\n')}</code>
+        </pre>,
+      );
+      i++; // skip closing ```
+      continue;
+    }
+
+    // ### heading → h4 (check before ## to avoid partial match)
+    if (/^### /.test(line)) {
+      nodes.push(
+        <h4 key={`h4-${i}`} className="det-md-h4">
+          {line.slice(4)}
+        </h4>,
+      );
+      i++;
+      continue;
+    }
+
+    // ## heading → h3
+    if (/^## /.test(line)) {
+      nodes.push(
+        <h3 key={`h3-${i}`} className="det-md-h3">
+          {line.slice(3)}
+        </h3>,
+      );
+      i++;
+      continue;
+    }
+
+    // # heading — skip; duplicates the page <h1>
+    if (/^# /.test(line)) {
+      i++;
+      continue;
+    }
+
+    // table block — render as mono pre to preserve column alignment
+    if (line.startsWith('|')) {
+      const tableLines: string[] = [];
+      while (i < lines.length && lines[i].startsWith('|')) {
+        tableLines.push(lines[i]);
+        i++;
+      }
+      nodes.push(
+        <pre key={`tbl-${i}`} className="det-md-pre">
+          {tableLines.join('\n')}
+        </pre>,
+      );
+      continue;
+    }
+
+    // unordered list — collect consecutive - or * lines
+    if (/^[*-] /.test(line)) {
+      const items: JSX.Element[] = [];
+      while (i < lines.length && /^[*-] /.test(lines[i])) {
+        const itemText = lines[i].slice(2);
+        items.push(<li key={i}>{renderInline(itemText)}</li>);
+        i++;
+      }
+      nodes.push(
+        <ul key={`ul-${i}`} className="det-md-list">
+          {items}
+        </ul>,
+      );
+      continue;
+    }
+
+    // blank line
+    if (line.trim() === '') {
+      i++;
+      continue;
+    }
+
+    // paragraph — accumulate until blank or a structural line
+    const paraLines: string[] = [];
+    while (
+      i < lines.length &&
+      lines[i].trim() !== '' &&
+      !/^[#`|]/.test(lines[i]) &&
+      !/^[*-] /.test(lines[i])
+    ) {
+      paraLines.push(lines[i]);
+      i++;
+    }
+    if (paraLines.length > 0) {
+      nodes.push(
+        <p key={`p-${i}`} className="det-md-p">
+          {renderInline(paraLines.join(' '))}
+        </p>,
+      );
+    }
+  }
+
+  return <div className="det-md">{nodes}</div>;
+}
+
 /**
  * Renders the instruction template in a mono block with basic syntax highlighting:
  * lines starting with # become comment-colored, {{variable}} tokens become violet.
@@ -132,6 +273,26 @@ export default function SetupDetail({
 
   const fieldCount = setup.variables.length;
   const kfCount = setup.knowledgeFiles.length;
+
+  const isRegistry = isRegistryKind(setup.kind);
+  // primary artifact drives "What it does"; fall back to first file if isPrimary omitted
+  const primaryArtifact = isRegistry
+    ? (setup.artifactFiles.find((f) => f.isPrimary) ?? setup.artifactFiles[0] ?? null)
+    : null;
+
+  // direct download for registry items that have no repoUrl (primary CTA fallback)
+  function handleDownloadPrimary() {
+    if (!primaryArtifact) return;
+    const blob = new Blob([primaryArtifact.content], { type: 'text/plain; charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = primaryArtifact.name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 
   /* Checklist items for "What you'll get" */
   const checklistItems: { title: string; subtitle: string }[] = [
@@ -241,21 +402,46 @@ export default function SetupDetail({
               )}
             </section>
 
-            {/* What you'll get — checklist */}
-            <section className="det-blk">
-              <h2>What you&apos;ll get</h2>
-              <div className="det-get">
-                {checklistItems.map((item) => (
-                  <div key={item.title} className="det-g">
-                    <CheckIcon />
-                    <div className="det-gt">
-                      {item.title}
-                      <span>{item.subtitle}</span>
+            {/* What it does — primary artifact rendered as markdown (registry only) */}
+            {isRegistry && primaryArtifact && (
+              <section className="det-blk">
+                <h2>What it does</h2>
+                <ArtifactMarkdown content={primaryArtifact.content} />
+              </section>
+            )}
+
+            {/* What you'll get — checklist (setup items only; registry has no compile flow) */}
+            {!isRegistry && (
+              <section className="det-blk">
+                <h2>What you&apos;ll get</h2>
+                <div className="det-get">
+                  {checklistItems.map((item) => (
+                    <div key={item.title} className="det-g">
+                      <CheckIcon />
+                      <div className="det-gt">
+                        {item.title}
+                        <span>{item.subtitle}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Commands — capability list (registry only, omitted when empty) */}
+            {isRegistry && setup.capabilities.length > 0 && (
+              <section className="det-blk">
+                <h2>Commands</h2>
+                <ul className="det-cmd-list" aria-label="Available commands">
+                  {setup.capabilities.map((cap) => (
+                    <li key={cap.command} className="det-cmd">
+                      <code className="det-cmd-name">{cap.command}</code>
+                      <span className="det-cmd-desc">{cap.description}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {/* Try it on — scenario rows (omitted when empty) */}
             {setup.scenarios.length > 0 && (
@@ -310,12 +496,35 @@ export default function SetupDetail({
           <aside className="det-side">
             {/* Primary actions */}
             <div className="det-actions">
-              <Link
-                href={`/setup/${setup.slug}/customize`}
-                className="btn btn-iris"
-              >
-                Equip this setup →
-              </Link>
+              {/* registry items: GitHub link if available, file download otherwise */}
+              {isRegistry ? (
+                setup.repoUrl ? (
+                  <a
+                    href={setup.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-iris"
+                    aria-label={`View ${setup.name} on GitHub (opens in new tab)`}
+                  >
+                    View on GitHub →
+                  </a>
+                ) : primaryArtifact ? (
+                  <button
+                    type="button"
+                    className="btn btn-iris"
+                    onClick={handleDownloadPrimary}
+                  >
+                    Download files
+                  </button>
+                ) : null
+              ) : (
+                <Link
+                  href={`/setup/${setup.slug}/customize`}
+                  className="btn btn-iris"
+                >
+                  Equip this setup →
+                </Link>
+              )}
               {setup.scenarios.length > 0 && (
                 <button
                   type="button"
@@ -338,10 +547,13 @@ export default function SetupDetail({
               aria-label="Setup specifications"
               className="det-spec"
             >
-              <div role="listitem" className="det-sr">
-                <span className="det-sk">Exports to</span>
-                <span className="det-sv">{exportsTo}</span>
-              </div>
+              {/* registry items have targets:[] so the label would be misleading */}
+              {!isRegistry && (
+                <div role="listitem" className="det-sr">
+                  <span className="det-sk">Exports to</span>
+                  <span className="det-sv">{exportsTo}</span>
+                </div>
+              )}
               {fieldCount > 0 && (
                 <div role="listitem" className="det-sr">
                   <span className="det-sk">You answer</span>
@@ -356,10 +568,31 @@ export default function SetupDetail({
                   <span className="det-sv">{kfCount}</span>
                 </div>
               )}
-              <div role="listitem" className="det-sr">
-                <span className="det-sk">Setup time</span>
-                <span className="det-sv">About 5 minutes</span>
-              </div>
+              {!isRegistry && (
+                <div role="listitem" className="det-sr">
+                  <span className="det-sk">Setup time</span>
+                  <span className="det-sv">About 5 minutes</span>
+                </div>
+              )}
+              {/* source repo link + star count for registry items */}
+              {setup.repoUrl && (
+                <div role="listitem" className="det-sr">
+                  <span className="det-sk">Source</span>
+                  <span className="det-sv">
+                    <a
+                      href={setup.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`View ${setup.name} on GitHub (opens in new tab)`}
+                    >
+                      GitHub ↗
+                    </a>
+                    {setup.githubStars != null && (
+                      <> · {formatStars(setup.githubStars)} ★</>
+                    )}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Trust cue — curated setups only */}

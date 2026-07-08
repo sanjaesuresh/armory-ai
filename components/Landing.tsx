@@ -184,6 +184,15 @@ export default async function Landing() {
     // DB unavailable — popular section omitted
   }
 
+  // derive categories that have at least one professional setup; fall back to the
+  // full browse order when the db is unavailable (setups stays empty in catch)
+  const populatedCatSet = new Set(setups.map((s) => s.category));
+  const stripCats =
+    setups.length > 0
+      ? CATEGORY_BROWSE_ORDER.filter((c) => populatedCatSet.has(c))
+      : CATEGORY_BROWSE_ORDER;
+  const categoryCount = stripCats.length;
+
   const featuredSetup = setups[0] ?? null;
   const indexSetups   = setups.slice(1, 7);
   const hasCatalog    = setups.length > 0;
@@ -214,9 +223,9 @@ export default async function Landing() {
             </div>
             <p className="land-stats">
               {total > 0 && (
-                <span><b>{total}</b> setups</span>
+                <span><b>{total}</b> skills + agents</span>
               )}
-              <span><b>8</b> categories</span>
+              <span><b>{categoryCount}</b> categories</span>
               <span><b>Curated</b> + community</span>
               <span>no account to export</span>
             </p>
@@ -297,7 +306,7 @@ export default async function Landing() {
               />
               All{total > 0 ? ` ${total}` : ''}
             </Link>
-            {CATEGORY_BROWSE_ORDER.slice(0, 8).map((cat) => (
+            {stripCats.map((cat) => (
               <Link
                 key={cat}
                 href={`/professionals?category=${cat}`}

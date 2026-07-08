@@ -13,9 +13,9 @@ import type { Lesson } from '@/lib/learn/types';
 export const claudeProjects: Lesson = {
   slug: 'claude-projects',
   track: 'claude-app',
-  title: 'Claude Projects: instructions plus knowledge',
+  title: 'Claude Projects',
   tagline:
-    'Give a workspace its own persistent instructions and files — every chat inside inherits both.',
+    'A Claude Project pairs persistent instructions with knowledge files — every chat inside the Project inherits both automatically.',
   minutes: 6,
   order: 1,
 

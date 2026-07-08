@@ -12,8 +12,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const claudeCodeSkills: Lesson = {
   slug: 'claude-code-skills',
   track: 'claude-code',
-  title: 'Skills — reusable procedures for Claude Code',
-  tagline: 'Write a procedure once as a skill, and Claude loads it automatically whenever it fits.',
+  title: 'Reusable skills',
+  tagline: 'Write a procedure once as a skill and Claude Code loads it automatically whenever your request matches — no slash command, same steps every time.',
   minutes: 6,
   order: 2,
 

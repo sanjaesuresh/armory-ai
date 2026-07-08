@@ -12,8 +12,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const claudeStyles: Lesson = {
   slug: 'claude-styles',
   track: 'claude-app',
-  title: 'Styles: control the voice',
-  tagline: 'Change how Claude writes — not what it knows — with a single setting.',
+  title: 'Claude Styles',
+  tagline: 'Claude Styles set tone, length, and formality across all your chats at once — use a preset or describe your own in plain English.',
   minutes: 4,
   order: 2,
 

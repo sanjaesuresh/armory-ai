@@ -11,8 +11,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const chatgptProjects: Lesson = {
   slug: 'chatgpt-projects',
   track: 'chatgpt',
-  title: 'Projects: give a workspace its own brain',
-  tagline: 'Group related chats and give them shared instructions and files — once.',
+  title: 'ChatGPT Projects',
+  tagline: 'A ChatGPT Project groups related chats under shared instructions and files, so every conversation starts with consistent context — no re-pasting.',
   minutes: 6,
   order: 2,
 

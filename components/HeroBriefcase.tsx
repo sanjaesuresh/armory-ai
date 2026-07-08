@@ -59,9 +59,10 @@ export default function HeroBriefcase() {
             </filter>
           </defs>
 
-          {/* travelling pulse rides the baked seam line, stopping at the badge */}
-          <path className="land-bc-flow" d="M30 290 L150 290 L196 308 L253 308" />
-          <path className="land-bc-flow land-bc-f2" d="M400 308 L488 308 L532 290 L650 290" />
+          {/* travelling pulse rides the baked seam line, curving down to the
+              badge edge (left ends x248, right starts x436) — never over it */}
+          <path className="land-bc-flow" d="M28 290 L150 290 C180 290 186 322 214 322 L248 322" />
+          <path className="land-bc-flow land-bc-f2" d="M436 322 L472 322 C502 322 508 290 536 290 L652 290" />
 
           {/* corner accents overlay the baked diagonal dashes */}
           <path className="land-bc-accent" d="M52 530 L96 507" />

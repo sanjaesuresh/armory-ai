@@ -118,6 +118,8 @@ export default function DashboardView({
   const [source, setSource]   = useState<SourceFilterValue>('all');
   const [sortKey, setSortKey] = useState<SortKey>('popularity');
   const [fnFilter, setFnFilter] = useState<string | null>(null);
+  // industry is professionals-only; null means "all industries"
+  const [indFilter, setIndFilter] = useState<string | null>(null);
 
   // ── Featured shelves (over the full, unfiltered set) ─────────────────────
 
@@ -153,6 +155,19 @@ export default function DashboardView({
     [isDevelopers, categoryCounts],
   );
 
+  // ── Industry facet (professionals) ─────────────────────────────────────
+  // derived from actual item data; only non-null industries are surfaced
+  const industries = useMemo<Array<{ name: string; count: number }>>(() => {
+    if (isDevelopers) return [];
+    const counts: Record<string, number> = {};
+    for (const s of items) {
+      if (s.industry) counts[s.industry] = (counts[s.industry] ?? 0) + 1;
+    }
+    return Object.entries(counts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [items, isDevelopers]);
+
   // ── Kind counts (developers) ─────────────────────────────────────────────
 
   const kindCounts = useMemo<Record<string, number>>(() => {
@@ -182,17 +197,29 @@ export default function DashboardView({
       base = base.filter((s) => s.tags.some((t) => tags.has(t)));
     }
 
+    // industry filter AND-ed with category (professionals only)
+    if (!isDevelopers && indFilter) {
+      base = base.filter((s) => s.industry === indFilter);
+    }
+
     return sortList(base, sortKey);
-  }, [items, isDevelopers, filter, source, search, sortKey, fnFilter]);
+  }, [items, isDevelopers, filter, source, search, sortKey, fnFilter, indFilter]);
 
   const countLabel =
     list.length === 1
       ? `1 ${copy.nounOne}`
       : `${list.length} ${copy.nounMany}`;
 
+  // any active filter/search collapses the editorial + card shelves so the
+  // filtered list surfaces immediately instead of hiding below the fold
+  const hasActiveFilter = isDevelopers
+    ? filter !== 'all' || source !== 'all' || fnFilter !== null || search.trim() !== ''
+    : filter !== 'All' || indFilter !== null || search.trim() !== '';
+
   function resetFilters() {
     setSearch('');
     setFilter(isDevelopers ? 'all' : 'All');
+    setIndFilter(null);
     if (isDevelopers) {
       setSource('all');
       setFnFilter(null);
@@ -313,6 +340,34 @@ export default function DashboardView({
                   );
                 })}
               </div>
+
+              {/* industry rail — only when items actually carry industry values */}
+              {industries.length > 0 && (
+                <>
+                  <div className="browse-rail-sep" />
+                  <p className="browse-rail-label">Industry</p>
+                  <div role="group" aria-label="Filter by industry">
+                    {industries.map(({ name, count }) => (
+                      <button
+                        key={name}
+                        type="button"
+                        className="rail-filter-item"
+                        aria-pressed={indFilter === name}
+                        aria-label={name}
+                        onClick={() => setIndFilter(indFilter === name ? null : name)}
+                      >
+                        <span
+                          className="rail-filter-dot"
+                          style={{ background: 'var(--ink-soft)' }}
+                          aria-hidden="true"
+                        />
+                        <span aria-hidden="true">{name}</span>
+                        <span className="rail-filter-n" aria-hidden="true">{count}</span>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
         </aside>
@@ -330,7 +385,7 @@ export default function DashboardView({
           </div>
 
           {/* ── "Most equipped this week" editorial zone ────────────────── */}
-          {(heroSetup || popularItems.length > 0) && (
+          {!hasActiveFilter && (heroSetup || popularItems.length > 0) && (
             <>
               <div className="featured-leadhead">
                 <h2>Most equipped this week</h2>
@@ -358,7 +413,7 @@ export default function DashboardView({
           )}
 
           {/* ── Category cards (professionals) ──────────────────────────── */}
-          {!isDevelopers && browseCategories.length > 0 && (
+          {!isDevelopers && !hasActiveFilter && browseCategories.length > 0 && (
             <CategoryCards
               categories={browseCategories}
               counts={categoryCounts}
@@ -368,7 +423,7 @@ export default function DashboardView({
           )}
 
           {/* ── Kind cards (developers) ─────────────────────────────────── */}
-          {isDevelopers && (
+          {isDevelopers && !hasActiveFilter && (
             <KindCards
               counts={kindCounts}
               activeFilter={filter}

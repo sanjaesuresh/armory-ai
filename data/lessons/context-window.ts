@@ -11,8 +11,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const contextWindow: Lesson = {
   slug: 'context-window',
   track: 'foundations',
-  title: 'Context: your AI\'s working memory',
-  tagline: 'Why long chats get worse, and what the "context usage" number is telling you.',
+  title: 'The context window',
+  tagline: 'The context window is how much text the model can see at once — fill it and quality degrades, so start a fresh chat when it runs low.',
   minutes: 6,
   order: 2,
 

@@ -12,8 +12,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const claudeCodeHarness: Lesson = {
   slug: 'claude-code-harness',
   track: 'claude-code',
-  title: 'The harness — everything around the model',
-  tagline: 'The model is one part. The loop, tools, permissions, memory, and hooks are the harness that shapes what it does.',
+  title: 'The harness',
+  tagline: 'The model is one part of Claude Code; around it is a harness of tools, permission rules, CLAUDE.md, and event hooks. You configure the harness, not the model.',
   minutes: 7,
   order: 4,
 

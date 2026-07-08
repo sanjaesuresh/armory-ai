@@ -69,6 +69,11 @@ export default async function ProfessionalsPage({ searchParams }: PageProps) {
   return (
     <main className="section-tight">
       <div className="wrap">
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '8px' }}>
+          <Link href="/jobs" className="small muted" style={{ fontWeight: 600 }}>
+            Browse by job →
+          </Link>
+        </div>
         <DashboardView
           items={items}
           variant="professionals"

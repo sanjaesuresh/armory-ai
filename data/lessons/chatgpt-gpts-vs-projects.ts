@@ -12,8 +12,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const chatgptGptsVsProjects: Lesson = {
   slug: 'chatgpt-gpts-vs-projects',
   track: 'chatgpt',
-  title: 'Custom GPTs vs Projects: which one do you need?',
-  tagline: 'One is for sharing; one is your own organized workspace. Here\'s how to choose.',
+  title: 'GPTs vs Projects',
+  tagline: 'A custom GPT is a shareable assistant you publish for others; a Project is a personal workspace for your own ongoing work.',
   minutes: 5,
   order: 4,
 

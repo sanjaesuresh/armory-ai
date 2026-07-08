@@ -13,8 +13,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const aiEngineeringTypes: Lesson = {
   slug: 'ai-engineering-types',
   track: 'claude-code',
-  title: 'Three levers — prompt, context, and loop engineering',
-  tagline: 'Better results come from three things: what you say, what the model sees, and what happens around each reply.',
+  title: 'The three levers',
+  tagline: 'Better prompts are just one of three levers — what the model can see and what happens after its reply often matter more.',
   minutes: 7,
   order: 5,
 

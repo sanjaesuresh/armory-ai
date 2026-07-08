@@ -185,7 +185,7 @@ describe('DashboardView — row links via detailPathFor', () => {
 });
 
 describe('DashboardView — list author attribution', () => {
-  it('labels an ai-generated setup "AI-generated" in the Author column, never "Member post"', () => {
+  it('labels an ai-generated setup "AI" in the Author column, never "Member post"', () => {
     const items = [
       makeSetup({ slug: 'gen', name: 'Generated', source: 'ai-generated', author: null }),
       makeSetup({ slug: 'member', name: 'Member', source: 'community', author: null }),
@@ -193,7 +193,7 @@ describe('DashboardView — list author attribution', () => {
     render(<DashboardView items={items} variant="professionals" />);
 
     const genRow = screen.getByTestId('row-gen');
-    expect(within(genRow).getByText('AI-generated')).toBeInTheDocument();
+    expect(within(genRow).getByText('AI')).toBeInTheDocument();
     expect(within(genRow).queryByText('Member post')).toBeNull();
 
     // Author-less community rows keep the existing "Member post" label.

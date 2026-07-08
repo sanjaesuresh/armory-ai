@@ -12,9 +12,9 @@ import type { Lesson } from '@/lib/learn/types';
 export const claudeVsChatgptMap: Lesson = {
   slug: 'claude-vs-chatgpt-map',
   track: 'claude-app',
-  title: 'Where things live: Claude ↔ ChatGPT',
+  title: 'Claude vs ChatGPT',
   tagline:
-    'The same ideas exist in both apps — with different names, different places, and some honest gaps.',
+    'Claude and ChatGPT share the same core concepts but use different names — this lesson maps them side by side, including gaps where one has no equivalent.',
   minutes: 4,
   order: 4,
 

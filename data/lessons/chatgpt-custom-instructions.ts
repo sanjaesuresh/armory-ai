@@ -11,8 +11,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const chatgptCustomInstructions: Lesson = {
   slug: 'chatgpt-custom-instructions',
   track: 'chatgpt',
-  title: 'Custom instructions: set once, steer every chat',
-  tagline: 'Tell ChatGPT who you are and how you want it to write — then never repeat yourself.',
+  title: 'Custom instructions',
+  tagline: 'Tell ChatGPT who you are and how you want it to respond once — every new chat picks it up automatically, no re-typing needed.',
   minutes: 5,
   order: 1,
 

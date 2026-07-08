@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { ROLES } from '@/lib/catalog/roles';
 import LogoMark from '@/components/icons/LogoMark';
 
 export default function Footer() {
@@ -24,18 +23,36 @@ export default function Footer() {
           <Link href="/learn">Learn AI</Link>
         </nav>
 
-        {/* Role landing pages */}
-        <nav aria-label="Setups by role">
-          <p className="eyebrow" style={{ marginBottom: '12px' }}>By role</p>
-          <div className="footer-role-col">
-            {ROLES.map((r) => (
-              <Link key={r.id} href={`/for/${r.id}`}>
-                {r.label}
-              </Link>
-            ))}
-          </div>
-        </nav>
+      </div>
 
+      {/* Author credit — brand-green links open the maker's profiles in a new tab */}
+      <div className="wrap footer-credit">
+        <span>
+          built by{' '}
+          <a
+            href="https://github.com/sanjaesuresh"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            sanjae suresh
+          </a>
+        </span>
+        <span className="footer-credit-links">
+          <a
+            href="https://github.com/sanjaesuresh"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            github
+          </a>
+          <a
+            href="https://www.linkedin.com/in/sanjae-suresh/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            linkedin
+          </a>
+        </span>
       </div>
     </footer>
   );

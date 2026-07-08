@@ -11,8 +11,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const chatgptKnowledgeFiles: Lesson = {
   slug: 'chatgpt-knowledge-files',
   track: 'chatgpt',
-  title: 'What really happens when you upload a file',
-  tagline: 'The model does not read your file word for word — here is what actually happens.',
+  title: 'How file uploads work',
+  tagline: 'Larger files are indexed, not read in full — the model sees only the most relevant passages, so specific questions get far better results than vague ones.',
   minutes: 5,
   order: 3,
 

@@ -12,8 +12,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const instructionsSteering: Lesson = {
   slug: 'instructions-steering',
   track: 'foundations',
-  title: 'Instructions are steering',
-  tagline: 'Set the role, tone, and rules once — and every reply follows them.',
+  title: 'Instructions vs messages',
+  tagline: 'Instructions are persistent — they set the role, tone, and rules for every reply, so you never need to repeat yourself.',
   minutes: 5,
   order: 3,
 

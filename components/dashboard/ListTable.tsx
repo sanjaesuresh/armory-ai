@@ -10,7 +10,7 @@
  *   - Each row contains exactly one <a> (the name link), so
  *     within(row).getByRole('link') resolves without ambiguity.
  *   - Source label strings match vitest assertions exactly:
- *       source='ai-generated' → "AI-generated"
+ *       source='ai-generated' → "AI"
  *       source='community'    → "Member post"
  */
 
@@ -29,7 +29,7 @@ interface ListTableProps {
 function sourceLabel(source: Setup['source']): { text: string; cls: string } {
   switch (source) {
     case 'curated':      return { text: 'reviewed',       cls: 'idx-src-cur' };
-    case 'ai-generated': return { text: 'AI-generated',   cls: 'idx-src-ai'  };
+    case 'ai-generated': return { text: 'AI',             cls: 'idx-src-ai'  };
     case 'community':    return { text: 'Member post',    cls: 'idx-src-com' };
     case 'github':       return { text: 'community pick', cls: 'idx-src-com' };
     default:             return { text: '',               cls: ''             };
@@ -91,7 +91,8 @@ export default function ListTable({ items, variant }: ListTableProps) {
                 {fieldCount > 0 ? ` · ${fieldCount}f` : ''}
               </span>
               <span className="idx-up" aria-label={upvoteLabel}>
-                ▲{setup.upvotes}
+                <span className="idx-up-arrow" aria-hidden="true">▲</span>
+                {setup.upvotes}
               </span>
               {src && (
                 <span className={`idx-src ${srcCls}`}>

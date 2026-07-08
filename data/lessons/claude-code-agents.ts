@@ -12,8 +12,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const claudeCodeAgents: Lesson = {
   slug: 'claude-code-agents',
   track: 'claude-code',
-  title: 'Agents and subagents — how Claude delegates work',
-  tagline: 'A subagent takes one task, works in its own context window, and returns a summary — not a transcript.',
+  title: 'Agents & subagents',
+  tagline: 'Claude can delegate large or independent tasks to a subagent in its own context window, getting back only a summary — the main conversation stays compact.',
   minutes: 6,
   order: 3,
 

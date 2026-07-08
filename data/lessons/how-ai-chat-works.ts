@@ -11,8 +11,8 @@ import type { Lesson } from '@/lib/learn/types';
 export const howAiChatWorks: Lesson = {
   slug: 'how-ai-chat-works',
   track: 'foundations',
-  title: 'What happens when you press send',
-  tagline: 'What a chat AI actually does with your message — every single time.',
+  title: 'How AI chat works',
+  tagline: 'Each reply is predicted from the full conversation so far — the model does not reason, and without memory features it starts completely fresh in every new chat.',
   minutes: 5,
   order: 1,
 
