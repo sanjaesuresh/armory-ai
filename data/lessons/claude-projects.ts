@@ -80,6 +80,12 @@ export const claudeProjects: Lesson = {
       ],
     },
 
+    // ─── Custom widget: switch Projects, see isolation ────────────────────────
+    {
+      type: 'customWidget',
+      widgetId: 'projects-switcher',
+    },
+
     // ─── Callout: Armory exports exactly this shape ───────────────────────────
     {
       type: 'callout',

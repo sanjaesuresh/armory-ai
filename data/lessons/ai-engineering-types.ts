@@ -1,22 +1,23 @@
 /**
- * Lesson: Three levers — prompt, context, and loop engineering
- * Track: claude-code | Order: 5 | Slug: ai-engineering-types
+ * Lesson: Three levers, prompt, context, and loop engineering
+ * Track: engineering | Order: 1 | Slug: ai-engineering-types
  *
- * Teaches the three levers for getting better results from an AI agent:
- * what you say (prompt engineering), what the model sees (context engineering),
- * and what happens around each response (loop engineering). Uses a concrete
- * step-through: one task improved three ways.
+ * The overview of the AI Engineering track. Teaches the three levers for getting
+ * better results from an AI agent: what you say (prompt engineering), what the
+ * model sees (context engineering), and what happens around each response (loop
+ * engineering). Each lever gets its own deep lesson after this one; the applyCta
+ * links into the first, Prompt engineering.
  */
 
 import type { Lesson } from '@/lib/learn/types';
 
 export const aiEngineeringTypes: Lesson = {
   slug: 'ai-engineering-types',
-  track: 'claude-code',
+  track: 'engineering',
   title: 'The three levers',
   tagline: 'Better prompts are just one of three levers, what the model can see and what happens after its reply often matter more.',
   minutes: 7,
-  order: 5,
+  order: 1,
 
   blocks: [
     // ─── Prose: three levers ──────────────────────────────────────────────────
@@ -143,5 +144,6 @@ export const aiEngineeringTypes: Lesson = {
     ],
   },
 
-  applyCta: null,
+  // links forward into the first deep lesson of the track
+  applyCta: { label: 'Start with prompt engineering', href: '/learn/engineering/prompt-engineering' },
 };

@@ -6,13 +6,15 @@ import type { DiagramProps } from './index';
  * agent loop. Paper-craft collage, no character art.
  */
 
+// badges sit at each box's top-right corner (as a % of the 580x260 viewBox) so
+// the numbered sticker never covers the centered label text inside the box.
 const HOTSPOTS = [
-  { id: 'model', label: 'Model', x: 16, y: 26 },
-  { id: 'tools', label: 'Tools', x: 50, y: 22 },
-  { id: 'permissions', label: 'Permissions', x: 84, y: 26 },
-  { id: 'claude-md', label: 'CLAUDE.md', x: 16, y: 78 },
-  { id: 'hooks', label: 'Hooks', x: 84, y: 78 },
-  { id: 'loop', label: 'The loop', x: 50, y: 60 },
+  { id: 'model', label: 'Model', x: 29, y: 13 },
+  { id: 'tools', label: 'Tools', x: 61.5, y: 10 },
+  { id: 'permissions', label: 'Permissions', x: 92.5, y: 13 },
+  { id: 'claude-md', label: 'CLAUDE.md', x: 26.5, y: 68 },
+  { id: 'hooks', label: 'Hooks', x: 92.5, y: 68 },
+  { id: 'loop', label: 'The loop', x: 55, y: 46 },
 ] as const;
 
 export default function HarnessAnatomyDiagram({ activeHotspotId, onHotspotSelect }: DiagramProps) {

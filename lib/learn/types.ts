@@ -8,7 +8,7 @@ import type { DiagramId } from '@/lib/learn/diagramManifest';
 
 // ─── Track ────────────────────────────────────────────────────────────────────
 
-export type LearnTrack = 'foundations' | 'chatgpt' | 'claude-app' | 'claude-code';
+export type LearnTrack = 'foundations' | 'chatgpt' | 'claude-app' | 'claude-code' | 'engineering';
 
 export interface TrackDescriptor {
   slug: LearnTrack;
@@ -36,6 +36,11 @@ export const TRACKS: ReadonlyArray<TrackDescriptor> = [
     slug: 'claude-code',
     title: 'Claude Code',
     intro: 'Understand agents, skills, harnesses, and the loop that powers agentic coding.',
+  },
+  {
+    slug: 'engineering',
+    title: 'AI Engineering',
+    intro: 'The three levers behind good AI output, prompt, context, and loop engineering, and how to pull each one.',
   },
 ] as const;
 
@@ -106,7 +111,18 @@ export interface ComparisonTableBlock {
   rows: string[][];
 }
 
-export const WIDGET_IDS = ['context-meter', 'agent-loop', 'skill-trigger'] as const;
+export const WIDGET_IDS = [
+  'context-meter',
+  'agent-loop',
+  'skill-trigger',
+  'vendor-map',
+  'instruction-steering',
+  'style-switcher',
+  'artifact-vs-chat',
+  'knowledge-context',
+  'gpt-vs-project-picker',
+  'projects-switcher',
+] as const;
 export type WidgetId = (typeof WIDGET_IDS)[number];
 
 export interface CustomWidgetBlock {

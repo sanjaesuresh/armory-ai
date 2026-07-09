@@ -22,6 +22,8 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { getSessionUser, createSupabaseServerClient } from '@/lib/supabase/server';
 import { createSupabaseDraftsStore, submitDraft, DraftNotFoundError } from '@/lib/community/drafts';
 import { createAnthropicModelClient } from '@/lib/testdrive/anthropicClient';
+import { renderSubmissionReceivedEmail } from '@/lib/email/renderers/submissionReceived';
+import { sendEmail } from '@/lib/email/client';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   // ── Auth ──────────────────────────────────────────────────────────────────
@@ -68,6 +70,22 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
 
     if (result.ok) {
+      // Best-effort "submission received" email — a mail failure must never
+      // fail or block the submit response. user.email comes straight off the
+      // authenticated session (the submitter IS the author), so no extra
+      // lookup is needed the way the moderation hooks need getUserById.
+      try {
+        if (user.email) {
+          const row = await store.getRow(setupId);
+          if (row) {
+            const rendered = renderSubmissionReceivedEmail({ setupName: row.name });
+            await sendEmail({ to: user.email, subject: rendered.subject, html: rendered.html, text: rendered.text });
+          }
+        }
+      } catch (err) {
+        console.error('[community/submit] submission-received email failed:', err);
+      }
+
       // Do not leak safety-screen internals.
       return NextResponse.json({ ok: true });
     }

@@ -26,12 +26,17 @@ import { claudeStyles } from '@/data/lessons/claude-styles';
 import { claudeArtifacts } from '@/data/lessons/claude-artifacts';
 import { claudeVsChatgptMap } from '@/data/lessons/claude-vs-chatgpt-map';
 
-// Task 12: Claude Code track (lessons 1–5)
+// Claude Code track (lessons 1–4)
 import { claudeCodeIntro } from '@/data/lessons/claude-code-intro';
 import { claudeCodeSkills } from '@/data/lessons/claude-code-skills';
 import { claudeCodeAgents } from '@/data/lessons/claude-code-agents';
 import { claudeCodeHarness } from '@/data/lessons/claude-code-harness';
+
+// AI Engineering track (overview + three deep lessons)
 import { aiEngineeringTypes } from '@/data/lessons/ai-engineering-types';
+import { promptEngineering } from '@/data/lessons/prompt-engineering';
+import { contextEngineering } from '@/data/lessons/context-engineering';
+import { loopEngineering } from '@/data/lessons/loop-engineering';
 
 export const ALL_LESSONS: Lesson[] = [
   // Foundations
@@ -56,5 +61,10 @@ export const ALL_LESSONS: Lesson[] = [
   claudeCodeSkills,
   claudeCodeAgents,
   claudeCodeHarness,
+
+  // AI Engineering
   aiEngineeringTypes,
+  promptEngineering,
+  contextEngineering,
+  loopEngineering,
 ];

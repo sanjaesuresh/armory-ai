@@ -16,6 +16,9 @@ import KnowledgeFileFlowDiagram from './KnowledgeFileFlowDiagram';
 import ClaudeProjectAnatomyDiagram from './ClaudeProjectAnatomyDiagram';
 import SubagentDelegationDiagram from './SubagentDelegationDiagram';
 import HarnessAnatomyDiagram from './HarnessAnatomyDiagram';
+import PromptAnatomyDiagram from './PromptAnatomyDiagram';
+import ContextAssemblyDiagram from './ContextAssemblyDiagram';
+import LoopCycleDiagram from './LoopCycleDiagram';
 
 /** Props every diagram component accepts. Hotspot ownership lives in the block. */
 export interface DiagramProps {
@@ -34,4 +37,7 @@ export const DIAGRAM_REGISTRY: Record<DiagramId, DiagramComponent> = {
   'claude-project-anatomy': ClaudeProjectAnatomyDiagram,
   'subagent-delegation': SubagentDelegationDiagram,
   'harness-anatomy': HarnessAnatomyDiagram,
+  'prompt-anatomy': PromptAnatomyDiagram,
+  'context-assembly': ContextAssemblyDiagram,
+  'loop-cycle': LoopCycleDiagram,
 };

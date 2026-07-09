@@ -41,6 +41,12 @@ export const chatgptGptsVsProjects: Lesson = {
       ],
     },
 
+    // ─── Custom widget: GPT vs Project picker ─────────────────────────────────
+    {
+      type: 'customWidget',
+      widgetId: 'gpt-vs-project-picker',
+    },
+
     // ─── Step-through: decision guide ────────────────────────────────────────
     {
       type: 'stepThrough',

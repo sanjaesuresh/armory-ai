@@ -58,6 +58,12 @@ export const instructionsSteering: Lesson = {
       ],
     },
 
+    // ─── Custom widget: interactive instruction steering ──────────────────────
+    {
+      type: 'customWidget',
+      widgetId: 'instruction-steering',
+    },
+
     // ─── Prose: where instructions live ──────────────────────────────────────
     {
       type: 'prose',

@@ -6,11 +6,14 @@ import type { DiagramProps } from './index';
  * and returns a compact summary. Two-arrow loop. No character art.
  */
 
+// box badges sit at the top-right corner of each box; the two arrow badges are
+// pushed to the side of their arrow labels ("TASK →" / "← SUMMARY") so the
+// numbered sticker never lands on top of the label text.
 const HOTSPOTS = [
-  { id: 'main-agent', label: 'Main agent', x: 15, y: 50 },
-  { id: 'task-handoff', label: 'Task handoff', x: 50, y: 21 },
-  { id: 'subagent-context', label: 'Subagent context', x: 85, y: 50 },
-  { id: 'returned-summary', label: 'Returned summary', x: 50, y: 82 },
+  { id: 'main-agent', label: 'Main agent', x: 26, y: 35 },
+  { id: 'task-handoff', label: 'Task handoff', x: 37, y: 18 },
+  { id: 'subagent-context', label: 'Subagent context', x: 93, y: 35 },
+  { id: 'returned-summary', label: 'Returned summary', x: 63, y: 84 },
 ] as const;
 
 export default function SubagentDelegationDiagram({ activeHotspotId, onHotspotSelect }: DiagramProps) {

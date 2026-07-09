@@ -67,6 +67,12 @@ export const chatgptKnowledgeFiles: Lesson = {
       tone: 'warning',
       passage: 'The model does not reread your entire file for every question, it works from the passages the retrieval step selected. If those passages missed something, the answer will too, even if the information is there. Specific questions ("What is the payment due date in clause 5?") retrieve more precisely than vague ones ("What should I know about this contract?"). When an answer seems incomplete, try rephrasing with more detail about exactly what you need.',
     },
+
+    // ─── Custom widget: what the model can see ─────────────────────────────────
+    {
+      type: 'customWidget',
+      widgetId: 'knowledge-context',
+    },
   ],
 
   quiz: {

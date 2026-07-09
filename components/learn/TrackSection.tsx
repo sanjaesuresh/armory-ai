@@ -29,6 +29,7 @@ const TRACK_NUMBERS: Record<string, string> = {
   chatgpt: 'Track 2',
   'claude-app': 'Track 3',
   'claude-code': 'Track 4',
+  engineering: 'Track 5',
 };
 
 export default function TrackSection({ track, lessons, progressMap }: Props) {

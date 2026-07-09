@@ -1,24 +1,27 @@
 'use client';
 
 /**
- * SaveSetupControl — the "Save my setup" action on the customize review step
- * (Phase 4 Task 3).
+ * SaveSetupControl — the "Save my setup" / "Email me my setup" actions on the
+ * customize review step (Phase 4 Task 3; email-primary added by the Email My
+ * Setup plan, Task 7).
  *
- * Signed out: reveals the inline AuthPrompt with a plain "what this unlocks"
- * message — never a login wall, never navigating away. Because the answers live
- * in sessionStorage and the magic link returns to this same page, completing
- * sign-in leaves the typed answers intact; the user lands back here signed in
- * and can save.
+ * Signed out: "Email me my setup" (EmailSetupControl) is the PRIMARY, always-
+ * visible action — zero friction, no account. "or save to an account" reveals
+ * the existing AuthPrompt as a clearly secondary option; it is never a login
+ * wall and never navigates away. Because the answers live in sessionStorage
+ * and the magic link returns to this same page, completing sign-in leaves the
+ * typed answers intact; the user lands back here signed in and can save.
  *
  * Signed in: names the setup (defaulting to the setup's name) and saves the
  * current answers with the setup id + version through the browser Supabase
- * client under RLS.
+ * client under RLS. Email stays available as a secondary take-away.
  */
 
 import { useState } from 'react';
 import Link from 'next/link';
 import type { Answers } from '@/lib/setup/types';
 import AuthPrompt from '@/components/AuthPrompt';
+import EmailSetupControl from '@/components/EmailSetupControl';
 import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 import { createSupabaseSavedSetupsStore } from '@/lib/saved/savedSetups';
 
@@ -32,7 +35,7 @@ interface Props {
   userId?: string;
 }
 
-type Mode = 'idle' | 'auth' | 'naming' | 'saved';
+type Mode = 'idle' | 'auth' | 'naming' | 'saved' | 'email';
 
 export default function SaveSetupControl({
   setupId,
@@ -48,9 +51,11 @@ export default function SaveSetupControl({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Reached only when signedIn (the signed-out branch below returns early),
+  // so this always opens the naming step.
   function onSaveClick() {
     setError(null);
-    setMode(signedIn ? 'naming' : 'auth');
+    setMode('naming');
   }
 
   async function doSave() {
@@ -92,25 +97,85 @@ export default function SaveSetupControl({
     );
   }
 
+  // Signed-out: email is the primary, always-visible action (no login wall).
+  // "or save to an account" is a secondary link that reveals AuthPrompt.
+  if (!signedIn) {
+    return (
+      <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--hairline)' }}>
+        {mode !== 'auth' && (
+          <div data-testid="email-setup-primary">
+            <p style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: 8 }}>
+              Email me my setup
+            </p>
+            <EmailSetupControl setupId={setupId} setupVersion={setupVersion} answers={answers} />
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              onClick={() => setMode('auth')}
+              style={{ marginTop: 12, paddingLeft: 0 }}
+              data-testid="save-setup-button"
+            >
+              or save to an account
+            </button>
+          </div>
+        )}
+
+        {mode === 'auth' && (
+          <div data-testid="save-auth-prompt">
+            <AuthPrompt
+              message="Sign in to save this setup and pick it up on any device. Your answers stay right here."
+              redirectTo={`/setup/${slug}/customize`}
+            />
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              onClick={() => setMode('idle')}
+              style={{ marginTop: 12, paddingLeft: 0 }}
+            >
+              back to email option
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--hairline)' }}>
       {mode === 'idle' && (
-        <button
-          type="button"
-          className="btn btn-outline"
-          onClick={onSaveClick}
-          data-testid="save-setup-button"
-        >
-          Save my setup
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="btn btn-outline"
+            onClick={onSaveClick}
+            data-testid="save-setup-button"
+          >
+            Save my setup
+          </button>
+          {/* Secondary take-away for signed-in users too — not required, but a
+              quick way to get a pasteable copy without opening My setups. */}
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm"
+            onClick={() => setMode('email')}
+            data-testid="email-setup-secondary-toggle"
+          >
+            or email me a copy
+          </button>
+        </div>
       )}
 
-      {mode === 'auth' && (
-        <div data-testid="save-auth-prompt">
-          <AuthPrompt
-            message="Sign in to save this setup and pick it up on any device. Your answers stay right here."
-            redirectTo={`/setup/${slug}/customize`}
-          />
+      {mode === 'email' && (
+        <div data-testid="email-setup-secondary">
+          <EmailSetupControl setupId={setupId} setupVersion={setupVersion} answers={answers} />
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm"
+            onClick={() => setMode('idle')}
+            style={{ marginTop: 12, paddingLeft: 0 }}
+          >
+            back
+          </button>
         </div>
       )}
 

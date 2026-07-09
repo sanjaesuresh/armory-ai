@@ -56,6 +56,12 @@ export const claudeStyles: Lesson = {
       ],
     },
 
+    // ─── Custom widget: interactive style switcher ────────────────────────────
+    {
+      type: 'customWidget',
+      widgetId: 'style-switcher',
+    },
+
     // ─── Callout: styles vs project instructions ──────────────────────────────
     {
       type: 'callout',

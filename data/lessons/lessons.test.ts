@@ -171,12 +171,12 @@ describe('claude-app track', () => {
 // ─── Claude Code track ────────────────────────────────────────────────────────
 
 describe('claude-code track', () => {
-  it('contains exactly five lessons', () => {
+  it('contains exactly four lessons', () => {
     const found = ALL_LESSONS.filter(l => l.track === 'claude-code');
-    expect(found).toHaveLength(5);
+    expect(found).toHaveLength(4);
   });
 
-  it('contains the five expected slugs in order', () => {
+  it('contains the four expected slugs in order', () => {
     const found = ALL_LESSONS
       .filter(l => l.track === 'claude-code')
       .sort((a, b) => a.order - b.order);
@@ -185,18 +185,38 @@ describe('claude-code track', () => {
     expect(found[1]?.slug).toBe('claude-code-skills');
     expect(found[2]?.slug).toBe('claude-code-agents');
     expect(found[3]?.slug).toBe('claude-code-harness');
-    expect(found[4]?.slug).toBe('ai-engineering-types');
+  });
+});
+
+// ─── AI Engineering track ─────────────────────────────────────────────────────
+
+describe('engineering track', () => {
+  it('contains exactly four lessons', () => {
+    const found = ALL_LESSONS.filter(l => l.track === 'engineering');
+    expect(found).toHaveLength(4);
+  });
+
+  it('contains the four expected slugs in order (overview first, then the three levers)', () => {
+    const found = ALL_LESSONS
+      .filter(l => l.track === 'engineering')
+      .sort((a, b) => a.order - b.order);
+
+    expect(found[0]?.slug).toBe('ai-engineering-types');
+    expect(found[1]?.slug).toBe('prompt-engineering');
+    expect(found[2]?.slug).toBe('context-engineering');
+    expect(found[3]?.slug).toBe('loop-engineering');
   });
 });
 
 // ─── Total registry size ──────────────────────────────────────────────────────
 
 describe('ALL_LESSONS total count', () => {
-  it('contains exactly 16 lessons (3 foundations + 4 chatgpt + 4 claude-app + 5 claude-code)', () => {
-    expect(ALL_LESSONS).toHaveLength(16);
+  it('contains exactly 19 lessons (3 foundations + 4 chatgpt + 4 claude-app + 4 claude-code + 4 engineering)', () => {
+    expect(ALL_LESSONS).toHaveLength(19);
     expect(ALL_LESSONS.filter(l => l.track === 'foundations')).toHaveLength(3);
     expect(ALL_LESSONS.filter(l => l.track === 'chatgpt')).toHaveLength(4);
     expect(ALL_LESSONS.filter(l => l.track === 'claude-app')).toHaveLength(4);
-    expect(ALL_LESSONS.filter(l => l.track === 'claude-code')).toHaveLength(5);
+    expect(ALL_LESSONS.filter(l => l.track === 'claude-code')).toHaveLength(4);
+    expect(ALL_LESSONS.filter(l => l.track === 'engineering')).toHaveLength(4);
   });
 });

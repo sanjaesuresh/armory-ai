@@ -58,6 +58,12 @@ export const claudeVsChatgptMap: Lesson = {
       ],
     },
 
+    // ─── Custom widget: interactive vendor map ────────────────────────────────
+    {
+      type: 'customWidget',
+      widgetId: 'vendor-map',
+    },
+
     // ─── Flip cards: quick translations ───────────────────────────────────────
     {
       type: 'flipCards',

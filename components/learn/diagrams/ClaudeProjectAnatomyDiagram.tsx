@@ -26,29 +26,29 @@ export default function ClaudeProjectAnatomyDiagram({ activeHotspotId, onHotspot
         <rect x="16" y="16" width="548" height="228" rx="16" fill="var(--oat)" stroke="var(--iris)" strokeWidth="1.5" strokeDasharray="6 5" />
         <text x="34" y="12" fontSize="9.5" fontWeight="700" letterSpacing="0.12em" fill="var(--iris-deep)">CLAUDE PROJECT</text>
 
-        {/* project-instructions band */}
-        <rect x="30" y="28" width="470" height="52" rx="10" fill="var(--iris-tint)" stroke="var(--iris)" strokeWidth="1.25" />
-        <text x="44" y="46" fontSize="9" fontWeight="700" letterSpacing="0.08em" fill="var(--iris-deep)">PROJECT INSTRUCTIONS</text>
-        <rect x="44" y="54" width="320" height="7" rx="3.5" fill="var(--iris)" opacity="0.45" />
-        <rect x="44" y="66" width="240" height="7" rx="3.5" fill="var(--iris)" opacity="0.3" />
+        {/* project-instructions band — extra gap between the label and the mock lines */}
+        <rect x="30" y="26" width="470" height="54" rx="10" fill="var(--iris-tint)" stroke="var(--iris)" strokeWidth="1.25" />
+        <text x="44" y="44" fontSize="9" fontWeight="700" letterSpacing="0.08em" fill="var(--iris-deep)">PROJECT INSTRUCTIONS</text>
+        <rect x="44" y="56" width="320" height="7" rx="3.5" fill="var(--iris)" opacity="0.45" />
+        <rect x="44" y="68" width="240" height="7" rx="3.5" fill="var(--iris)" opacity="0.3" />
 
         {/* knowledge-files band */}
         <rect x="30" y="90" width="470" height="66" rx="10" fill="var(--sky)" stroke="var(--accent-sky)" strokeWidth="1.25" />
-        <text x="44" y="108" fontSize="9" fontWeight="700" letterSpacing="0.08em" fill="var(--accent-sky)">KNOWLEDGE FILES</text>
-        <rect x="44" y="116" width="96" height="30" rx="6" fill="var(--paper)" stroke="var(--hairline)" strokeWidth="1" />
-        <rect x="52" y="124" width="12" height="12" rx="2" fill="var(--accent-sky)" opacity="0.5" />
-        <rect x="150" y="116" width="96" height="30" rx="6" fill="var(--paper)" stroke="var(--hairline)" strokeWidth="1" />
-        <rect x="158" y="124" width="12" height="12" rx="2" fill="var(--accent-sky)" opacity="0.5" />
-        <rect x="256" y="116" width="96" height="30" rx="6" fill="var(--paper)" stroke="var(--hairline)" strokeWidth="1" />
-        <rect x="264" y="124" width="12" height="12" rx="2" fill="var(--accent-sky)" opacity="0.5" />
+        <text x="44" y="107" fontSize="9" fontWeight="700" letterSpacing="0.08em" fill="var(--accent-sky)">KNOWLEDGE FILES</text>
+        <rect x="44" y="120" width="96" height="30" rx="6" fill="var(--paper)" stroke="var(--hairline)" strokeWidth="1" />
+        <rect x="52" y="128" width="12" height="12" rx="2" fill="var(--accent-sky)" opacity="0.5" />
+        <rect x="150" y="120" width="96" height="30" rx="6" fill="var(--paper)" stroke="var(--hairline)" strokeWidth="1" />
+        <rect x="158" y="128" width="12" height="12" rx="2" fill="var(--accent-sky)" opacity="0.5" />
+        <rect x="256" y="120" width="96" height="30" rx="6" fill="var(--paper)" stroke="var(--hairline)" strokeWidth="1" />
+        <rect x="264" y="128" width="12" height="12" rx="2" fill="var(--accent-sky)" opacity="0.5" />
 
         {/* project-chats band */}
         <rect x="30" y="166" width="470" height="66" rx="10" fill="var(--paper)" stroke="var(--hairline-strong)" strokeWidth="1.25" />
-        <text x="44" y="184" fontSize="9" fontWeight="700" letterSpacing="0.08em" fill="var(--muted)">PROJECT CHATS</text>
-        <rect x="300" y="192" width="188" height="15" rx="7.5" fill="var(--iris-tint)" />
-        <rect x="44" y="192" width="150" height="15" rx="7.5" fill="var(--oat)" />
-        <rect x="330" y="212" width="158" height="15" rx="7.5" fill="var(--iris-tint)" />
-        <rect x="44" y="212" width="130" height="15" rx="7.5" fill="var(--oat)" />
+        <text x="44" y="183" fontSize="9" fontWeight="700" letterSpacing="0.08em" fill="var(--muted)">PROJECT CHATS</text>
+        <rect x="300" y="196" width="188" height="15" rx="7.5" fill="var(--iris-tint)" />
+        <rect x="44" y="196" width="150" height="15" rx="7.5" fill="var(--oat)" />
+        <rect x="330" y="215" width="158" height="15" rx="7.5" fill="var(--iris-tint)" />
+        <rect x="44" y="215" width="130" height="15" rx="7.5" fill="var(--oat)" />
       </svg>
 
       <div className="hotspot-btn-layer">

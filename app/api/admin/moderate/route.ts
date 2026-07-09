@@ -29,6 +29,45 @@ import {
   NotModeratorError,
   type ModerationAction,
 } from '@/lib/community/moderation';
+import { renderSubmissionApprovedEmail } from '@/lib/email/renderers/submissionApproved';
+import { renderSubmissionRejectedEmail } from '@/lib/email/renderers/submissionRejected';
+import { sendEmail } from '@/lib/email/client';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
+/**
+ * Best-effort author-notification email after a moderation transition. Looks
+ * up the row (name/slug/author) and the author's email via the service-role
+ * admin API. Every failure is swallowed here — a mail outage must never turn
+ * a successful moderation action into a 500.
+ */
+async function notifyAuthor(
+  serviceClient: SupabaseClient,
+  setupId: string,
+  action: ModerationAction,
+  note: string,
+): Promise<void> {
+  try {
+    const { data: row, error } = await serviceClient
+      .from('setups')
+      .select('name, slug, author')
+      .eq('id', setupId)
+      .maybeSingle();
+    if (error || !row || !row.author) return;
+
+    const { data: userData, error: userError } = await serviceClient.auth.admin.getUserById(row.author);
+    const authorEmail = userError ? undefined : userData.user?.email;
+    if (!authorEmail) return;
+
+    const rendered =
+      action === 'approve'
+        ? renderSubmissionApprovedEmail({ setupName: row.name, setupSlug: row.slug })
+        : renderSubmissionRejectedEmail({ setupName: row.name, note, action });
+
+    await sendEmail({ to: authorEmail, subject: rendered.subject, html: rendered.html, text: rendered.text });
+  } catch (err) {
+    console.error('[admin/moderate] author notification email failed:', err);
+  }
+}
 
 const VALID_ACTIONS: ModerationAction[] = ['approve', 'reject', 'takedown'];
 
@@ -99,6 +138,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     } else {
       await takedown(setupId, user.id, noteStr, store, now);
     }
+
+    // Best-effort — never blocks the moderation response.
+    await notifyAuthor(serviceClient, setupId, typedAction, noteStr);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

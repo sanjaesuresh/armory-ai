@@ -79,6 +79,12 @@ export const chatgptCustomInstructions: Lesson = {
       ],
     },
 
+    // ─── Custom widget: interactive instruction steering ──────────────────────
+    {
+      type: 'customWidget',
+      widgetId: 'instruction-steering',
+    },
+
     // ─── Callout: instructions as a baseline, projects for specifics ──────────
     {
       type: 'callout',

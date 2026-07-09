@@ -1,0 +1,100 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renderYourSetupEmail > matches the HTML snapshot 1`] = `
+"<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your compiled &quot;Marketing Manager&quot; setup, ready to paste into Claude.</title>
+</head>
+<body style="margin:0;padding:0;background-color:#0f0f10;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+<!-- Preheader: hidden preview text for the inbox list. -->
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your compiled &quot;Marketing Manager&quot; setup, ready to paste into Claude.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f0f10;padding:32px 16px;">
+<tr>
+<td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background-color:#212122;border-radius:16px;overflow:hidden;">
+<tr>
+<td style="padding:32px 32px 0 32px;" align="left">
+<img src="https://www.armoryhq.dev/email/armory-logo.png" width="40" height="40" alt="Armory" style="display:block;border:0;border-radius:9px;" />
+</td>
+</tr>
+<tr>
+<td style="padding:24px 32px 32px 32px;color:#f0f0f1;font-size:15px;line-height:1.6;">
+
+<p style="margin:0 0 4px 0;font-size:20px;font-weight:600;color:#ffffff;">Marketing Manager</p>
+<p style="margin:0 0 20px 0;color:#b6b6b8;">Marketing Manager configured for Acme Co. Do you have brand voice guidelines?: on. Active marketing channels: Email and Instagram. Overall tone of voice: Professional. Knowledge files: Brand quick-facts (starter), Your brand guidelines (user-provided).</p>
+<p style="margin:24px 0 4px 0;font-weight:600;color:#ffffff;">Custom instructions</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;"><tr><td style="background-color:#18181a;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:16px;font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:13px;line-height:1.6;color:#f0f0f1;white-space:pre-wrap;word-break:break-word;">You are a senior Marketing Manager working exclusively for Acme Co.
+
+Your responsibilities:
+- Develop and execute marketing campaigns that grow brand awareness and drive conversions.
+- Write compelling copy tailored to each channel&#39;s audience and format.
+- Maintain a consistent brand voice in every piece of content you produce.
+
+
+Brand voice guidelines are provided in the knowledge files. Read them carefully before writing anything, every output must reflect Acme Co&#39;s established voice, tone, and style.
+
+
+Active channels for Acme Co:
+Email and Instagram
+
+When writing for any of these channels, adapt the format, length, and tone to suit the platform while keeping the core message on-brand.
+
+Tone of voice: Professional
+
+Rules:
+1. Never invent facts about Acme Co, its products, or its competitors.
+2. If you are uncertain about something, ask a clarifying question rather than guessing.
+3. Always suggest A/B variants when writing ad copy or subject lines.
+4. If asked to write for a channel not listed above, flag it and confirm before proceeding.</td></tr></table><p style="margin:24px 0 4px 0;font-weight:600;color:#ffffff;">Knowledge file: Brand quick-facts</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;"><tr><td style="background-color:#18181a;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:16px;font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:13px;line-height:1.6;color:#f0f0f1;white-space:pre-wrap;word-break:break-word;"># Brand quick-facts
+
+## About this file
+Fill in each section below. Claude will consult this file every time it writes copy or answers a marketing question for your brand.
+
+---
+
+## Company overview
+- **Brand name:** [Your brand name]
+- **Founded:** [Year]
+- **What we do:** [One sentence]
+- **Primary audience:** [Who you serve]
+
+## Positioning
+- **Category:** [The market category you compete in]
+- **Key differentiator:** [What makes you meaningfully different]
+- **Tagline / slogan:** [If you have one]
+
+## Products / services
+| Name | One-line description | Price point |
+|------|----------------------|-------------|
+| [Product 1] | | |
+| [Product 2] | | |
+
+## Competitors to be aware of
+- [Competitor A], [How we differ]
+- [Competitor B], [How we differ]
+
+## Things we never say
+- [Off-brand phrase or claim]
+- [Competitor name we avoid mentioning]
+</td></tr></table><p style="margin:24px 0 4px 0;font-weight:600;color:#ffffff;">Knowledge file: Your brand guidelines</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;"><tr><td style="background-color:#18181a;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:16px;font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;font-size:13px;line-height:1.6;color:#f0f0f1;white-space:pre-wrap;word-break:break-word;"></td></tr></table>
+<p style="margin:24px 0 4px 0;font-weight:600;color:#ffffff;">How to use this in Claude</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="padding:6px 0;color:#b6b6b8;font-size:14px;"><strong style="color:#ffffff;">1. Create a new Project</strong><br/>Open claude.ai and click &quot;Projects&quot; in the left sidebar. Then click &quot;Create project&quot;.</td></tr><tr><td style="padding:6px 0;color:#b6b6b8;font-size:14px;"><strong style="color:#ffffff;">2. Name your Project</strong><br/>Give your project a memorable name (for example, the name of the role or brand you are configuring). Click &quot;Create&quot; to confirm.</td></tr><tr><td style="padding:6px 0;color:#b6b6b8;font-size:14px;"><strong style="color:#ffffff;">3. Paste the custom instructions</strong><br/>In the Project settings panel, open the &quot;Custom instructions&quot; field. Copy the instruction block below and paste it in, then save.</td></tr><tr><td style="padding:6px 0;color:#b6b6b8;font-size:14px;"><strong style="color:#ffffff;">4. Upload knowledge files</strong><br/>Still in Project settings, click &quot;Add content&quot; under the knowledge section and upload each of the 2 files listed below. Upload them one at a time in the order shown.</td></tr><tr><td style="padding:6px 0;color:#b6b6b8;font-size:14px;"><strong style="color:#ffffff;">5. Your Project is ready</strong><br/>Start a new conversation inside the Project. Claude will use everything you just added automatically.</td></tr></table>
+<p style="margin:28px 0 0 0;">
+<a href="https://www.armoryhq.dev" style="display:inline-block;background-color:#3ddc80;color:#0f0f10;font-weight:600;text-decoration:none;padding:12px 20px;border-radius:8px;">Open Armory to customize further</a>
+</p>
+</td>
+</tr>
+<tr>
+<td style="padding:20px 32px;border-top:1px solid rgba(255,255,255,0.08);color:#b6b6b8;font-size:12px;">
+Armory &middot; <a href="https://www.armoryhq.dev" style="color:#3ddc80;text-decoration:none;">armoryhq.dev</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>"
+`;

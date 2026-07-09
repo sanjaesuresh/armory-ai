@@ -729,3 +729,35 @@ create policy "owner updates own progress"
   using ((select auth.uid()) = user_id)
   with check ((select auth.uid()) = user_id);
 -- No delete policy and no public access.
+
+-- ══════════════════════════════════════════════════════════════════════════════
+-- Email My Setup — rate-limit ledger
+-- Live application is DEFERRED — apply in Supabase SQL editor when ready.
+-- ══════════════════════════════════════════════════════════════════════════════
+
+-- ─── email_sends ────────────────────────────────────────────────────────────
+-- One row per accepted "email me my setup" send attempt. Backs the rolling-
+-- window rate limiter in lib/email/rateLimiter.ts (per-email + per-IP caps).
+-- No email content is stored here — only enough to count recent attempts.
+-- Raw IPs are never stored — only the same salted HMAC-SHA-256 hash used by
+-- the test-drive meter (lib/testdrive/meter.ts saltIp, TESTDRIVE_IP_SALT).
+--
+-- Trust boundary: service-role only. No anon/authenticated policies — the
+-- public POST /api/email/setup route reads and writes this table using
+-- SUPABASE_SERVICE_ROLE_KEY (bypasses RLS).
+
+create table if not exists email_sends (
+  id          bigint primary key generated always as identity,
+  email       text not null,
+  ip_hash     text not null,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists email_sends_email_created_at_idx
+  on email_sends (email, created_at);
+
+create index if not exists email_sends_ip_hash_created_at_idx
+  on email_sends (ip_hash, created_at);
+
+alter table email_sends enable row level security;
+-- No public policies — service-role access only.

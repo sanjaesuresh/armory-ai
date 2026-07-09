@@ -54,6 +54,12 @@ export const claudeArtifacts: Lesson = {
       ],
     },
 
+    // ─── Custom widget: artifact vs chat side panel ───────────────────────────
+    {
+      type: 'customWidget',
+      widgetId: 'artifact-vs-chat',
+    },
+
     // ─── Callout: ask explicitly; ask for edits ────────────────────────────────
     {
       type: 'callout',
